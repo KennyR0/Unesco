@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ANTÍDOTO — Arcade contra la desinformación</title>
+<meta name="description" content="Prototipo gamificado para la Hackathon UNESCO 2026 · Alfabetización Mediática e Informacional (MIL). Seis juegos para entrenar tu pensamiento crítico.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230F0F0F'/><rect x='18' y='18' width='64' height='64' fill='%23C8FF16'/></svg>">
+</head>
+<body>
+
+<!-- ======= NAV ======= -->
+<nav class="nav">
+  <div class="container nav-in">
+    <a class="logo" href="#top">ANTÍDOTO<span class="logo-sq"></span></a>
+    <div class="nav-links">
+      <a href="#problema">El problema</a>
+      <a href="#manifiesto">Manifiesto</a>
+      <a href="#arcade">El arcade</a>
+      <a href="#metodo">El método</a>
+    </div>
+    <a class="btn btn--sm" href="#arcade">Jugar →</a>
+  </div>
+</nav>
+
+<!-- ======= HERO ======= -->
+<header class="hero" id="top">
+  <div class="container hero-in">
+    <div>
+      <span class="eyebrow">Hackathon UNESCO 2026 · Alfabetización Mediática e Informacional</span>
+      <h1 class="hero-title">
+        La mentira<br>
+        es <span class="glitch" data-text="viral">viral</span>.<br>
+        La verdad se<br>
+        <span class="hl">entrena</span>.
+      </h1>
+      <p class="hero-sub">Cada día compartes, crees o ignoras cientos de mensajes. <b>ANTÍDOTO</b> es un arcade de 6 misiones que convierte la verificación en un reflejo: juegas, fallas, aprendes y dejas de ser parte de la cadena.</p>
+      <div class="hero-cta">
+        <a class="btn" href="#arcade">🕹 Entrar al arcade</a>
+        <a class="btn btn--ghost" href="#metodo">Ver el método</a>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="fake-card fake-card--a">
+        <div class="fk-kick"><span>ÚLTIMA HORA</span><span>🔥 45k</span></div>
+        <div class="fk-head">¡¡Lo que ocultan sobre el agua de tu ciudad!!</div>
+        <div class="fk-img"></div>
+        <span class="stamp stamp--fake">FALSO</span>
+      </div>
+      <div class="fake-card fake-card--b">
+        <div class="fk-kick"><span>VERIFICADOR</span><span>✔</span></div>
+        <div class="fk-head">Búsqueda inversa: la foto es de 2018</div>
+        <p style="font-size:.8rem">El agua está bien. El titular, no.</p>
+        <span class="stamp stamp--ok">Verificado</span>
+      </div>
+      <div class="fake-card fake-card--c">
+        <div class="fk-kick"><span>AUDIO REENVIADO ↪</span><span>4:12</span></div>
+        <div class="fk-head">"Lo escuché de un doctor…"</div>
+        <p style="font-size:.8rem">Fuente: anónima. Riesgo: altísimo.</p>
+        <span class="stamp stamp--fake">Sin fuente</span>
+      </div>
+      <svg class="hero-badge" viewBox="0 0 120 120">
+        <defs><path id="circ" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs>
+        <circle cx="60" cy="60" r="58" fill="#C8FF16" stroke="#0F0F0F" stroke-width="4"/>
+        <circle cx="60" cy="60" r="22" fill="#0F0F0F"/>
+        <text fill="#0F0F0F" font-family="monospace" font-weight="bold" font-size="11.5" letter-spacing="2.5">
+          <textPath href="#circ">VERIFICA · ANTES · DE · COMPARTIR ·</textPath>
+        </text>
+        <text x="60" y="66" text-anchor="middle" fill="#C8FF16" font-family="monospace" font-size="15" font-weight="bold">✓</text>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<!-- ======= MARQUEE ======= -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Piensa antes de compartir <i>✦</i></span><span>Tu clic es tu firma <i>✦</i></span><span>Verificar también es viral <i>✦</i></span><span>El contexto lo es todo <i>✦</i></span><span>Duda, busca, confirma <i>✦</i></span>
+    <span>Piensa antes de compartir <i>✦</i></span><span>Tu clic es tu firma <i>✦</i></span><span>Verificar también es viral <i>✦</i></span><span>El contexto lo es todo <i>✦</i></span><span>Duda, busca, confirma <i>✦</i></span>
+  </div>
+</div>
+
+<!-- ======= PROBLEMA ======= -->
+<section class="section" id="problema">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <span class="sec-index">/01 — EL PROBLEMA</span>
+        <h2 class="h2">La información<br>está <span class="glitch" data-text="rota">rota</span></h2>
+      </div>
+      <p class="lead">La desinformación no es un bug del sistema: es su modelo de negocio. Estas son las cifras del campo de batalla.</p>
+    </div>
+    <div class="stats">
+      <div class="stat">
+        <span class="num" data-count="6" data-prefix="×">×0</span>
+        <p>más rápido se difunde una mentira que una verdad en redes sociales.</p>
+        <small>Fuente: estudio MIT publicado en Science (2018)</small>
+      </div>
+      <div class="stat">
+        <span class="num" data-count="80" data-suffix="%">0%</span>
+        <p>de estudiantes no logra distinguir publicidad de una noticia real.</p>
+        <small>Fuente: Stanford History Education Group (2016)</small>
+      </div>
+      <div class="stat">
+        <span class="num" data-count="500" data-suffix=" h">0 h</span>
+        <p>de video se suben a YouTube <b>cada minuto</b>. Nadie puede verificarlo todo: hay que saber priorizar.</p>
+        <small>Dato público de la plataforma (referencial)</small>
+      </div>
+      <div class="stat">
+        <span class="num" data-count="1">0</span>
+        <p>sola persona entrenada puede frenar una cadena de desinformación en su grupo familiar.</p>
+        <small>Esa persona puedes ser tú. Ese es el juego.</small>
+      </div>
+    </div>
+    <div class="chips">
+      <span class="chip">Compartir sin verificar</span>
+      <span class="chip">Clickbait</span>
+      <span class="chip">Deepfakes e IA</span>
+      <span class="chip">Fuentes falsas</span>
+      <span class="chip">Manipulación emocional</span>
+      <span class="chip">Fuera de contexto</span>
+      <span class="chip">Infoxicación</span>
+      <span class="chip">Cero pensamiento crítico</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======= MANIFIESTO ======= -->
+<section class="section section--ink" id="manifiesto">
+  <div class="container">
+    <span class="sec-index">/02 — MANIFIESTO</span>
+    <p class="manifesto">
+      No nacimos para ser<br>
+      <span class="m">audiencia</span> de la mentira.<br>
+      Nacimos para ser <span class="a">filtro</span>,<br>
+      no <span class="out">altavoz</span>.<br>
+      Cada <span class="c">share</span> es una decisión.<br>
+      <span class="a">Entrénala.</span>
+    </p>
+    <p class="mani-foot">// ANTÍDOTO no te dice qué pensar. Te entrena para que nadie más lo haga por ti. Basado en la Alfabetización Mediática e Informacional (MIL) de la UNESCO y en la teoría de inoculación contra la desinformación.</p>
+  </div>
+</section>
+
+<!-- ======= ARCADE ======= -->
+<section class="section" id="arcade">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <span class="sec-index">/03 — EL ARCADE</span>
+        <h2 class="h2">Seis misiones.<br>Un reflejo nuevo.</h2>
+      </div>
+      <span class="progress-pill">PROGRESO: <b id="progressCount">0/6</b> MISIONES</span>
+    </div>
+    <div class="games">
+
+      <a class="game-card" data-game="real-o-ia" href="juegos/real-o-ia.html">
+        <span class="game-num">01</span>
+        <span class="game-tag">Contenido IA</span>
+        <h3>¿Real o IA?</h3>
+        <p>Ocho imágenes, dos botones y una pregunta incómoda: ¿de verdad sabes distinguir una foto de una fabricación? Manos, letreros y sombras delatan a la máquina.</p>
+        <span class="btn btn--sm play">Jugar →</span>
+      </a>
+
+      <a class="game-card" data-game="grupo" href="juegos/grupo.html">
+        <span class="game-num">02</span>
+        <span class="game-tag">Verificar antes de compartir</span>
+        <h3>El Grupo</h3>
+        <p>Simulador del chat familiar: seis mensajes, decisiones con consecuencias. La tía Marta te necesita más que nunca.</p>
+        <span class="btn btn--sm play">Jugar →</span>
+      </a>
+
+      <a class="game-card" data-game="titulares" href="juegos/titulares.html">
+        <span class="game-num">03</span>
+        <span class="game-tag">Titulares</span>
+        <h3>Clickbait Swipe</h3>
+        <p>Desliza como si fuera una app de citas, pero con titulares: izquierda periodismo, derecha trampa. Tu pulgar aprenderá a sospechar.</p>
+        <span class="btn btn--sm play">Jugar →</span>
+      </a>
+
+      <a class="game-card" data-game="radar" href="juegos/radar.html">
+        <span class="game-num">04</span>
+        <span class="game-tag">Fuentes</span>
+        <h3>Radar de Fuentes</h3>
+        <p>Nueve sitios, tres categorías: confiable, dudosa, fraudulenta. Pista profesional: el dominio dice más que el logo.</p>
+        <span class="btn btn--sm play">Jugar →</span>
+      </a>
+
+      <a class="game-card" data-game="feed" href="juegos/feed.html">
+        <span class="game-num">05</span>
+        <span class="game-tag">Infoxicación</span>
+        <h3>Feed 60"</h3>
+        <p>Un minuto, diez publicaciones, tres botones. Verificar cuesta 4 segundos del reloj… exactamente como en la vida real. Prioriza o pierde.</p>
+        <span class="btn btn--sm play">Jugar →</span>
+      </a>
+
+      <a class="game-card" data-game="mente-maestra" href="juegos/mente-maestra.html">
+        <span class="game-num">06</span>
+        <span class="game-tag">Manipulación emocional</span>
+        <h3>Mente Maestra</h3>
+        <p>La misión prohibida: construye la fake news perfecta, mírala volverse viral y diseca tus propios trucos. Inmunidad por exposición.</p>
+        <span class="btn btn--sm play">Jugar →</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======= MARQUEE 2 ======= -->
+<div class="marquee marquee--ink">
+  <div class="marquee-track">
+    <span>Detente <i>◼</i></span><span>Investiga la fuente <i>◼</i></span><span>Busca mejor cobertura <i>◼</i></span><span>Rastrea el original <i>◼</i></span><span>Método SIFT <i>◼</i></span>
+    <span>Detente <i>◼</i></span><span>Investiga la fuente <i>◼</i></span><span>Busca mejor cobertura <i>◼</i></span><span>Rastrea el original <i>◼</i></span><span>Método SIFT <i>◼</i></span>
+  </div>
+</div>
+
+<!-- ======= MÉTODO ======= -->
+<section class="section section--ink" id="metodo">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <span class="sec-index">/04 — EL MÉTODO</span>
+        <h2 class="h2">SIFT: 4 pasos,<br>15 segundos</h2>
+      </div>
+      <p class="lead" style="color:#CFC9B8">El protocolo que usan los verificadores profesionales, destilado para la vida real. Todos los juegos del arcade entrenan alguno de estos pasos.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="n">S</span>
+        <h4>Detente</h4>
+        <p><i>Stop.</i> Si algo te provoca una emoción fuerte, esa es la señal de alarma. No compartas en caliente.</p>
+      </div>
+      <div class="step">
+        <span class="n">I</span>
+        <h4>Investiga la fuente</h4>
+        <p><i>Investigate.</i> ¿Quién publica? Abre otra pestaña y busca al medio o autor. El dominio dice más que el logo.</p>
+      </div>
+      <div class="step">
+        <span class="n">F</span>
+        <h4>Encuentra mejor cobertura</h4>
+        <p><i>Find.</i> ¿Alguien más serio lo está contando? Si solo lo dice ese sitio, huele mal.</p>
+      </div>
+      <div class="step">
+        <span class="n">T</span>
+        <h4>Rastrea el original</h4>
+        <p><i>Trace.</i> Fotos, videos y citas: búscalos en su contexto original. La búsqueda inversa es tu superpoder.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= FOOTER ======= -->
+<footer class="foot">
+  <div class="container">
+    <div class="foot-big glitch" data-text="VERIFICA.">VERIFICA.</div>
+    <div class="foot-grid">
+      <div>
+        <b>ANTÍDOTO</b> — Arcade contra la desinformación<br>
+        Prototipo · Hackathon UNESCO 2026<br>
+        Tema: Play Your Part · Alfabetización Mediática e Informacional (MIL)
+      </div>
+      <div>
+        Equipo: <b>[Tu equipo aquí]</b><br>
+        Público: jóvenes 15–29 años<br>
+        Contenido ficticio con fines educativos
+      </div>
+      <div>
+        © <span id="year">2026</span> · Hecho con escepticismo<br>
+        y un poco de ácido <span style="color:var(--acid)">#C8FF16</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
