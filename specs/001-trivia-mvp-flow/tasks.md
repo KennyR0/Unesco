@@ -66,6 +66,13 @@ Checkpoint 0 — Línea base documental
                                           └── Checkpoint D
 ```
 
+La numeración de fases de `tasks.md` es deliberadamente más granular que la del plan.
+La Fase 2 del plan agrupa contratos y persistencia, mientras que `tasks.md` las divide
+en sus Fases 2 y 3. Las fases posteriores de `tasks.md` quedan desplazadas en una
+posición, sin alterar el orden de ejecución, las dependencias ni el alcance definido en
+el plan. Correspondencia con el plan: Tasks Fases 2–3 implementan la Fase 2 del plan;
+Tasks Fases 4–7 corresponden respectivamente a las Fases 3–6 del plan.
+
 Oportunidades principales después de cada puerta:
 
 - Tras T001–T003 pueden avanzar en paralelo Tailwind, ESLint, Vitest, Playwright, variables y configuración local de Supabase.

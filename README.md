@@ -1,32 +1,20 @@
-# ANTÍDOTO — Arcade contra la desinformación
+# ANTÍDOTO — Trivia educativa contra la desinformación
 
-Prototipo web para la **Hackathon UNESCO 2026 — Alfabetización Mediática e Informacional (MIL)**
-Público objetivo: jóvenes de 15 a 29 años.
+## Producto vigente
 
-## Cómo abrirlo
-1. Descomprime el ZIP.
-2. Abre `index.html` en cualquier navegador moderno (doble clic).
-3. No requiere servidor ni instalación. (Las tipografías se cargan de Google Fonts; sin internet, el sitio funciona con fuentes de respaldo.)
+El MVP vigente es una aplicación Next.js con App Router en `src/app/`. La
+trivia pública, sus sesiones anónimas, el resultado y el ranking se implementan
+según [la especificación aprobada](specs/001-trivia-mvp-flow/spec.md).
 
-## Estilo visual: CIBER-BRUTALISMO
-Combinación de **Neo-brutalismo** (bordes gruesos, sombras duras, papel crudo = la verdad sin maquillaje)
-con **Glitch art** (cortes RGB, ruido, scanlines = la información rota/manipulada).
+El directorio `prototipo/` contiene el prototipo estático legado y queda fuera
+del build Next.js.
 
-## Estructura
-- `index.html` — Landing: hero glitch, estadísticas, manifiesto, arcade de juegos, método SIFT.
-- `juegos/` — Las 6 misiones:
-  1. `real-o-ia.html` — Detector de imágenes generadas por IA.
-  2. `grupo.html` — Simulador de chat familiar (compartir sin verificar).
-  3. `titulares.html` — Clickbait Swipe (titulares amarillistas).
-  4. `radar.html` — Radar de fuentes (confiabilidad).
-  5. `feed.html` — Feed 60" (infoxicación / verificación rápida).
-  6. `mente-maestra.html` — Inoculación: construye y diseca una fake news.
-- `css/style.css` — Sistema de diseño completo.
-- `js/ui.js` — Motor compartido (overlays, puntaje, rangos, progreso).
-- `js/main.js` — Lógica de la landing.
-- `js/games/` — Motor de cada juego.
+Para el entorno reproducible se requiere Node.js 24.x y pnpm 11.8.0:
 
-## Notas
-- El progreso se guarda en `localStorage` (sellos "✓" en el arcade).
-- Todo el contenido es ficticio y con fines educativos.
-- El juego 06 aplica la **teoría de inoculación** (Roozenbeek & van der Linden, Cambridge).
+```powershell
+corepack pnpm install --frozen-lockfile
+corepack pnpm dev
+```
+
+La guía contractual completa está en
+`specs/001-trivia-mvp-flow/quickstart.md`.
