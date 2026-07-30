@@ -35,15 +35,15 @@ integraciones, scripts, templates y workflows bajo `.specify/`; `spec.md`, `plan
 `tasks.md`, `research.md`, `data-model.md` y `quickstart.md`; todos los archivos bajo
 `contracts/` y `checklists/`; y la evidencia educativa canónica bajo `evidence/content/`.
 Las rutas de `evidence/` que todavía no existan son salidas futuras y no se agregan por
-anticipado. `.agents/` se excluye en una decisión separada, no como parte del inventario
-normativo ni por una regla implícita de ignore.
+anticipado. `.agents/` queda fuera de la línea base y, en este checkout, se excluye
+mediante la regla existente de `.gitignore`.
 
 La carpeta `.agents/` contiene herramientas locales de Spec Kit y no constituye por
-sí misma un contrato del producto. No se agrega ni se ignora automáticamente. Si la
-política del repositorio exige compartir esas herramientas, se revisa su contenido y
-se versiona en un commit de tooling separado; si son locales o generadas, permanecen
-fuera de la línea base y se documenta esa decisión sin mezclarla con el commit del
-feature.
+sí misma un contrato del producto. En este checkout no se agrega a la línea base
+porque la regla existente de `.gitignore` la excluye expresamente. Si la política del
+repositorio exige compartir esas herramientas, se revisa su contenido y se versiona en
+un commit de tooling separado; si son locales o generadas, permanecen fuera de la línea
+base y se documenta esa decisión sin mezclarla con el commit del feature.
 
 Ejecutar el siguiente procedimiento desde la raíz del repositorio. Los comandos se
 presentan para su ejecución manual después de aprobar los documentos:
@@ -65,7 +65,8 @@ presentan para su ejecución manual después de aprobar los documentos:
 
    `git check-ignore` debe terminar sin identificar esos archivos. `.gitignore`
    protege secretos locales, dependencias, salidas de build, estado temporal de
-   Supabase y archivos de editor, pero no excluye `.specify/`, `specs/` ni `.agents/`.
+   Supabase y archivos de editor, no excluye `.specify/` ni `specs/`, y excluye
+   explícitamente `.agents/`.
 
 3. Inspeccionar posibles secretos sin imprimir su valor. Cualquier coincidencia se
    revisa y se retira o sustituye antes de continuar:

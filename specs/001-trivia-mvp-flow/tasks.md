@@ -2152,23 +2152,26 @@ No aplicar cambios ni desplegar a Production hasta completar T145 y confirmar:
 | US7 — Consultar ranking | 14 |
 | Sin etiqueta de historia — transversal con `Requisito:` explícito | 41 |
 
-### Matriz FR/SC complementaria
+### Matriz FR/SC y obligaciones constitucionales
 
 Cada grupo de IDs siguiente se aplica a cada tarea indicada y completa la referencia
-directa cuando su cabecera todavía no contiene una línea `Requisito:`. Las líneas
+directa cuando su cabecera todavía no contiene una línea `Requisito:`. La matriz
+distingue la cobertura de FR/SC de las obligaciones constitucionales. Las líneas
 `Requisito:` existentes siguen siendo autoritativas; esta matriz no renumera tareas ni
 crea una segunda fuente de responsables.
 
-| Tareas | Requisitos funcionales y criterios de éxito |
+| Tareas | FR/SC y obligaciones constitucionales |
 |---|---|
 | T001–T014 | FR-051–059, SC-003, SC-009, Constitución II, V, VI, IX y XI |
 | T015–T020 | FR-018–020, FR-051–052, FR-060–062, SC-006, SC-011, Constitución II, III, VII, IX y XI |
 | T021 | FR-037–040, SC-007 |
+| T023 | Constitución VII — Seguridad de Supabase |
 | T024–T027 | FR-013, FR-015, FR-018–020, FR-028, FR-031, FR-036 |
 | T028–T032 | FR-004–024, FR-033–040, FR-060–061, FR-065 |
 | T034–T040 | FR-004–013, FR-018–024, FR-032–043, FR-060–065 |
 | T041–T042 | FR-020, FR-031, FR-061–062, SC-011, Constitución VII |
 | T043 | FR-065–066, SC-013 |
+| T045 | Constitución XI — Verificación antes de completar |
 | T046–T053 | FR-013–050, FR-061, FR-063, FR-065–066, SC-004, SC-013 |
 | T054–T060 | FR-004–012, FR-034–036, FR-060–062, FR-065 |
 | T061–T068 | FR-001–012, FR-034–035, FR-051–052, SC-001, SC-011–012 |
@@ -2181,9 +2184,12 @@ crea una segunda fuente de responsables.
 | T138–T145 | FR-031, FR-051–063, FR-065–066, SC-001–005, SC-009–013 |
 | T146–T150 | FR-031, FR-044–050, FR-060–066, SC-002, SC-004–005, SC-007, SC-009, SC-013 |
 
-La cobertura declarada permanece 79/79: los requisitos con referencia local o en esta
-matriz cuentan como cobertura inferida; una cobertura solo es auditable cuando la
-verificación de la tarea registra el requisito concreto, el resultado y su evidencia.
+La cobertura declarada permanece 79/79 para FR/SC: los requisitos con referencia local
+o en esta matriz cuentan como cobertura inferida; una cobertura solo es auditable cuando
+la verificación de la tarea registra el requisito concreto, el resultado y su evidencia.
+Las obligaciones constitucionales se trazan como una dimensión normativa independiente
+y no incrementan el total FR/SC; T023 y T045 quedan cubiertas explícitamente por
+Constitución VII y Constitución XI, respectivamente.
 
 ## Tareas que pueden ejecutarse en paralelo
 
