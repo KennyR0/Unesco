@@ -1,0 +1,22 @@
+project_id = "antidoto-trivia-mvp"
+
+[api]
+enabled = true
+schemas = ["api"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+
+[studio]
+enabled = false
+
+[inbucket]
+enabled = false
+
+[storage]
+enabled = false
+
+[analytics]
+enabled = false
