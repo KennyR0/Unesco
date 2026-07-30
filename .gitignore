@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+coverage/
+test-results/
+playwright-report/
+.pnpm-store/
+.env*
+!.env.example
+.agents/
+supabase/.branches/
+supabase/.temp/
