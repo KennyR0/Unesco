@@ -62,6 +62,11 @@ secretos, temporales y el diff staged. La carpeta `.agents/` no forma parte
 automáticamente de la línea base: se decide por separado según la política del
 repositorio y nunca se mezcla por inferencia con los contratos del producto.
 
+**Estado del Checkpoint 0 (2026-07-30): APROBADO.** La línea base quedó registrada
+en el commit `94ad7b4880079c52f77a18308f27c9c6ecbc6dad`; la evidencia reproducible
+está en [`evidence/checkpoint-0.md`](./evidence/checkpoint-0.md). T001–T150
+conservan su estado pendiente y esta aprobación no sustituye sus verificaciones.
+
 ## Comprobación previa de consistencia
 
 ### Contradicciones resueltas

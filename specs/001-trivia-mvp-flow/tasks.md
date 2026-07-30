@@ -120,6 +120,11 @@ que el diff staged haya sido revisado; y que cualquier archivo restante esté
 explicado. `.agents/` se decide por separado y no se agrega automáticamente. Este
 checkpoint no completa ninguna tarea T001–T150.
 
+**Estado: APROBADO (2026-07-30).** La línea base documental está registrada en el
+commit `94ad7b4880079c52f77a18308f27c9c6ecbc6dad` y su evidencia está en
+[`evidence/checkpoint-0.md`](./evidence/checkpoint-0.md). La aprobación habilita la
+evaluación de dependencias posteriores, pero no cambia a `[X]` ninguna tarea.
+
 ## Fase 1 — Fundación del proyecto
 
 **Objetivo**: disponer de un proyecto Next.js reproducible, estricto y con las herramientas mínimas de desarrollo y prueba.
