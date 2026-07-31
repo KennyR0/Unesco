@@ -9,11 +9,22 @@ description: "Backlog de implementación verificable para el corte vertical del 
 
 **Alcance**: una ronda anónima de cinco preguntas `single_choice`, con retroalimentación inmediata, resultado y ranking global. Este backlog no autoriza modificar contratos, arquitectura, alcance ni implementar otras mecánicas.
 
-**Estado inicial**: todas las tareas están pendientes y tienen un único responsable
-principal asignado por rol. Los registros `Registro`, `Archivos modificados` y
-`Bloqueos pendientes` que ya aparecen en T001–T022 y T044 son históricos: describen
-trabajo observado, pero no habilitan completitud ni permiten conservar `[X]` mientras
-Checkpoint 0 y las verificaciones obligatorias no estén aprobados.
+**Estado auditado (2026-07-30)**: T001–T022 fueron revalidadas en orden después
+de la aprobación de Checkpoint 0. Cada `[X]` conserva en la propia tarea el comando
+esperado, el resultado obtenido, los archivos afectados y los bloqueos. T023 es la
+primera tarea pendiente. T024–T150 permanecen abiertas aunque exista trabajo
+adelantado, porque sus dependencias y verificaciones específicas todavía no están
+cerradas.
+
+**Registro de reparación (2026-07-30)**: Node `v24.14.1`, Next `16.2.12` y pnpm
+`11.8.0` quedaron confirmados; `pnpm install --frozen-lockfile`, `pnpm typecheck`,
+`pnpm lint` y `pnpm build` terminaron con salida 0. `tsc --showConfig` confirmó
+`strict: true`, `noEmit: true` y el alias contractual directo. Las verificaciones
+focalizadas de Fundación pasaron 5/5 pruebas y las de contratos/fronteras pasaron
+18/18. La evidencia Playwright previamente ejecutada confirmó `/` en escritorio y
+320 px sin desbordamiento. La evidencia local de T014 fue obtenida antes de congelar
+el alcance de Supabase; desde esa instrucción no se ejecutan ni modifican recursos de
+Supabase.
 
 ## Convenciones de ejecución
 
@@ -136,7 +147,7 @@ evaluación de dependencias posteriores, pero no cambia a `[X]` ninguna tarea.
 
 **Objetivo**: disponer de un proyecto Next.js reproducible, estricto y con las herramientas mínimas de desarrollo y prueba.
 
-- [ ] 1.1 T001 [SHARED] Responsable: Líder técnico
+- [X] 1.1 T001 [SHARED] Responsable: Líder técnico
       Fijar Node.js 24 LTS, pnpm y las dependencias aprobadas, incluido Next.js 16.2.12, sin implementar funcionalidad.
       Requisito: Constitución IX — Tipado y validación.
       Archivos:
@@ -153,7 +164,7 @@ evaluación de dependencias posteriores, pero no cambia a `[X]` ninguna tarea.
       Archivos modificados: `.nvmrc`, `package.json`, `pnpm-lock.yaml`.
       Bloqueos pendientes: ninguno.
 
-- [ ] 1.2 T002 [SHARED] Responsable: Líder técnico
+- [X] 1.2 T002 [SHARED] Responsable: Líder técnico
       Inicializar la entrada mínima de Next.js con App Router y documentar que el prototipo estático legado queda fuera del nuevo build.
       Requisito: Constitución XII — Alcance proporcional.
       Archivos:
@@ -173,7 +184,7 @@ evaluación de dependencias posteriores, pero no cambia a `[X]` ninguna tarea.
       Archivos modificados: `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/globals.css`, `README.md`.
       Bloqueos pendientes: el prototipo legado fue movido externamente a `prototipo/`; se conserva fuera del build y requiere reconciliación posterior.
 
-- [ ] 1.3 T003 [SHARED] Responsable: Líder técnico
+- [X] 1.3 T003 [SHARED] Responsable: Líder técnico
       Configurar TypeScript en modo estricto, sin `any` implícito y con el alias canónico hacia el contrato aprobado.
       Requisito: Constitución IX — Tipado y validación.
       Archivos:
@@ -189,7 +200,7 @@ evaluación de dependencias posteriores, pero no cambia a `[X]` ninguna tarea.
       Archivos modificados: `tsconfig.json`, `next-env.d.ts`.
       Bloqueos pendientes: ninguno.
 
-- [ ] 1.4 T004 [P] [SHARED] Responsable: Líder técnico
+- [X] 1.4 T004 [P] [SHARED] Responsable: Líder técnico
       Configurar Next.js para el App Router y mantener imágenes locales como única fuente del MVP.
       Requisito: Constitución VI — Mobile-First y rendimiento.
       Archivos:
@@ -204,7 +215,7 @@ evaluación de dependencias posteriores, pero no cambia a `[X]` ninguna tarea.
       Archivos modificados: `next.config.ts`.
       Bloqueos pendientes: ninguno.
 
-- [ ] 1.5 T005 [P] [FRONTEND] Responsable: Líder frontend
+- [X] 1.5 T005 [P] [FRONTEND] Responsable: Líder frontend
       Configurar Tailwind CSS y la base Mobile-First sin introducir una identidad visual exhaustiva.
       Requisito: FR-055 | Constitución VI — Mobile-First y rendimiento.
       Archivos:
@@ -219,7 +230,7 @@ evaluación de dependencias posteriores, pero no cambia a `[X]` ninguna tarea.
       Archivos modificados: `postcss.config.mjs`, `src/app/globals.css`, `tests/e2e/foundation.spec.ts`.
       Bloqueos pendientes: ninguno.
 
-- [ ] 1.6 T006 [P] [SHARED] Responsable: Líder técnico
+- [X] 1.6 T006 [P] [SHARED] Responsable: Líder técnico
       Configurar ESLint para TypeScript, React y límites básicos de código servidor/cliente.
       Requisito: Constitución IX — Tipado y validación.
       Archivos:
@@ -232,7 +243,7 @@ evaluación de dependencias posteriores, pero no cambia a `[X]` ninguna tarea.
       Archivos modificados: `eslint.config.mjs`.
       Bloqueos pendientes: ninguno.
 
-- [ ] 1.7 T007 [P] [TESTING] Responsable: Líder QA de automatización
+- [X] 1.7 T007 [P] [TESTING] Responsable: Líder QA de automatización
       Configurar Vitest para pruebas unitarias e integración sin modo interactivo.
       Requisito: Constitución XI — Verificación antes de completar.
       Archivos:
@@ -247,7 +258,7 @@ evaluación de dependencias posteriores, pero no cambia a `[X]` ninguna tarea.
       Archivos modificados: `vitest.config.ts`, `tests/setup/vitest.setup.ts`, `tests/setup/server-only-shim.ts`.
       Bloqueos pendientes: ninguno.
 
-- [ ] 1.8 T008 [TESTING] Responsable: Líder QA de Accesibilidad e Investigación UX
+- [X] 1.8 T008 [TESTING] Responsable: Líder QA de Accesibilidad e Investigación UX
       Configurar Testing Library, `user-event` y matchers de accesibilidad básica sobre jsdom.
       Requisito: Constitución V — Accesibilidad obligatoria.
       Archivos:
@@ -261,7 +272,7 @@ evaluación de dependencias posteriores, pero no cambia a `[X]` ninguna tarea.
       Archivos modificados: `tests/setup/testing-library.setup.ts`, `vitest.config.ts`.
       Bloqueos pendientes: ninguno.
 
-- [ ] 1.9 T009 [P] [TESTING] Responsable: Líder QA de automatización
+- [X] 1.9 T009 [P] [TESTING] Responsable: Líder QA de automatización
       Configurar Playwright para Chromium de escritorio y un proyecto móvil contra `next build` y `next start`.
       Requisito: SC-002 | Constitución XI — Verificación antes de completar.
       Archivos:
@@ -276,7 +287,7 @@ evaluación de dependencias posteriores, pero no cambia a `[X]` ninguna tarea.
       Archivos modificados: `playwright.config.ts`, `tests/e2e/foundation.spec.ts`.
       Bloqueos pendientes: ninguno.
 
-- [ ] 1.10 T010 [P] [DEVOPS] Responsable: Líder DevOps y Release
+- [X] 1.10 T010 [P] [DEVOPS] Responsable: Líder DevOps y Release
       Crear la plantilla de variables sin secretos reales y con separación explícita entre URL y clave privada.
       Requisito: Constitución VII — Seguridad de Supabase.
       Archivos:
@@ -290,7 +301,7 @@ evaluación de dependencias posteriores, pero no cambia a `[X]` ninguna tarea.
       Archivos modificados: `.env.example`.
       Bloqueos pendientes: ninguno.
 
-- [ ] 1.11 T011 [SHARED] Responsable: Líder técnico
+- [X] 1.11 T011 [SHARED] Responsable: Líder técnico
       Validar en tiempo de ejecución las variables privadas, exigir exactamente una clave de servidor y reutilizar `RoundSizeSchema` para el tamaño de ronda contractual.
       Requisito: FR-013 | Constitución IX — Tipado y validación.
       Archivos:
@@ -307,7 +318,7 @@ evaluación de dependencias posteriores, pero no cambia a `[X]` ninguna tarea.
       Archivos modificados: `src/lib/env/server.ts`, `src/lib/env/server.test.ts`.
       Bloqueos pendientes: ninguno.
 
-- [ ] 1.12 T012 [FRONTEND] Responsable: Líder frontend
+- [X] 1.12 T012 [FRONTEND] Responsable: Líder frontend
       Crear una primitiva accesible de acción basada en HTML nativo, con foco visible, estado deshabilitado y área táctil mínima.
       Requisito: FR-051 | FR-055 | Constitución V — Accesibilidad obligatoria.
       Archivos:
@@ -323,7 +334,7 @@ evaluación de dependencias posteriores, pero no cambia a `[X]` ninguna tarea.
       Archivos modificados: `src/components/ui/action-button.tsx`, `src/components/ui/action-button.test.tsx`.
       Bloqueos pendientes: medición física reservada para T127/T130.
 
-- [ ] 1.13 T013 [P] [FRONTEND] Responsable: Líder frontend
+- [X] 1.13 T013 [P] [FRONTEND] Responsable: Líder frontend
       Crear estados globales de carga, error recuperable y ruta inexistente con lenguaje claro.
       Requisito: FR-058 | Constitución V — Accesibilidad obligatoria.
       Archivos:
@@ -339,7 +350,7 @@ evaluación de dependencias posteriores, pero no cambia a `[X]` ninguna tarea.
       Archivos modificados: `src/app/loading.tsx`, `src/app/error.tsx`, `src/app/not-found.tsx`, `src/app/error.test.tsx`.
       Bloqueos pendientes: ninguno.
 
-- [ ] 1.14 T014 [P] [DEVOPS] Responsable: Líder DevOps y Release
+- [X] 1.14 T014 [P] [DEVOPS] Responsable: Líder DevOps y Release
       Configurar el proyecto local de Supabase para migraciones versionadas, seed y Cron reproducibles.
       Requisito: Constitución VII — Seguridad de Supabase.
       Archivos:
@@ -373,7 +384,7 @@ No iniciar la Fase 2 ni Supabase persistente hasta registrar:
 
 **Objetivo**: consumir los contratos aprobados como única fuente de verdad y cerrar las fronteras de datos antes de persistir.
 
-- [ ] 2.1 T015 [SHARED] Responsable: Líder técnico
+- [X] 2.1 T015 [SHARED] Responsable: Líder técnico
       Verificar y congelar la integración de `contracts/domain.ts` mediante el alias canónico sin copiar ni redefinir sus tipos o esquemas.
       Requisito: Constitución II — Desarrollo Contract-First.
       Archivos:
@@ -387,7 +398,7 @@ No iniciar la Fase 2 ni Supabase persistente hasta registrar:
       Archivos modificados: `tests/contracts/domain-import.test.ts`.
       Bloqueos pendientes: ninguno.
 
-- [ ] 2.2 T016 [P] [TESTING] Responsable: Líder QA de automatización
+- [X] 2.2 T016 [P] [TESTING] Responsable: Líder QA de automatización
       Verificar esquemas Zod y consistencia entre operaciones, códigos de error y exports aprobados.
       Requisito: FR-013 | Constitución II — Desarrollo Contract-First.
       Archivos:
@@ -406,7 +417,7 @@ No iniciar la Fase 2 ni Supabase persistente hasta registrar:
       Archivos modificados: `tests/contracts/domain-schemas.test.ts`, `tests/fixtures/contract-samples.ts`, `tests/contracts/contract-consistency.test.ts`.
       Bloqueos pendientes: ninguno.
 
-- [ ] 2.3 T017 [SHARED] Responsable: Líder técnico
+- [X] 2.3 T017 [SHARED] Responsable: Líder técnico
       Implementar el mapeo tipado de códigos contractuales a errores de aplicación y mensajes seguros para el usuario.
       Requisito: FR-062 | Constitución II — Desarrollo Contract-First.
       Archivos:
@@ -423,7 +434,7 @@ No iniciar la Fase 2 ni Supabase persistente hasta registrar:
       Archivos modificados: `src/features/game/application/game-error.ts`, `src/features/game/infrastructure/map-database-error.ts`, `src/features/game/infrastructure/map-database-error.test.ts`.
       Bloqueos pendientes: ninguno.
 
-- [ ] 2.4 T018 [P] [TESTING] Responsable: Líder QA de Seguridad
+- [X] 2.4 T018 [P] [TESTING] Responsable: Líder QA de Seguridad
       Comprobar que las proyecciones públicas pendientes no admiten solución, corrección, puntos ni identificadores internos.
       Requisito: FR-020 | SC-005.
       Archivos:
@@ -437,7 +448,7 @@ No iniciar la Fase 2 ni Supabase persistente hasta registrar:
       Archivos modificados: `tests/contracts/public-projections.test.ts`.
       Bloqueos pendientes: ninguno.
 
-- [ ] 2.5 T019 [BACKEND] Responsable: Líder backend
+- [X] 2.5 T019 [BACKEND] Responsable: Líder backend
       Configurar el cliente de Supabase exclusivamente para servidor, usando la clave privada validada y sin exportar cliente de navegador.
       Requisito: Constitución VII — Seguridad de Supabase.
       Archivos:
@@ -452,7 +463,7 @@ No iniciar la Fase 2 ni Supabase persistente hasta registrar:
       Archivos modificados: `src/lib/supabase/server.ts`, `src/lib/supabase/server.test.ts`.
       Bloqueos pendientes: ninguno.
 
-- [ ] 2.6 T020 [P] [BACKEND] Responsable: Líder backend
+- [X] 2.6 T020 [P] [BACKEND] Responsable: Líder backend
       Implementar generación, validación y hash SHA-256 de la credencial anónima sin registrar el token.
       Requisito: FR-060 | Constitución IV — Privacidad mínima.
       Archivos:
@@ -468,7 +479,7 @@ No iniciar la Fase 2 ni Supabase persistente hasta registrar:
       Archivos modificados: `src/lib/security/session-token.ts`, `src/lib/security/session-token.test.ts`.
       Bloqueos pendientes: ninguno.
 
-- [ ] 2.7 T021 [US6] [P] [BACKEND] Responsable: Líder backend
+- [X] 2.7 T021 [US6] [P] [BACKEND] Responsable: Líder backend
       Implementar y probar la regla de puntuación versionada como lógica de dominio independiente.
       Archivos:
       - `src/features/game/domain/scoring.ts`
@@ -482,7 +493,7 @@ No iniciar la Fase 2 ni Supabase persistente hasta registrar:
       Archivos modificados: `src/features/game/domain/scoring.ts`, `src/features/game/domain/scoring.test.ts`.
       Bloqueos pendientes: ninguno.
 
-- [ ] 2.8 T022 [TESTING] Responsable: Líder QA de Seguridad
+- [X] 2.8 T022 [TESTING] Responsable: Líder QA de Seguridad
       Añadir una prueba de arquitectura que impida importar módulos privados, Supabase o variables secretas desde Client Components.
       Requisito: FR-062 | Constitución VII — Seguridad de Supabase.
       Archivos:

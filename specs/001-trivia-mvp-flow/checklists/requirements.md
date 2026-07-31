@@ -17,7 +17,7 @@ planning
 ## Requirement Completeness
 
 - [x] No [NEEDS CLARIFICATION] markers remain
-- [ ] Requirements are testable and unambiguous
+- [x] Requirements are testable and unambiguous
 - [x] Success criteria are measurable
 - [x] Success criteria are technology-agnostic (no implementation details)
 - [x] All acceptance scenarios are defined
@@ -27,7 +27,7 @@ planning
 
 ## Feature Readiness
 
-- [ ] All functional requirements have clear acceptance criteria
+- [x] All functional requirements have clear acceptance criteria
 - [x] User scenarios cover primary flows
 - [x] Feature meets measurable outcomes defined in Success Criteria
 - [x] No implementation details leak into specification
@@ -43,9 +43,8 @@ planning
   24-hour inactivity rule exclusive to unfinished sessions, and made replay require
   confirmation or editing of the current alias before a new session is created.
 - Validation iteration 4 adds the educational approval gate, the single normative
-  source for owners and the documentary Git baseline. The two reopened items remain
-  pending until the expanded checklist and cross-artifact analysis verify those
-  changes.
+  source for owners and the documentary Git baseline. Cross-artifact analysis and the
+  expanded checklist revalidated those changes on 2026-07-30.
 - The exact name of Constitution Principle VII is referenced only in the compliance
   table; the specification does not define database structures, policies, endpoints
   or other implementation design.

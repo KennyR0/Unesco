@@ -63,28 +63,28 @@ comportamiento de una implementación.
 
 ## Dependencias, supuestos y gobernanza
 
-- [ ] CHK035 ¿`tasks.md` es la única fuente normativa de responsables y `spec.md`/`plan.md` se limitan a referenciarla sin repetir asignaciones concretas? [Dependency, Plan §Gobernanza documental, Tasks §Convenciones de ejecución]
-- [ ] CHK036 ¿Las revisiones obligatorias de contenido y del fixture están asignadas una sola vez en `tasks.md`, acotadas por propósito y descritas como puertas que no crean corresponsabilidad? [Clarity, Tasks §Convenciones de ejecución/T044/T054]
+- [x] CHK035 ¿`tasks.md` es la única fuente normativa de responsables y `spec.md`/`plan.md` se limitan a referenciarla sin repetir asignaciones concretas? [Dependency, Plan §Gobernanza documental, Tasks §Convenciones de ejecución]
+- [x] CHK036 ¿Las revisiones obligatorias de contenido y del fixture están asignadas una sola vez en `tasks.md`, acotadas por propósito y descritas como puertas que no crean corresponsabilidad? [Clarity, Tasks §Convenciones de ejecución/T044/T054]
 - [x] CHK037 ¿La obligación de consentimiento para menores se alinea con la minimización de datos y evita introducir evidencia identificable? [Consistency, Spec §Cohorte MVP de usabilidad, Quickstart §Protocolo, Tasks §T145]
-- [ ] CHK038 ¿Los once roles responsables usados en T001–T150 conservan exactamente un propietario principal por tarea y cualquier cambio futuro debe iniciarse en `tasks.md`? [Governance, Constitution §X, Tasks §Convenciones de ejecución]
+- [x] CHK038 ¿Los once roles responsables usados en T001–T150 conservan exactamente un propietario principal por tarea y cualquier cambio futuro debe iniciarse en `tasks.md`? [Governance, Constitution §X, Tasks §Convenciones de ejecución]
 
 ## Aprobación educativa
 
-- [ ] CHK039 ¿La puerta define los seis estados editoriales, todas sus transiciones permitidas y la prohibición absoluta de publicar cualquier estado distinto de `approved`? [Completeness, Spec §Puerta de aprobación educativa]
-- [ ] CHK040 ¿La rúbrica cubre exactamente los diez criterios mínimos de calidad educativa, fuentes, sesgo, derechos y privacidad, con resultado verificable por criterio? [Completeness, Spec §Puerta de aprobación educativa, Tasks §T044]
-- [ ] CHK041 ¿Están definidos de forma inequívoca el rol que revisa, el rol que aprueba o rechaza, la separación de decisiones y los criterios para `changes_requested` y `rejected`? [Governance, Tasks §Convenciones de ejecución, Spec §Puerta de aprobación educativa]
-- [ ] CHK042 ¿La evidencia mínima permite identificar versión de catálogo, contenido y recursos, responsables, fecha, resultados, fuentes, derechos, observaciones y decisión final? [Traceability, Spec §Puerta de aprobación educativa]
-- [ ] CHK043 ¿Todo cambio de contenido, fuente o recurso invalida la aprobación anterior, incrementa la versión aplicable, obliga a repetir T044 y es revalidado por T145 antes de Production, sin tratar SQL o despliegue como aprobación? [Consistency, Spec §Puerta de aprobación educativa, Plan/Research §Contenido educativo, Tasks §T044/T145/T146]
-- [ ] CHK044 ¿AC-US4-03 y SC-004 miden calidad y vigencia educativa del catálogo completo, además de la presencia estructural de campos? [Acceptance Criteria, Spec §US4/Success Criteria]
-- [ ] CHK045 ¿T044 falla ante evidencia ausente, incompleta, no vigente o no aprobada, valida la rúbrica completa y compara exactamente evidencia, seed, migración y recursos? [Measurability, Tasks §T044]
+- [x] CHK039 ¿La puerta define los seis estados editoriales, todas sus transiciones permitidas y la prohibición absoluta de publicar cualquier estado distinto de `approved`? [Completeness, Spec §Puerta de aprobación educativa]
+- [x] CHK040 ¿La rúbrica cubre exactamente los diez criterios mínimos de calidad educativa, fuentes, sesgo, derechos y privacidad, con resultado verificable por criterio? [Completeness, Spec §Puerta de aprobación educativa, Tasks §T044]
+- [x] CHK041 ¿Están definidos de forma inequívoca el rol que revisa, el rol que aprueba o rechaza, la separación de decisiones y los criterios para `changes_requested` y `rejected`? [Governance, Tasks §Convenciones de ejecución, Spec §Puerta de aprobación educativa]
+- [x] CHK042 ¿La evidencia mínima permite identificar versión de catálogo, contenido y recursos, responsables, fecha, resultados, fuentes, derechos, observaciones y decisión final? [Traceability, Spec §Puerta de aprobación educativa]
+- [x] CHK043 ¿Todo cambio de contenido, fuente o recurso invalida la aprobación anterior, incrementa la versión aplicable, obliga a repetir T044 y es revalidado por T145 antes de Production, sin tratar SQL o despliegue como aprobación? [Consistency, Spec §Puerta de aprobación educativa, Plan/Research §Contenido educativo, Tasks §T044/T145/T146]
+- [x] CHK044 ¿AC-US4-03 y SC-004 miden calidad y vigencia educativa del catálogo completo, además de la presencia estructural de campos? [Acceptance Criteria, Spec §US4/Success Criteria]
+- [x] CHK045 ¿T044 falla ante evidencia ausente, incompleta, no vigente o no aprobada, valida la rúbrica completa y compara exactamente evidencia, seed, migración y recursos? [Measurability, Tasks §T044]
 
 ## Línea base documental
 
-- [ ] CHK046 ¿La línea base enumera Constitución, especificación, plan, tareas, research, modelo, quickstart, contratos, checklists y demás artefactos normativos del feature? [Completeness, Quickstart §Línea base documental]
-- [ ] CHK047 ¿El procedimiento exige revisar estado, ignore, secretos y temporales antes de agregar archivos, sin imprimir valores sensibles? [Security, Quickstart §Línea base documental]
-- [ ] CHK048 ¿El staging está limitado a `.gitignore`, `.specify/` y el feature aprobado, con revisión obligatoria de nombre, contenido, whitespace y ausencia de `.agents/`? [Governance, Quickstart §Línea base documental]
-- [ ] CHK049 ¿La decisión sobre `.agents/` queda separada y condicionada a su naturaleza contractual, local o generada y a la política del repositorio? [Scope, Plan/Quickstart §Línea base documental]
-- [ ] CHK050 ¿Checkpoint 0 aparece en los grafos de `plan.md` y `tasks.md`, bloquea el inicio de cualquier tarea T001–T150 y ninguna tarea declara una dependencia local que permita omitirlo antes de que exista el commit documental y el árbol esté limpio o explicado? [Dependency, Plan §Dependencias entre fases, Tasks §Checkpoint 0/T010, Quickstart §Línea base documental]
+- [x] CHK046 ¿La línea base enumera Constitución, especificación, plan, tareas, research, modelo, quickstart, contratos, checklists y demás artefactos normativos del feature? [Completeness, Quickstart §Línea base documental]
+- [x] CHK047 ¿El procedimiento exige revisar estado, ignore, secretos y temporales antes de agregar archivos, sin imprimir valores sensibles? [Security, Quickstart §Línea base documental]
+- [x] CHK048 ¿El staging está limitado a `.gitignore`, `.specify/` y el feature aprobado, con revisión obligatoria de nombre, contenido, whitespace y ausencia de `.agents/`? [Governance, Quickstart §Línea base documental]
+- [x] CHK049 ¿La decisión sobre `.agents/` queda separada y condicionada a su naturaleza contractual, local o generada y a la política del repositorio? [Scope, Plan/Quickstart §Línea base documental]
+- [x] CHK050 ¿Checkpoint 0 aparece en los grafos de `plan.md` y `tasks.md`, bloquea el inicio de cualquier tarea T001–T150 y ninguna tarea declara una dependencia local que permita omitirlo antes de que exista el commit documental y el árbol esté limpio o explicado? [Dependency, Plan §Dependencias entre fases, Tasks §Checkpoint 0/T010, Quickstart §Línea base documental]
 
 ## Notes
 
@@ -92,8 +92,9 @@ comportamiento de una implementación.
 - Documentar hallazgos o decisiones junto al ítem correspondiente.
 - Esta checklist no autoriza cambios de implementación ni marca tareas T001–T150
   como completadas.
-- Tras aplicar este parche, CHK035–CHK036 y CHK038–CHK050 permanecen abiertos hasta
-  ejecutar sus verificaciones; no deben marcarse por inferencia.
+- CHK035–CHK036 y CHK038–CHK050 fueron revalidados el 2026-07-30 contra sus fuentes
+  normativas; el recuento automatizado confirmó 150 tareas, once roles y un único
+  propietario principal por cabecera.
 
 ## Revalidación de coherencia posterior al parche
 
@@ -101,9 +102,9 @@ comportamiento de una implementación.
 - [x] CHK052 ¿Es inequívoco qué cambios externos o internos vuelven obsoleta una aprobación y en qué momento debe repetirse T044 antes de continuar con T145? [Clarity, Spec §Puerta de aprobación educativa, Tasks §T044/T145]
 - [x] CHK053 ¿La transferencia de T145 a T146 conserva una única evidencia educativa autoritativa, compara el digest de la proyección canónica y evita que sincronización, migración o despliegue se interpreten como aprobación? [Consistency, Plan §Estrategia de contenido educativo, Tasks §T145/T146]
 - [x] CHK054 ¿El árbol documental distingue claramente artefactos normativos existentes de evidencias futuras que solo pueden aparecer al ejecutar su tarea correspondiente y enumera todas las rutas declaradas? [Clarity, Plan §Documentación de la feature]
-- [ ] CHK055 ¿La política de regeneración del backlog especifica qué asignaciones, puertas y correcciones deben preservarse sin crear una fuente normativa alternativa a `tasks.md`? [Governance, Plan §Validación del backlog generado, Tasks §Convenciones de ejecución]
-- [ ] CHK056 ¿Los grafos de fases, Checkpoint 0 y las dependencias locales expresan el mismo orden obligatorio sin permitir que una tarea con dependencia vacía omita la línea base documental? [Consistency, Plan §Dependencias entre fases, Tasks §Checkpoint 0/T001/T010]
-- [ ] CHK057 ¿Las consecuencias de evidencia educativa ausente, incompleta, desactualizada o divergente están definidas de forma consistente para T044, T145 y T146, incluido el estado pendiente o bloqueado? [Exception Coverage, Tasks §T044/T145/T146]
+- [x] CHK055 ¿La política de regeneración del backlog especifica qué asignaciones, puertas y correcciones deben preservarse sin crear una fuente normativa alternativa a `tasks.md`? [Governance, Plan §Validación del backlog generado, Tasks §Convenciones de ejecución]
+- [x] CHK056 ¿Los grafos de fases, Checkpoint 0 y las dependencias locales expresan el mismo orden obligatorio sin permitir que una tarea con dependencia vacía omita la línea base documental? [Consistency, Plan §Dependencias entre fases, Tasks §Checkpoint 0/T001/T010]
+- [x] CHK057 ¿Las consecuencias de evidencia educativa ausente, incompleta, desactualizada o divergente están definidas de forma consistente para T044, T145 y T146, incluido el estado pendiente o bloqueado? [Exception Coverage, Tasks §T044/T145/T146]
 - [x] CHK058 ¿Las rutas previstas bajo `evidence/` cubren los artefactos citados por las tareas sin implicar que existen, están aprobados o pueden marcar una tarea como completa antes de producirse? [Completeness, Plan §Documentación de la feature, Constitution §XI]
 - [x] CHK059 ¿Cada tarea T001–T150 contiene una referencia directa a uno o más `FR-###`/`SC-###`, una historia de usuario o una obligación constitucional explícita, o existe una matriz equivalente auditable que diferencie estas referencias y permita reconstruir la cobertura sin inferirla solo desde la historia? [Traceability, Tasks §Convenciones de ejecución/Resumen cuantitativo/Matriz FR/SC y obligaciones constitucionales]
 - [x] CHK060 ¿La única ruta pública `/leaderboard` y el mecanismo de reloj controlado para expiración, resultado y Cron están definidos en los requisitos y son consumidos de forma consistente por plan y tareas? [Consistency, Spec §FR-003/Mecanismo de reloj controlado, Plan §Ranking/Reloj controlado, Tasks §T040/T053/T112]
