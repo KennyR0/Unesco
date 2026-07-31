@@ -21,9 +21,9 @@ export async function startGame(
     const tokenHash = hashSessionToken(token);
     const gateway = dependencies.gateway ?? createGameGateway(createServerSupabaseClient(dependencies.env));
     const result = await gateway.startGame(alias.alias, tokenHash, roundSize);
-    if (result.ok !== true) return mapDatabaseError(String(result.code));
-    if (dependencies.onSessionCreated && typeof result.sessionExpiresAt === "string") {
-      await dependencies.onSessionCreated(token, new Date(result.sessionExpiresAt));
+    if (!result.ok) return mapDatabaseError(result.code);
+    if (dependencies.onSessionCreated) {
+      await dependencies.onSessionCreated(token, result.data.sessionExpiresAt);
     }
     return { ok: true, data: { nextPath: "/play" } };
   } catch (cause) {

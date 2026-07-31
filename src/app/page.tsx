@@ -13,7 +13,7 @@ export default function HomePage() {
           manipulado y titulares engañosos.
         </p>
         <StartGameForm />
-        <div className="landing-actions"><Link className="secondary-action" href="/ranking">Consultar ranking</Link></div>
+        <div className="landing-actions"><Link className="secondary-action" href="/leaderboard">Consultar ranking</Link></div>
         <p className="supporting-copy">Aprende una señal, toma una decisión y verifica antes de compartir.</p>
       </section>
     </main>

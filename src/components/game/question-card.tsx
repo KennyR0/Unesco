@@ -3,25 +3,29 @@
 import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import type { OperationResult } from "@antidoto/contracts";
+import type {
+  AnswerResult,
+  OperationResult,
+  QuestionGameState,
+} from "@antidoto/contracts";
 
 import { submitAnswerAction } from "../../app/actions/game";
 import { RoundProgress } from "./round-progress";
 import { QuestionImage } from "./question-image";
 
-type Question = { ref: string; prompt: string; image: { src: string; alt: string; width: number; height: number } | null; options: Array<{ ref: string; label: string; position: number }> };
-type State = { questionRef?: string; question: Question; progress?: { currentQuestion: number; totalQuestions: number } };
-
-export function QuestionCard({ state }: { state: State }) {
+export function QuestionCard({ state }: { state: QuestionGameState }) {
   const router = useRouter();
-  const [result, action, pending] = useActionState<OperationResult<unknown> | null, FormData>(submitAnswerAction, null);
+  const [result, action, pending] = useActionState<
+    OperationResult<AnswerResult> | null,
+    FormData
+  >(submitAnswerAction, null);
   useEffect(() => { if (result?.ok) router.refresh(); }, [result, router]);
   const error = result?.ok === false ? result.error : null;
   return (
     <form action={action} className="game-card">
       <input type="hidden" name="questionRef" value={state.question.ref} />
       <p className="progress-label">Pregunta actual</p>
-      {state.progress ? <RoundProgress current={state.progress.currentQuestion} total={state.progress.totalQuestions} /> : null}
+      <RoundProgress current={state.progress.currentQuestion} total={state.progress.totalQuestions} />
       <h1>{state.question.prompt}</h1>
       {state.question.image ? <QuestionImage {...state.question.image} /> : null}
       <fieldset aria-describedby={error ? "option-error" : undefined}>

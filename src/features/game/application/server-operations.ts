@@ -2,7 +2,12 @@ import "server-only";
 
 import { cookies } from "next/headers";
 
-import type { OperationResult } from "@antidoto/contracts";
+import type {
+  FinalResult,
+  GameState,
+  LeaderboardSnapshot,
+  OperationResult,
+} from "@antidoto/contracts";
 
 import { createServerSupabaseClient } from "../../../lib/supabase/server";
 import { hashSessionToken, isSessionToken } from "../../../lib/security/session-token";
@@ -14,36 +19,36 @@ async function currentToken(): Promise<string | null> {
   return value && isSessionToken(value) ? value : null;
 }
 
-export async function getGameStateServer(): Promise<OperationResult<unknown>> {
+export async function getGameStateServer(): Promise<OperationResult<GameState>> {
   const token = await currentToken();
   if (!token) return mapDatabaseError("SESSION_NOT_FOUND");
   try {
     const result = await createGameGateway(createServerSupabaseClient()).getGameState(hashSessionToken(token));
-    if (result.ok !== true) return mapDatabaseError(String(result.code));
-    return { ok: true, data: result.data } as OperationResult<unknown>;
+    if (!result.ok) return mapDatabaseError(result.code);
+    return { ok: true, data: result.data };
   } catch {
     return mapDatabaseError("UNEXPECTED_ERROR");
   }
 }
 
-export async function getGameResultServer(): Promise<OperationResult<unknown>> {
+export async function getGameResultServer(): Promise<OperationResult<FinalResult>> {
   const token = await currentToken();
   if (!token) return mapDatabaseError("SESSION_NOT_FOUND");
   try {
     const result = await createGameGateway(createServerSupabaseClient()).getGameResult(hashSessionToken(token));
-    if (result.ok !== true) return mapDatabaseError(String(result.code));
-    return { ok: true, data: result.data } as OperationResult<unknown>;
+    if (!result.ok) return mapDatabaseError(result.code);
+    return { ok: true, data: result.data };
   } catch {
     return mapDatabaseError("UNEXPECTED_ERROR");
   }
 }
 
-export async function getLeaderboardServer(): Promise<OperationResult<unknown>> {
+export async function getLeaderboardServer(): Promise<OperationResult<LeaderboardSnapshot>> {
   const token = await currentToken();
   try {
     const result = await createGameGateway(createServerSupabaseClient()).getLeaderboard(token ? hashSessionToken(token) : undefined);
-    if (result.ok !== true) return mapDatabaseError(String(result.code));
-    return { ok: true, data: result.data } as OperationResult<unknown>;
+    if (!result.ok) return mapDatabaseError(result.code);
+    return { ok: true, data: result.data };
   } catch {
     return mapDatabaseError("RANKING_UNAVAILABLE");
   }

@@ -3,8 +3,9 @@ import "server-only";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 import { parseServerEnv } from "../env/server";
+import type { Database } from "./database.types";
 
-export type ServerSupabaseClient = SupabaseClient<any, any, any>;
+export type ServerSupabaseClient = SupabaseClient<Database, "api">;
 
 export function createServerSupabaseClient(
   source: Record<string, string | undefined> = process.env,
@@ -14,7 +15,7 @@ export function createServerSupabaseClient(
   if (!key) {
     throw new Error("Supabase server key is required");
   }
-  return createClient(env.SUPABASE_URL, key, {
+  return createClient<Database, "api">(env.SUPABASE_URL, key, {
     auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false },
     db: { schema: "api" },
   });

@@ -3,7 +3,16 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import type { ErrorEnvelope, OperationResult, StartGameResult } from "@antidoto/contracts";
+import {
+  QuestionRefSchema,
+  SubmitAnswerInputSchema,
+  type AnswerResult,
+  type ErrorEnvelope,
+  type FinalResult,
+  type OperationResult,
+  type QuestionGameState,
+  type StartGameResult,
+} from "@antidoto/contracts";
 
 import { startGame } from "../../features/game/application/start-game";
 import { createServerSupabaseClient } from "../../lib/supabase/server";
@@ -36,43 +45,75 @@ async function tokenForAction(): Promise<{ token: string; hash: string } | Error
   return { token, hash: hashSessionToken(token) };
 }
 
-export async function submitAnswerAction(_previous: OperationResult<unknown> | null, formData: FormData): Promise<OperationResult<unknown>> {
+export async function submitAnswerAction(
+  _previous: OperationResult<AnswerResult> | null,
+  formData: FormData,
+): Promise<OperationResult<AnswerResult>> {
   const session = await tokenForAction();
   if (!("token" in session)) return session;
   const questionRef = String(formData.get("questionRef") ?? "");
   const optionRef = String(formData.get("optionRef") ?? "");
+  const input = SubmitAnswerInputSchema.safeParse({ questionRef, optionRef });
+  if (!input.success) {
+    if (!optionRef) return mapDatabaseError("OPTION_NOT_SELECTED");
+    return mapDatabaseError(
+      QuestionRefSchema.safeParse(questionRef).success
+        ? "OPTION_NOT_ALLOWED"
+        : "QUESTION_NOT_ASSIGNED",
+    );
+  }
+  if (!input.data.optionRef) return mapDatabaseError("OPTION_NOT_SELECTED");
+
   try {
-    const result = await createGameGateway(createServerSupabaseClient()).submitAnswer(session.hash, questionRef, optionRef);
-    if (result.ok !== true) return mapDatabaseError(String(result.code));
-    const expiresAt = typeof result.data === "object" && result.data && "sessionExpiresAt" in result.data ? new Date(String(result.data.sessionExpiresAt)) : null;
-    if (expiresAt && !Number.isNaN(expiresAt.getTime())) (await cookies()).set(buildSessionCookie({ token: session.token, expiresAt, secure: process.env.NODE_ENV !== "development" }));
-    return { ok: true, data: result.data };
+    const result = await createGameGateway(
+      createServerSupabaseClient(),
+    ).submitAnswer(session.hash, input.data.questionRef, input.data.optionRef);
+    if (!result.ok) return mapDatabaseError(result.code);
+    (await cookies()).set(
+      buildSessionCookie({
+        token: session.token,
+        expiresAt: result.data.sessionExpiresAt,
+        secure: process.env.NODE_ENV !== "development",
+      }),
+    );
+    return { ok: true, data: result.data.answer };
   } catch {
     return mapDatabaseError("ANSWER_SAVE_FAILED");
   }
 }
 
-export async function advanceGameAction(_previous: OperationResult<unknown> | null, _formData: FormData): Promise<OperationResult<unknown>> {
+export async function advanceGameAction(
+  _previous: OperationResult<QuestionGameState> | null,
+  _formData: FormData,
+): Promise<OperationResult<QuestionGameState>> {
   const session = await tokenForAction();
   if (!("token" in session)) return session;
   try {
     const result = await createGameGateway(createServerSupabaseClient()).advanceGame(session.hash);
-    if (result.ok !== true) return mapDatabaseError(String(result.code));
+    if (!result.ok) return mapDatabaseError(result.code);
     return { ok: true, data: result.data };
   } catch {
     return mapDatabaseError("ADVANCE_NOT_ALLOWED");
   }
 }
 
-export async function finishGameAction(_previous: OperationResult<unknown> | null, _formData: FormData): Promise<OperationResult<unknown>> {
+export async function finishGameAction(
+  _previous: OperationResult<FinalResult> | null,
+  _formData: FormData,
+): Promise<OperationResult<FinalResult>> {
   const session = await tokenForAction();
   if (!("token" in session)) return session;
   try {
     const result = await createGameGateway(createServerSupabaseClient()).finishGame(session.hash);
-    if (result.ok !== true) return mapDatabaseError(String(result.code));
-    const expiresAt = typeof result.data === "object" && result.data && "resultAccessUntil" in result.data ? new Date(String(result.data.resultAccessUntil)) : null;
-    if (expiresAt && !Number.isNaN(expiresAt.getTime())) (await cookies()).set(buildResultCookie({ token: session.token, expiresAt, secure: process.env.NODE_ENV !== "development" }));
-    return { ok: true, data: result.data };
+    if (!result.ok) return mapDatabaseError(result.code);
+    (await cookies()).set(
+      buildResultCookie({
+        token: session.token,
+        expiresAt: result.data.resultAccessUntil,
+        secure: process.env.NODE_ENV !== "development",
+      }),
+    );
+    return { ok: true, data: result.data.result };
   } catch {
     return mapDatabaseError("GAME_FINISH_FAILED");
   }

@@ -9,5 +9,5 @@ export const dynamic = "force-dynamic";
 export default async function ResultsPage() {
   const result = await getGameResultServer();
   if (!result.ok) return <SecureStateView canClear={Boolean((await cookies()).get("antidoto_session"))} />;
-  return <ResultCard result={result.data as any} />;
+  return <ResultCard result={result.data} />;
 }

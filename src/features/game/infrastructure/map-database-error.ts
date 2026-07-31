@@ -1,4 +1,8 @@
-import type { ErrorEnvelope, GameErrorCode } from "@antidoto/contracts";
+import {
+  GameErrorCodeSchema,
+  type ErrorEnvelope,
+  type GameErrorCode,
+} from "@antidoto/contracts";
 
 import { toGameError, type InternalGameError } from "../application/game-error";
 
@@ -11,8 +15,9 @@ const databaseCodes = new Set<GameErrorCode>([
 ]);
 
 export function mapDatabaseError(code: string, issue?: InternalGameError["issue"]): ErrorEnvelope {
-  const internal: InternalGameError = databaseCodes.has(code as GameErrorCode)
-    ? { code: code as GameErrorCode, issue }
+  const parsedCode = GameErrorCodeSchema.safeParse(code);
+  const internal: InternalGameError = parsedCode.success && databaseCodes.has(parsedCode.data)
+    ? { code: parsedCode.data, issue }
     : { code: "UNEXPECTED_ERROR", cause: code };
   return { ok: false, error: toGameError(internal) };
 }

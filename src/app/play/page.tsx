@@ -11,9 +11,8 @@ export const dynamic = "force-dynamic";
 export default async function PlayPage() {
   const result = await getGameStateServer();
   if (!result.ok) return <SecureStateView canClear={Boolean((await cookies()).get("antidoto_session"))} />;
-  const state = result.data as any;
+  const state = result.data;
   if (state.view === "finished") redirect("/results");
   if (state.view === "question") return <main className="game-shell"><QuestionCard state={state} /></main>;
-  if (state.view === "feedback") return <main className="game-shell"><FeedbackCard feedback={{ ...state.answer, nextAction: state.nextAction }} /></main>;
-  return <SecureStateView />;
+  return <main className="game-shell"><FeedbackCard state={state} /></main>;
 }

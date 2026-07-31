@@ -1,6 +1,6 @@
-type FeedbackPanelData = { outcome: "correct" | "incorrect"; pointsAwarded: number; feedback: { explanation: string; signals: string[]; recommendation: string } };
+import type { AnswerResult } from "@antidoto/contracts";
 
-export function FeedbackPanel({ feedback }: { feedback: FeedbackPanelData }) {
+export function FeedbackPanel({ feedback }: { feedback: AnswerResult }) {
   return (
     <section className="feedback-card" role="status" aria-live="polite" aria-atomic="true">
       <p className="eyebrow">{feedback.outcome === "correct" ? "Respuesta correcta" : "Respuesta para revisar"}</p>
