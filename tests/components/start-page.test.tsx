@@ -8,6 +8,6 @@ describe("página inicial", () => {
     render(<HomePage />);
     expect(screen.getByRole("heading", { name: "Antídoto" })).toBeVisible();
     expect(screen.getByText(/reconocer desinformación/)).toBeVisible();
-    expect(screen.getByRole("link", { name: "Consultar ranking" })).toHaveAttribute("href", "/ranking");
+    expect(screen.getByRole("link", { name: "Consultar ranking" })).toHaveAttribute("href", "/leaderboard");
   });
 });
