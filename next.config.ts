@@ -11,7 +11,10 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     // Educational media is local until an editorially approved remote source
     // is added to the media manifest. Query strings remain disallowed.
-    localPatterns: [{ pathname: "/images/questions/**", search: "" }],
+    localPatterns: [
+      { pathname: "/images/**", search: "" },
+      { pathname: "/media/**", search: "" },
+    ],
     remotePatterns: [],
   },
 };

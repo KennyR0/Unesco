@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "manifestVersion": "2026-08-01.1",
+  "limits": {
+    "maxBytesPerAsset": 1048576,
+    "recommendedBytesPerAsset": 307200,
+    "maxVisibleFirstViewBytes": 1572864
+  },
+  "allowedPathPrefixes": ["/images/", "/media/"],
+  "assets": [
+    {
+      "id": "img-contexto-fuera-de-campo",
+      "version": "1",
+      "gameCode": null,
+      "kind": "image",
+      "src": "/images/questions/contexto-fuera-de-campo.webp",
+      "width": 640,
+      "height": 640,
+      "format": "webp",
+      "bytes": 35164,
+      "alt": "Escena urbana con varios elementos visibles en primer y segundo plano.",
+      "decorative": false,
+      "fallbackText": "La imagen educativa no está disponible. Continúa con el texto del desafío.",
+      "responsive": true,
+      "provisional": false,
+      "editorialStatus": "approved",
+      "rights": {
+        "provenanceType": "repository_original",
+        "license": "project-original",
+        "locator": "public/images/questions/contexto-fuera-de-campo.webp"
+      },
+      "fingerprint": {
+        "type": "sha256",
+        "value": "986CC5388B8213ADB10F375A603C669F8EC610DFF5926024513E61F4F2D35418"
+      }
+    },
+    {
+      "id": "img-deepfake-iluminacion",
+      "version": "1",
+      "gameCode": null,
+      "kind": "image",
+      "src": "/images/questions/deepfake-iluminacion.webp",
+      "width": 640,
+      "height": 640,
+      "format": "webp",
+      "bytes": 12380,
+      "alt": "Retrato iluminado de una persona en un entorno interior.",
+      "decorative": false,
+      "fallbackText": "La imagen educativa no está disponible. Continúa con el texto del desafío.",
+      "responsive": true,
+      "provisional": false,
+      "editorialStatus": "approved",
+      "rights": {
+        "provenanceType": "repository_original",
+        "license": "project-original",
+        "locator": "public/images/questions/deepfake-iluminacion.webp"
+      },
+      "fingerprint": {
+        "type": "sha256",
+        "value": "B792D0026B063A3E92D3FB55928BC827D8E7637707C559EC7190743A576536B6"
+      }
+    }
+  ]
+}
