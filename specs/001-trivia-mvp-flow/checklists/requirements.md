@@ -1,52 +1,57 @@
-# Specification Quality Checklist: Trivia educativa MVP
+# Checklist de calidad documental: Antídoto Arcade MIL
 
-**Purpose**: Validate specification completeness and quality before proceeding to
-planning
+**Purpose**: Validar la redefinición documental antes de regenerar tareas de
+implementación.
 
-**Created**: 2026-07-29
+**Created**: 2026-07-31
+**Feature**: spec.md
+**Estado**: revisión ejecutada; puntuación y ranking global secundario aprobados; backlog ejecutable pendiente
 
-**Feature**: [spec.md](../spec.md)
+## Alcance y coherencia de producto
 
-## Content Quality
+- [x] El alcance define exactamente seis juegos y sus gameCode.
+- [x] La portada arcade y las rutas dinámicas están descritas.
+- [x] Cada juego tiene interacción, entrada, salida, feedback y criterio de prueba.
+- [x] Las sesiones y resultados son independientes por juego.
+- [x] El ranking global se conserva solo como resultado secundario, fuera del landing principal y sin ser el objetivo competitivo.
+- [x] La relación con prototipo/ distingue referencia de dependencia técnica.
 
-- [x] No implementation details (languages, frameworks, APIs)
-- [x] Focused on user value and business needs
-- [x] Written for non-technical stakeholders
-- [x] All mandatory sections completed
+## Contratos y seguridad
 
-## Requirement Completeness
+- [x] domain.ts contiene payloads discriminados por gameCode y mechanic.
+- [x] La proyección previa no contiene solución, regla privada ni puntuación.
+- [x] El servidor conserva autoridad sobre sesión, item, evaluación, tiempo y finalización.
+- [x] Hay reglas de idempotencia, carreras, errores y recuperación.
+- [x] Las soluciones y respuestas permanecen fuera de exposición pública.
+- [x] El modelo no reutiliza automáticamente tablas single_choice.
 
-- [x] No [NEEDS CLARIFICATION] markers remain
-- [x] Requirements are testable and unambiguous
-- [x] Success criteria are measurable
-- [x] Success criteria are technology-agnostic (no implementation details)
-- [x] All acceptance scenarios are defined
-- [x] Edge cases are identified
-- [x] Scope is clearly bounded
-- [x] Dependencies and assumptions identified
+## Educación
 
-## Feature Readiness
+- [x] Cada item exige explicación, señales y recomendación.
+- [x] El feedback aparece inline antes de avanzar.
+- [x] Mente Maestra separa simulación de daño real y autopsia.
+- [x] La puntuación no puede sustituir ni bloquear el feedback.
+- [x] La propuesta de puntuación tiene aprobación explícita registrada.
 
-- [x] All functional requirements have clear acceptance criteria
-- [x] User scenarios cover primary flows
-- [x] Feature meets measurable outcomes defined in Success Criteria
-- [x] No implementation details leak into specification
+## Accesibilidad y responsive
 
-## Notes
+- [x] Se fija 320 px sin scroll horizontal.
+- [x] Se fija zoom 200 %, teclado, foco visible, live region y reduced motion.
+- [x] Clickbait Swipe tiene alternativa sin gesto.
+- [x] Feed 60” comunica tiempo en texto y documenta expiración.
+- [x] Media exige alt, dimensiones, peso, responsive y fallback.
+- [ ] Falta la verificación manual posterior de implementación y hardware.
 
-- Validation iteration 1 identified lifecycle, alias authority, exact tie handling,
-  traceability and accessibility verification gaps.
-- Validation iteration 2 resolved those gaps and confirmed consecutive identifiers
-  for all user stories, acceptance scenarios, functional requirements and success
-  criteria.
-- Validation iteration 3 clarified the seven-day result-access window, kept the
-  24-hour inactivity rule exclusive to unfinished sessions, and made replay require
-  confirmation or editing of the current alias before a new session is created.
-- Validation iteration 4 adds the educational approval gate, the single normative
-  source for owners and the documentary Git baseline. Cross-artifact analysis and the
-  expanded checklist revalidated those changes on 2026-07-30.
-- The exact name of Constitution Principle VII is referenced only in the compliance
-  table; the specification does not define database structures, policies, endpoints
-  or other implementation design.
-- The user input provides enough product decisions to proceed without clarification
-  markers.
+## Supabase y gobernanza
+
+- [x] Se cuentan las 22 migraciones locales.
+- [x] Se registra que no están versionadas en Git.
+- [x] Se registra que no se modifican ni publican en esta fase.
+- [x] Se documenta la comparación futura con el nuevo modelo.
+- [x] La decisión de ranking global secundario es compatible con la constitución 1.0.0.
+- [ ] Se debe regenerar el backlog ejecutable después de las aprobaciones.
+
+## Notas
+
+El único check de planificación pendiente es regenerar el backlog ejecutable.
+No se debe ejecutar speckit-implement mientras esa tarea permanezca abierta.
