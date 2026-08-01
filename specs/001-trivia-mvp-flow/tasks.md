@@ -43,11 +43,11 @@ obligatorias para habilitar la persistencia real y quedan sujetas a la puerta de
 Supabase.
 
 - [X] T005 Actualizar los tipos compartidos de seis GameCode, seis Mechanic, acciones discriminadas, GameScore y Leaderboard en specs/001-trivia-mvp-flow/contracts/domain.ts.
-- [ ] T006 Implementar validadores Zod para catálogo, payloads de entrada, estados, resultados y rankingScore en src/features/game/domain/schemas.ts.
-- [ ] T007 [P] Añadir pruebas de validación y rechazo de campos de autoridad en tests/contracts/domain-schemas.test.ts y tests/contracts/public-projections.test.ts.
-- [ ] T008 Construir el catálogo versionado de los seis juegos y su repositorio server-only en src/features/game/content/arcade-catalog.v1.json y src/features/game/content/catalog.ts.
-- [ ] T009 Implementar el registro de mecánicas y el mapeo gameCode-mechanic en src/features/game/application/mechanic-registry.ts y src/features/game/domain/mechanic.ts.
-- [ ] T010 Definir el gateway de operaciones, envelopes de error y límites server-only para startGame, getGameState, submitGameAction, advanceGame, getGameResult y getLeaderboard en src/features/game/infrastructure/game-gateway.ts y src/features/game/application/game-operations.ts.
+- [X] T006 Implementar validadores Zod para catálogo, payloads de entrada, estados, resultados y rankingScore en src/features/game/domain/schemas.ts.
+- [X] T007 [P] Añadir pruebas de validación y rechazo de campos de autoridad en tests/contracts/domain-schemas.test.ts y tests/contracts/public-projections.test.ts.
+- [X] T008 Construir el catálogo versionado de los seis juegos y su repositorio server-only en src/features/game/content/arcade-catalog.v1.json y src/features/game/content/catalog.ts.
+- [X] T009 Implementar el registro de mecánicas y el mapeo gameCode-mechanic en src/features/game/application/mechanic-registry.ts y src/features/game/domain/mechanic.ts.
+- [X] T010 Definir el gateway de operaciones, envelopes de error y límites server-only para startGame, getGameState, submitGameAction, advanceGame, getGameResult y getLeaderboard en src/features/game/infrastructure/game-gateway.ts y src/features/game/application/game-operations.ts.
 - [ ] T011 Implementar alias, cookie opaca, expiración, idempotencia y estado de sesión independiente en src/features/game/domain/session.ts, src/features/game/domain/alias.ts y src/lib/security/session-cookie.ts.
 - [ ] T012 Implementar las fórmulas aprobadas por juego y rankingScore normalizado sin aceptar valores del cliente; cubrir clamp a 0–100, maxPoints <= 0, resultados incompletos/expirados y desempate estable en src/features/game/domain/scoring.ts y src/features/game/domain/scoring.test.ts.
 - [ ] T013 Implementar la capa de contenido estructurado, versionado editorial y feedback en src/features/game/content/content-repository.ts y src/features/game/content/content-validation.ts.
