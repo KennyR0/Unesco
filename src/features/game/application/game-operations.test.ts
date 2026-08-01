@@ -98,17 +98,18 @@ describe("operaciones arcade server-only", () => {
     const gateway = createGateway();
     const ok = await startGameOperation(
       { alias: "Ana", gameCode: "real-o-ia" },
-      { gateway },
+      { gateway, sessionTokenHash: "a".repeat(64) },
     );
     expect(ok).toEqual({ ok: true, data: baseState });
     expect(gateway.startGame).toHaveBeenCalledWith({
       alias: "Ana",
       gameCode: "real-o-ia",
+      sessionTokenHash: "a".repeat(64),
     });
 
     const invalidGame = await startGameOperation(
       { alias: "Ana", gameCode: "single_choice" },
-      { gateway },
+      { gateway, sessionTokenHash: "a".repeat(64) },
     );
     expect(invalidGame.ok).toBe(false);
     if (!invalidGame.ok) {
@@ -118,7 +119,7 @@ describe("operaciones arcade server-only", () => {
 
     const withScore = await startGameOperation(
       { alias: "Ana", gameCode: "real-o-ia", score: 99 },
-      { gateway },
+      { gateway, sessionTokenHash: "a".repeat(64) },
     );
     expect(withScore.ok).toBe(false);
     if (!withScore.ok) {

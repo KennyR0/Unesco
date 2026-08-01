@@ -20,4 +20,21 @@ describe("fronteras servidor/cliente", () => {
       if (forbiddenImport.test(source)) throw new Error("client boundary violation");
     }).toThrow(/client boundary violation/);
   });
+
+  it("mantiene el transporte arcade como frontera server-only", async () => {
+    const files = [
+      "src/features/game/application/server-operations.ts",
+      "src/features/game/application/submit-game-action.ts",
+      "src/features/game/application/game-operations.ts",
+      "src/app/actions/game.ts",
+    ];
+    for (const file of files) {
+      const source = await readFile(file, "utf8");
+      expect(source.includes('"use client"')).toBe(false);
+      expect(
+        source.startsWith("import \"server-only\"") ||
+          source.startsWith("\"use server\""),
+      ).toBe(true);
+    }
+  });
 });

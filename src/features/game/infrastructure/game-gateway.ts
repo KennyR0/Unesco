@@ -26,7 +26,7 @@ export type GetGameResultCommand = Readonly<{
 
 export interface ArcadeGameGateway {
   startGame(
-    command: StartGameCommand,
+    command: StartGameCommand & { sessionTokenHash: string },
   ): Promise<ArcadeGatewayResult<GameState>>;
 
   getGameState(

@@ -67,6 +67,7 @@ const PUBLIC_MESSAGES: Record<ArcadePublicErrorCode, string> = {
 
 export type ArcadeOperationDependencies = Readonly<{
   gateway: ArcadeGameGateway;
+  sessionTokenHash?: string;
 }>;
 
 export function createArcadePublicError(
@@ -218,8 +219,17 @@ export async function startGameOperation(
     gameCode: parsed.data.gameCode,
   };
 
+  if (!dependencies.sessionTokenHash) {
+    return arcadeFailure("INTERNAL_ERROR");
+  }
+
   try {
-    return mapGatewayResult(await dependencies.gateway.startGame(command));
+    return mapGatewayResult(
+      await dependencies.gateway.startGame({
+        ...command,
+        sessionTokenHash: dependencies.sessionTokenHash,
+      }),
+    );
   } catch {
     return arcadeFailure("INTERNAL_ERROR");
   }

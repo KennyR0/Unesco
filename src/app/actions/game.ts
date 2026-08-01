@@ -7,21 +7,43 @@ import {
   QuestionRefSchema,
   SubmitAnswerInputSchema,
   type AnswerResult,
+  type ArcadeOperationResult,
   type ErrorEnvelope,
   type FinalResult,
+  type GameResult,
+  type GameState,
+  type Leaderboard,
   type OperationResult,
   type QuestionGameState,
   type StartGameResult,
 } from "@antidoto/contracts";
 
+import {
+  advanceArcadeGameServer,
+  getArcadeGameResultServer,
+  getArcadeGameStateServer,
+  getArcadeLeaderboardServer,
+  startArcadeGameServer,
+  submitArcadeGameActionServer,
+} from "../../features/game/application/server-operations";
 import { startGame } from "../../features/game/application/start-game";
-import { createServerSupabaseClient } from "../../lib/supabase/server";
-import { buildExpiredSessionCookie, buildResultCookie, buildSessionCookie } from "../../lib/security/session-cookie";
-import { hashSessionToken, isSessionToken } from "../../lib/security/session-token";
 import { mapDatabaseError } from "../../features/game/infrastructure/map-database-error";
 import { createGameGateway } from "../../features/game/infrastructure/supabase-game-gateway";
+import {
+  buildExpiredSessionCookie,
+  buildResultCookie,
+  buildSessionCookie,
+} from "../../lib/security/session-cookie";
+import {
+  hashSessionToken,
+  isSessionToken,
+} from "../../lib/security/session-token";
+import { createServerSupabaseClient } from "../../lib/supabase/server";
 
-export async function startGameAction(_previous: OperationResult<StartGameResult> | null, formData: FormData): Promise<OperationResult<StartGameResult>> {
+export async function startGameAction(
+  _previous: OperationResult<StartGameResult> | null,
+  formData: FormData,
+): Promise<OperationResult<StartGameResult>> {
   const rawAlias = String(formData.get("alias") ?? "");
   const result = await startGame(rawAlias, {
     onSessionCreated: async (token, expiresAt) => {
@@ -39,7 +61,9 @@ export async function clearInvalidSessionAction(): Promise<never> {
   redirect("/");
 }
 
-async function tokenForAction(): Promise<{ token: string; hash: string } | ErrorEnvelope> {
+async function tokenForAction(): Promise<
+  { token: string; hash: string } | ErrorEnvelope
+> {
   const token = (await cookies()).get("antidoto_session")?.value;
   if (!token || !isSessionToken(token)) return mapDatabaseError("SESSION_NOT_FOUND");
   return { token, hash: hashSessionToken(token) };
@@ -89,7 +113,9 @@ export async function advanceGameAction(
   const session = await tokenForAction();
   if (!("token" in session)) return session;
   try {
-    const result = await createGameGateway(createServerSupabaseClient()).advanceGame(session.hash);
+    const result = await createGameGateway(
+      createServerSupabaseClient(),
+    ).advanceGame(session.hash);
     if (!result.ok) return mapDatabaseError(result.code);
     return { ok: true, data: result.data };
   } catch {
@@ -104,7 +130,9 @@ export async function finishGameAction(
   const session = await tokenForAction();
   if (!("token" in session)) return session;
   try {
-    const result = await createGameGateway(createServerSupabaseClient()).finishGame(session.hash);
+    const result = await createGameGateway(
+      createServerSupabaseClient(),
+    ).finishGame(session.hash);
     if (!result.ok) return mapDatabaseError(result.code);
     (await cookies()).set(
       buildResultCookie({
@@ -117,4 +145,41 @@ export async function finishGameAction(
   } catch {
     return mapDatabaseError("GAME_FINISH_FAILED");
   }
+}
+
+/** Acciones arcade: transporte server-only sobre T010/T011. */
+export async function startArcadeGameAction(
+  payload: unknown,
+): Promise<ArcadeOperationResult<GameState>> {
+  return startArcadeGameServer(payload);
+}
+
+export async function getArcadeGameStateAction(
+  payload: unknown,
+): Promise<ArcadeOperationResult<GameState>> {
+  return getArcadeGameStateServer(payload);
+}
+
+export async function submitGameActionAction(
+  payload: unknown,
+): Promise<ArcadeOperationResult<GameState>> {
+  return submitArcadeGameActionServer(payload);
+}
+
+export async function advanceArcadeGameAction(
+  payload: unknown,
+): Promise<ArcadeOperationResult<GameState>> {
+  return advanceArcadeGameServer(payload);
+}
+
+export async function getArcadeGameResultAction(
+  payload: unknown,
+): Promise<ArcadeOperationResult<GameResult>> {
+  return getArcadeGameResultServer(payload);
+}
+
+export async function getArcadeLeaderboardAction(): Promise<
+  ArcadeOperationResult<Leaderboard>
+> {
+  return getArcadeLeaderboardServer();
 }
