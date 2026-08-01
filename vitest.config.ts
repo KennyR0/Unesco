@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
       "@antidoto/contracts": fileURLToPath(
         new URL(
           "./specs/001-trivia-mvp-flow/contracts/domain.ts",
@@ -26,6 +27,9 @@ export default defineConfig({
       "./tests/setup/vitest.setup.ts",
       "./tests/setup/testing-library.setup.ts",
     ],
+    clearMocks: true,
+    restoreMocks: true,
+    unstubEnvs: true,
     passWithNoTests: true,
   },
 });

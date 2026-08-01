@@ -1,7 +1,8 @@
 # Puerta de reconciliación de Supabase
 
-**Estado**: documental y pendiente del modelo físico del arcade.
-**Alcance**: auditoría local; no modifica, aplica ni publica Supabase.
+**Estado**: modelo físico arcade aprobado para preparación local; migración
+generada y pendiente de aplicación/verificación.
+**Alcance**: auditoría local; no aplica ni publica Supabase remoto.
 
 ## Observación del checkout
 
@@ -40,7 +41,7 @@ Verificado el 31 de julio de 2026:
 
 ## Puerta antes de una migración nueva
 
-La implementación de persistencia queda bloqueada hasta que:
+La preparación de la migración queda autorizada después de:
 
 1. se aprueben los seis contratos de mecánica y el payload discriminado;
 2. se incorpore al esquema físico la puntuación aprobada por juego;
@@ -54,9 +55,24 @@ La implementación de persistencia queda bloqueada hasta que:
 7. una tarea posterior cree migraciones versionadas solo después de esa
    decisión.
 
+## Decisión de preparación local
+
+El 1 de agosto de 2026 se autorizó preparar T017, sin cerrar sus
+dependencias de implementación ni ejecutar la base local/remota:
+
+- el modelo usa el esquema privado no expuesto `private_arcade`;
+- las tablas nuevas no reutilizan objetos single_choice;
+- las soluciones, sesiones, respuestas y resultados quedan fuera del Data API;
+- el ranking se almacena como proyección privada sin `session_id` ni respuestas;
+- RLS queda habilitado como defensa en profundidad y los grants se limitan a
+  `service_role`;
+- la CLI generó `supabase/migrations/20260801051613_arcade_schema.sql`;
+- T017 permanece `[ ]` hasta verificar T005–T016 y T019.
+
 La decisión de producto del 31 de julio de 2026 conserva el ranking global como
 resultado secundario: no aparece en el landing principal, no es requisito para
 jugar y no requiere enmienda de la constitución 1.0.0.
 
-No se debe ejecutar supabase db push, reset, seed, lint ni cambios SQL como
-parte de esta revisión.
+No se ejecutó `supabase db push`, `reset`, `seed` ni `lint`. La migración solo
+fue generada y editada localmente; su aplicación y validación contra PostgreSQL
+quedan para T019/T070 con autorización renovada.

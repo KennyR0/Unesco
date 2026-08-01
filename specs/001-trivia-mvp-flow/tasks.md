@@ -25,8 +25,8 @@ físicos futuros en supabase/migrations/.
 **Purpose**: preparar la estructura Next.js y las herramientas compartidas sin
 implementar todavía una mecánica concreta.
 
-- [ ] T001 [P] Crear la estructura de carpetas arcade en src/app/games/[gameCode]/, src/components/arcade/, src/components/games/ y src/features/game/domain/mechanics/.
-- [ ] T002 [P] Alinear Vitest, Playwright y los fixtures de servidor con el flujo arcade en vitest.config.ts, vitest.integration.config.ts, playwright.config.ts y tests/setup/.
+- [X] T001 [P] Crear la estructura de carpetas arcade en src/app/games/[gameCode]/, src/components/arcade/, src/components/games/ y src/features/game/domain/mechanics/.
+- [X] T002 [P] Alinear Vitest, Playwright y los fixtures de servidor con el flujo arcade en vitest.config.ts, vitest.integration.config.ts, playwright.config.ts y tests/setup/.
 - [ ] T003 [P] Completar las variables de entorno documentadas para Next.js y Supabase server-only en .env.example y src/lib/env/server.ts.
 - [ ] T004 [P] Configurar los límites de imágenes y dominios permitidos para media educativa en next.config.ts.
 
@@ -54,7 +54,7 @@ Supabase.
 - [ ] T014 Implementar el manifiesto de media, alt, fallback, dimensiones y límites de peso en src/features/game/content/media-manifest.v1.json y src/lib/media/manifest.ts.
 - [ ] T015 Construir el shell compartido con progreso, estados, live region, errores y feedback inline en src/components/game/game-shell.tsx, src/components/game/feedback-panel.tsx y src/app/globals.css.
 - [ ] T016 Implementar el transporte server-only de acciones y recuperación de estado en src/app/actions/game.ts, src/features/game/application/server-operations.ts y src/features/game/application/submit-game-action.ts.
-- [ ] T017 Crear la migración física arcade solo después de aprobar supabase-reconciliation.md, con sesiones, items, respuestas, resultados, score, rankingScore, elegibilidad, retención de 24/30 días, RLS, grants, índices de purga y protección `security_invoker` si se elige una vista expuesta en supabase/migrations/20260801000100_arcade_schema.sql.
+- [ ] T017 Crear la migración física arcade solo después de aprobar supabase-reconciliation.md, con sesiones, items, respuestas, resultados, score, rankingScore, elegibilidad, retención de 24/30 días, RLS, grants, índices de purga y protección `security_invoker` si se elige una vista expuesta en supabase/migrations/20260801051613_arcade_schema.sql.
 - [ ] T018 Crear el seed estructurado del catálogo y el registro de contenido aprobado, sin publicar Supabase, en supabase/seed.sql, src/features/game/content/arcade-catalog.v1.json y src/features/game/content/content-manifest.v1.json.
 - [ ] T019 Ejecutar las pruebas locales de migración, RLS, proyecciones públicas y ausencia de solución antes de habilitar persistencia en tests/integration/database/migration-smoke.test.ts, tests/integration/database/access-control.test.ts y tests/integration/database/correct-answer-exposure.test.ts.
 - [ ] T020 Actualizar los fixtures compartidos de contratos, Supabase local y respuestas discriminadas en tests/fixtures/contract-samples.ts, tests/fixtures/supabase-local.ts y tests/contracts/contract-consistency.test.ts.
@@ -248,7 +248,7 @@ cerrar la entrega.
 - [ ] T067 [P] Implementar verificación de teclado, foco, live regions, zoom 200 %, reduced motion y 320 px en tests/e2e/arcade-accessibility.spec.ts y src/app/globals.css.
 - [ ] T068 [P] Implementar pruebas de media, dimensiones, fallback, peso y responsive en tests/contracts/media-contract.test.ts y tests/e2e/arcade-media.spec.ts.
 - [ ] T069 [P] Añadir pruebas de frontera de servidor, Zod, secretos, cookies, URL, item ajeno y score enviado por cliente en tests/architecture/server-boundaries.test.ts, tests/contracts/domain-import.test.ts y tests/contracts/contract-consistency.test.ts.
-- [ ] T070 Ejecutar la reconciliación física local y las pruebas RLS solo con autorización renovada, sin db push, incluyendo elegibilidad del ranking, protección `security_invoker` si aplica y división segura en supabase/migrations/20260801000100_arcade_schema.sql, tests/integration/database/migration-smoke.test.ts y tests/integration/database/access-control.test.ts.
+- [ ] T070 Ejecutar la reconciliación física local y las pruebas RLS solo con autorización renovada, sin db push, incluyendo elegibilidad del ranking, protección `security_invoker` si aplica y división segura en supabase/migrations/20260801051613_arcade_schema.sql, tests/integration/database/migration-smoke.test.ts y tests/integration/database/access-control.test.ts.
 - [ ] T071 [P] Medir límites de 180/200 KB de JS, 350 KB de transferencia inicial, 16 KB por acción, 50 KB de dependencias nuevas, 300 KB/1 MB de media y 1.5 MB visible, además de estados de carga/error en tests/e2e/arcade-performance.spec.ts y next.config.ts.
 - [ ] T072 Registrar la revisión manual de contenido, accesibilidad, ranking secundario, prueba moderada de portada menor de 30 segundos y flujo completo en specs/001-trivia-mvp-flow/evidence/arcade-implementation-review.md.
 - [ ] T073 Ejecutar typecheck, lint, pruebas unitarias, integración, E2E y quickstart, registrando resultados en specs/001-trivia-mvp-flow/evidence/arcade-implementation-review.md.
