@@ -575,3 +575,44 @@ export const LeaderboardSchema = z
       });
     }
   });
+
+export const ArcadePublicErrorCodeSchema = z.enum([
+  "INVALID_GAME",
+  "INVALID_ALIAS",
+  "SESSION_NOT_FOUND",
+  "SESSION_INVALID",
+  "GAME_MISMATCH",
+  "ITEM_NOT_FOUND",
+  "ITEM_NOT_IN_SESSION",
+  "INVALID_ACTION",
+  "ANSWER_ALREADY_ACCEPTED",
+  "SESSION_EXPIRED",
+  "RESULT_NOT_AVAILABLE",
+  "RESULT_ACCESS_EXPIRED",
+  "LEADERBOARD_UNAVAILABLE",
+  "LEADERBOARD_EMPTY",
+  "CONFLICT",
+  "CONTENT_UNAVAILABLE",
+  "INTERNAL_ERROR",
+]);
+
+export const PublicErrorSchema = z
+  .object({
+    code: ArcadePublicErrorCodeSchema,
+    message: ShortTextSchema,
+    retryable: z.boolean(),
+  })
+  .strict();
+
+export const GetGameStateCommandSchema = z
+  .object({
+    sessionId: IdentifierSchema,
+    gameCode: GameCodeSchema.optional(),
+  })
+  .strict();
+
+export const GetGameResultCommandSchema = z
+  .object({
+    sessionId: IdentifierSchema,
+  })
+  .strict();

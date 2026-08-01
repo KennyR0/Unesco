@@ -56,7 +56,6 @@ export const CLIENT_FORBIDDEN_AUTHORITY_FIELDS = [
   'status',
   'remainingSeconds',
   'leaderboardEligible',
-  'sessionId',
 ] as const;
 
 export type ClientForbiddenAuthorityField =
@@ -294,18 +293,28 @@ export interface PublicError {
     | 'INVALID_ALIAS'
     | 'SESSION_NOT_FOUND'
     | 'SESSION_INVALID'
+    | 'GAME_MISMATCH'
     | 'ITEM_NOT_FOUND'
     | 'ITEM_NOT_IN_SESSION'
     | 'INVALID_ACTION'
     | 'ANSWER_ALREADY_ACCEPTED'
     | 'SESSION_EXPIRED'
     | 'RESULT_NOT_AVAILABLE'
+    | 'RESULT_ACCESS_EXPIRED'
     | 'LEADERBOARD_UNAVAILABLE'
     | 'LEADERBOARD_EMPTY'
+    | 'CONFLICT'
+    | 'CONTENT_UNAVAILABLE'
     | 'INTERNAL_ERROR';
   message: string;
   retryable: boolean;
 }
+
+export type ArcadePublicErrorCode = PublicError['code'];
+
+export type ArcadeOperationResult<T> =
+  | { ok: true; data: T }
+  | { ok: false; error: PublicError };
 
 // Transitional exports for the previous single-choice slice. New Arcade code
 // must use the contracts above; these exports disappear with T024.
