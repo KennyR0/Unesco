@@ -191,9 +191,9 @@ aceptación por fuente y score 0–9.
 **Independent Test**: una tarjeta no asignada a la sesión se rechaza, una fuente
 solo se acepta una vez y la categoría seleccionada queda anunciada.
 
-- [ ] T053 [P] [US7] Crear las nueve fuentes, URLs visibles, categorías, razones y feedback en src/features/game/content/game-items/radar-de-fuentes.v1.json.
-- [ ] T054 [US7] Implementar la evaluación source_classification y la regla de una aceptación por fuente en src/features/game/domain/mechanics/source-classification.ts.
-- [ ] T055 [US7] Implementar tarjetas seleccionables, tres categorías, estado anunciado y feedback en src/components/games/source-radar-game.tsx.
+- [X] T053 [P] [US7] Crear las nueve fuentes, URLs visibles, categorías, razones y feedback en src/features/game/content/game-items/radar-de-fuentes.v1.json.
+- [X] T054 [US7] Implementar la evaluación source_classification y la regla de una aceptación por fuente en src/features/game/domain/mechanics/source-classification.ts.
+- [X] T055 [US7] Implementar tarjetas seleccionables, tres categorías, estado anunciado y feedback en src/components/games/source-radar-game.tsx.
 - [ ] T056 [US7] Cubrir selección, categoría textual, fuente ajena, duplicado, feedback y score máximo 9 en tests/components/source-radar-game.test.tsx y tests/integration/database/source-radar-flow.test.ts.
 
 **Checkpoint**: Radar de Fuentes mantiene integridad de pertenencia y una
