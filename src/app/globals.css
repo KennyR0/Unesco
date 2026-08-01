@@ -407,3 +407,143 @@ fieldset {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* ¿Real o IA? — componente de veredicto (T042) */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  padding: 0;
+  border: 0;
+  white-space: nowrap;
+}
+
+.verdict-game {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.verdict-game > * {
+  animation: verdict-rise 320ms ease-out both;
+}
+
+.verdict-game__context {
+  margin: 0;
+  border-top: 2px dashed var(--muted);
+  padding-top: 0.75rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  animation-delay: 40ms;
+}
+
+.verdict-game__context-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.verdict-game__frame {
+  overflow: hidden;
+  margin: 0;
+  border: 2px solid var(--ink);
+  background: #fffdf8;
+  animation-delay: 120ms;
+}
+
+.verdict-game__frame .image-fallback {
+  margin: 0;
+  border: 0;
+}
+
+.verdict-game__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 240ms ease-out;
+}
+
+.verdict-game__frame:hover .verdict-game__image,
+.verdict-game__frame:focus-within .verdict-game__image {
+  transform: scale(1.03);
+}
+
+.verdict-game__prompt {
+  margin: 0;
+  font-size: clamp(1.75rem, 6vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  animation-delay: 200ms;
+}
+
+.verdict-game__controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  animation-delay: 280ms;
+}
+
+.verdict-game__button {
+  min-height: 56px;
+  border: 2px solid var(--ink);
+  padding: 0.85rem 1rem;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 160ms ease-out,
+    box-shadow 160ms ease-out;
+}
+
+.verdict-game__button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 var(--ink);
+}
+
+.verdict-game__button--ai {
+  background: var(--accent);
+  color: #fff;
+}
+
+.verdict-game__button:disabled {
+  cursor: default;
+  opacity: 0.75;
+}
+
+.verdict-game__button--chosen {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.verdict-game__button--chosen:disabled {
+  opacity: 1;
+}
+
+@keyframes verdict-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 360px) {
+  .verdict-game__controls {
+    grid-template-columns: 1fr;
+  }
+}
