@@ -517,17 +517,20 @@ No iniciar la Fase 2 ni Supabase persistente hasta registrar:
 
 Las migraciones de T023–T043 se ejecutan en orden. Aunque cada archivo sea distinto, no se marcan `[P]` porque forman una historia irreversible y varias dependen de objetos anteriores.
 
-- [ ] 3.1 T023 [SUPABASE] Responsable: Líder de Datos y Supabase
+- [X] 3.1 T023 [SUPABASE] Responsable: Líder de Datos y Supabase
       Crear los esquemas `private` y `api`, extensiones aprobadas y privilegios predeterminados cerrados.
       Requisito: Constitución VII — Seguridad de Supabase.
       Archivos:
-      - `supabase/migrations/<timestamp>_create_private_api_schemas.sql`
+      - `supabase/migrations/20260730192013_create_private_api_schemas.sql`
       Depende de: T014, T016, T017, T020, T021, T022
       Paralela: No
       Verificación:
       - Ejecutar `pnpm exec supabase db reset`.
       - Consultar `information_schema.schemata` y confirmar `private` y `api`.
       - Consultar `pg_default_acl` por rol propietario y esquema; confirmar que `PUBLIC`, `anon`, `authenticated` y `service_role` no reciben privilegios predeterminados implícitos.
+      Registro: `corepack pnpm exec supabase db reset` terminó con salida 0; aplicó la migración `20260730192013_create_private_api_schemas.sql` y las migraciones posteriores. La consulta a `information_schema.schemata` devolvió `api` y `private`. La consulta a `pg_default_acl` no devolvió filas para `PUBLIC`, `anon`, `authenticated` ni `service_role` en esos esquemas.
+      Archivos modificados: `supabase/migrations/20260730192013_create_private_api_schemas.sql`, `specs/001-trivia-mvp-flow/tasks.md`.
+      Bloqueos pendientes: ninguno.
 
 - [ ] 3.2 T024 [US3] [SUPABASE] Responsable: Líder de Datos y Supabase
       Crear el catálogo privado de mecánicas con código estable y soporte exclusivo de `single_choice` para esta versión.
