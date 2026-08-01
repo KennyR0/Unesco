@@ -5,21 +5,62 @@
  * como datos de resultado; el cliente nunca puede enviarlas como autoridad.
  */
 
-export type GameCode =
-  | 'real-o-ia'
-  | 'grupo'
-  | 'clickbait-swipe'
-  | 'radar-de-fuentes'
-  | 'feed-60'
-  | 'mente-maestra';
+export const GAME_CODES = [
+  'real-o-ia',
+  'grupo',
+  'clickbait-swipe',
+  'radar-de-fuentes',
+  'feed-60',
+  'mente-maestra',
+] as const;
 
-export type Mechanic =
-  | 'image_verdict'
-  | 'group_decision'
-  | 'headline_classification'
-  | 'source_classification'
-  | 'timed_feed'
-  | 'guided_autopsy';
+export type GameCode = (typeof GAME_CODES)[number];
+
+export const MECHANICS = [
+  'image_verdict',
+  'group_decision',
+  'headline_classification',
+  'source_classification',
+  'timed_feed',
+  'guided_autopsy',
+] as const;
+
+export type Mechanic = (typeof MECHANICS)[number];
+
+/** Mapeo estable gameCode → mechanic; una sola mecánica por juego. */
+export const GAME_CODE_TO_MECHANIC = {
+  'real-o-ia': 'image_verdict',
+  grupo: 'group_decision',
+  'clickbait-swipe': 'headline_classification',
+  'radar-de-fuentes': 'source_classification',
+  'feed-60': 'timed_feed',
+  'mente-maestra': 'guided_autopsy',
+} as const satisfies Record<GameCode, Mechanic>;
+
+export const LEADERBOARD_LIMIT = 10;
+
+/** Campos de autoridad que el cliente no puede enviar ni imponer. */
+export const CLIENT_FORBIDDEN_AUTHORITY_FIELDS = [
+  'score',
+  'points',
+  'maxPoints',
+  'bonusPoints',
+  'penaltyPoints',
+  'rankingScore',
+  'correct',
+  'errors',
+  'solution',
+  'solutionPrivate',
+  'nextItem',
+  'completed',
+  'status',
+  'remainingSeconds',
+  'leaderboardEligible',
+  'sessionId',
+] as const;
+
+export type ClientForbiddenAuthorityField =
+  (typeof CLIENT_FORBIDDEN_AUTHORITY_FIELDS)[number];
 
 export type SessionStatus =
   | 'intro'
@@ -36,6 +77,7 @@ export interface GameCatalogEntry {
   name: string;
   objective: string;
   route: string;
+  contentVersion: string;
   available: boolean;
 }
 
@@ -57,6 +99,13 @@ export interface PublicFeedback {
   revealedAnswer: string | null;
 }
 
+/** Mensaje público de El Grupo: orden, remitente y marca temporal visible. */
+export interface GroupChatMessage {
+  sender: string;
+  text: string;
+  timeLabel: string | null;
+}
+
 export type PublicItem =
   | {
       gameCode: 'real-o-ia';
@@ -72,7 +121,7 @@ export type PublicItem =
       mechanic: 'group_decision';
       itemId: string;
       prompt: string;
-      messages: readonly string[];
+      messages: readonly GroupChatMessage[];
       actions: readonly ('forward' | 'verify' | 'pause')[];
     }
   | {
@@ -166,19 +215,6 @@ export type GameAction =
       };
     };
 
-export interface GameState {
-  sessionId: string;
-  gameCode: GameCode;
-  mechanic: Mechanic;
-  status: SessionStatus;
-  alias: string;
-  position: number;
-  total: number;
-  item: PublicItem | null;
-  feedback: PublicFeedback | null;
-  nextAction: 'submit' | 'advance' | 'result' | 'retry' | 'arcade';
-}
-
 export interface GameScore {
   points: number;
   maxPoints: number;
@@ -190,6 +226,21 @@ export interface GameScore {
   timeUsedSeconds: number | null;
 }
 
+export interface GameState {
+  sessionId: string;
+  gameCode: GameCode;
+  mechanic: Mechanic;
+  status: SessionStatus;
+  alias: string;
+  position: number;
+  total: number;
+  item: PublicItem | null;
+  feedback: PublicFeedback | null;
+  /** Score parcial solo cuando el servidor lo autoriza tras una aceptación. */
+  provisionalScore: GameScore | null;
+  nextAction: 'submit' | 'advance' | 'result' | 'retry' | 'arcade';
+}
+
 export interface GameResult {
   sessionId: string;
   gameCode: GameCode;
@@ -199,6 +250,11 @@ export interface GameResult {
   total: number;
   learningSummary: string;
   score: GameScore;
+  /**
+   * Alcance simulado de Mente Maestra (65–95). Null en el resto de juegos.
+   * Nunca forma parte de GameScore ni del ranking.
+   */
+  simulatedReach: number | null;
 }
 
 export interface LeaderboardEntry {
@@ -214,8 +270,23 @@ export interface LeaderboardEntry {
 export interface Leaderboard {
   scope: 'global';
   entries: readonly LeaderboardEntry[];
-  limit: 10;
+  limit: typeof LEADERBOARD_LIMIT;
 }
+
+/** Entradas de operaciones arcade descritas en game-api.md. */
+export interface StartGameCommand {
+  alias: string;
+  gameCode: GameCode;
+}
+
+export interface AdvanceGameCommand {
+  sessionId: string;
+  itemId: string;
+}
+
+export type SubmitGameActionCommand = GameAction & {
+  sessionId: string;
+};
 
 export interface PublicError {
   code:

@@ -28,7 +28,7 @@ implementar todavía una mecánica concreta.
 - [X] T001 [P] Crear la estructura de carpetas arcade en src/app/games/[gameCode]/, src/components/arcade/, src/components/games/ y src/features/game/domain/mechanics/.
 - [X] T002 [P] Alinear Vitest, Playwright y los fixtures de servidor con el flujo arcade en vitest.config.ts, vitest.integration.config.ts, playwright.config.ts y tests/setup/.
 - [X] T003 [P] Completar las variables de entorno documentadas para Next.js y Supabase server-only en .env.example y src/lib/env/server.ts.
-- [ ] T004 [P] Configurar los límites de imágenes y dominios permitidos para media educativa en next.config.ts.
+- [X] T004 [P] Configurar los límites de imágenes y dominios permitidos para media educativa en next.config.ts.
 
 ---
 
@@ -42,7 +42,7 @@ condicionada y no bloquea las historias que usan gateways server-only.
 obligatorias para habilitar la persistencia real y quedan sujetas a la puerta de
 Supabase.
 
-- [ ] T005 Actualizar los tipos compartidos de seis GameCode, seis Mechanic, acciones discriminadas, GameScore y Leaderboard en specs/001-trivia-mvp-flow/contracts/domain.ts.
+- [X] T005 Actualizar los tipos compartidos de seis GameCode, seis Mechanic, acciones discriminadas, GameScore y Leaderboard en specs/001-trivia-mvp-flow/contracts/domain.ts.
 - [ ] T006 Implementar validadores Zod para catálogo, payloads de entrada, estados, resultados y rankingScore en src/features/game/domain/schemas.ts.
 - [ ] T007 [P] Añadir pruebas de validación y rechazo de campos de autoridad en tests/contracts/domain-schemas.test.ts y tests/contracts/public-projections.test.ts.
 - [ ] T008 Construir el catálogo versionado de los seis juegos y su repositorio server-only en src/features/game/content/arcade-catalog.v1.json y src/features/game/content/catalog.ts.
