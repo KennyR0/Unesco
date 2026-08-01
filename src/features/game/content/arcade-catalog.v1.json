@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "catalogVersion": "2026-08-01.1",
+  "games": [
+    {
+      "gameCode": "real-o-ia",
+      "mechanic": "image_verdict",
+      "name": "¿Real o IA?",
+      "objective": "Detectar señales visuales de imágenes sintéticas antes de darlas por reales.",
+      "route": "/games/real-o-ia",
+      "contentVersion": "2026-08-01.1",
+      "available": true
+    },
+    {
+      "gameCode": "grupo",
+      "mechanic": "group_decision",
+      "name": "El Grupo",
+      "objective": "Decidir con cuidado si reenviar, verificar o frenar mensajes en un chat familiar.",
+      "route": "/games/grupo",
+      "contentVersion": "2026-08-01.1",
+      "available": true
+    },
+    {
+      "gameCode": "clickbait-swipe",
+      "mechanic": "headline_classification",
+      "name": "Clickbait Swipe",
+      "objective": "Separar titulares periodísticos de clickbait en segundos.",
+      "route": "/games/clickbait-swipe",
+      "contentVersion": "2026-08-01.1",
+      "available": true
+    },
+    {
+      "gameCode": "radar-de-fuentes",
+      "mechanic": "source_classification",
+      "name": "Radar de Fuentes",
+      "objective": "Clasificar fuentes como confiables, dudosas o fraudulentas según señales observables.",
+      "route": "/games/radar-de-fuentes",
+      "contentVersion": "2026-08-01.1",
+      "available": true
+    },
+    {
+      "gameCode": "feed-60",
+      "mechanic": "timed_feed",
+      "name": "Feed 60”",
+      "objective": "Priorizar verificación, compartir o descartar bajo un límite de tiempo autoritativo.",
+      "route": "/games/feed-60",
+      "contentVersion": "2026-08-01.1",
+      "available": true
+    },
+    {
+      "gameCode": "mente-maestra",
+      "mechanic": "guided_autopsy",
+      "name": "Mente Maestra",
+      "objective": "Reconocer técnicas de manipulación desmontando una fake news sin producir daño real.",
+      "route": "/games/mente-maestra",
+      "contentVersion": "2026-08-01.1",
+      "available": true
+    }
+  ]
+}
