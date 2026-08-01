@@ -191,10 +191,57 @@ input[type="radio"]:focus-visible {
 }
 
 .game-shell {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
   width: min(100%, 48rem);
   min-height: 100svh;
   margin: 0 auto;
   padding: 2rem 1rem;
+}
+
+.game-shell__header {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.game-shell__header h1 {
+  max-width: 40rem;
+  margin: 0;
+  font-size: clamp(2.5rem, 10vw, 5.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.06em;
+}
+
+.game-shell__progress {
+  max-width: 34rem;
+}
+
+.game-shell__progress .progress-label {
+  margin-bottom: 0.45rem;
+  font-weight: 700;
+}
+
+.game-shell__status {
+  width: fit-content;
+  margin: 0;
+  border-left: 0.35rem solid var(--accent);
+  padding: 0.5rem 0.75rem;
+  background: #fffdf8;
+  font-weight: 700;
+}
+
+.game-shell__error {
+  border: 2px solid #9b2414;
+  padding: 0.85rem 1rem;
+  background: #fff4ef;
+  color: #7f1d12;
+  font-weight: 700;
+}
+
+.game-shell__content {
+  display: grid;
+  gap: 1rem;
 }
 
 .game-card,
@@ -203,6 +250,54 @@ input[type="radio"]:focus-visible {
   border: 2px solid var(--ink);
   padding: clamp(1rem, 4vw, 2rem);
   background: #fffdf8;
+}
+
+.feedback-panel {
+  display: grid;
+  gap: 0.75rem;
+  border-left: 0.5rem solid var(--accent);
+}
+
+.feedback-panel h2 {
+  margin: 0;
+  font-size: clamp(1.75rem, 6vw, 3rem);
+  line-height: 1;
+}
+
+.feedback-panel h3 {
+  margin: 0.75rem 0 0;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.feedback-panel ul {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.feedback-panel__answer {
+  border-top: 1px solid #c9c2b8;
+  padding-top: 0.75rem;
+}
+
+.feedback-panel__action {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  border-top: 2px solid var(--ink);
+  padding-top: 1rem;
+}
+
+.feedback-panel__action-label {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .game-card h1,
@@ -299,5 +394,16 @@ fieldset {
   .action-row {
     align-items: stretch;
     flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
