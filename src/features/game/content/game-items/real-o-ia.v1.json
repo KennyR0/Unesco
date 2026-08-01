@@ -1,0 +1,370 @@
+[
+  {
+    "itemId": "real-o-ia-001",
+    "gameCode": "real-o-ia",
+    "mechanic": "image_verdict",
+    "sequence": 1,
+    "contentVersion": "2026-07-30.1",
+    "editorialStatus": "approved",
+    "publicItem": {
+      "gameCode": "real-o-ia",
+      "mechanic": "image_verdict",
+      "itemId": "real-o-ia-001",
+      "prompt": "¿Real o generada por IA?",
+      "context": "Subida hace 2 horas · 12.4k compartidos · «El parque de siempre, qué día tan bonito».",
+      "media": {
+        "kind": "image",
+        "src": "/media/real-o-ia/retrato-en-el-parque.webp",
+        "alt": "Retrato de una persona sonriendo en un parque, con un letrero, un teléfono y árboles visibles en la escena.",
+        "decorative": false,
+        "width": 640,
+        "height": 432,
+        "fallbackText": "La imagen del retrato en el parque no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback."
+      },
+      "choices": ["real", "ai"]
+    },
+    "feedback": {
+      "status": "instructive",
+      "explanation": "Si dudaste, es comprensible: la escena se siente cotidiana y amable, y nadie revisa los dedos de un desconocido. Esta imagen fue generada por IA y, como casi siempre, el cuerpo y el texto la delatan.",
+      "signals": [
+        "La mano que sostiene el teléfono tiene seis dedos.",
+        "Los pendientes no coinciden: uno es circular y el otro rectangular.",
+        "El letrero del fondo dice «P4RQE C3NTR∆L»: la IA suele fallar con el texto.",
+        "La piel está demasiado lisa, sin poros ni textura: exceso de suavizado."
+      ],
+      "recommendation": "Cuando una foto se comparte miles de veces en pocas horas, haz una búsqueda inversa con Google Lens o TinEye antes de creerla o reenviarla.",
+      "revealedAnswer": "Generada por IA"
+    },
+    "solutionPrivate": {
+      "verdict": "ai",
+      "evaluationSignals": [
+        "hand_finger_count",
+        "mismatched_earrings",
+        "garbled_text",
+        "over_smoothed_skin"
+      ]
+    }
+  },
+  {
+    "itemId": "real-o-ia-002",
+    "gameCode": "real-o-ia",
+    "mechanic": "image_verdict",
+    "sequence": 2,
+    "contentVersion": "2026-07-30.1",
+    "editorialStatus": "approved",
+    "publicItem": {
+      "gameCode": "real-o-ia",
+      "mechanic": "image_verdict",
+      "itemId": "real-o-ia-002",
+      "prompt": "¿Un recuerdo real o una escena generada por IA?",
+      "context": "Lago Azul · 2019 · cámara propia · «Así se despedía el sol aquel verano».",
+      "media": {
+        "kind": "image",
+        "src": "/media/real-o-ia/atardecer-en-el-lago.webp",
+        "alt": "Paisaje de un lago al atardecer con montañas, el sol bajando sobre el agua y un rótulo con el nombre del lugar y el año.",
+        "decorative": false,
+        "width": 640,
+        "height": 432,
+        "fallbackText": "La imagen del atardecer en el lago no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback."
+      },
+      "choices": ["real", "ai"]
+    },
+    "feedback": {
+      "status": "instructive",
+      "explanation": "Si te costó creer que fuera auténtica, no es casualidad: tantas imágenes perfectas nos han vuelto desconfiados. Esta foto de 2019 es real, y sus señales son justo las que la IA todavía no imita bien.",
+      "signals": [
+        "Las sombras y el reflejo del sol son coherentes con su posición.",
+        "Las montañas y el agua tienen proporciones naturales.",
+        "El texto del rótulo es legible y tiene sentido.",
+        "Ningún elemento flota ni se deforma: la anatomía del paisaje es correcta."
+      ],
+      "recommendation": "Antes de dudar de una foto antigua, revisa su contexto: la fecha, la cámara y la coherencia física suelen contar la verdad.",
+      "revealedAnswer": "Real"
+    },
+    "solutionPrivate": {
+      "verdict": "real",
+      "evaluationSignals": [
+        "coherent_shadows",
+        "natural_proportions",
+        "legible_text",
+        "stable_geometry"
+      ]
+    }
+  },
+  {
+    "itemId": "real-o-ia-003",
+    "gameCode": "real-o-ia",
+    "mechanic": "image_verdict",
+    "sequence": 3,
+    "contentVersion": "2026-07-30.1",
+    "editorialStatus": "approved",
+    "publicItem": {
+      "gameCode": "real-o-ia",
+      "mechanic": "image_verdict",
+      "itemId": "real-o-ia-003",
+      "prompt": "¿Tu ciudad amaneció así o lo soñó una IA?",
+      "context": "«Así amaneció mi ciudad» · 8.1k compartidos · todo el barrio la celebraba.",
+      "media": {
+        "kind": "image",
+        "src": "/media/real-o-ia/plaza-de-la-ciudad.webp",
+        "alt": "Plaza de una ciudad con edificios de colores, un letrero de bienvenida, un poste de luz y una persona caminando.",
+        "decorative": false,
+        "width": 640,
+        "height": 432,
+        "fallbackText": "La imagen de la plaza de la ciudad no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback."
+      },
+      "choices": ["real", "ai"]
+    },
+    "feedback": {
+      "status": "instructive",
+      "explanation": "Duele un poco cuando algo que queremos celebrar resulta falso: la foto apela al orgullo de barrio y por eso viajó tan rápido. Fue generada por IA y los detalles físicos la delatan.",
+      "signals": [
+        "El letrero dice «BIENBENID0S A C1UD∆D JARDlN»: texto incoherente, clásico de la IA.",
+        "Hay una ventana girada y desalineada respecto a su edificio.",
+        "El poste de luz flota: no toca el suelo.",
+        "Las piernas del peatón se funden en una sola forma imposible."
+      ],
+      "recommendation": "Si una imagen te provoca orgullo o indignación inmediata, verifica el doble: la emoción intensa es justo lo que busca la manipulación.",
+      "revealedAnswer": "Generada por IA"
+    },
+    "solutionPrivate": {
+      "verdict": "ai",
+      "evaluationSignals": [
+        "garbled_text",
+        "misaligned_window",
+        "floating_object",
+        "merged_limbs"
+      ]
+    }
+  },
+  {
+    "itemId": "real-o-ia-004",
+    "gameCode": "real-o-ia",
+    "mechanic": "image_verdict",
+    "sequence": 4,
+    "contentVersion": "2026-07-30.1",
+    "editorialStatus": "approved",
+    "publicItem": {
+      "gameCode": "real-o-ia",
+      "mechanic": "image_verdict",
+      "itemId": "real-o-ia-004",
+      "prompt": "¿Foto casera real o generada por IA?",
+      "context": "«El gato de mi abuela» · 342 likes · una foto casera, sin filtros ni producción.",
+      "media": {
+        "kind": "image",
+        "src": "/media/real-o-ia/gato-en-la-ventana.webp",
+        "alt": "Un gato naranja descansando junto a una ventana, con una maceta cerca y luz cálida de interior.",
+        "decorative": false,
+        "width": 640,
+        "height": 432,
+        "fallbackText": "La imagen del gato en la ventana no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback."
+      },
+      "choices": ["real", "ai"]
+    },
+    "feedback": {
+      "status": "instructive",
+      "explanation": "Esta foto sabe a casa: es real. No todo lo sencillo es sospechoso, y las imperfecciones cotidianas son señales de autenticidad que conviene aprender a valorar.",
+      "signals": [
+        "Anatomía felina correcta: orejas, cola y patas donde deben estar.",
+        "Las sombras del gato y la maceta caen en la misma dirección.",
+        "Las proporciones y la perspectiva de la ventana son consistentes.",
+        "Las imperfecciones del trazo son naturales, no artefactos."
+      ],
+      "recommendation": "No todo es engaño: cuando la física, la luz y la anatomía cuadran y el contexto es modesto, la foto probablemente sea auténtica.",
+      "revealedAnswer": "Real"
+    },
+    "solutionPrivate": {
+      "verdict": "real",
+      "evaluationSignals": [
+        "correct_anatomy",
+        "coherent_shadows",
+        "consistent_perspective",
+        "natural_imperfections"
+      ]
+    }
+  },
+  {
+    "itemId": "real-o-ia-005",
+    "gameCode": "real-o-ia",
+    "mechanic": "image_verdict",
+    "sequence": 5,
+    "contentVersion": "2026-07-30.1",
+    "editorialStatus": "approved",
+    "publicItem": {
+      "gameCode": "real-o-ia",
+      "mechanic": "image_verdict",
+      "itemId": "real-o-ia-005",
+      "prompt": "¿Ternura real o generada por IA?",
+      "context": "«El perro nuevo del vecino» · 5.7k compartidos · imposible no quererlo.",
+      "media": {
+        "kind": "image",
+        "src": "/media/real-o-ia/perro-en-el-parque.webp",
+        "alt": "Un perro marrón de pie sobre la hierba de un parque verde, con el sol visible al fondo.",
+        "decorative": false,
+        "width": 640,
+        "height": 432,
+        "fallbackText": "La imagen del perro en el parque no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback."
+      },
+      "choices": ["real", "ai"]
+    },
+    "feedback": {
+      "status": "instructive",
+      "explanation": "Es difícil sospechar de un perro adorable, y justo por eso estas imágenes viajan tan rápido: la ternura baja la guardia. Esta fue generada por IA y la anatomía la delata.",
+      "signals": [
+        "El perro tiene cinco patas (y dos colas).",
+        "Un ojo es circular y el otro cuadrado: simetría rota.",
+        "Las orejas tienen formas y ángulos incompatibles.",
+        "La IA falla con la anatomía cuando hay demasiadas partes que contar."
+      ],
+      "recommendation": "Cuando una imagen apela a la ternura, cuenta las partes: patas, orejas, ojos y colas suelen revelar la generación automática.",
+      "revealedAnswer": "Generada por IA"
+    },
+    "solutionPrivate": {
+      "verdict": "ai",
+      "evaluationSignals": [
+        "extra_limbs",
+        "asymmetric_eyes",
+        "incompatible_ears",
+        "anatomy_count_failure"
+      ]
+    }
+  },
+  {
+    "itemId": "real-o-ia-006",
+    "gameCode": "real-o-ia",
+    "mechanic": "image_verdict",
+    "sequence": 6,
+    "contentVersion": "2026-07-30.1",
+    "editorialStatus": "approved",
+    "publicItem": {
+      "gameCode": "real-o-ia",
+      "mechanic": "image_verdict",
+      "itemId": "real-o-ia-006",
+      "prompt": "¿Lo cotidiano también se falsifica? ¿Real o generada por IA?",
+      "context": "Mercado central · hoy 8:40 · la foto más normal del mundo.",
+      "media": {
+        "kind": "image",
+        "src": "/media/real-o-ia/puesto-de-frutas.webp",
+        "alt": "Puesto de frutas en un mercado, con naranjas, fresas y plátanos ordenados y un cartel con los precios.",
+        "decorative": false,
+        "width": 640,
+        "height": 432,
+        "fallbackText": "La imagen del puesto de frutas no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback."
+      },
+      "choices": ["real", "ai"]
+    },
+    "feedback": {
+      "status": "instructive",
+      "explanation": "A veces lo real es aburrido, y eso es una señal poderosa. Esta foto del mercado es auténtica: nada en ella busca tu asombro y todo cuadra.",
+      "signals": [
+        "Los precios del cartel son legibles y coherentes.",
+        "Las frutas tienen formas y tamaños naturales: ninguna se fusiona.",
+        "La estructura del puesto es físicamente posible.",
+        "Una foto aburrida y perfectamente normal también es una señal: lo real no siempre es espectacular."
+      ],
+      "recommendation": "Verificar también significa confirmar lo auténtico: revisa texto, física y proporciones antes de juzgar, y evita el cinismo automático.",
+      "revealedAnswer": "Real"
+    },
+    "solutionPrivate": {
+      "verdict": "real",
+      "evaluationSignals": [
+        "legible_text",
+        "natural_shapes",
+        "plausible_structure",
+        "ordinary_scene"
+      ]
+    }
+  },
+  {
+    "itemId": "real-o-ia-007",
+    "gameCode": "real-o-ia",
+    "mechanic": "image_verdict",
+    "sequence": 7,
+    "contentVersion": "2026-07-30.1",
+    "editorialStatus": "approved",
+    "publicItem": {
+      "gameCode": "real-o-ia",
+      "mechanic": "image_verdict",
+      "itemId": "real-o-ia-007",
+      "prompt": "¿Euforia real o generada por IA?",
+      "context": "«Anoche en el concierto» · 21k compartidos · la euforia de miles de personas en una sola foto.",
+      "media": {
+        "kind": "image",
+        "src": "/media/real-o-ia/multitud-en-el-concierto.webp",
+        "alt": "Multitud de personas en un concierto nocturno, con luces de colores, un escenario al fondo y un teléfono levantado entre el público.",
+        "decorative": false,
+        "width": 640,
+        "height": 432,
+        "fallbackText": "La imagen de la multitud en el concierto no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback."
+      },
+      "choices": ["real", "ai"]
+    },
+    "feedback": {
+      "status": "instructive",
+      "explanation": "La euforia colectiva es contagiosa y quien genera imágenes falsas lo sabe. Esta foto fue creada por IA: las multitudes son su punto débil.",
+      "signals": [
+        "Todas las caras son idénticas: la IA repite patrones en las multitudes.",
+        "El rostro de la derecha está derretido y sin ojos.",
+        "Los brazos se fusionan entre sí sin manos definidas.",
+        "La mano que sostiene el teléfono es un solo bloque sin dedos."
+      ],
+      "recommendation": "En fotos de multitudes, acércate a las caras y las manos: si se repiten o se derriten, estás ante una generación automática.",
+      "revealedAnswer": "Generada por IA"
+    },
+    "solutionPrivate": {
+      "verdict": "ai",
+      "evaluationSignals": [
+        "repeated_faces",
+        "melted_face",
+        "fused_arms",
+        "block_hand"
+      ]
+    }
+  },
+  {
+    "itemId": "real-o-ia-008",
+    "gameCode": "real-o-ia",
+    "mechanic": "image_verdict",
+    "sequence": 8,
+    "contentVersion": "2026-07-30.1",
+    "editorialStatus": "approved",
+    "publicItem": {
+      "gameCode": "real-o-ia",
+      "mechanic": "image_verdict",
+      "itemId": "real-o-ia-008",
+      "prompt": "¿Retrato de familia real o generado por IA?",
+      "context": "«Mi abuela en su cumpleaños 80» · compartida en el grupo de la familia.",
+      "media": {
+        "kind": "image",
+        "src": "/media/real-o-ia/retrato-de-la-abuela.webp",
+        "alt": "Retrato de una mujer mayor con lentes y cabello canoso, sonriendo en una celebración familiar.",
+        "decorative": false,
+        "width": 640,
+        "height": 432,
+        "fallbackText": "La imagen del retrato de la abuela no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback."
+      },
+      "choices": ["real", "ai"]
+    },
+    "feedback": {
+      "status": "instructive",
+      "explanation": "Esta foto guarda una verdad bonita: es real. Las arrugas, los lunares y la luz coherente cuentan una vida, y eso la IA aún no sabe contar.",
+      "signals": [
+        "Los lentes están alineados y las patillas coinciden.",
+        "Los pendientes son iguales en ambas orejas.",
+        "Arrugas, lunares y manchas: imperfecciones naturales y coherentes.",
+        "La iluminación del rostro y el fondo coinciden en dirección."
+      ],
+      "recommendation": "Las imperfecciones coherentes son señal de vida real: antes de dudar de una foto familiar, busca simetrías, luz y texturas que cuadren.",
+      "revealedAnswer": "Real"
+    },
+    "solutionPrivate": {
+      "verdict": "real",
+      "evaluationSignals": [
+        "aligned_glasses",
+        "matching_earrings",
+        "natural_imperfections",
+        "coherent_lighting"
+      ]
+    }
+  }
+]
