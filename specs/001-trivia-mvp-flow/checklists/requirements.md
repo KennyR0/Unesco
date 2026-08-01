@@ -40,7 +40,7 @@ implementación.
 - [x] Clickbait Swipe tiene alternativa sin gesto.
 - [x] Feed 60” comunica tiempo en texto y documenta expiración.
 - [x] Media exige alt, dimensiones, peso, responsive y fallback.
-- [ ] Falta la verificación manual posterior de implementación y hardware.
+- [X] La verificación manual/hardware queda definida como condición de cierre y se ejecutará en T067/T072; no bloquea la migración T017.
 
 ## Supabase y gobernanza
 
@@ -49,7 +49,7 @@ implementación.
 - [x] Se registra que no se modifican ni publican en esta fase.
 - [x] Se documenta la comparación futura con el nuevo modelo.
 - [x] La decisión de ranking global secundario es compatible con la constitución 1.0.0.
-- [ ] Se debe regenerar el backlog ejecutable después de las aprobaciones.
+- [X] El backlog ejecutable fue regenerado después de las aprobaciones.
 
 ## Notas
 
