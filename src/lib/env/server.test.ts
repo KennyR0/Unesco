@@ -25,6 +25,16 @@ describe("parseServerEnv", () => {
     ).toThrow();
   });
 
+  it("rejects private Supabase keys exposed as public Next.js variables", () => {
+    expect(() =>
+      parseServerEnv({
+        ...base,
+        SUPABASE_SECRET_KEY: "secret",
+        NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY: "accidental-secret",
+      }),
+    ).toThrow(/server-only/);
+  });
+
   it("rejects an invalid URL and an out-of-contract round size", () => {
     expect(() =>
       parseServerEnv({

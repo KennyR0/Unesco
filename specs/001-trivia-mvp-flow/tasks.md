@@ -27,7 +27,7 @@ implementar todavía una mecánica concreta.
 
 - [X] T001 [P] Crear la estructura de carpetas arcade en src/app/games/[gameCode]/, src/components/arcade/, src/components/games/ y src/features/game/domain/mechanics/.
 - [X] T002 [P] Alinear Vitest, Playwright y los fixtures de servidor con el flujo arcade en vitest.config.ts, vitest.integration.config.ts, playwright.config.ts y tests/setup/.
-- [ ] T003 [P] Completar las variables de entorno documentadas para Next.js y Supabase server-only en .env.example y src/lib/env/server.ts.
+- [X] T003 [P] Completar las variables de entorno documentadas para Next.js y Supabase server-only en .env.example y src/lib/env/server.ts.
 - [ ] T004 [P] Configurar los límites de imágenes y dominios permitidos para media educativa en next.config.ts.
 
 ---
