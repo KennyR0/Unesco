@@ -155,7 +155,7 @@ seguras y score 0–12.
 **Independent Test**: los mensajes conservan orden, cada acción produce una
 consecuencia educativa y una alerta oficial verificada no se penaliza por defecto.
 
-- [ ] T045 [P] [US5] Crear las seis escenas, acciones y feedback editorial de El Grupo en src/features/game/content/game-items/grupo.v1.json.
+- [X] T045 [P] [US5] Crear las seis escenas, acciones y feedback editorial de El Grupo en src/features/game/content/game-items/grupo.v1.json.
 - [ ] T046 [US5] Implementar la evaluación group_action, consecuencia segura y score +2/+1/0 en src/features/game/domain/mechanics/group-decision.ts.
 - [ ] T047 [US5] Implementar el chat narrativo, acciones de cuidado y live region en src/components/games/group-game.tsx.
 - [ ] T048 [US5] Cubrir orden de lectura, acciones forward/verify/pause, consecuencias y límites de score en tests/components/group-game.test.tsx y tests/integration/database/group-flow.test.ts.
@@ -173,9 +173,9 @@ con racha limitada y score 0–16.
 **Independent Test**: un gesto bajo el umbral cancela sin enviar, botones y
 teclado producen la misma entrada y la racha solo bonifica grupos de tres aciertos.
 
-- [ ] T049 [P] [US6] Crear los doce titulares, fuentes, categorías y feedback editorial en src/features/game/content/game-items/clickbait-swipe.v1.json.
-- [ ] T050 [US6] Implementar la evaluación headline_classification, racha de tres y score +1 con bono máximo +4 en src/features/game/domain/mechanics/headline-classification.ts.
-- [ ] T051 [US6] Implementar swipe cancelable, botones, flechas, teclado y foco posterior en src/components/games/clickbait-swipe-game.tsx.
+- [X] T049 [P] [US6] Crear los doce titulares, fuentes, categorías y feedback editorial en src/features/game/content/game-items/clickbait-swipe.v1.json.
+- [X] T050 [US6] Implementar la evaluación headline_classification, racha de tres y score +1 con bono máximo +4 en src/features/game/domain/mechanics/headline-classification.ts.
+- [X] T051 [US6] Implementar swipe cancelable, botones, flechas, teclado y foco posterior en src/components/games/clickbait-swipe-game.tsx.
 - [ ] T052 [US6] Cubrir gesto, cancelación, teclado, equivalencia de controles, racha y score máximo 16 en tests/components/clickbait-swipe-game.test.tsx y tests/e2e/clickbait-swipe.spec.ts.
 
 **Checkpoint**: Clickbait Swipe es utilizable sin gesto y no expone la regla

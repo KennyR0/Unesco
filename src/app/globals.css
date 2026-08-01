@@ -547,3 +547,234 @@ fieldset {
     grid-template-columns: 1fr;
   }
 }
+
+/* Clickbait Swipe — tarjeta editorial cancelable (T051) */
+
+.headline-swipe {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.headline-swipe > * {
+  animation: swipe-rise 340ms ease-out both;
+}
+
+.headline-swipe__context {
+  margin: 0;
+  border-top: 2px dashed var(--muted);
+  padding-top: 0.75rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  animation-delay: 40ms;
+}
+
+.headline-swipe__context-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.headline-swipe__prompt {
+  margin: 0;
+  font-size: clamp(1.75rem, 6vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  animation-delay: 120ms;
+}
+
+.headline-swipe__track {
+  position: relative;
+  min-height: 18rem;
+  padding-block: 1rem;
+  touch-action: pan-y;
+  animation-delay: 200ms;
+}
+
+.headline-swipe__card {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  width: min(100%, 34rem);
+  margin-inline: auto;
+  border: 2px solid var(--ink);
+  padding: 1.5rem;
+  background:
+    linear-gradient(180deg, #fffdf8 0%, #f5f0e8 100%);
+  box-shadow: 8px 8px 0 var(--ink);
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  transform: translateX(var(--swipe-offset, 0px))
+    rotate(calc(var(--swipe-progress, 0) * 2deg));
+  transition:
+    box-shadow 160ms ease-out,
+    border-color 160ms ease-out;
+}
+
+.headline-swipe__card--dragging {
+  cursor: grabbing;
+  transition: none;
+  box-shadow: 12px 12px 0 var(--ink);
+}
+
+.headline-swipe__card--armed {
+  border-color: var(--accent);
+  box-shadow:
+    8px 8px 0 var(--accent),
+    16px 16px 0 rgba(216, 58, 36, 0.18);
+}
+
+.headline-swipe__card--resolved {
+  cursor: default;
+  box-shadow: 8px 8px 0 var(--ink);
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.headline-swipe__card:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.headline-swipe__kicker {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.headline-swipe__headline {
+  margin: 0;
+  font-size: clamp(1.5rem, 5.4vw, 2.6rem);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -0.05em;
+}
+
+.headline-swipe__meter {
+  position: relative;
+  height: 10px;
+  border: 2px solid var(--ink);
+  background: #fffdf8;
+}
+
+.headline-swipe__meter-fill {
+  position: absolute;
+  inset: 0;
+  width: calc(50% + (var(--swipe-progress, 0) * 50%));
+  background: var(--ink);
+  transition: width 80ms linear;
+}
+
+.headline-swipe__card--armed .headline-swipe__meter-fill {
+  background: var(--accent);
+}
+
+.headline-swipe__meter-threshold {
+  position: absolute;
+  left: calc(50% + (96px / 2));
+  top: -6px;
+  bottom: -6px;
+  width: 2px;
+  background: var(--accent);
+  transform: translateX(-50%);
+}
+
+.headline-swipe__cancel-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.headline-swipe__controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  animation-delay: 280ms;
+}
+
+.headline-swipe__button {
+  display: grid;
+  gap: 0.25rem;
+  min-height: 64px;
+  border: 2px solid var(--ink);
+  padding: 0.85rem 1rem;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    transform 160ms ease-out,
+    box-shadow 160ms ease-out,
+    background 160ms ease-out;
+}
+
+.headline-swipe__button-label {
+  font-size: 1.1rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.headline-swipe__button-hint {
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+.headline-swipe__button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 var(--ink);
+}
+
+.headline-swipe__button--journalism {
+  border-left-width: 6px;
+}
+
+.headline-swipe__button--clickbait {
+  border-right-width: 6px;
+  background: var(--accent);
+  color: #fff;
+}
+
+.headline-swipe__button--clickbait .headline-swipe__button-hint {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.headline-swipe__button:disabled {
+  cursor: default;
+  opacity: 0.75;
+}
+
+.headline-swipe__button--chosen {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.headline-swipe__button--chosen:disabled {
+  opacity: 1;
+}
+
+@keyframes swipe-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 360px) {
+  .headline-swipe__controls {
+    grid-template-columns: 1fr;
+  }
+}
