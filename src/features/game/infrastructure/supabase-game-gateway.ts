@@ -13,7 +13,7 @@ import {
   type AnswerResult,
   type FinalResult,
   type GameErrorCode,
-  type GameState,
+  type LegacyGameState,
   type LeaderboardSnapshot,
   type OptionRef,
   type QuestionGameState,
@@ -197,7 +197,7 @@ export class SupabaseGameGateway {
 
   async getGameState(
     tokenHash: string,
-  ): Promise<GatewayResult<GameState>> {
+  ): Promise<GatewayResult<LegacyGameState>> {
     const { data, error } = await this.client.rpc("get_game_state", {
       p_token_hash: bytea(tokenHash),
     });

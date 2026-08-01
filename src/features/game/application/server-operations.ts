@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 
 import type {
   FinalResult,
-  GameState,
+  LegacyGameState,
   LeaderboardSnapshot,
   OperationResult,
 } from "@antidoto/contracts";
@@ -19,7 +19,7 @@ async function currentToken(): Promise<string | null> {
   return value && isSessionToken(value) ? value : null;
 }
 
-export async function getGameStateServer(): Promise<OperationResult<GameState>> {
+export async function getGameStateServer(): Promise<OperationResult<LegacyGameState>> {
   const token = await currentToken();
   if (!token) return mapDatabaseError("SESSION_NOT_FOUND");
   try {
