@@ -778,3 +778,234 @@ fieldset {
     grid-template-columns: 1fr;
   }
 }
+
+/* El Grupo — chat narrativo accesible (T047) */
+
+.group-chat {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.group-chat > * {
+  animation: group-rise 340ms ease-out both;
+}
+
+.group-chat__prompt {
+  margin: 0;
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  animation-delay: 40ms;
+}
+
+.group-chat__thread-label {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  animation-delay: 120ms;
+}
+
+.group-chat__thread {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  animation-delay: 180ms;
+}
+
+.group-chat__thread:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.group-chat__message {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+  animation: group-message 300ms ease-out both;
+}
+
+.group-chat__message:nth-child(1) {
+  animation-delay: 220ms;
+}
+
+.group-chat__message:nth-child(2) {
+  animation-delay: 300ms;
+}
+
+.group-chat__message:nth-child(3) {
+  animation-delay: 380ms;
+}
+
+.group-chat__message:nth-child(n + 4) {
+  animation-delay: 460ms;
+}
+
+.group-chat__avatar {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.group-chat__avatar--magenta {
+  background: #ff2e7e;
+  color: #fff;
+}
+
+.group-chat__avatar--cyan {
+  background: #21a0f7;
+  color: #fff;
+}
+
+.group-chat__avatar--amber {
+  background: #ffb020;
+  color: var(--ink);
+}
+
+.group-chat__avatar--violet {
+  background: #7c5cff;
+  color: #fff;
+}
+
+.group-chat__avatar--green {
+  background: #12b76a;
+  color: #fff;
+}
+
+.group-chat__bubble {
+  display: grid;
+  gap: 0.3rem;
+  border: 2px solid var(--ink);
+  padding: 0.85rem 1rem;
+  background: #fffdf8;
+  box-shadow: 4px 4px 0 rgba(23, 23, 23, 0.12);
+}
+
+.group-chat__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.group-chat__sender {
+  font-weight: 800;
+  line-height: 1;
+}
+
+.group-chat__time {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.group-chat__text {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.group-chat__controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  animation-delay: 520ms;
+}
+
+.group-chat__button {
+  display: grid;
+  gap: 0.2rem;
+  min-height: 64px;
+  border: 2px solid var(--ink);
+  padding: 0.85rem 1rem;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    transform 160ms ease-out,
+    box-shadow 160ms ease-out,
+    background 160ms ease-out;
+}
+
+.group-chat__button-label {
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.group-chat__button-description {
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+.group-chat__button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 var(--ink);
+}
+
+.group-chat__button--forward {
+  border-left-width: 6px;
+}
+
+.group-chat__button--verify {
+  border-top-width: 6px;
+}
+
+.group-chat__button--pause {
+  border-right-width: 6px;
+}
+
+.group-chat__button:disabled {
+  cursor: default;
+  opacity: 0.75;
+}
+
+.group-chat__button--chosen {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.group-chat__button--chosen:disabled {
+  opacity: 1;
+}
+
+@keyframes group-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes group-message {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 360px) {
+  .group-chat__controls {
+    grid-template-columns: 1fr;
+  }
+}
