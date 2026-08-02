@@ -75,11 +75,11 @@ ranking una llamada principal.
 abre una ruta válida con teclado y recibe estado seguro para un gameCode
 desconocido; el landing no contiene CTA de ranking.
 
-- [ ] T021 [US1] Implementar la portada dominante del arcade con los seis juegos y objetivos en src/app/page.tsx y src/components/arcade/arcade-home.tsx.
-- [ ] T022 [P] [US1] Implementar las tarjetas accesibles, estados de disponibilidad y enlaces dinámicos en src/components/arcade/game-card.tsx y src/components/arcade/game-card.test.tsx.
-- [ ] T023 [US1] Implementar la ruta dinámica de juego, carga y not-found seguro en src/app/games/[gameCode]/page.tsx, src/app/games/[gameCode]/loading.tsx y src/app/games/[gameCode]/not-found.tsx.
-- [ ] T024 [US1] Retirar el formulario single_choice y el enlace de ranking del landing en src/components/game/start-game-form.tsx y src/app/page.tsx.
-- [ ] T025 [US1] Verificar portada, seis rutas, teclado, 320 px, zoom, ausencia de ranking principal y apertura de un juego en menos de 30 segundos durante una prueba moderada en tests/components/start-page.test.tsx y tests/e2e/foundation.spec.ts.
+- [X] T021 [US1] Implementar la portada dominante del arcade con los seis juegos y objetivos en src/app/page.tsx y src/components/arcade/arcade-home.tsx.
+- [X] T022 [P] [US1] Implementar las tarjetas accesibles, estados de disponibilidad y enlaces dinámicos en src/components/arcade/game-card.tsx y src/components/arcade/game-card.test.tsx.
+- [X] T023 [US1] Implementar la ruta dinámica de juego, carga y not-found seguro en src/app/games/[gameCode]/page.tsx, src/app/games/[gameCode]/loading.tsx y src/app/games/[gameCode]/not-found.tsx.
+- [X] T024 [US1] Retirar el formulario single_choice y el enlace de ranking del landing en src/components/game/start-game-form.tsx y src/app/page.tsx.
+- [X] T025 [US1] Verificar portada, seis rutas, teclado, 320 px, zoom, ausencia de ranking principal y apertura de un juego en menos de 30 segundos durante una prueba moderada en tests/components/start-page.test.tsx y tests/e2e/foundation.spec.ts.
 
 **Checkpoint**: la portada y el descubrimiento de los seis juegos funcionan sin
 depender de una sesión ya creada ni del ranking.

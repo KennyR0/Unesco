@@ -23,7 +23,7 @@ export default defineConfig({
     : {
         command:
           process.env.PLAYWRIGHT_WEB_SERVER_COMMAND ??
-          "corepack pnpm dev -- --hostname 127.0.0.1",
+          "corepack pnpm dev --hostname 127.0.0.1",
         url: baseURL,
         reuseExistingServer: true,
         timeout: 120_000,

@@ -916,6 +916,157 @@ fieldset {
   line-height: 1.45;
 }
 
+.arcade-home {
+  width: min(100%, 82rem);
+  min-height: 100svh;
+  margin: 0 auto;
+  padding: clamp(1.25rem, 4vw, 4rem) clamp(1rem, 4vw, 4rem) 2rem;
+}
+
+.arcade-home__hero {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  padding-bottom: clamp(2.5rem, 7vw, 6rem);
+  border-bottom: 3px solid var(--ink);
+}
+
+.arcade-home__hero-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.arcade-home__kicker,
+.arcade-home__label,
+.arcade-home__meta,
+.arcade-home__count,
+.arcade-card__meta {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.arcade-home__kicker,
+.arcade-home__label {
+  margin: 0 0 0.75rem;
+  color: var(--accent);
+}
+
+.arcade-home h1 {
+  max-width: 58rem;
+  font-size: clamp(3.25rem, 10vw, 9rem);
+  line-height: 0.84;
+  letter-spacing: -0.09em;
+}
+
+.arcade-home__count {
+  flex: 0 0 auto;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.4;
+  text-align: right;
+}
+
+.arcade-home__count span {
+  display: block;
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(3rem, 8vw, 6rem);
+  letter-spacing: -0.08em;
+  line-height: 0.8;
+}
+
+.arcade-home__lede {
+  max-width: 42rem;
+  margin: 0;
+  font-size: clamp(1.15rem, 2.5vw, 1.65rem);
+  line-height: 1.25;
+}
+
+.arcade-home__missions {
+  padding: clamp(2rem, 5vw, 4rem) 0;
+}
+
+.arcade-home__section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.arcade-home__section-heading h2 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+}
+
+.arcade-home__hint {
+  max-width: 24rem;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.arcade-home__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.arcade-home__grid > li {
+  min-width: 0;
+}
+
+.arcade-card {
+  display: flex;
+  min-height: 17rem;
+  flex-direction: column;
+  border: 3px solid var(--ink);
+  padding: clamp(1rem, 2vw, 1.5rem);
+  background: #fffdf8;
+  box-shadow: 0.5rem 0.5rem 0 var(--ink);
+}
+
+.arcade-card--1 {
+  background: #f7d5c9;
+}
+
+.arcade-card--2 {
+  background: #d8e9d2;
+}
+
+.arcade-card--3 {
+  background: #d5e8f2;
+}
+
+.arcade-card__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--muted);
+}
+
+.arcade-card h3 {
+  margin: 2rem 0 0.75rem;
+  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.06em;
+}
+
+.arcade-card p {
+  max-width: 28rem;
+  margin: 0;
+  line-height: 1.45;
+}
+
 .group-chat__controls {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1156,4 +1307,160 @@ fieldset {
   .source-radar__controls {
     grid-template-columns: 1fr;
   }
+}
+
+.arcade-card__link {
+  display: flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1.5rem;
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.arcade-card__link span:last-child {
+  font-size: 1.5rem;
+}
+
+.arcade-card__link:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.arcade-home__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 3px solid var(--ink);
+  padding-top: 1rem;
+  color: var(--muted);
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.arcade-home__footer p {
+  margin: 0;
+}
+
+.arcade-home__footer span {
+  color: var(--accent);
+  font-size: 1.5rem;
+}
+
+@media (max-width: 760px) {
+  .arcade-home__hero-row,
+  .arcade-home__section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .arcade-home__count {
+    text-align: left;
+  }
+
+  .arcade-home__count span {
+    display: inline;
+    margin-right: 0.5rem;
+    font-size: 3rem;
+  }
+
+  .arcade-home__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .arcade-home__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .arcade-card {
+    min-height: 15rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arcade-home *,
+  .arcade-home *::before,
+  .arcade-home *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+.arcade-card .arcade-card__mechanic {
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.arcade-card--unavailable {
+  background: #e8e1d6;
+  box-shadow: 0.35rem 0.35rem 0 var(--muted);
+}
+
+.arcade-card--unavailable .arcade-card__status {
+  margin-top: auto;
+  border-top: 2px dashed var(--muted);
+  padding-top: 1rem;
+  color: var(--muted);
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.game-route__intro {
+  display: grid;
+  max-width: 48rem;
+  gap: 1rem;
+  border: 3px solid var(--ink);
+  padding: clamp(1.25rem, 4vw, 2.5rem);
+  background: #fffdf8;
+  box-shadow: 0.45rem 0.45rem 0 var(--ink);
+}
+
+.game-route__label,
+.game-route__mechanic {
+  margin: 0;
+  color: var(--muted);
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.game-route__objective {
+  max-width: 38rem;
+  margin: 0;
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  line-height: 1.2;
+}
+
+.game-route__navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.game-route__loading,
+.game-route__not-found {
+  min-height: 100svh;
+}
+.arcade-home h1,
+.arcade-home p,
+.arcade-card__meta span {
+  overflow-wrap: anywhere;
 }
