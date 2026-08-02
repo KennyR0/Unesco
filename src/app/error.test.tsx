@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 import GlobalError from "./error";
 
 describe("GlobalError", () => {
-  it("offers a safe retry without exposing internal details", async () => {
+  it("ofrece reintento seguro sin exponer detalles internos", async () => {
     const user = userEvent.setup();
     const reset = vi.fn();
     const consoleError = vi
@@ -19,7 +19,9 @@ describe("GlobalError", () => {
       />,
     );
 
-    expect(screen.getByRole("alert")).toHaveTextContent("Algo salió mal");
+    expect(
+      screen.getByRole("heading", { name: /algo hizo ruido/i }),
+    ).toBeVisible();
     expect(screen.getByRole("alert")).not.toHaveTextContent(
       "internal implementation detail",
     );

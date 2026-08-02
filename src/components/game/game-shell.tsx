@@ -1,7 +1,12 @@
 import type { ReactNode } from "react";
 
-import type { PublicFeedback, SessionStatus } from "@antidoto/contracts";
+import type {
+  GameCode,
+  PublicFeedback,
+  SessionStatus,
+} from "@antidoto/contracts";
 
+import { ArcadeHeader } from "../arcade/arcade-header";
 import { FeedbackPanel } from "./feedback-panel";
 
 export type GameProgress = Readonly<{
@@ -11,6 +16,7 @@ export type GameProgress = Readonly<{
 
 export type GameShellProps = Readonly<{
   title: string;
+  gameCode?: GameCode;
   eyebrow?: string;
   status?: SessionStatus;
   statusMessage?: string;
@@ -71,6 +77,7 @@ function ProgressIndicator({ progress }: { progress: GameProgress }) {
 
 export function GameShell({
   title,
+  gameCode,
   eyebrow,
   status,
   statusMessage,
@@ -87,34 +94,46 @@ export function GameShell({
   const shellClassName = ["game-shell", className].filter(Boolean).join(" ");
 
   return (
-    <main
-      className={shellClassName}
-      aria-labelledby={titleId}
-      aria-describedby={error ? errorId : undefined}
-      aria-busy={status === "processing"}
-    >
-      <header className="game-shell__header">
-        {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
-        <h1 id={titleId}>{title}</h1>
-        {progress ? <ProgressIndicator progress={progress} /> : null}
-        {status ? (
-          <p className="game-shell__status" role="status" aria-live="polite">
-            {statusMessage ?? STATUS_MESSAGES[status]}
-          </p>
+    <>
+      <ArcadeHeader />
+      <main
+        id="main-content"
+        className={shellClassName}
+        data-game-code={gameCode}
+        data-session-status={status}
+        aria-labelledby={titleId}
+        aria-describedby={error ? errorId : undefined}
+        aria-busy={status === "processing"}
+      >
+        <header className="game-shell__header">
+          <div className="game-shell__topline">
+            <p className="game-shell__mission-sticker">
+              {gameCode ? `Misión / ${gameCode}` : "Entrenamiento MIL"}
+            </p>
+            {status ? (
+              <p className="game-shell__status" role="status" aria-live="polite">
+                <span aria-hidden="true">●</span>
+                {statusMessage ?? STATUS_MESSAGES[status]}
+              </p>
+            ) : null}
+          </div>
+          {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
+          <h1 id={titleId}>{title}</h1>
+          {progress ? <ProgressIndicator progress={progress} /> : null}
+        </header>
+
+        {error ? (
+          <div id={errorId} className="game-shell__error" role="alert">
+            <strong>Error /</strong> {error}
+          </div>
         ) : null}
-      </header>
 
-      {error ? (
-        <div id={errorId} className="game-shell__error" role="alert">
-          {error}
-        </div>
-      ) : null}
+        {feedback ? (
+          <FeedbackPanel feedback={feedback} nextAction={nextAction} />
+        ) : null}
 
-      {feedback ? (
-        <FeedbackPanel feedback={feedback} nextAction={nextAction} />
-      ) : null}
-
-      <section className="game-shell__content">{children}</section>
-    </main>
+        <section className="game-shell__content">{children}</section>
+      </main>
+    </>
   );
 }

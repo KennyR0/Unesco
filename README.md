@@ -1,27 +1,39 @@
-# ANTIDOTO - Arcade educativo MIL
+# ANTÍDOTO — Arcade educativo MIL
 
-## Producto en redefinición
+Antídoto es un arcade de alfabetización mediática: seis misiones breves para
+practicar cómo detectar imágenes, mensajes, titulares y fuentes engañosas. La
+interfaz recupera la identidad ciber-brutalista del prototipo con una
+implementación responsive y accesible en Next.js.
 
-La feature specs/001-trivia-mvp-flow/ está siendo redefinida como un arcade
-educativo de seis juegos basado en prototipo/. La propuesta usa Next.js como
-tecnología del build, mantiene sesiones independientes y feedback inline, y
-usa la puntuación aprobada por juego. El ranking global se conserva como
-resultado secundario, fuera del landing principal y sin ser el objetivo
-competitivo del producto.
+El prototipo en `prototipo/` es referencia de intención, experiencia y sistema
+visual, no una plantilla HTML ni una dependencia del build. La fuente normativa
+está en `specs/001-trivia-mvp-flow/contracts/visual-system.md`.
 
-El directorio prototipo/ es referencia de experiencia y queda fuera del build
-Next.js. Esta fase es documental: no continúa la implementación ni publica las
-migraciones locales de Supabase.
+## Estado actual
 
-La especificación, los contratos, el modelo, la propuesta de puntuación y la
-puerta de reconciliación están en specs/001-trivia-mvp-flow/.
+La convergencia visual cubre la portada, las rutas introductorias, el shell,
+feedback, estados comunes y los componentes ya implementados de ¿Real o IA?, El
+Grupo, Clickbait Swipe y Radar de Fuentes. Feed 60 y Mente Maestra conservan su
+tema documentado, pero no reciben lógica o componentes nuevos en este corte.
 
-## Entorno heredado
+No se modifican APIs, payloads, puntuación, sesiones, base de datos, migraciones,
+seed ni Supabase.
 
-La base Next.js existente requiere Node.js 24.x y pnpm 11.8.0:
+## Desarrollo
+
+Requiere Node.js 24.x y pnpm 11.8.0:
 
     corepack pnpm install --frozen-lockfile
     corepack pnpm dev
 
-Estos comandos pertenecen a la línea base anterior; no prueban todavía el
-arcade redefinido.
+Verificación:
+
+    corepack pnpm typecheck
+    corepack pnpm lint
+    corepack pnpm test
+    corepack pnpm test:components
+    corepack pnpm test:e2e
+    corepack pnpm build
+
+El quickstart y la evidencia de implementación viven en
+`specs/001-trivia-mvp-flow/`.

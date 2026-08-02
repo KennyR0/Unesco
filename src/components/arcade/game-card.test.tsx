@@ -32,6 +32,7 @@ describe("GameCard", () => {
     const link = screen.getByRole("link", { name: /abrir ¿real o ia\?/i });
 
     expect(card).toHaveAttribute("data-availability", "available");
+    expect(card).toHaveAttribute("data-game-code", "real-o-ia");
     expect(screen.getByRole("heading", { name: availableGame.name })).toBeInTheDocument();
     expect(screen.getByText(availableGame.objective)).toBeInTheDocument();
     expect(link).toHaveAttribute("href", availableGame.route);

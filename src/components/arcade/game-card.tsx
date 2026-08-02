@@ -8,34 +8,40 @@ type GameCardProps = Readonly<{
 }>;
 
 export function GameCard({ game, index }: GameCardProps) {
-  const tone = (index % 3) + 1;
   const mechanicLabel = game.mechanic.replaceAll("_", " ");
+  const missionNumber = String(index + 1).padStart(2, "0");
 
   return (
     <article
-      className={`arcade-card arcade-card--${tone}${game.available ? "" : " arcade-card--unavailable"}`}
+      className={`arcade-card${game.available ? "" : " arcade-card--unavailable"}`}
+      data-game-code={game.gameCode}
       data-availability={game.available ? "available" : "unavailable"}
     >
-      <div className="arcade-card__meta">
-        <span>{game.gameCode}</span>
-        <span>{game.available ? "Disponible" : "No disponible"}</span>
+      <div className="arcade-card__topline">
+        <span className="arcade-card__number" aria-hidden="true">
+          {missionNumber}
+        </span>
+        <span className="arcade-card__availability">
+          {game.available ? "Misión abierta" : "En preparación"}
+        </span>
       </div>
-      <h3>{game.name}</h3>
-      <p>{game.objective}</p>
-      <p className="arcade-card__mechanic">Práctica: {mechanicLabel}</p>
+      <div className="arcade-card__body">
+        <p className="arcade-card__code">{game.gameCode}</p>
+        <h3>{game.name}</h3>
+        <p className="arcade-card__objective">{game.objective}</p>
+        <p className="arcade-card__mechanic">Práctica / {mechanicLabel}</p>
+      </div>
       {game.available ? (
         <Link
           className="arcade-card__link"
           href={game.route}
           aria-label={`Abrir ${game.name}`}
         >
-          <span>Jugar ahora</span>
+          <span>Entrar al juego</span>
           <span aria-hidden="true">↗</span>
         </Link>
       ) : (
-        <p className="arcade-card__status" role="status">
-          Próximamente
-        </p>
+        <p className="arcade-card__status" role="status">Próximamente</p>
       )}
     </article>
   );

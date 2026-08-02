@@ -9,6 +9,7 @@ describe("GameShell arcade", () => {
       <GameShell
         title="¿Real o IA?"
         eyebrow="Misión 1"
+        gameCode="real-o-ia"
         status="feedback"
         progress={{ current: 2, total: 8 }}
         error="Debes revisar esta acción."
@@ -29,6 +30,10 @@ describe("GameShell arcade", () => {
     expect(screen.getByText("Misión 1")).toBeVisible();
     expect(screen.getByText("Progreso: 2 de 8")).toBeVisible();
     expect(screen.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "2");
+    expect(screen.getByRole("main")).toHaveAttribute(
+      "data-game-code",
+      "real-o-ia",
+    );
     expect(screen.getByRole("status")).toHaveTextContent("Respuesta recibida");
     expect(screen.getByRole("alert")).toHaveTextContent("Debes revisar esta acción.");
     expect(screen.getByText("Contenido público del item.")).toBeVisible();
@@ -56,4 +61,3 @@ describe("GameShell arcade", () => {
     expect(screen.getByRole("progressbar")).toHaveAttribute("aria-valuenow", "10");
   });
 });
-

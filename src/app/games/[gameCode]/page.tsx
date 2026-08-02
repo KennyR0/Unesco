@@ -30,12 +30,13 @@ export default async function GamePage({ params }: GamePageProps) {
   return (
     <GameShell
       title={game.name}
+      gameCode={game.gameCode}
       eyebrow="Antídoto / Arcade MIL"
       status="intro"
       statusMessage="Misión lista"
       className="game-route"
     >
-      <article className="game-route__intro" data-game-code={game.gameCode}>
+      <article className="game-route__intro">
         <p className="game-route__label">Misión {game.gameCode}</p>
         <p className="game-route__objective">{game.objective}</p>
         <p className="game-route__mechanic">

@@ -7,12 +7,17 @@ export default defineConfig({
   testDir: "./tests/e2e",
   outputDir: "./test-results/playwright",
   fullyParallel: true,
+  workers: process.env.CI ? 2 : 4,
+  timeout: 60_000,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
   reporter: "list",
   use: {
     baseURL,
     trace: "on-first-retry",
+  },
+  expect: {
+    timeout: 10_000,
   },
   projects: [
     { name: "desktop", use: { ...devices["Desktop Chrome"] } },

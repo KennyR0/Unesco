@@ -4,37 +4,29 @@ import { describe, expect, it } from "vitest";
 
 import HomePage from "../../src/app/page";
 
-const arcadeLinks = [
-  "Abrir ¿Real o IA?",
-  "Abrir El Grupo",
-  "Abrir Clickbait Swipe",
-  "Abrir Radar de Fuentes",
-  "Abrir Feed 60”",
-  "Abrir Mente Maestra",
-];
-
 describe("página inicial", () => {
-  it("presenta las misiones del arcade sin formulario legacy ni ranking principal", () => {
+  it("presenta la firma visual y seis misiones sin formulario ni ranking", () => {
     render(<HomePage />);
 
     expect(
       screen.getByRole("heading", {
-        name: "Juega a detectar lo que intenta engañarte.",
+        name: /la mentira es viral\. la verdad se entrena/i,
       }),
     ).toBeVisible();
     expect(screen.getAllByRole("article")).toHaveLength(6);
     expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("link", { name: /ranking/i }),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: /ranking/i })).not.toBeInTheDocument();
   });
 
   it("permite alcanzar la primera misión con teclado", async () => {
     const user = userEvent.setup();
     render(<HomePage />);
+    const firstMission = screen.getByRole("link", { name: "Abrir ¿Real o IA?" });
 
-    await user.tab();
+    for (let index = 0; index < 12 && document.activeElement !== firstMission; index += 1) {
+      await user.tab();
+    }
 
-    expect(screen.getByRole("link", { name: arcadeLinks[0] })).toHaveFocus();
+    expect(firstMission).toHaveFocus();
   });
 });
