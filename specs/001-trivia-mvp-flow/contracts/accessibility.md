@@ -11,7 +11,10 @@ La portada, el shell y los seis juegos deben:
 - usar nombres y roles semánticos;
 - anunciar feedback, errores, cambios de progreso y expiración;
 - no transmitir significado solo mediante color, movimiento, sonido o posición;
-- respetar prefers-reduced-motion;
+- ofrecer una pausa global del movimiento decorativo y respetar
+  `prefers-reduced-motion` cuando no exista preferencia guardada;
+- conservar una composición estática completa, legible y operable al pausar;
+- mantener contraste mínimo de 4.5:1 para texto normal y 3:1 para componentes;
 - usar controles táctiles de al menos 44 por 44 CSS px;
 - asociar cada error al campo o grupo que lo produjo.
 
@@ -37,6 +40,21 @@ La región de feedback debe tener un nombre accesible y anunciar:
 5. siguiente acción disponible.
 
 La animación puede acompañar, pero nunca sustituye estos textos.
+Glitch, marquee, scanlines o flotación no pueden ocultar texto, bloquear el foco
+ni comunicar información exclusiva.
+
+## Control global de movimiento
+
+- El botón debe indicar `Pausar animación` o `Activar animación` y exponer
+  `aria-pressed`.
+- La preferencia se aplica en `data-motion` antes de hidratar y se persiste con
+  la clave versionada `antidoto:motion:v1` cuando el almacenamiento está
+  disponible.
+- Un fallo de `localStorage` no puede impedir navegar o jugar.
+- Pausar movimiento decorativo no pausa ni extiende temporizadores o lógica de
+  juego.
+- La preferencia estática del sistema debe producir el mismo resultado visual
+  que la pausa explícita cuando no haya valor guardado.
 
 ## Ranking global secundario
 
@@ -59,6 +77,8 @@ Antes de completar una tarea de interfaz se debe registrar:
 - zoom 200 %;
 - viewport 320 px;
 - reduced motion;
+- pausa, reactivación y persistencia del control global de movimiento;
+- equivalencia estática de marquee, glitch, scanlines y flotación;
 - acción táctil en teléfono real cuando el gesto sea relevante.
 
 La prueba automatizada no sustituye esta revisión manual.

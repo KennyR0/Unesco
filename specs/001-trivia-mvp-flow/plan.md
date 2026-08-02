@@ -1,8 +1,9 @@
 # Plan de implementación: Antídoto Arcade MIL
 
 **Feature**: 001-trivia-mvp-flow
-**Estado**: diseño revisado; no autoriza implementación hasta cerrar las puertas
-de contratos, puntuación, gobernanza y Supabase.
+**Estado**: convergencia visual autorizada sobre las superficies existentes.
+Persistencia, sesiones nuevas y mecánicas ausentes continúan condicionadas por
+sus puertas específicas.
 
 ## Resumen
 
@@ -39,11 +40,17 @@ autoridad de estos documentos.
 |---|---|
 | Aplicación nueva | Next.js con App Router y TypeScript estricto |
 | Renderizado | Server Components por defecto; Client Components solo para interacción, foco y APIs del navegador |
-| Estilos | Tailwind CSS y primitivas accesibles equivalentes a Radix cuando aporten una responsabilidad concreta |
+| Estilos | CSS custom properties y CSS semántico por componente; Tailwind queda configurado para el código existente sin exigir una reescritura a utilidades |
+| Tipografía | Anton, Archivo y Space Mono mediante `next/font`, sin solicitudes externas en runtime |
 | Persistencia | Supabase server-only después de aprobar el modelo |
 | Contenido visual | next/image para imágenes informativas; fallback y alt contractual |
 | Despliegue | El mecanismo existente del proyecto, después de verificar Preview; no se despliega en esta revisión |
-| Prototipo | Fuente de referencia en prototipo/; no se importa ni se enlaza como dependencia del build |
+| Prototipo | Fuente de intención, experiencia y sistema visual en prototipo/; no se importa ni se enlaza como dependencia del build |
+
+“Referencia, no dependencia” no debilita la obligación visual: evita copiar el
+HTML antiguo, pero exige conservar su energía, contraste, geometría, lenguaje
+arcade y propósito del movimiento. La fuente normativa de implementación es
+`contracts/visual-system.md`.
 
 ## Arquitectura y límites
 
@@ -71,8 +78,8 @@ cookies, logs y secretos.
 
 | Ruta | Responsabilidad | Estado |
 |---|---|---|
-| / | Portada arcade con seis tarjetas y llamada a la acción | Diseñar |
-| /games/[gameCode] | Introducción, partida y resultado de un juego permitido | Diseñar |
+| / | Portada arcade con seis tarjetas y llamada a la acción | Implementada; en convergencia visual |
+| /games/[gameCode] | Introducción, partida y resultado de un juego permitido | Shell e introducciones implementados; lógica parcial según juego |
 | /games/[gameCode]/result | Puede ser una proyección interna del shell; no separar feedback educativo | Decidir durante contrato de navegación |
 | código desconocido | Estado seguro con vuelta al arcade | Diseñar |
 | /leaderboard | Ranking global secundario, máximo diez resultados | Diseñar después del resultado; no aparece como tarjeta principal |
@@ -95,6 +102,11 @@ El shell tendrá:
 - región live para feedback, errores y expiración;
 - acciones de continuar, reintentar y volver al arcade;
 - estados de carga, vacío, error, sesión inválida y contenido no disponible.
+
+`GameShell` recibe `gameCode` solo como contrato de presentación y expone
+`data-game-code`; no gana autoridad de dominio. El mismo atributo estabiliza el
+acento de `GameCard`, de modo que reordenar el catálogo no altera la identidad
+de un juego.
 
 Las tarjetas y sombras sirven a la jerarquía visual; no se debe envolver cada
 elemento en una tarjeta ni convertir el arcade en una cuadrícula bento.
@@ -286,9 +298,16 @@ ausencia de dependencia para jugar.
 
 ### Fase 1 — Base visual y shell
 
-- adaptar tokens visuales y portada arcade;
-- construir shell compartido y estados comunes;
-- verificar navegación, responsive y accesibilidad base.
+- implementar tokens semánticos, `next/font`, texturas y primitivas físicas;
+- construir portada, control global de movimiento, shell y estados comunes;
+- restilizar únicamente ¿Real o IA?, El Grupo, Clickbait Swipe y Radar de
+  Fuentes sin alterar eventos, payloads ni evaluación;
+- verificar 1440×900, 390×844, 320 px, zoom 200 %, navegación, movimiento,
+  responsive y accesibilidad base.
+
+Esta fase se ejecuta con CSS por componentes sobre la interfaz existente. No
+añade componentes ni lógica de Feed 60 o Mente Maestra; sus acentos quedan
+definidos solamente en el contrato visual.
 
 ### Fase 2 — Contratos, contenido y persistencia aprobados
 
@@ -334,10 +353,10 @@ independiente y no compartir archivos de dominio sensibles sin coordinación.
 | Principio | Resultado |
 |---|---|
 | Educación antes que competencia | PASS documental: feedback, señales y recomendación preceden al avance |
-| Contract-First | PASS documental: contratos y modelo preceden al código |
+| Contract-First | PASS: el contrato visual y de accesibilidad precede a la convergencia de código |
 | Servidor como fuente de verdad | PASS de diseño: cliente no aporta solución, score ni finalización |
 | Privacidad mínima | PASS de diseño: alias temporal y sesión por juego |
-| Accesibilidad | PASS de requisitos; verificación manual queda pendiente |
+| Accesibilidad | PASS de requisitos; pausa global y equivalencia estática son verificables |
 | Mobile-First y rendimiento | PASS de presupuestos fijados; medición queda pendiente |
 | Seguridad de Supabase | PASS como restricciones; migraciones nuevas bloqueadas |
 | Separación contenido/lógica | PASS mediante contenido estructurado y payloads |

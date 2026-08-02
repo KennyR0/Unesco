@@ -3,8 +3,8 @@
 **Feature**: 001-trivia-mvp-flow
 **Revisión**: arcade basado en el prototipo
 **Creada**: 2026-07-31
-**Estado**: backlog regenerado; análisis de consistencia pendiente antes de
-implementar
+**Estado**: convergencia visual autorizada e implementación en curso; la línea
+de Supabase y las mecánicas aún no implementadas permanecen fuera de alcance
 
 ## Cambio de alcance
 
@@ -55,8 +55,8 @@ educativa en la misma vista.
 - Panel editorial completo o generación automática de contenido con IA.
 - Copiar el prototipo como dependencia o conservar sus defectos de UX.
 - Cerrar fórmulas de puntuación sin aprobación explícita.
-- Implementar frontend, migraciones, seed, reset, lint o push de Supabase en
-  esta fase documental.
+- Implementar migraciones, seed, reset, lint o push de Supabase durante la
+  convergencia visual.
 
 ## Dirección visual y de interacción
 
@@ -70,6 +70,12 @@ La reinterpretación debe conservar la personalidad arcade del prototipo:
 - feedback educativo dentro de la vista actual, nunca escondido en una pestaña;
 - animaciones con alternativa equivalente cuando la persona prefiere menos
   movimiento.
+
+Esta identidad no es decorativa ni opcional. El contrato normativo está en
+`contracts/visual-system.md` y se aplica a portada, shell, feedback, estados
+comunes y mecánicas existentes. “Referencia, no dependencia” significa
+conservar intención, energía, contraste, geometría y lenguaje arcade sin copiar
+el DOM, las posiciones o los tamaños del HTML histórico.
 
 El nuevo diseño debe corregir desbordamientos, foco perdido, dependencia de
 color, controles pequeños, mensajes efímeros no anunciados y cualquier
@@ -108,6 +114,11 @@ uno de seis juegos.
 3. La portada no presenta una tarjeta ni llamada principal de ranking; el acceso
    puede aparecer después del resultado o en navegación secundaria.
 4. Un código inválido muestra un estado seguro y ofrece volver al arcade.
+5. A 1440×900 y 390×844 la primera pantalla comunica “arcade contra la
+   desinformación” mediante hero negro, tipografía display, contraste ácido y
+   una invitación inequívoca a jugar.
+6. La persona puede pausar globalmente el movimiento decorativo sin perder
+   texto, controles, contexto ni jerarquía visual.
 
 ### US2 — Jugar con una sesión independiente (Priority: P1)
 
@@ -290,6 +301,14 @@ técnicas de manipulación.
   modelo, estrategia de pruebas, alcance, puntuación y reconciliación de
   migraciones; la puntuación de scoring-proposal.md ya está aprobada y debe
   quedar incorporada en los contratos.
+- **FR-020**: Portada, shell, feedback, estados comunes y mecánicas existentes
+  deben cumplir `contracts/visual-system.md`: paleta semántica, Anton, Archivo y
+  Space Mono, geometría brutalista, acentos estables por `gameCode` y elementos
+  de firma obligatorios por superficie.
+- **FR-021**: El sistema debe ofrecer una pausa global del movimiento
+  decorativo, persistirla de forma segura y respetar `prefers-reduced-motion`
+  cuando no exista preferencia guardada. La composición estática debe conservar
+  todo el contenido, la interacción y la información de la versión animada.
 
 ## Elegibilidad y casos límite del ranking global
 
@@ -372,6 +391,12 @@ resolver sus hallazgos antes de implementar la lógica.
   como capacidad secundaria, fuera del landing y sin lenguaje competitivo como
   objetivo; elimina cinco preguntas y single_choice como contrato vigente, y
   registra la fórmula aprobada sin ocultar el feedback.
+- **SC-011**: Las revisiones a 1440×900, 390×844, 320 px y zoom 200 % confirman
+  que la portada y el shell conservan la firma ciber-brutalista definida en el
+  contrato visual, sin scroll horizontal, solapamientos ni pérdida de lectura.
+- **SC-012**: Las pruebas de movimiento confirman pausa y reactivación global,
+  persistencia bajo `antidoto:motion:v1`, adopción de la preferencia del sistema
+  sin valor guardado y equivalencia estática de marquee, glitch y flotación.
 
 ## Cumplimiento constitucional
 
@@ -381,7 +406,7 @@ resolver sus hallazgos antes de implementar la lógica.
 | II. Contract-First | Cumplido como puerta: contratos y modelo se actualizan antes de código |
 | III. Servidor como fuente de verdad | Cumplido como requisito: solución, evaluación, tiempo y resultado son autoritativos |
 | IV. Privacidad mínima | Cumplido: alias temporal y sesiones sin registro |
-| V. Accesibilidad obligatoria | Incluido en FR-015/FR-016 y contrato específico |
+| V. Accesibilidad obligatoria | Incluido en FR-015/FR-016/FR-021, pausa global y contrato específico |
 | VI. Mobile-First y rendimiento | Incluido desde 320 px, con presupuestos medibles en plan.md y estados visibles |
 | VII. Seguridad de Supabase | Preservado como base, pero las migraciones viejas no se consideran definitivas |
 | VIII. Separación de contenido y lógica | Cumplido mediante payloads discriminados y contenido estructurado |

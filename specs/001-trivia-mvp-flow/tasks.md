@@ -255,11 +255,29 @@ cerrar la entrega.
 
 ---
 
+## Phase 13: Visual Identity Convergence (append-only)
+
+**Purpose**: corregir la entrega parcial o contradictoria de T015, T021, T022 y
+T025 frente a la intención visual aprobada, sin reescribir su historia ni abrir
+alcance de dominio, sesiones o Supabase.
+
+- [X] T074 Formalizar la identidad como contrato verificable en specs/001-trivia-mvp-flow/spec.md, plan.md, contracts/visual-system.md, contracts/accessibility.md, prototype-comparison.md, quickstart.md y README.md.
+- [X] T075 Implementar tipografías `next/font`, tokens semánticos, configuración Tailwind y control global de movimiento con inicialización previa a hidratación en src/app/layout.tsx, src/app/arcade-visual.css, src/components/arcade/motion-toggle.tsx y tailwind.config.ts.
+- [X] T076 Rediseñar cabecera, hero, collage, CTA, marquee, manifiesto y método SIFT sin añadir assets externos en src/components/arcade/arcade-home.tsx y src/components/arcade/arcade-header.tsx.
+- [X] T077 Aplicar catálogo de seis misiones con acentos estables por `gameCode`, tensión legible y rejilla 3×2/2×1 en src/components/arcade/game-card.tsx y src/app/arcade-visual.css.
+- [X] T078 Extender la presentación de GameShell con `gameCode` y aplicar el sistema a rutas introductorias, carga, error, sesión inválida y 404 en src/components/game/game-shell.tsx y src/app/.
+- [X] T079 Restilizar feedback y los componentes existentes de ¿Real o IA?, El Grupo, Clickbait Swipe y Radar de Fuentes sin alterar eventos, payloads ni evaluación en src/components/game/feedback-panel.tsx y src/components/games/.
+- [X] T080 Añadir pruebas contractuales, de componentes, movimiento, accesibilidad y regresión visual estable para portada, shell y estados en tests/contracts/, tests/e2e/ y src/components/arcade/.
+- [X] T081 Ejecutar typecheck, lint, unitarias, componentes, E2E, build y revisión visual a 1440×900, 390×844, 320 px y zoom 200 %, registrando capturas, consola y límites honestos en specs/001-trivia-mvp-flow/evidence/arcade-visual-convergence.md.
+
+---
+
 ## Requirement and story traceability
 
 Cada bloque conserva una relación explícita con los requisitos funcionales
 (`FR`), criterios de éxito (`SC`) e historia de usuario (`US`) que verifica.
-El antiguo bloque amplio de implementación queda reemplazado por T001–T073:
+El antiguo bloque amplio de implementación queda reemplazado por T001–T073 y
+la convergencia visual se registra sin reescribir esa historia en T074–T081:
 ninguna tarea supera cuatro rutas principales y cada tarea tiene una verificación
 localizable. Esta tabla es la puerta de trazabilidad para evitar que una tarea
 grande vuelva a ocultar contratos o historias distintas.
@@ -282,6 +300,7 @@ grande vuelva a ocultar contratos o historias distintas.
 | T057–T061 | FR-004, FR-005, FR-007, FR-008, FR-009, FR-011, FR-015; SC-003, SC-004, SC-008, SC-009 | US8 |
 | T062–T065 | FR-004, FR-005, FR-007, FR-008, FR-009, FR-012; SC-003, SC-004, SC-009 | US9 |
 | T066–T073 | FR-006, FR-010, FR-014, FR-015, FR-016, FR-017, FR-018, FR-019; SC-002, SC-003, SC-005, SC-010 | Transversal |
+| T074–T081 | FR-015, FR-016, FR-020, FR-021; SC-001, SC-002, SC-003, SC-011, SC-012 | Convergencia visual |
 
 ---
 
@@ -369,6 +388,14 @@ persona antes de comenzar.
 | T071 | Equipo transversal | T021–T065 | presupuestos numéricos y estados medidos |
 | T072 | Equipo transversal | T040–T071 | revisión manual y prueba de 30 s registradas |
 | T073 | Equipo transversal | T001–T072 | comandos ejecutados y bloqueos documentados |
+| T074 | Equipo visual | Decisión de convergencia aprobada | contratos y documentación coinciden |
+| T075 | Equipo visual | T074 | fuentes, tokens, Tailwind y movimiento probados |
+| T076 | Equipo visual | T075 | firma de portada visible en desktop y móvil |
+| T077 | Equipo visual | T075–T076 | seis acentos estables y rejilla responsive |
+| T078 | Equipo visual | T075 | shell y estados comparten identidad |
+| T079 | Equipo visual | T075, T078 | componentes existentes conservan contratos |
+| T080 | Equipo de calidad | T075–T079 | contratos, componentes y snapshots pasan |
+| T081 | Equipo transversal | T074–T080 | evidencia y puertas finales registradas |
 
 ---
 
@@ -384,6 +411,8 @@ persona antes de comenzar.
   probarse de forma aislada.
 - Polish T066–T073: depende de las historias seleccionadas y de la validación
   de sus contratos.
+- Convergencia visual T074–T081: corrige de forma append-only las entregas
+  parciales de portada y shell; no depende de ejecutar la línea Supabase.
 - T017–T019 y T070 no se ejecutan sin aprobación explícita de la reconciliación
   física de Supabase; esta restricción no autoriza push remoto.
 
@@ -409,6 +438,8 @@ persona antes de comenzar.
 - US4–US9: el contenido de cada historia puede avanzar en paralelo con su
   evaluador, siempre que no se modifique el mismo archivo.
 - Polish: T067, T068, T069 y T071 pueden ejecutarse en paralelo.
+- Convergencia visual: T076–T079 pueden avanzar tras T075; T080 y T081 cierran
+  pruebas y evidencia.
 
 ## Parallel Example: Mechanics
 

@@ -1,7 +1,20 @@
 # Comparación del prototipo y la propuesta arcade
 
 **Fecha**: 2026-07-31
-**Estado**: referencia de diseño; no autoriza implementación.
+**Estado**: matriz normativa de adaptación para la convergencia visual.
+
+“Referencia, no dependencia” conserva la intención y el sistema visual aunque
+el nuevo build no importe el HTML, CSS o JavaScript histórico.
+
+## Se conserva, se mejora y se descarta
+
+| Se conserva | Se mejora | Se descarta |
+|---|---|---|
+| Energía ciber-brutalista, masas negras y papel cálido | Contraste, foco, jerarquía y lectura educativa | Copia literal de `div`, textos, posiciones o tamaños |
+| Ácido, magenta, cian, ámbar y verde | Valores accesibles y acentos estables por `gameCode` | Pasteles, tarjetas SaaS, bento y glassmorphism |
+| Bordes, sombras rígidas, stickers, rejilla y marquee | Responsive desde 320 px, zoom 200 % y composición estática | Movimiento obligatorio o información comunicada solo por efectos |
+| Seis identidades y mecánicas distintas | Shell, feedback y estados comunes coherentes | Homogeneizar los juegos como una trivia genérica |
+| Urgencia, provocación y lectura inmediata | Zonas de cuerpo calmadas y decisiones más claras | Minimalismo editorial silencioso |
 
 | Área | Prototipo actual | Propuesta nueva |
 |---|---|---|
