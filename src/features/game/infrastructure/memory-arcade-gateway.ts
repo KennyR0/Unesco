@@ -6,6 +6,7 @@ import type {
   AdvanceGameCommand,
   GameResult,
   GameState,
+  GameCode,
   Leaderboard,
   StartGameCommand,
   SubmitGameActionCommand,
@@ -36,7 +37,15 @@ type MemorySession = {
   state: GameState;
   result: GameResult | null;
   answers: Map<string, AcceptedAnswerSnapshot>;
+  assignedItemIds: readonly string[];
 };
+
+export type MemoryArcadeGatewayOptions = Readonly<{
+  /** Permite probar sesiones con más de un item sin depender de Supabase. */
+  itemIdsByGameCode?: Partial<Record<GameCode, readonly string[]>>;
+  /** Reloj inyectable para probar expiración y carreras de tiempo. */
+  now?: () => Date;
+}>;
 
 export type MemoryArcadeGateway = ArcadeGameGateway & {
   resolveSessionId(tokenHash: string): string | null;
@@ -77,12 +86,83 @@ export function getSharedMemoryArcadeGateway(): MemoryArcadeGateway {
  * Gateway arcade en memoria para transporte server-only y pruebas de frontera.
  * No reemplaza la persistencia Supabase (puerta T017+).
  */
-export function createMemoryArcadeGateway(): MemoryArcadeGateway {
+export function createMemoryArcadeGateway(
+  options: MemoryArcadeGatewayOptions = {},
+): MemoryArcadeGateway {
   const byTokenHash = new Map<string, MemorySession>();
   const bySessionId = new Map<string, MemorySession>();
+  const nextDefaultItemNumber = new Map<GameCode, number>();
+  const now = options.now ?? (() => new Date());
 
   function lookupBySessionId(sessionId: string): MemorySession | null {
     return bySessionId.get(sessionId) ?? null;
+  }
+
+  function assignItems(gameCode: GameCode): readonly string[] {
+    const configured = options.itemIdsByGameCode?.[gameCode];
+    if (configured) {
+      if (configured.length === 0) {
+        throw new Error("CONTENT_UNAVAILABLE: una sesión requiere items.");
+      }
+      return Object.freeze([...configured]);
+    }
+
+    const nextNumber = (nextDefaultItemNumber.get(gameCode) ?? 0) + 1;
+    nextDefaultItemNumber.set(gameCode, nextNumber);
+    return Object.freeze([`item-${nextNumber}`]);
+  }
+
+  function currentItemId(stored: MemorySession): string | null {
+    return stored.assignedItemIds[stored.record.position] ?? null;
+  }
+
+  function isCurrentItem(stored: MemorySession, itemId: string): boolean {
+    return stored.assignedItemIds.includes(itemId) && currentItemId(stored) === itemId;
+  }
+
+  function materializeResult(
+    stored: MemorySession,
+    status: "finished" | "expired",
+  ): GameResult {
+    return {
+      sessionId: stored.record.sessionId,
+      gameCode: stored.record.gameCode,
+      alias: stored.record.alias,
+      status,
+      answered: stored.answers.size,
+      total: stored.record.total,
+      learningSummary:
+        status === "expired"
+          ? "La partida expiró; conserva el feedback de las respuestas aceptadas."
+          : "Completaste la partida de prueba del transporte.",
+      score: {
+        points: 0,
+        maxPoints: stored.record.total,
+        correct: null,
+        errors: 0,
+        bonusPoints: 0,
+        penaltyPoints: 0,
+        timeLimitSeconds: null,
+        timeUsedSeconds: null,
+      },
+      simulatedReach: stored.record.gameCode === "mente-maestra" ? 70 : null,
+    };
+  }
+
+  function syncExpiration(stored: MemorySession): void {
+    const previousStatus = stored.record.status;
+    stored.record = expireSessionIfNeeded(stored.record, now());
+    if (stored.record.status !== "expired") return;
+
+    stored.state = {
+      ...toPublicState(stored.record, stored.state),
+      item: null,
+      feedback: null,
+      nextAction: "result",
+    };
+    if (previousStatus !== "expired" || !stored.result) {
+      stored.result = materializeResult(stored, "expired");
+    }
   }
 
   const gateway: MemoryArcadeGateway = {
@@ -97,13 +177,15 @@ export function createMemoryArcadeGateway(): MemoryArcadeGateway {
     async startGame(
       command: StartGameCommand & { sessionTokenHash: string },
     ): Promise<ArcadeGatewayResult<GameState>> {
+      const assignedItemIds = assignItems(command.gameCode);
       const record = createArcadeSession({
         alias: command.alias,
         gameCode: command.gameCode,
-        total: 1,
+        total: assignedItemIds.length,
         sessionId: randomUUID(),
+        now: now(),
       });
-      const active = transitionSession(record, "active");
+      const active = transitionSession(record, "active", now());
       const state: GameState = {
         sessionId: active.sessionId,
         gameCode: active.gameCode,
@@ -123,6 +205,7 @@ export function createMemoryArcadeGateway(): MemoryArcadeGateway {
         state,
         result: null,
         answers: new Map(),
+        assignedItemIds,
       };
       byTokenHash.set(command.sessionTokenHash, stored);
       bySessionId.set(active.sessionId, stored);
@@ -140,16 +223,7 @@ export function createMemoryArcadeGateway(): MemoryArcadeGateway {
         if (mismatch !== "ok") return failure("GAME_MISMATCH");
       }
 
-      const expired = expireSessionIfNeeded(stored.record);
-      stored.record = expired;
-      stored.state = toPublicState(expired, {
-        ...stored.state,
-        status: expired.status,
-        nextAction:
-          expired.status === "finished" || expired.status === "expired"
-            ? "result"
-            : stored.state.nextAction,
-      });
+      syncExpiration(stored);
       return { ok: true, data: stored.state };
     },
 
@@ -162,15 +236,12 @@ export function createMemoryArcadeGateway(): MemoryArcadeGateway {
       const mismatch = assertSessionGameCode(stored.record, command.gameCode);
       if (mismatch !== "ok") return failure("GAME_MISMATCH");
 
-      stored.record = expireSessionIfNeeded(stored.record);
+      syncExpiration(stored);
       if (stored.record.status === "expired") {
         return failure("SESSION_EXPIRED");
       }
-      if (
-        stored.record.status !== "active" &&
-        stored.record.status !== "processing"
-      ) {
-        return failure("INVALID_ACTION");
+      if (!isCurrentItem(stored, command.itemId)) {
+        return failure("ITEM_NOT_IN_SESSION");
       }
 
       const previous = stored.answers.get(command.itemId) ?? null;
@@ -183,14 +254,22 @@ export function createMemoryArcadeGateway(): MemoryArcadeGateway {
         return failure("ANSWER_ALREADY_ACCEPTED");
       }
 
+      if (idempotency.kind === "replay") {
+        return { ok: true, data: stored.state };
+      }
+
+      if (stored.record.status !== "active") {
+        return failure("INVALID_ACTION");
+      }
+
       if (idempotency.kind === "accept") {
         stored.answers.set(command.itemId, {
           itemId: command.itemId,
           idempotencyKey: idempotency.idempotencyKey,
           inputFingerprint: idempotency.inputFingerprint,
         });
-        stored.record = transitionSession(stored.record, "processing");
-        stored.record = transitionSession(stored.record, "feedback");
+        stored.record = transitionSession(stored.record, "processing", now());
+        stored.record = transitionSession(stored.record, "feedback", now());
         stored.state = {
           ...toPublicState(stored.record, stored.state),
           feedback: {
@@ -204,7 +283,7 @@ export function createMemoryArcadeGateway(): MemoryArcadeGateway {
         };
       }
 
-      stored.record = touchSessionActivity(stored.record);
+      stored.record = touchSessionActivity(stored.record, now());
       return { ok: true, data: stored.state };
     },
 
@@ -213,37 +292,31 @@ export function createMemoryArcadeGateway(): MemoryArcadeGateway {
     ): Promise<ArcadeGatewayResult<GameState>> {
       const stored = lookupBySessionId(command.sessionId);
       if (!stored) return failure("SESSION_NOT_FOUND");
-      if (stored.record.status !== "feedback") return failure("INVALID_ACTION");
-      if (!stored.answers.has(command.itemId)) {
+      syncExpiration(stored);
+      if (stored.record.status === "expired") return failure("SESSION_EXPIRED");
+      if (!isCurrentItem(stored, command.itemId)) {
         return failure("ITEM_NOT_IN_SESSION");
       }
+      if (stored.record.status !== "feedback") return failure("INVALID_ACTION");
+      if (!stored.answers.has(command.itemId)) return failure("INVALID_ACTION");
 
       stored.record = {
         ...stored.record,
         position: Math.min(stored.record.position + 1, stored.record.total),
       };
-      stored.record = transitionSession(stored.record, "finished");
-      stored.result = {
-        sessionId: stored.record.sessionId,
-        gameCode: stored.record.gameCode,
-        alias: stored.record.alias,
-        status: "finished",
-        answered: stored.answers.size,
-        total: stored.record.total,
-        learningSummary: "Completaste la partida de prueba del transporte.",
-        score: {
-          points: 0,
-          maxPoints: 1,
-          correct: null,
-          errors: 0,
-          bonusPoints: 0,
-          penaltyPoints: 0,
-          timeLimitSeconds: null,
-          timeUsedSeconds: null,
-        },
-        simulatedReach:
-          stored.record.gameCode === "mente-maestra" ? 70 : null,
-      };
+      if (stored.record.position < stored.record.total) {
+        stored.record = transitionSession(stored.record, "active", now());
+        stored.state = {
+          ...toPublicState(stored.record, stored.state),
+          item: null,
+          feedback: null,
+          nextAction: "submit",
+        };
+        return { ok: true, data: stored.state };
+      }
+
+      stored.record = transitionSession(stored.record, "finished", now());
+      stored.result = materializeResult(stored, "finished");
       stored.state = {
         ...toPublicState(stored.record, stored.state),
         item: null,
@@ -258,6 +331,10 @@ export function createMemoryArcadeGateway(): MemoryArcadeGateway {
     ): Promise<ArcadeGatewayResult<GameResult>> {
       const stored = lookupBySessionId(command.sessionId);
       if (!stored) return failure("SESSION_NOT_FOUND");
+      syncExpiration(stored);
+      if (stored.record.status === "expired") {
+        return { ok: true, data: stored.result ?? materializeResult(stored, "expired") };
+      }
       if (!stored.result) return failure("RESULT_NOT_AVAILABLE");
       if (
         stored.record.resultAccessUntil &&

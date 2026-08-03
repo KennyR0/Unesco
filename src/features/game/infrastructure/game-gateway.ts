@@ -5,6 +5,7 @@ import type {
   GameResult,
   GameState,
   Leaderboard,
+  SessionStatus,
   StartGameCommand,
   SubmitGameActionCommand,
 } from "@antidoto/contracts";
@@ -14,6 +15,26 @@ import type {
  * La implementación física (fixtures o Supabase) vive fuera de este contrato.
  */
 export type ArcadeGatewayResult<T> = ArcadeOperationResult<T>;
+
+/** Transiciones permitidas; la implementaciÃ³n del gateway debe hacerlas cumplir. */
+export const ARCADE_SESSION_TRANSITIONS: Readonly<
+  Record<SessionStatus, readonly SessionStatus[]>
+> = {
+  intro: ["active", "invalid"],
+  active: ["processing", "expired", "invalid"],
+  processing: ["feedback", "expired", "invalid"],
+  feedback: ["active", "finished", "invalid"],
+  expired: [],
+  finished: [],
+  invalid: [],
+};
+
+export function canTransitionArcadeSession(
+  from: SessionStatus,
+  to: SessionStatus,
+): boolean {
+  return from === to || ARCADE_SESSION_TRANSITIONS[from].includes(to);
+}
 
 export type GetGameStateCommand = Readonly<{
   sessionId: string;

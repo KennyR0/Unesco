@@ -97,7 +97,7 @@ sesión no puede cambiar de gameCode.
 
 - [X] T026 [P] [US2] Implementar validación y moderación del alias temporal en src/features/game/domain/alias.ts, src/features/game/content/blocked-aliases.v1.json y src/features/game/domain/alias.test.ts.
 - [X] T027 [US2] Implementar startGame y la vinculación de cookie opaca a gameCode en src/features/game/application/start-game.ts y src/app/actions/game.ts.
-- [ ] T028 [US2] Implementar las transiciones intro-active-processing-feedback-expired-finished y la pertenencia de item en src/features/game/application/game-operations.ts y src/features/game/infrastructure/game-gateway.ts.
+- [X] T028 [US2] Implementar las transiciones intro-active-processing-feedback-expired-finished y la pertenencia de item en src/features/game/application/game-operations.ts y src/features/game/infrastructure/game-gateway.ts.
 - [ ] T029 [US2] Implementar recuperación segura de estado, expiración y sesión inválida en src/features/game/application/server-operations.ts y src/components/game/secure-state-view.tsx.
 - [ ] T030 [US2] Cubrir alias, startGame, idempotencia y estados terminales con fixtures server-only; las pruebas RPC quedan como verificación condicionada a la puerta de Supabase en src/features/game/application/start-game.test.ts, tests/integration/database/start-game-rpc.test.ts y tests/integration/database/get-game-state-rpc.test.ts.
 - [ ] T031 [US2] Verificar aislamiento de sesiones y recuperación tras recarga en tests/e2e/foundation.spec.ts y tests/e2e/session-isolation.spec.ts.

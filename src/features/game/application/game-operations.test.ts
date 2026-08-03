@@ -16,6 +16,7 @@ import {
   assertActionPayloadWithinLimit,
   containsForbiddenAuthorityFields,
   createArcadePublicError,
+  getGameStateOperation,
   getLeaderboardOperation,
   measurePayloadBytes,
   startGameOperation,
@@ -168,6 +169,30 @@ describe("operaciones arcade server-only", () => {
       expect(result.error.code).toBe("LEADERBOARD_UNAVAILABLE");
       expect(result.error.retryable).toBe(true);
       expect(result.error.message).not.toMatch(/relation|sql|leaderboard does not exist/i);
+    }
+  });
+
+  it("sanitiza diagnÃ³sticos internos devueltos por el gateway", async () => {
+    const gateway = createGateway({
+      getGameState: vi.fn(async () => ({
+        ok: false as const,
+        error: {
+          code: "INTERNAL_ERROR" as const,
+          message: "relation game_sessions does not exist",
+          retryable: true,
+        },
+      })),
+    });
+
+    const result = await getGameStateOperation(
+      { sessionId: "session-1", gameCode: "real-o-ia" },
+      { gateway },
+    );
+
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.error.message).toContain("Reintenta");
+      expect(result.error.message).not.toContain("game_sessions");
     }
   });
 });

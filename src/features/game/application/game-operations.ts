@@ -149,7 +149,9 @@ function mapGatewayResult<T>(
   result: ArcadeOperationResult<T>,
 ): ArcadeOperationResult<T> {
   if (result.ok) return result;
-  return arcadeFailure(result.error.code, result.error.message);
+  // El gateway puede usar diagnÃ³sticos internos; solo el catÃ¡logo pÃºblico de
+  // mensajes puede llegar al cliente.
+  return arcadeFailure(result.error.code);
 }
 
 function isArcadeSuccess<T>(
