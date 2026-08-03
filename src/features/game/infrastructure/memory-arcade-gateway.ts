@@ -177,6 +177,12 @@ export function createMemoryArcadeGateway(
     async startGame(
       command: StartGameCommand & { sessionTokenHash: string },
     ): Promise<ArcadeGatewayResult<GameState>> {
+      const existing = byTokenHash.get(command.sessionTokenHash);
+      if (existing) {
+        syncExpiration(existing);
+        return { ok: true, data: existing.state };
+      }
+
       const assignedItemIds = assignItems(command.gameCode);
       const record = createArcadeSession({
         alias: command.alias,

@@ -5,6 +5,27 @@ import { createMemoryArcadeGateway } from "../infrastructure/memory-arcade-gatew
 import { startGame, startLegacyTriviaGame } from "./start-game";
 
 describe("caso de uso startGame arcade", () => {
+  it("rechaza alias no permitido antes de crear sesiÃ³n", async () => {
+    const gateway = createMemoryArcadeGateway();
+    const startSpy = vi.spyOn(gateway, "startGame");
+
+    for (const alias of ["ab", "a".repeat(21), "ana!"]) {
+      const result = await startGame(
+        { alias, gameCode: "real-o-ia" },
+        { gateway },
+      );
+
+      expect(result).toEqual(
+        expect.objectContaining({
+          ok: false,
+          error: expect.objectContaining({ code: "INVALID_ALIAS" }),
+        }),
+      );
+    }
+
+    expect(startSpy).not.toHaveBeenCalled();
+  });
+
   it("rechaza alias bloqueado sin crear cookie ni invocar gateway", async () => {
     const gateway = createMemoryArcadeGateway();
     const startSpy = vi.spyOn(gateway, "startGame");

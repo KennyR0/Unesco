@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import { newTokenHash, resetGameData, sessionRow, sql, startGame, state } from "../../fixtures/supabase-local";
 
-describe("api.get_game_state", () => {
+const supabaseRpcGateOpen = process.env.RUN_SUPABASE_TESTS === "true";
+
+describe.skipIf(!supabaseRpcGateOpen)("api.get_game_state (puerta Supabase)", () => {
   it("lee una pregunta sin solución y proyecta vencimiento sin escritura", () => {
     resetGameData();
     const tokenHash = newTokenHash();

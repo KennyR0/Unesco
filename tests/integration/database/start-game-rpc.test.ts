@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import { newTokenHash, resetGameData, sql, startGame } from "../../fixtures/supabase-local";
 
-describe("api.start_game", () => {
+const supabaseRpcGateOpen = process.env.RUN_SUPABASE_TESTS === "true";
+
+describe.skipIf(!supabaseRpcGateOpen)("api.start_game (puerta Supabase)", () => {
   it("asigna 1, 5 y 10 posiciones y es idempotente por hash", () => {
     resetGameData();
     for (const roundSize of [1, 5, 10]) {
