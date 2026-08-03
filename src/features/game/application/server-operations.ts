@@ -37,8 +37,8 @@ import {
   containsForbiddenAuthorityFields,
   getGameResultOperation,
   getGameStateOperation,
-  getLeaderboardOperation,
 } from "./game-operations";
+import { getLeaderboard as getArcadeLeaderboard } from "./leaderboard";
 import { startGame } from "./start-game";
 import { advanceGame, submitGameAction } from "./submit-game-action";
 
@@ -296,5 +296,5 @@ export async function getArcadeGameResultServer(
 export async function getArcadeLeaderboardServer(
   dependencies: ArcadeServerDependencies = {},
 ): Promise<ArcadeOperationResult<Leaderboard>> {
-  return getLeaderboardOperation({ gateway: resolveGateway(dependencies) });
+  return getArcadeLeaderboard({ gateway: resolveGateway(dependencies) });
 }

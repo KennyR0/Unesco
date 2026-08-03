@@ -11,8 +11,10 @@ import {
   RoundSizeSchema,
   ValidatedAliasSchema,
   type AnswerResult,
+  type ArcadeOperationResult,
   type FinalResult,
   type GameErrorCode,
+  type Leaderboard,
   type LegacyGameState,
   type LeaderboardSnapshot,
   type OptionRef,
@@ -23,6 +25,11 @@ import { z } from "zod";
 
 import type { Json } from "../../../lib/supabase/database.types";
 import type { ServerSupabaseClient } from "../../../lib/supabase/server";
+import {
+  getLeaderboardFromCandidates,
+  LEADERBOARD_COPY,
+} from "../application/leaderboard";
+import { createArcadePublicError } from "../application/game-operations";
 
 type GatewayFailure = Readonly<{ ok: false; code: GameErrorCode }>;
 type GatewayResult<T> =
@@ -323,6 +330,46 @@ export class SupabaseGameGateway {
 
     const success = LeaderboardSuccessSchema.parse(payload);
     return { ok: true, data: success.data };
+  }
+
+  /**
+   * Ranking arcade global: elegibilidad y rankingScore solo en servidor.
+   * Acepta filas candidatas (RPC/fixtures); ignora rank/rankingScore del input.
+   * La RPC física arcade permanece detrás de la puerta T070.
+   */
+  async getArcadeLeaderboard(
+    candidateRows: unknown = [],
+  ): Promise<ArcadeOperationResult<Leaderboard>> {
+    return getLeaderboardFromCandidates(candidateRows);
+  }
+
+  /**
+   * Lectura pública arcade sin credencial. Hasta autorizar la RPC arcade,
+   * proyecta candidatas inyectadas o devuelve vacío neutral.
+   */
+  async readArcadeLeaderboardProjection(
+    candidateRows?: unknown,
+  ): Promise<ArcadeOperationResult<Leaderboard>> {
+    try {
+      if (candidateRows !== undefined) {
+        return this.getArcadeLeaderboard(candidateRows);
+      }
+      return {
+        ok: false,
+        error: createArcadePublicError(
+          "LEADERBOARD_EMPTY",
+          LEADERBOARD_COPY.empty,
+        ),
+      };
+    } catch {
+      return {
+        ok: false,
+        error: createArcadePublicError(
+          "LEADERBOARD_UNAVAILABLE",
+          LEADERBOARD_COPY.unavailable,
+        ),
+      };
+    }
   }
 }
 

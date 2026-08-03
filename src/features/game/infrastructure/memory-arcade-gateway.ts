@@ -11,9 +11,12 @@ import type {
   StartGameCommand,
   SubmitGameActionCommand,
 } from "@antidoto/contracts";
-import { LEADERBOARD_LIMIT } from "@antidoto/contracts";
 
 import { createArcadePublicError } from "../application/game-operations";
+import {
+  buildLeaderboard,
+  type RankingCandidate,
+} from "../domain/scoring";
 import {
   assertSessionGameCode,
   createArcadeSession,
@@ -352,13 +355,33 @@ export function createMemoryArcadeGateway(
     },
 
     async getLeaderboard(): Promise<ArcadeGatewayResult<Leaderboard>> {
+      const candidates: RankingCandidate[] = [];
+
+      for (const stored of bySessionId.values()) {
+        const result = stored.result;
+        if (!result) continue;
+
+        candidates.push({
+          resultId: stored.record.sessionId,
+          gameCode: result.gameCode,
+          alias: result.alias,
+          status: result.status,
+          answered: result.answered,
+          total: result.total,
+          points: result.score.points,
+          maxPoints: result.score.maxPoints,
+          completedAt: (
+            stored.record.finishedAt ?? stored.record.lastActivityAt
+          ).toISOString(),
+          aliasAllowed: true,
+          abuseMarked: false,
+          invalidMarked: false,
+        });
+      }
+
       return {
         ok: true,
-        data: {
-          scope: "global",
-          entries: [],
-          limit: LEADERBOARD_LIMIT,
-        },
+        data: buildLeaderboard(candidates),
       };
     },
   };
