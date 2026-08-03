@@ -100,7 +100,7 @@ sesión no puede cambiar de gameCode.
 - [X] T028 [US2] Implementar las transiciones intro-active-processing-feedback-expired-finished y la pertenencia de item en src/features/game/application/game-operations.ts y src/features/game/infrastructure/game-gateway.ts.
 - [X] T029 [US2] Implementar recuperación segura de estado, expiración y sesión inválida en src/features/game/application/server-operations.ts y src/components/game/secure-state-view.tsx.
 - [X] T030 [US2] Cubrir alias, startGame, idempotencia y estados terminales con fixtures server-only; las pruebas RPC quedan como verificación condicionada a la puerta de Supabase en src/features/game/application/start-game.test.ts, tests/integration/database/start-game-rpc.test.ts y tests/integration/database/get-game-state-rpc.test.ts.
-- [ ] T031 [US2] Verificar aislamiento de sesiones y recuperación tras recarga en tests/e2e/foundation.spec.ts y tests/e2e/session-isolation.spec.ts.
+- [X] T031 [US2] Verificar aislamiento de sesiones y recuperación tras recarga en tests/e2e/foundation.spec.ts y tests/e2e/session-isolation.spec.ts.
 
 **Checkpoint**: una sesión independiente puede comenzar, recuperarse, expirar y
 terminar sin que el cliente controle estado o identidad.

@@ -66,6 +66,9 @@ test("las seis rutas heredan un tema estable sin publicar ranking", async ({ pag
     expect(response?.ok(), `${gameCode} no respondió correctamente`).toBe(true);
     await expect(page.locator(`main[data-game-code="${gameCode}"]`)).toHaveCount(1);
     await expect(page.getByRole("link", { name: /volver al arcade/i })).toBeVisible();
+
+    await page.reload();
+    await expect(page.locator(`main[data-game-code="${gameCode}"]`)).toHaveCount(1);
   }
 });
 
