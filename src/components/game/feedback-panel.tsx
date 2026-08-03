@@ -19,6 +19,12 @@ type FeedbackPanelProps = Readonly<{
  * Feedback inline persistente: anuncia el resultado íntegro en la live
  * region y ofrece la acción siguiente de inmediato (un solo clic).
  */
+function feedbackStatus(
+  feedback: PublicFeedback | AnswerResult,
+): PublicFeedback["status"] | AnswerResult["outcome"] {
+  return "outcome" in feedback ? feedback.outcome : feedback.status;
+}
+
 export function FeedbackPanel({
   feedback,
   nextAction,
@@ -27,6 +33,7 @@ export function FeedbackPanel({
   const reactId = useId();
   const announcement = describeFeedbackAnnouncement(feedback);
   const liveId = `${id}-live-${reactId}`;
+  const status = feedbackStatus(feedback);
 
   return (
     <section
@@ -36,6 +43,7 @@ export function FeedbackPanel({
       aria-label="Feedback educativo"
       aria-describedby={liveId}
       data-feedback-persistent="true"
+      data-feedback-status={status}
     >
       <div
         key={announcement}

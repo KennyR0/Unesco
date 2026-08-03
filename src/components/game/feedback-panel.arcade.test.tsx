@@ -78,5 +78,8 @@ describe("FeedbackPanel arcade", () => {
     expect(
       screen.getByRole("region", { name: "Feedback educativo" }),
     ).toHaveAttribute("data-feedback-persistent", "true");
+    expect(
+      screen.getByRole("region", { name: "Feedback educativo" }),
+    ).toHaveAttribute("data-feedback-status", "incorrect");
   });
 });

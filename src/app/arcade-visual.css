@@ -1393,6 +1393,45 @@ html[data-motion="paused"] .kinetic-marquee__track span[aria-hidden="true"] {
   box-shadow: var(--shadow-brutal);
 }
 
+.feedback-panel[data-feedback-status="incorrect"],
+.feedback-panel[data-feedback-status="expired"],
+.feedback-card[data-feedback-status="incorrect"],
+.feedback-card[data-feedback-status="expired"] {
+  background: var(--color-magenta);
+  color: var(--color-paper);
+}
+
+.feedback-panel[data-feedback-status="incorrect"]::before,
+.feedback-panel[data-feedback-status="expired"]::before {
+  color: rgb(242 239 228 / 18%);
+}
+
+.feedback-panel[data-feedback-status="incorrect"] .eyebrow,
+.feedback-panel[data-feedback-status="expired"] .eyebrow {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.feedback-panel[data-feedback-status="incorrect"] .feedback-card__key-signal,
+.feedback-panel[data-feedback-status="expired"] .feedback-card__key-signal {
+  background: rgb(10 10 10 / 14%);
+  border-left-color: var(--color-ink);
+}
+
+.feedback-panel[data-feedback-status="incorrect"] .feedback-card__detail-toggle,
+.feedback-panel[data-feedback-status="expired"] .feedback-card__detail-toggle,
+.feedback-panel[data-feedback-status="incorrect"] .feedback-panel__answer,
+.feedback-panel[data-feedback-status="expired"] .feedback-panel__answer {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.feedback-panel[data-feedback-status="incorrect"] .primary-action,
+.feedback-panel[data-feedback-status="expired"] .primary-action {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
 .feedback-panel {
   width: min(100%, var(--reading-width));
   justify-self: center;
