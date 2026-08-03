@@ -6,6 +6,25 @@ import {
   type LeaderboardEntry,
 } from "@antidoto/contracts";
 
+import {
+  FEED_MAX_POINTS,
+  calculateFeedSessionScore,
+} from "./mechanics/feed-scoring";
+
+export {
+  FEED_CORRECT_POINTS,
+  FEED_INCORRECT_PENALTY,
+  FEED_ITEM_COUNT,
+  FEED_MAX_POINTS,
+  FEED_MIN_POINTS,
+  FEED_VERIFY_BONUS,
+  calculateFeedSessionScore,
+  scoreFeedDecision,
+  type FeedDecisionAnswer,
+  type FeedDecisionScore,
+  type FeedSessionScore,
+} from "./mechanics/feed-scoring";
+
 export const GAME_SCORE_RULES = {
   "real-o-ia": {
     itemCount: 8,
@@ -94,12 +113,6 @@ export type RankingCandidate = Readonly<{
   invalidMarked: boolean;
 }>;
 
-export type FeedDecisionScore = Readonly<{
-  points: number;
-  bonusPoints: number;
-  penaltyPoints: number;
-}>;
-
 export function maxPointsForGame(gameCode: GameCode): number {
   return GAME_SCORE_RULES[gameCode].maxPoints;
 }
@@ -125,21 +138,6 @@ export function scoreClickbaitAnswer(correct: boolean): number {
 
 export function scoreSourceClassification(correct: boolean): number {
   return correct ? 1 : 0;
-}
-
-export function scoreFeedDecision(
-  decisionCorrect: boolean,
-  verified: boolean,
-): FeedDecisionScore {
-  if (!decisionCorrect) {
-    return { points: -1, bonusPoints: 0, penaltyPoints: 1 };
-  }
-
-  return {
-    points: 2 + (verified ? 1 : 0),
-    bonusPoints: verified ? 1 : 0,
-    penaltyPoints: 0,
-  };
 }
 
 export function scoreAutopsyStep(completed: boolean): number {
@@ -232,29 +230,13 @@ export function calculateGameScore(input: GameScoreInput): GameScore {
       return score;
     }
     case "feed-60": {
-      let points = 0;
-      let correct = 0;
-      let bonusPoints = 0;
-      let penaltyPoints = 0;
-
-      for (const answer of input.answers) {
-        const decisionScore = scoreFeedDecision(
-          answer.decisionCorrect,
-          answer.verified,
-        );
-        points += decisionScore.points;
-        bonusPoints += decisionScore.bonusPoints;
-        penaltyPoints += decisionScore.penaltyPoints;
-        if (answer.decisionCorrect) {
-          correct += 1;
-        }
-      }
-
-      score.points = Math.max(0, Math.min(points, score.maxPoints));
-      score.correct = correct;
-      score.errors = input.answers.length - correct;
-      score.bonusPoints = bonusPoints;
-      score.penaltyPoints = penaltyPoints;
+      const feedScore = calculateFeedSessionScore(input.answers);
+      score.points = feedScore.points;
+      score.maxPoints = FEED_MAX_POINTS;
+      score.correct = feedScore.correct;
+      score.errors = feedScore.errors;
+      score.bonusPoints = feedScore.bonusPoints;
+      score.penaltyPoints = feedScore.penaltyPoints;
       score.timeUsedSeconds = ensureFeedTime(input.timeUsedSeconds);
       return score;
     }

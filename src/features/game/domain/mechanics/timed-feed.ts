@@ -1,6 +1,6 @@
 import type { PublicFeedback } from "@antidoto/contracts";
 
-import { scoreFeedDecision } from "../scoring";
+import { scoreFeedDecision } from "./feed-scoring";
 
 /** Límite autoritativo del reloj de Feed 60”. El cliente no puede extenderlo. */
 export const FEED_TIME_LIMIT_SECONDS = 60;
