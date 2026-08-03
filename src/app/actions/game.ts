@@ -60,9 +60,32 @@ export async function startArcadeGameAction(
 }
 
 /**
- * Inicio de El Grupo vía <form action>.
+ * Inicio de cualquier misión arcade vía <form action>.
  * Funciona aunque la hidratación cliente falle (p. ej. localhost vs 127.0.0.1).
+ * El gameCode viaja en un campo oculto y se valida en servidor.
  */
+export async function startArcadeGameFormAction(
+  formData: FormData,
+): Promise<void> {
+  const parsedCode = GameCodeSchema.safeParse(formData.get("gameCode"));
+  if (!parsedCode.success) {
+    redirect("/");
+  }
+
+  const gameCode = parsedCode.data;
+  const alias = String(formData.get("alias") ?? "");
+  const result = await startArcadeGameAction({ alias, gameCode });
+
+  if (!result.ok) {
+    redirect(
+      `/games/${gameCode}?startError=${encodeURIComponent(result.error.message)}`,
+    );
+  }
+
+  redirect(`/games/${gameCode}`);
+}
+
+/** Conserva el arranque directo de El Grupo para clientes existentes. */
 export async function startGrupoGameFormAction(
   formData: FormData,
 ): Promise<void> {

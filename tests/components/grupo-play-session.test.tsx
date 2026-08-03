@@ -9,6 +9,7 @@ import { createContentRepository } from "../../src/features/game/content/content
 import contentPack from "../../src/features/game/content/game-items/grupo.v1.json";
 
 const startGrupoGameFormAction = vi.fn();
+const startArcadeGameFormAction = vi.fn();
 const submitGameActionAction = vi.fn();
 const advanceArcadeGameAction = vi.fn();
 const push = vi.fn();
@@ -20,6 +21,8 @@ vi.mock("next/navigation", () => ({
 vi.mock("../../src/app/actions/game", () => ({
   startGrupoGameFormAction: (...args: unknown[]) =>
     startGrupoGameFormAction(...args),
+  startArcadeGameFormAction: (...args: unknown[]) =>
+    startArcadeGameFormAction(...args),
   submitGameActionAction: (...args: unknown[]) => submitGameActionAction(...args),
   advanceArcadeGameAction: (...args: unknown[]) =>
     advanceArcadeGameAction(...args),

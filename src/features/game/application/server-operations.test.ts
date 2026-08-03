@@ -44,7 +44,9 @@ function createMemoryCookieStore() {
 
 describe("transporte server-only arcade", () => {
   it("inicia, recupera estado y rechaza sessionId del cliente en submit", async () => {
-    const gateway = createMemoryArcadeGateway();
+    const gateway = createMemoryArcadeGateway({
+      itemIdsByGameCode: { "real-o-ia": ["item-1"] },
+    });
     const cookieStore = createMemoryCookieStore();
 
     const started = await startArcadeGameServer(
@@ -166,7 +168,9 @@ describe("transporte server-only arcade", () => {
   });
 
   it("avanza y recupera resultado solo desde sesión server-only", async () => {
-    const gateway = createMemoryArcadeGateway();
+    const gateway = createMemoryArcadeGateway({
+      itemIdsByGameCode: { "clickbait-swipe": ["item-1"] },
+    });
     const cookieStore = createMemoryCookieStore();
     const deps = { gateway, cookieStore: cookieStore as never, secure: false };
 
@@ -204,7 +208,9 @@ describe("transporte server-only arcade", () => {
   });
 
   it("rechaza advance con solution, score, nextItem o completed del cliente", async () => {
-    const gateway = createMemoryArcadeGateway();
+    const gateway = createMemoryArcadeGateway({
+      itemIdsByGameCode: { "clickbait-swipe": ["item-1"] },
+    });
     const cookieStore = createMemoryCookieStore();
     const deps = { gateway, cookieStore: cookieStore as never, secure: false };
 

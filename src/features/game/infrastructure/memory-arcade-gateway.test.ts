@@ -53,7 +53,9 @@ describe("memory arcade gateway: T028", () => {
   });
 
   it("replays the same accepted action and rejects a conflicting retry", async () => {
-    const gateway = createMemoryArcadeGateway();
+    const gateway = createMemoryArcadeGateway({
+      itemIdsByGameCode: { "real-o-ia": ["item-1"] },
+    });
     const started = await gateway.startGame({
       alias: "Ana",
       gameCode: "real-o-ia",
@@ -88,7 +90,9 @@ describe("memory arcade gateway: T028", () => {
   });
 
   it("requires feedback before advance and materializes finished result", async () => {
-    const gateway = createMemoryArcadeGateway();
+    const gateway = createMemoryArcadeGateway({
+      itemIdsByGameCode: { "real-o-ia": ["item-1"] },
+    });
     const started = await gateway.startGame({
       alias: "Ana",
       gameCode: "real-o-ia",
@@ -178,7 +182,9 @@ describe("memory arcade gateway: T028", () => {
   it("transitions an expired session to a terminal result exactly once", async () => {
     const startedAt = new Date("2026-08-02T12:00:00.000Z");
     vi.useFakeTimers({ now: startedAt });
-    const gateway = createMemoryArcadeGateway();
+    const gateway = createMemoryArcadeGateway({
+      itemIdsByGameCode: { "real-o-ia": ["item-1"] },
+    });
     const started = await gateway.startGame({
       alias: "Ana",
       gameCode: "real-o-ia",

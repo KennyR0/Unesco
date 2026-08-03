@@ -115,7 +115,9 @@ describe("FeedbackPanel / US3 (T038)", () => {
   });
 
   it("un submit idéntico es idempotente y no revela solución privada", async () => {
-    const gateway = createMemoryArcadeGateway();
+    const gateway = createMemoryArcadeGateway({
+      itemIdsByGameCode: { "real-o-ia": ["item-1"] },
+    });
     const started = await gateway.startGame({
       alias: "Ana",
       gameCode: "real-o-ia",

@@ -7,6 +7,8 @@ export type AliasStartFormProps = Readonly<{
   action?: (formData: FormData) => void | Promise<void>;
   /** Fallback cliente cuando no hay action de servidor. */
   onSubmit?: (alias: string) => Promise<void> | void;
+  /** Juego a iniciar; viaja oculto para la Server Action. */
+  gameCode?: string;
   disabled?: boolean;
   error?: string | null;
   submitLabel?: string;
@@ -18,6 +20,7 @@ export type AliasStartFormProps = Readonly<{
 export function AliasStartForm({
   action,
   onSubmit,
+  gameCode,
   disabled = false,
   error = null,
   submitLabel = "Empezar misión",
@@ -62,6 +65,9 @@ export function AliasStartForm({
       onSubmit={action ? undefined : handleSubmit}
       noValidate
     >
+      {gameCode ? (
+        <input type="hidden" name="gameCode" value={gameCode} />
+      ) : null}
       <label className="alias-start-form__label" htmlFor={fieldId}>
         Elige un alias temporal
       </label>
