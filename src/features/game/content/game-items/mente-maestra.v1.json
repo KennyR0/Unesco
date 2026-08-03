@@ -1,0 +1,299 @@
+[
+  {
+    "itemId": "mente-maestra-001",
+    "gameCode": "mente-maestra",
+    "mechanic": "guided_autopsy",
+    "sequence": 1,
+    "contentVersion": "2026-07-30.1",
+    "editorialStatus": "approved",
+    "publicItem": {
+      "gameCode": "mente-maestra",
+      "mechanic": "guided_autopsy",
+      "itemId": "mente-maestra-001",
+      "step": "objective",
+      "prompt": "Paso 1 · Elige el objetivo de esta simulación educativa. Ninguna opción se publica fuera del juego.",
+      "options": [
+        {
+          "optionId": "objective-health-panic",
+          "label": "Pánico sanitario",
+          "description": "Hacer que la gente tema a las vacunas, hospitales o medicinas con una alarma fabricada."
+        },
+        {
+          "optionId": "objective-political-attack",
+          "label": "Ataque político",
+          "description": "Destruir la reputación de una figura pública con un clip o dato engañoso."
+        },
+        {
+          "optionId": "objective-click-scam",
+          "label": "Estafa de clics",
+          "description": "Cosechar tráfico y datos con promesas imposibles o beneficios inventados."
+        }
+      ]
+    },
+    "feedback": {
+      "status": "instructive",
+      "explanation": "Toda desinformación empieza con un objetivo: asustar, indignar o engañar para obtener atención. Reconocer esa intención es el primer paso para no alimentar la cadena.",
+      "signals": [
+        "La pieza busca una reacción rápida, no un dato comprobable.",
+        "El beneficio lo obtiene quien amplifica el mensaje, no quien lo recibe.",
+        "Ningún objetivo de esta simulación se publica ni se convierte en una cuenta real."
+      ],
+      "recommendation": "Antes de compartir, pregunta qué quiere lograr el mensaje contigo: miedo, voto, clic o dinero.",
+      "revealedAnswer": "Objetivo de manipulación identificado"
+    },
+    "solutionPrivate": {
+      "step": "objective",
+      "optionEvaluations": {
+        "objective-health-panic": {
+          "reachWeight": 15,
+          "techniqueId": "health_panic",
+          "autopsyTitle": "Pánico sanitario",
+          "autopsyTip": "Si un mensaje te pide abandonar un tratamiento o temer a la salud pública sin fuente oficial, detente y comprueba el canal institucional.",
+          "includeInAutopsy": true
+        },
+        "objective-political-attack": {
+          "reachWeight": 15,
+          "techniqueId": "political_attack",
+          "autopsyTitle": "Ataque político",
+          "autopsyTip": "Un clip o frase fuera de contexto puede fabricar un escándalo. Busca la intervención completa y la fuente primaria antes de indignarte.",
+          "includeInAutopsy": true
+        },
+        "objective-click-scam": {
+          "reachWeight": 15,
+          "techniqueId": "click_scam",
+          "autopsyTitle": "Estafa de clics",
+          "autopsyTip": "Las promesas imposibles y los formularios urgentes suelen buscar datos o tráfico. Verifica la institución en su dominio real.",
+          "includeInAutopsy": true
+        }
+      }
+    }
+  },
+  {
+    "itemId": "mente-maestra-002",
+    "gameCode": "mente-maestra",
+    "mechanic": "guided_autopsy",
+    "sequence": 2,
+    "contentVersion": "2026-07-30.1",
+    "editorialStatus": "approved",
+    "publicItem": {
+      "gameCode": "mente-maestra",
+      "mechanic": "guided_autopsy",
+      "itemId": "mente-maestra-002",
+      "step": "emotion",
+      "prompt": "Paso 2 · Elige la emoción-gancho que empujaría a compartir sin verificar.",
+      "options": [
+        {
+          "optionId": "emotion-fear",
+          "label": "Miedo",
+          "description": "«Si no actúas ya, tu familia corre peligro.» La emoción más usada para saltarse la verificación."
+        },
+        {
+          "optionId": "emotion-anger",
+          "label": "Enojo",
+          "description": "«Alguien poderoso te está robando y nadie hace nada.» La indignación fabricada busca el reenvío inmediato."
+        },
+        {
+          "optionId": "emotion-miracle-hope",
+          "label": "Esperanza milagrosa",
+          "description": "«La solución secreta que no quieren que conozcas.» Promete un milagro sin pruebas."
+        }
+      ]
+    },
+    "feedback": {
+      "status": "instructive",
+      "explanation": "El miedo, el enojo y la esperanza milagrosa aceleran el clic. La emoción intensa no prueba un hecho: suele ser la señal de que conviene frenar.",
+      "signals": [
+        "El texto te dice qué sentir antes de qué ocurrió.",
+        "La urgencia emocional sustituye a la evidencia.",
+        "Quien se beneficia de tu reacción no siempre es quien aparece en el mensaje."
+      ],
+      "recommendation": "Si una publicación te asusta, indigna o promete un milagro, verifica primero y comparte después — o no compartas.",
+      "revealedAnswer": "Emoción-gancho reconocida"
+    },
+    "solutionPrivate": {
+      "step": "emotion",
+      "optionEvaluations": {
+        "emotion-fear": {
+          "reachWeight": 25,
+          "techniqueId": "fear",
+          "autopsyTitle": "Miedo",
+          "autopsyTip": "Si una publicación te asusta, detente: el miedo es el combustible principal de lo viral. Nada urgente se verifica después de reenviar.",
+          "includeInAutopsy": true
+        },
+        "emotion-anger": {
+          "reachWeight": 22,
+          "techniqueId": "anger",
+          "autopsyTitle": "Enojo",
+          "autopsyTip": "La indignación fabricada busca que compartas antes de pensar. Pregunta: ¿quién se beneficia de mi enojo?",
+          "includeInAutopsy": true
+        },
+        "emotion-miracle-hope": {
+          "reachWeight": 20,
+          "techniqueId": "miracle_hope",
+          "autopsyTitle": "Esperanza milagrosa",
+          "autopsyTip": "Los milagros sin efectos secundarios ni estudios no existen. «Lo que ocultan» casi siempre significa «no tengo pruebas».",
+          "includeInAutopsy": true
+        }
+      }
+    }
+  },
+  {
+    "itemId": "mente-maestra-003",
+    "gameCode": "mente-maestra",
+    "mechanic": "guided_autopsy",
+    "sequence": 3,
+    "contentVersion": "2026-07-30.1",
+    "editorialStatus": "approved",
+    "publicItem": {
+      "gameCode": "mente-maestra",
+      "mechanic": "guided_autopsy",
+      "itemId": "mente-maestra-003",
+      "step": "headline",
+      "prompt": "Paso 3 · Diseña el titular-trampa que haría creíble la pieza falsa.",
+      "options": [
+        {
+          "optionId": "headline-conspiracy-caps",
+          "label": "¡¡LO OCULTAN!! Lo que las autoridades no quieren que sepas sobre esto",
+          "description": "Conspiración, urgencia y mayúsculas: diseñado para el clic, no para informar."
+        },
+        {
+          "optionId": "headline-vague-experts",
+          "label": "Expertos alertan: nuevo fenómeno preocupa a las familias",
+          "description": "Autoridad vaga y alarma suave: parece serio, pero no nombra a nadie ni a ningún estudio."
+        },
+        {
+          "optionId": "headline-fake-official",
+          "label": "Comunicado oficial: medidas extraordinarias desde el lunes",
+          "description": "Imita el formato institucional para colarse como información real."
+        }
+      ]
+    },
+    "feedback": {
+      "status": "instructive",
+      "explanation": "Los titulares trampa usan mayúsculas, autoridad falsa o formatos oficiales. El buen titular informa con datos; el engañoso te dice qué sentir.",
+      "signals": [
+        "Mayúsculas, «lo ocultan» o cero datos concretos apuntan a cebo.",
+        "«Expertos» sin nombre ni institución son una autoridad vacía.",
+        "El formato de comunicado se falsifica: hay que verificar el dominio real."
+      ],
+      "recommendation": "Exige nombre, institución y dato concreto. Si el titular solo grita, sal sin compartir.",
+      "revealedAnswer": "Titular-trampa diseccionado"
+    },
+    "solutionPrivate": {
+      "step": "headline",
+      "optionEvaluations": {
+        "headline-conspiracy-caps": {
+          "reachWeight": 30,
+          "techniqueId": "conspiracy_caps",
+          "autopsyTitle": "Conspiración con mayúsculas",
+          "autopsyTip": "Mayúsculas + «lo ocultan» + cero datos concretos = titular diseñado para tu clic, no para informarte.",
+          "includeInAutopsy": true
+        },
+        "headline-vague-experts": {
+          "reachWeight": 18,
+          "techniqueId": "vague_experts",
+          "autopsyTitle": "Autoridad vaga",
+          "autopsyTip": "«Expertos» sin nombre son sospechosos. Pregunta: ¿qué experto, de qué institución, en qué estudio?",
+          "includeInAutopsy": true
+        },
+        "headline-fake-official": {
+          "reachWeight": 12,
+          "techniqueId": "fake_official_format",
+          "autopsyTitle": "Formato oficial falso",
+          "autopsyTip": "El formato oficial se falsifica con facilidad. Verifica siempre en el dominio real de la institución.",
+          "includeInAutopsy": true
+        }
+      }
+    }
+  },
+  {
+    "itemId": "mente-maestra-004",
+    "gameCode": "mente-maestra",
+    "mechanic": "guided_autopsy",
+    "sequence": 4,
+    "contentVersion": "2026-07-30.1",
+    "editorialStatus": "approved",
+    "publicItem": {
+      "gameCode": "mente-maestra",
+      "mechanic": "guided_autopsy",
+      "itemId": "mente-maestra-004",
+      "step": "evidence",
+      "prompt": "Paso 4 · Elige la falsa prueba que acompañaría al mensaje. Luego verás la autopsia de las técnicas elegidas.",
+      "options": [
+        {
+          "optionId": "evidence-recycled-photo",
+          "label": "Foto antigua reciclada",
+          "description": "Una imagen real de otro año y otro lugar, presentada como de «hoy»."
+        },
+        {
+          "optionId": "evidence-ai-image",
+          "label": "Imagen generada por IA",
+          "description": "Hiperrealista y emocional… con manos, textos o sombras incoherentes si miras con calma."
+        },
+        {
+          "optionId": "evidence-fake-expert",
+          "label": "Experto inventado",
+          "description": "«El Dr. Fernández, prestigioso especialista, confirma que…» — pero no existe."
+        },
+        {
+          "optionId": "evidence-truncated-axis",
+          "label": "Gráfico con eje truncado",
+          "description": "Datos reales con exageración visual: cortar el eje convierte un cambio pequeño en «catástrofe»."
+        }
+      ]
+    },
+    "feedback": {
+      "status": "instructive",
+      "explanation": "La «prueba» suele ser una imagen reciclada, una generación por IA, un experto inventado o un gráfico manipulado. La autopsia convierte esas técnicas en señales de detección.",
+      "signals": [
+        "Una foto real también engaña si cambia la fecha o el lugar.",
+        "Las manos, textos y sombras incoherentes delatan imágenes sintéticas.",
+        "Un experto sin rastro académico o un eje truncado fabrican credibilidad falsa."
+      ],
+      "recommendation": "Usa búsqueda inversa, comprueba al autor citado y revisa los ejes antes de creer o compartir.",
+      "revealedAnswer": "Falsa prueba y autopsia listas"
+    },
+    "solutionPrivate": {
+      "step": "evidence",
+      "optionEvaluations": {
+        "evidence-recycled-photo": {
+          "reachWeight": 20,
+          "techniqueId": "recycled_photo",
+          "autopsyTitle": "Foto antigua reciclada",
+          "autopsyTip": "La búsqueda inversa de imágenes revela la fecha y el lugar originales en segundos.",
+          "includeInAutopsy": true
+        },
+        "evidence-ai-image": {
+          "reachWeight": 25,
+          "techniqueId": "ai_image",
+          "autopsyTitle": "Imagen generada por IA",
+          "autopsyTip": "Busca manos, textos, joyas y sombras incoherentes. Lo «perfecto» también puede ser sospechoso.",
+          "includeInAutopsy": true
+        },
+        "evidence-fake-expert": {
+          "reachWeight": 22,
+          "techniqueId": "fake_expert",
+          "autopsyTitle": "Experto inventado",
+          "autopsyTip": "Busca al «experto»: si solo aparece en esa noticia, fue inventado. Los especialistas reales tienen rastro académico.",
+          "includeInAutopsy": true
+        },
+        "evidence-truncated-axis": {
+          "reachWeight": 18,
+          "techniqueId": "truncated_axis",
+          "autopsyTitle": "Gráfico con eje truncado",
+          "autopsyTip": "Revisa los ejes antes de asustarte: un eje cortado exagera cualquier cambio. Los números pueden ser reales y la conclusión falsa.",
+          "includeInAutopsy": true
+        }
+      },
+      "simulationAssets": {
+        "educationalDisclaimer": "Simulación educativa: no se publica contenido externo ni se crea una cuenta real. El alcance simulado explica el mecanismo; no es un premio.",
+        "fictionalComments": [
+          "@preocupado22: No puedo creerlo… COMPARTIDO. Hay que avisar a todos!!",
+          "@tia_de_todos: Reenviado a mis 8 grupos. Hay que proteger a la familia.",
+          "@esceptico_ok: ¿Fuente? Esto huele raro. La «prueba» no cuadra.",
+          "Verificadores: Esta publicación fue marcada como FALSA. Su alcance simulado se redujo. La cuenta ficticia fue suspendida."
+        ]
+      }
+    }
+  }
+]
