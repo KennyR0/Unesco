@@ -1,152 +1,368 @@
 {
   "schemaVersion": 1,
   "gameCode": "real-o-ia",
-  "indexVersion": "2026-08-02.1",
+  "indexVersion": "2026-08-03.1",
   "contentVersion": "2026-07-30.1",
-  "notes": "Placeholders provisionales 1×1 WebP. Sustituir por imágenes editoriales definitivas incrementa indexVersion/contentVersion y exige revalidar alt, peso, derechos y feedback.",
+  "notes": "Pool editorial Pexels (10 IA + 10 reales) con variantes 480/768/1280. Mencionar Pexels en créditos del arcade. provisional=false.",
   "entries": [
     {
       "itemId": "real-o-ia-001",
-      "assetId": "real-o-ia-retrato-en-el-parque",
+      "assetId": "real-o-ia-lago-turquesa",
       "assetVersion": "1",
-      "src": "/media/real-o-ia/retrato-en-el-parque.webp",
-      "provisional": true,
-      "width": 640,
-      "height": 432,
+      "src": "/media/real-o-ia/ai/imagen-01-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 434,
       "format": "webp",
-      "bytes": 44,
-      "alt": "Retrato de una persona sonriendo en un parque, con un letrero, un teléfono y árboles visibles en la escena.",
-      "fallbackText": "La imagen del retrato en el parque no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "bytes": 131522,
+      "alt": "Lago turquesa entre montañas afiladas, bosque de coníferas a un lado y cielo azul con nubes.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
       "rights": {
-        "provenanceType": "provisional_placeholder",
-        "license": "project-original-provisional",
-        "locator": "public/media/real-o-ia/retrato-en-el-parque.webp"
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
       }
     },
     {
       "itemId": "real-o-ia-002",
-      "assetId": "real-o-ia-atardecer-en-el-lago",
+      "assetId": "real-o-ia-manada-de-perros",
       "assetVersion": "1",
-      "src": "/media/real-o-ia/atardecer-en-el-lago.webp",
-      "provisional": true,
-      "width": 640,
-      "height": 432,
+      "src": "/media/real-o-ia/ai/imagen-02-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 338,
       "format": "webp",
-      "bytes": 44,
-      "alt": "Paisaje de un lago al atardecer con montañas, el sol bajando sobre el agua y un rótulo con el nombre del lugar y el año.",
-      "fallbackText": "La imagen del atardecer en el lago no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "bytes": 140914,
+      "alt": "Ocho perros de distintas razas corriendo en fila por un prado verde con un lago al fondo.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
       "rights": {
-        "provenanceType": "provisional_placeholder",
-        "license": "project-original-provisional",
-        "locator": "public/media/real-o-ia/atardecer-en-el-lago.webp"
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
       }
     },
     {
       "itemId": "real-o-ia-003",
-      "assetId": "real-o-ia-plaza-de-la-ciudad",
+      "assetId": "real-o-ia-barista-cafeteria",
       "assetVersion": "1",
-      "src": "/media/real-o-ia/plaza-de-la-ciudad.webp",
-      "provisional": true,
-      "width": 640,
-      "height": 432,
+      "src": "/media/real-o-ia/ai/imagen-03-768.webp",
+      "provisional": false,
+      "width": 689,
+      "height": 419,
       "format": "webp",
-      "bytes": 44,
-      "alt": "Plaza de una ciudad con edificios de colores, un letrero de bienvenida, un poste de luz y una persona caminando.",
-      "fallbackText": "La imagen de la plaza de la ciudad no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "bytes": 113952,
+      "alt": "Barista con delantal verde sirviendo latte art en una cafetería con ladrillo visto y pizarra de especiales.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
       "rights": {
-        "provenanceType": "provisional_placeholder",
-        "license": "project-original-provisional",
-        "locator": "public/media/real-o-ia/plaza-de-la-ciudad.webp"
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
       }
     },
     {
       "itemId": "real-o-ia-004",
-      "assetId": "real-o-ia-gato-en-la-ventana",
+      "assetId": "real-o-ia-poke-bowl",
       "assetVersion": "1",
-      "src": "/media/real-o-ia/gato-en-la-ventana.webp",
-      "provisional": true,
-      "width": 640,
-      "height": 432,
+      "src": "/media/real-o-ia/ai/imagen-04-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 434,
       "format": "webp",
-      "bytes": 44,
-      "alt": "Un gato naranja descansando junto a una ventana, con una maceta cerca y luz cálida de interior.",
-      "fallbackText": "La imagen del gato en la ventana no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "bytes": 87684,
+      "alt": "Bowl negro con salmón, aguacate, edamame y arroz, rodeado de palillos y cuencos pequeños sobre fondo oscuro.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
       "rights": {
-        "provenanceType": "provisional_placeholder",
-        "license": "project-original-provisional",
-        "locator": "public/media/real-o-ia/gato-en-la-ventana.webp"
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
       }
     },
     {
       "itemId": "real-o-ia-005",
-      "assetId": "real-o-ia-perro-en-el-parque",
+      "assetId": "real-o-ia-spaghetti-trattoria",
       "assetVersion": "1",
-      "src": "/media/real-o-ia/perro-en-el-parque.webp",
-      "provisional": true,
-      "width": 640,
-      "height": 432,
+      "src": "/media/real-o-ia/ai/imagen-05-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 468,
       "format": "webp",
-      "bytes": 44,
-      "alt": "Un perro marrón de pie sobre la hierba de un parque verde, con el sol visible al fondo.",
-      "fallbackText": "La imagen del perro en el parque no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "bytes": 130654,
+      "alt": "Mujer sonriente con delantal floral alzando un tenedor de espagueti en un restaurante con paredes de ladrillo.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
       "rights": {
-        "provenanceType": "provisional_placeholder",
-        "license": "project-original-provisional",
-        "locator": "public/media/real-o-ia/perro-en-el-parque.webp"
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
       }
     },
     {
       "itemId": "real-o-ia-006",
-      "assetId": "real-o-ia-puesto-de-frutas",
+      "assetId": "real-o-ia-calle-de-colores",
       "assetVersion": "1",
-      "src": "/media/real-o-ia/puesto-de-frutas.webp",
-      "provisional": true,
-      "width": 640,
-      "height": 432,
+      "src": "/media/real-o-ia/ai/imagen-06-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 434,
       "format": "webp",
-      "bytes": 44,
-      "alt": "Puesto de frutas en un mercado, con naranjas, fresas y plátanos ordenados y un cartel con los precios.",
-      "fallbackText": "La imagen del puesto de frutas no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "bytes": 112796,
+      "alt": "Calle empedrada flanqueada por casas de colores muy vivos bajo un cielo azul intenso.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
       "rights": {
-        "provenanceType": "provisional_placeholder",
-        "license": "project-original-provisional",
-        "locator": "public/media/real-o-ia/puesto-de-frutas.webp"
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
       }
     },
     {
       "itemId": "real-o-ia-007",
-      "assetId": "real-o-ia-multitud-en-el-concierto",
+      "assetId": "real-o-ia-faro-al-atardecer",
       "assetVersion": "1",
-      "src": "/media/real-o-ia/multitud-en-el-concierto.webp",
-      "provisional": true,
-      "width": 640,
-      "height": 432,
+      "src": "/media/real-o-ia/ai/imagen-07-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 434,
       "format": "webp",
-      "bytes": 44,
-      "alt": "Multitud de personas en un concierto nocturno, con luces de colores, un escenario al fondo y un teléfono levantado entre el público.",
-      "fallbackText": "La imagen de la multitud en el concierto no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "bytes": 55790,
+      "alt": "Faro blanco junto a casas de techo rojo sobre rocas oscuras, con oleaje y cielo rosado al atardecer.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
       "rights": {
-        "provenanceType": "provisional_placeholder",
-        "license": "project-original-provisional",
-        "locator": "public/media/real-o-ia/multitud-en-el-concierto.webp"
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
       }
     },
     {
       "itemId": "real-o-ia-008",
-      "assetId": "real-o-ia-retrato-de-la-abuela",
+      "assetId": "real-o-ia-hamburguesa-estudio",
       "assetVersion": "1",
-      "src": "/media/real-o-ia/retrato-de-la-abuela.webp",
-      "provisional": true,
-      "width": 640,
-      "height": 432,
+      "src": "/media/real-o-ia/ai/imagen-08-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 512,
       "format": "webp",
-      "bytes": 44,
-      "alt": "Retrato de una mujer mayor con lentes y cabello canoso, sonriendo en una celebración familiar.",
-      "fallbackText": "La imagen del retrato de la abuela no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "bytes": 114756,
+      "alt": "Hamburguesa con queso derretido, tomate y lechuga sobre tabla de madera, con papas y bebida al fondo.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
       "rights": {
-        "provenanceType": "provisional_placeholder",
-        "license": "project-original-provisional",
-        "locator": "public/media/real-o-ia/retrato-de-la-abuela.webp"
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
+      }
+    },
+    {
+      "itemId": "real-o-ia-009",
+      "assetId": "real-o-ia-gato-tabby",
+      "assetVersion": "1",
+      "src": "/media/real-o-ia/ai/imagen-09-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 512,
+      "format": "webp",
+      "bytes": 94616,
+      "alt": "Primer plano de un gato atigrado con ojos amarillo-verdosos sobre una manta texturizada y fondo difuminado.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
+      }
+    },
+    {
+      "itemId": "real-o-ia-010",
+      "assetId": "real-o-ia-piano-nocturno",
+      "assetVersion": "1",
+      "src": "/media/real-o-ia/ai/imagen-10-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 434,
+      "format": "webp",
+      "bytes": 95842,
+      "alt": "Partitura abierta sobre un piano de cola negro, con metrónomo y libros al fondo en luz cálida.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
+      }
+    },
+    {
+      "itemId": "real-o-ia-011",
+      "assetId": "real-o-ia-golden-retriever",
+      "assetVersion": "1",
+      "src": "/media/real-o-ia/real/imagen-01-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 1158,
+      "format": "webp",
+      "bytes": 191994,
+      "alt": "Golden retriever de pie en una esquina de paredes blancas sobre suelo de concreto, con la lengua fuera.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
+      }
+    },
+    {
+      "itemId": "real-o-ia-012",
+      "assetId": "real-o-ia-dos-frutos",
+      "assetVersion": "1",
+      "src": "/media/real-o-ia/real/imagen-02-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 1152,
+      "format": "webp",
+      "bytes": 79322,
+      "alt": "Dos frutos redondos de tono marrón-oliva sobre una superficie clara con textura de piedra.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
+      }
+    },
+    {
+      "itemId": "real-o-ia-013",
+      "assetId": "real-o-ia-ciudad-costera",
+      "assetVersion": "1",
+      "src": "/media/real-o-ia/real/imagen-03-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 1365,
+      "format": "webp",
+      "bytes": 223836,
+      "alt": "Vista en blanco y negro de un barrio denso en ladera, playa curva y edificios altos junto al mar bajo niebla.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
+      }
+    },
+    {
+      "itemId": "real-o-ia-014",
+      "assetId": "real-o-ia-carette-paris",
+      "assetVersion": "1",
+      "src": "/media/real-o-ia/real/imagen-04-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 1194,
+      "format": "webp",
+      "bytes": 182736,
+      "alt": "Mesa de café con chocolate caliente, nata montada, tetera plateada y manteles con logo de Carette Paris.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
+      }
+    },
+    {
+      "itemId": "real-o-ia-015",
+      "assetId": "real-o-ia-santa-ventana",
+      "assetVersion": "1",
+      "src": "/media/real-o-ia/real/imagen-05-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 1150,
+      "format": "webp",
+      "bytes": 193200,
+      "alt": "Hombre con barba y gorro rojo de Santa mirando por una ventana, con guirnalda y luces desenfocadas al frente.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
+      }
+    },
+    {
+      "itemId": "real-o-ia-016",
+      "assetId": "real-o-ia-nino-acordeon",
+      "assetVersion": "1",
+      "src": "/media/real-o-ia/real/imagen-06-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 1432,
+      "format": "webp",
+      "bytes": 319456,
+      "alt": "Niño de pie tocando un acordeón pequeño junto a un cubo naranja sobre baldosas grises.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
+      }
+    },
+    {
+      "itemId": "real-o-ia-017",
+      "assetId": "real-o-ia-partitura-cilindros",
+      "assetVersion": "1",
+      "src": "/media/real-o-ia/real/imagen-07-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 1024,
+      "format": "webp",
+      "bytes": 121226,
+      "alt": "Superficies curvas color crema impresas con pentagramas y notas musicales, con desenfoque progresivo.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
+      }
+    },
+    {
+      "itemId": "real-o-ia-018",
+      "assetId": "real-o-ia-jarron-hortensias",
+      "assetVersion": "1",
+      "src": "/media/real-o-ia/real/imagen-08-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 1152,
+      "format": "webp",
+      "bytes": 107318,
+      "alt": "Jarrón oscuro con hortensias blancas sobre mantel de cuadros, frente a ventanas claras con jardín difuminado.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
+      }
+    },
+    {
+      "itemId": "real-o-ia-019",
+      "assetId": "real-o-ia-andamio-obra",
+      "assetVersion": "1",
+      "src": "/media/real-o-ia/real/imagen-09-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 1024,
+      "format": "webp",
+      "bytes": 244874,
+      "alt": "Trabajadores con chalecos reflectantes sobre un andamio metálico, con barreras YODOCK en primer plano.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
+      }
+    },
+    {
+      "itemId": "real-o-ia-020",
+      "assetId": "real-o-ia-sendero-jardin",
+      "assetVersion": "1",
+      "src": "/media/real-o-ia/real/imagen-10-768.webp",
+      "provisional": false,
+      "width": 768,
+      "height": 1152,
+      "format": "webp",
+      "bytes": 375804,
+      "alt": "Persona con sombrero de paja caminando por un sendero de grava entre plantas tropicales y palmeras.",
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/"
       }
     }
   ]
