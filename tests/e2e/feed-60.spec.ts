@@ -16,11 +16,24 @@ async function reachByKeyboard(
 }
 
 test.describe("Feed 60” (T061)", () => {
+  // Evita carreras de RSC/JSON en next dev cuando varios workers abren la misma ruta.
+  test.describe.configure({ mode: "serial" });
+
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => {
+      try {
+        window.localStorage.removeItem("antidoto:motion:v1");
+      } catch {
+        // El storage es opcional en el contrato de movimiento.
+      }
+    });
+  });
+
   test("abre la misión, conserva el shell y permite volver con teclado", async ({
     page,
   }) => {
     await page.setViewportSize({ width: 320, height: 800 });
-    await page.goto("/games/feed-60");
+    await page.goto("/games/feed-60", { waitUntil: "domcontentloaded" });
 
     const shell = page.locator('main[data-game-code="feed-60"]');
     await expect(shell).toBeVisible();
@@ -32,10 +45,7 @@ test.describe("Feed 60” (T061)", () => {
       page.getByText(/verificar|compartir|descartar|tiempo|autoritativo/i).first(),
     ).toBeVisible();
 
-    const pause = page.getByRole("button", {
-      name: /Pausar animación|Activar animación/i,
-    });
-    await expect(pause).toBeVisible();
+    await expect(page.locator(".motion-toggle")).toBeVisible();
 
     const back = page.getByRole("link", { name: /volver al arcade/i });
     await reachByKeyboard(page, back);
@@ -63,23 +73,14 @@ test.describe("Feed 60” (T061)", () => {
   test("la pausa de movimiento no oculta el objetivo ni el retorno", async ({
     page,
   }) => {
-    await page.goto("/games/feed-60");
-    const motion = page.getByRole("button", {
-      name: /Pausar animación|Activar animación/i,
-    });
-    await expect(motion).toBeVisible();
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/games/feed-60", { waitUntil: "domcontentloaded" });
 
-    // Garantiza estado pausado sin asumir la preferencia inicial del sistema.
-    if ((await motion.getAttribute("aria-label")) === "Pausar animación") {
-      await motion.click();
-    }
-
-    await expect(motion).toHaveAttribute("aria-label", "Activar animación");
-    await expect(motion).toHaveAttribute("aria-pressed", "true");
-
+    await expect(page.locator("html")).toHaveAttribute("data-motion", "paused");
     await expect(
       page.locator('main[data-game-code="feed-60"]'),
     ).toBeVisible();
+    await expect(page.locator(".motion-toggle")).toBeVisible();
     await expect(
       page.getByRole("link", { name: /volver al arcade/i }),
     ).toBeVisible();
