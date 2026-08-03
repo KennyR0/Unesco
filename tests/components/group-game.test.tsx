@@ -149,7 +149,8 @@ describe("GroupGame (T048)", () => {
 
       item.messages.forEach((message, index) => {
         expect(messages[index]).toHaveTextContent(message.sender);
-        expect(messages[index]).toHaveTextContent(message.timeLabel);
+        expect(message.timeLabel).toEqual(expect.any(String));
+        expect(messages[index]).toHaveTextContent(message.timeLabel as string);
         expect(messages[index]).toHaveTextContent(message.text);
       });
 
