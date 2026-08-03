@@ -204,7 +204,7 @@ solo se acepta una vez y la categoría seleccionada queda anunciada.
 - [X] T053 [P] [US7] Crear las nueve fuentes, URLs visibles, categorías, razones y feedback en src/features/game/content/game-items/radar-de-fuentes.v1.json.
 - [X] T054 [US7] Implementar la evaluación source_classification y la regla de una aceptación por fuente en src/features/game/domain/mechanics/source-classification.ts.
 - [X] T055 [US7] Implementar tarjetas seleccionables, tres categorías, estado anunciado y feedback en src/components/games/source-radar-game.tsx.
-- [ ] T056 [US7] Cubrir selección, categoría textual, fuente ajena, duplicado, feedback y score máximo 9 en tests/components/source-radar-game.test.tsx y tests/integration/database/source-radar-flow.test.ts.
+- [X] T056 [US7] Cubrir selección, categoría textual, fuente ajena, duplicado, feedback y score máximo 9 en tests/components/source-radar-game.test.tsx y tests/integration/database/source-radar-flow.test.ts.
 
 **Checkpoint**: Radar de Fuentes mantiene integridad de pertenencia y una
 interacción accesible equivalente.
@@ -224,7 +224,7 @@ puede extender el límite.
 - [X] T058 [US8] Implementar el reloj autoritativo, expiración, verify de cuatro segundos y resolución de carreras en src/features/game/domain/mechanics/timed-feed.ts y src/features/game/application/game-operations.ts.
 - [X] T059 [US8] Implementar verify/share/discard, pausa visual sin detener el reloj autoritativo, recuperación de foco, reloj textual, aviso anticipado y estado expirado en src/components/games/feed-60-game.tsx.
 - [X] T060 [US8] Implementar la fórmula +2/-1/+1, piso 0 y máximo 30 en src/features/game/domain/mechanics/feed-scoring.ts.
-- [ ] T061 [US8] Cubrir timer, verify, pausa visual sin extensión de tiempo, recuperación de foco, carreras, teclado, expiración y score en tests/components/feed-60-game.test.tsx, tests/integration/database/feed-expiration.test.ts y tests/e2e/feed-60.spec.ts.
+- [X] T061 [US8] Cubrir timer, verify, pausa visual sin extensión de tiempo, recuperación de foco, carreras, teclado, expiración y score en tests/components/feed-60-game.test.tsx, tests/integration/database/feed-expiration.test.ts y tests/e2e/feed-60.spec.ts.
 
 **Checkpoint**: Feed 60” conserva autoridad temporal y una alternativa accesible
 para cada decisión.
