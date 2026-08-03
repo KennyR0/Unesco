@@ -2276,3 +2276,254 @@ html[data-motion="paused"] .progress-track span {
 html[data-motion="paused"] .feed-timer__track-fill {
   transition: none !important;
 }
+
+/* Mente Maestra: pasos, alcance simulado y autopsia inline. */
+
+.mente-maestra {
+  display: grid;
+  gap: 1.5rem;
+  color: var(--color-ink);
+}
+
+.mente-maestra__progress,
+.mente-maestra__kicker,
+.mente-maestra__session-step,
+.mente-maestra__autopsy-step {
+  margin: 0;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mente-maestra__progress {
+  width: fit-content;
+  padding: 0.3rem 0.5rem;
+  border: var(--border-brutal);
+  background: var(--color-cyan);
+  color: var(--color-ink);
+}
+
+.mente-maestra__session {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: var(--border-brutal);
+  background: var(--color-surface);
+}
+
+.mente-maestra__session-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.mente-maestra__session-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mente-maestra__session-list li {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.55rem 0.7rem;
+  border-left: 6px solid var(--color-magenta);
+  background: var(--color-paper);
+}
+
+.mente-maestra__session-label {
+  font-weight: 650;
+}
+
+.mente-maestra__prompt {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2.4rem, 5.5vw, 4.6rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.mente-maestra__prompt:focus-visible {
+  outline: 3px solid var(--color-cyan);
+  outline-offset: 4px;
+}
+
+.mente-maestra__options {
+  display: grid;
+  gap: 1rem;
+}
+
+.mente-maestra__option {
+  display: grid;
+  gap: 0.4rem;
+  min-height: 5.25rem;
+  padding: 1rem;
+  border: var(--border-brutal);
+  border-radius: 0;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: var(--shadow-brutal-small);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.mente-maestra__option:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-brutal);
+}
+
+.mente-maestra__option-label {
+  font-weight: 800;
+  font-size: 1.05rem;
+  line-height: 1.25;
+}
+
+.mente-maestra__option-description {
+  color: #4b4943;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.mente-maestra__option:disabled {
+  cursor: default;
+  opacity: 0.78;
+}
+
+.mente-maestra__option--chosen,
+.mente-maestra__option--chosen:disabled {
+  background: var(--color-magenta);
+  color: var(--color-paper);
+  opacity: 1;
+}
+
+.mente-maestra__option--chosen .mente-maestra__option-description {
+  color: var(--color-paper);
+}
+
+.mente-maestra__autopsy {
+  display: grid;
+  gap: 1rem;
+  padding: 1.15rem;
+  border: var(--border-brutal);
+  background: var(--color-paper);
+  box-shadow: var(--shadow-brutal-small);
+}
+
+.mente-maestra__autopsy:focus-visible {
+  outline: 3px solid var(--color-cyan);
+  outline-offset: 4px;
+}
+
+.mente-maestra__kicker {
+  width: fit-content;
+  padding: 0.25rem 0.45rem;
+  background: var(--color-magenta);
+  color: var(--color-paper);
+}
+
+.mente-maestra__autopsy-title {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.mente-maestra__disclaimer,
+.mente-maestra__reach-note,
+.mente-maestra__no-publish,
+.mente-maestra__autopsy-tip,
+.mente-maestra__comment {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.mente-maestra__reach {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.9rem 1rem;
+  border: var(--border-brutal);
+  background: var(--color-surface);
+}
+
+.mente-maestra__reach-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.mente-maestra__reach-track {
+  height: 0.85rem;
+  border: 2px solid var(--color-ink);
+  background: var(--color-paper);
+  overflow: hidden;
+}
+
+.mente-maestra__reach-fill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-cyan), var(--color-magenta));
+}
+
+.mente-maestra__comments,
+.mente-maestra__autopsy-list {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mente-maestra__comment {
+  padding: 0.7rem 0.85rem;
+  border-left: 6px solid var(--color-cyan);
+  background: var(--color-surface);
+}
+
+.mente-maestra__autopsy-item {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.85rem 1rem;
+  border: var(--border-brutal);
+  background: var(--color-surface);
+}
+
+.mente-maestra__autopsy-technique {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.mente-maestra__no-publish {
+  padding: 0.75rem 0.9rem;
+  border: var(--border-brutal);
+  background: var(--color-cyan);
+  font-weight: 700;
+}
+
+@media (min-width: 720px) {
+  .mente-maestra__options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion="active"]) .mente-maestra__option {
+    transition: none !important;
+  }
+}
