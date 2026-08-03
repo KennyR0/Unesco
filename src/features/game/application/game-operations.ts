@@ -9,12 +9,24 @@ import {
   type GameState,
   type Leaderboard,
   type PublicError,
+  type PublicFeedback,
   type StartGameCommand,
   type SubmitGameActionCommand,
 } from "@antidoto/contracts";
 
 import { requireArcadeCatalogEntry } from "../content/catalog";
 import { validateAlias } from "../domain/alias";
+import {
+  coerceFeedClockAuthority,
+  createFeedClock,
+  emptyTimedFeedItemState,
+  remainingFeedSeconds,
+  resolveTimedFeedAction,
+  type FeedAction,
+  type FeedClock,
+  type TimedFeedItemState,
+  type TimedFeedResolution,
+} from "../domain/mechanics/timed-feed";
 import {
   AdvanceGameCommandSchema,
   GameCodeSchema,
@@ -143,6 +155,58 @@ function rejectForbiddenAuthority(payload: unknown): PublicError | null {
     );
   }
   return null;
+}
+
+/**
+ * Reloj inicial autoritativo de Feed 60”. El cliente no aporta ni extiende
+ * este instante de expiración.
+ */
+export function createTimedFeedSessionClock(
+  startedAt: Date = new Date(),
+): FeedClock {
+  return createFeedClock(startedAt);
+}
+
+/** Proyecta remainingSeconds solo desde el reloj del servidor. */
+export function projectTimedFeedRemainingSeconds(
+  clock: FeedClock,
+  now: Date = new Date(),
+): number {
+  return remainingFeedSeconds(clock, now);
+}
+
+/**
+ * Resuelve verify / decisión / expiración en una sola pasada autoritativa.
+ * Usado por el gateway o transporte server-only; no acepta remainingSeconds
+ * del cliente.
+ */
+export function resolveTimedFeedSubmit(input: {
+  action: FeedAction;
+  itemId: string;
+  sessionItemIds: readonly string[];
+  clock: FeedClock;
+  itemState?: TimedFeedItemState;
+  solution: unknown;
+  feedback: PublicFeedback;
+  now?: Date;
+  /** Cualquier expiresAt propuesto por el cliente se ignora. */
+  clientProposedExpiresAt?: Date | null;
+}): TimedFeedResolution {
+  const clock = coerceFeedClockAuthority(
+    input.clock,
+    input.clientProposedExpiresAt,
+  );
+
+  return resolveTimedFeedAction({
+    action: input.action,
+    itemId: input.itemId,
+    sessionItemIds: input.sessionItemIds,
+    clock,
+    itemState: input.itemState ?? emptyTimedFeedItemState(),
+    solution: input.solution,
+    feedback: input.feedback,
+    now: input.now,
+  });
 }
 
 function mapGatewayResult<T>(
@@ -276,6 +340,15 @@ export async function submitGameActionOperation(
     },
   );
   if (!isArcadeSuccess(validated)) return validated;
+
+  // Feed 60”: remainingSeconds / expiresAt del cliente ya se rechazan como
+  // autoridad prohibida; la decisión temporal vive en resolveTimedFeedSubmit.
+  if (
+    validated.data.gameCode === "feed-60" &&
+    validated.data.input.kind !== "feed_action"
+  ) {
+    return arcadeFailure("INVALID_ACTION");
+  }
 
   try {
     return mapGatewayResult(
