@@ -117,13 +117,13 @@ y recomendación antes de avanzar; un reintento es idempotente; el resultado
 incluye GameScore y el ranking global no bloquea el flujo.
 
 - [X] T032 [US3] Implementar submitGameAction y advanceGame con rechazo de solution, score, nextItem y completed enviados por el cliente en src/features/game/application/submit-game-action.ts y src/app/actions/game.ts.
-- [ ] T033 [US3] Integrar feedback persistente, anuncio accesible y avance bloqueado hasta aceptar en src/components/game/feedback-panel.tsx, src/components/game/feedback-card.tsx y src/components/game/game-shell.tsx.
-- [ ] T034 [US3] Implementar la proyección post-partida por gameCode (aprendizaje, GameScore y enlace discreto al ranking) sin mover el feedback educativo fuera del shell, en src/app/games/[gameCode]/result/page.tsx y src/components/game/result-card.tsx.
-- [ ] T035 [US3] Implementar la lectura global de leaderboard con máximo diez entradas, elegibilidad server-only, rankingScore normalizado, exclusión de incompletos/expirados y copia neutral en src/features/game/application/leaderboard.ts y src/features/game/infrastructure/supabase-game-gateway.ts.
-- [ ] T036 [US3] Implementar la página secundaria /leaderboard y su tabla accesible sin añadirla al landing en src/app/leaderboard/page.tsx y src/components/game/leaderboard-table.tsx.
-- [ ] T037 [US3] Actualizar el mapeo de errores de resultado y ranking, incluyendo estado vacío y fallo retryable, en src/features/game/application/game-error.ts y src/features/game/infrastructure/map-database-error.ts.
-- [ ] T038 [P] [US3] Cubrir feedback inline, resultado, idempotencia y proyección sin solución en tests/components/feedback-panel.test.tsx, tests/e2e/game-feedback.spec.ts y tests/contracts/public-projections.test.ts.
-- [ ] T039 [US3] Cubrir ranking global, límite de diez, elegibilidad de finished completo, exclusión de expirados/incompletos, maxPoints <= 0, clamp, rankingScore, alias seguro, desempate por completedAt/resultId y fallo independiente en tests/components/leaderboard-table.test.tsx, tests/integration/database/leaderboard-rpc.test.ts y tests/e2e/arcade-leaderboard.spec.ts.
+- [X] T033 [US3] Integrar feedback persistente, anuncio accesible y avance bloqueado hasta aceptar en src/components/game/feedback-panel.tsx, src/components/game/feedback-card.tsx y src/components/game/game-shell.tsx.
+- [X] T034 [US3] Implementar la proyección post-partida por gameCode (aprendizaje, GameScore y enlace discreto al ranking) sin mover el feedback educativo fuera del shell, en src/app/games/[gameCode]/result/page.tsx y src/components/game/result-card.tsx.
+- [X] T035 [US3] Implementar la lectura global de leaderboard con máximo diez entradas, elegibilidad server-only, rankingScore normalizado, exclusión de incompletos/expirados y copia neutral en src/features/game/application/leaderboard.ts y src/features/game/infrastructure/supabase-game-gateway.ts.
+- [X] T036 [US3] Implementar la página secundaria /leaderboard y su tabla accesible sin añadirla al landing en src/app/leaderboard/page.tsx y src/components/game/leaderboard-table.tsx.
+- [X] T037 [US3] Actualizar el mapeo de errores de resultado y ranking, incluyendo estado vacío y fallo retryable, en src/features/game/application/game-error.ts y src/features/game/infrastructure/map-database-error.ts.
+- [X] T038 [P] [US3] Cubrir feedback inline, resultado, idempotencia y proyección sin solución en tests/components/feedback-panel.test.tsx, tests/e2e/game-feedback.spec.ts y tests/contracts/public-projections.test.ts.
+- [X] T039 [US3] Cubrir ranking global, límite de diez, elegibilidad de finished completo, exclusión de expirados/incompletos, maxPoints <= 0, clamp, rankingScore, alias seguro, desempate por completedAt/resultId y fallo independiente en tests/components/leaderboard-table.test.tsx, tests/integration/database/leaderboard-rpc.test.ts y tests/e2e/arcade-leaderboard.spec.ts.
 
 **Checkpoint**: una respuesta completa educa y produce resultado sin convertir
 el ranking en requisito para jugar.
