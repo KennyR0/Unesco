@@ -3,6 +3,8 @@ import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 
 import { GroupGame, type GroupItem } from "../../src/components/games/group-game";
+import { createContentRepository } from "../../src/features/game/content/content-repository";
+import contentPack from "../../src/features/game/content/game-items/grupo.v1.json";
 
 function makeItem(): GroupItem {
   return {
@@ -29,6 +31,16 @@ function makeItem(): GroupItem {
     ],
     actions: ["forward", "verify", "pause"],
   };
+}
+
+function editorialItem(itemId: string): GroupItem {
+  const publicItem = createContentRepository(contentPack, {
+    activeVersion: "2026-07-30.1",
+  }).getPublicItem("grupo", itemId);
+  if (!publicItem || publicItem.gameCode !== "grupo") {
+    throw new Error(`Item público ausente: ${itemId}`);
+  }
+  return publicItem;
 }
 
 describe("GroupGame (T048)", () => {
@@ -116,4 +128,37 @@ describe("GroupGame (T048)", () => {
       screen.getByRole("group", { name: "Acciones de cuidado" }),
     ).toBeVisible();
   });
+
+  it("respeta el orden de lectura del pack editorial en las seis escenas", () => {
+    for (const itemId of [
+      "grupo-001",
+      "grupo-002",
+      "grupo-003",
+      "grupo-004",
+      "grupo-005",
+      "grupo-006",
+    ]) {
+      const item = editorialItem(itemId);
+      const { unmount } = render(
+        <GroupGame item={item} onAction={() => {}} />,
+      );
+
+      const thread = screen.getByRole("list", { name: "Mensajes en orden" });
+      const messages = within(thread).getAllByRole("listitem");
+      expect(messages).toHaveLength(item.messages.length);
+
+      item.messages.forEach((message, index) => {
+        expect(messages[index]).toHaveTextContent(message.sender);
+        expect(messages[index]).toHaveTextContent(message.timeLabel);
+        expect(messages[index]).toHaveTextContent(message.text);
+      });
+
+      expect(screen.getByRole("button", { name: /Reenviar/ })).toBeEnabled();
+      expect(screen.getByRole("button", { name: /Verificar/ })).toBeEnabled();
+      expect(screen.getByRole("button", { name: /Frenar/ })).toBeEnabled();
+      unmount();
+    }
+  });
 });
+
+

@@ -144,8 +144,8 @@ revela la solución solo después de aceptar y la media tiene alt o fallback.
 - [X] T040 [P] [US4] Crear el contenido estructuralmente válido de ocho imágenes y sus feedbacks en src/features/game/content/game-items/real-o-ia.v1.json.
 - [X] T041 [US4] Implementar la evaluación image_verdict con pistas de autenticidad y puntuación +10/0 en src/features/game/domain/mechanics/image-verdict.ts.
 - [X] T042 [US4] Implementar el componente de imagen, contexto y controles Real/IA en src/components/games/real-o-ia-game.tsx.
-- [ ] T043 [US4] Registrar media real/provisional, alt, fallback y derechos en public/media/real-o-ia/media-index.v1.json y src/features/game/content/media-manifest.v1.json.
-- [ ] T044 [US4] Cubrir los ocho items, proyección privada, teclado, fallback y score máximo 80 en tests/components/real-o-ia-game.test.tsx y tests/integration/database/real-o-ia-flow.test.ts.
+- [X] T043 [US4] Registrar media real/provisional, alt, fallback y derechos en public/media/real-o-ia/media-index.v1.json y src/features/game/content/media-manifest.v1.json.
+- [X] T044 [US4] Cubrir los ocho items, proyección privada, teclado, fallback y score máximo 80 en tests/components/real-o-ia-game.test.tsx y tests/integration/database/real-o-ia-flow.test.ts.
 
 **Checkpoint**: Real o IA funciona como historia aislada dentro del shell.
 
@@ -164,7 +164,7 @@ consecuencia educativa y una alerta oficial verificada no se penaliza por defect
 - [X] T045 [P] [US5] Crear las seis escenas, acciones y feedback editorial de El Grupo en src/features/game/content/game-items/grupo.v1.json.
 - [X] T046 [US5] Implementar la evaluación group_action, consecuencia segura y score +2/+1/0 en src/features/game/domain/mechanics/group-decision.ts.
 - [X] T047 [US5] Implementar el chat narrativo, acciones de cuidado y live region en src/components/games/group-game.tsx.
-- [ ] T048 [US5] Cubrir orden de lectura, acciones forward/verify/pause, consecuencias y límites de score en tests/components/group-game.test.tsx y tests/integration/database/group-flow.test.ts.
+- [X] T048 [US5] Cubrir orden de lectura, acciones forward/verify/pause, consecuencias y límites de score en tests/components/group-game.test.tsx y tests/integration/database/group-flow.test.ts.
 
 **Checkpoint**: El Grupo funciona de forma independiente y mantiene el feedback
 en la misma vista.
@@ -184,7 +184,7 @@ teclado producen la misma entrada y la racha solo bonifica grupos de tres aciert
 - [X] T049 [P] [US6] Crear los doce titulares, fuentes, categorías y feedback editorial en src/features/game/content/game-items/clickbait-swipe.v1.json.
 - [X] T050 [US6] Implementar la evaluación headline_classification, racha de tres y score +1 con bono máximo +4 en src/features/game/domain/mechanics/headline-classification.ts.
 - [X] T051 [US6] Implementar swipe cancelable, botones, flechas, teclado y foco posterior en src/components/games/clickbait-swipe-game.tsx.
-- [ ] T052 [US6] Cubrir gesto, cancelación, teclado, equivalencia de controles, racha y score máximo 16 en tests/components/clickbait-swipe-game.test.tsx y tests/e2e/clickbait-swipe.spec.ts.
+- [X] T052 [US6] Cubrir gesto, cancelación, teclado, equivalencia de controles, racha y score máximo 16 en tests/components/clickbait-swipe-game.test.tsx y tests/e2e/clickbait-swipe.spec.ts.
 
 **Checkpoint**: Clickbait Swipe es utilizable sin gesto y no expone la regla
 privada antes de responder.

@@ -1,248 +1,153 @@
 {
   "schemaVersion": 1,
-  "manifestVersion": "2026-08-02.1",
-  "limits": {
-    "maxBytesPerAsset": 1048576,
-    "recommendedBytesPerAsset": 307200,
-    "maxVisibleFirstViewBytes": 1572864
-  },
-  "allowedPathPrefixes": ["/images/", "/media/"],
-  "assets": [
+  "gameCode": "real-o-ia",
+  "indexVersion": "2026-08-02.1",
+  "contentVersion": "2026-07-30.1",
+  "notes": "Placeholders provisionales 1×1 WebP. Sustituir por imágenes editoriales definitivas incrementa indexVersion/contentVersion y exige revalidar alt, peso, derechos y feedback.",
+  "entries": [
     {
-      "id": "img-contexto-fuera-de-campo",
-      "version": "1",
-      "gameCode": null,
-      "kind": "image",
-      "src": "/images/questions/contexto-fuera-de-campo.webp",
-      "width": 640,
-      "height": 640,
-      "format": "webp",
-      "bytes": 35164,
-      "alt": "Escena urbana con varios elementos visibles en primer y segundo plano.",
-      "decorative": false,
-      "fallbackText": "La imagen educativa no está disponible. Continúa con el texto del desafío.",
-      "responsive": true,
-      "provisional": false,
-      "editorialStatus": "approved",
-      "rights": {
-        "provenanceType": "repository_original",
-        "license": "project-original",
-        "locator": "public/images/questions/contexto-fuera-de-campo.webp"
-      },
-      "fingerprint": {
-        "type": "sha256",
-        "value": "986CC5388B8213ADB10F375A603C669F8EC610DFF5926024513E61F4F2D35418"
-      }
-    },
-    {
-      "id": "img-deepfake-iluminacion",
-      "version": "1",
-      "gameCode": null,
-      "kind": "image",
-      "src": "/images/questions/deepfake-iluminacion.webp",
-      "width": 640,
-      "height": 640,
-      "format": "webp",
-      "bytes": 12380,
-      "alt": "Retrato iluminado de una persona en un entorno interior.",
-      "decorative": false,
-      "fallbackText": "La imagen educativa no está disponible. Continúa con el texto del desafío.",
-      "responsive": true,
-      "provisional": false,
-      "editorialStatus": "approved",
-      "rights": {
-        "provenanceType": "repository_original",
-        "license": "project-original",
-        "locator": "public/images/questions/deepfake-iluminacion.webp"
-      },
-      "fingerprint": {
-        "type": "sha256",
-        "value": "B792D0026B063A3E92D3FB55928BC827D8E7637707C559EC7190743A576536B6"
-      }
-    },
-    {
-      "id": "real-o-ia-retrato-en-el-parque",
-      "version": "1",
-      "gameCode": "real-o-ia",
-      "kind": "image",
+      "itemId": "real-o-ia-001",
+      "assetId": "real-o-ia-retrato-en-el-parque",
+      "assetVersion": "1",
       "src": "/media/real-o-ia/retrato-en-el-parque.webp",
+      "provisional": true,
       "width": 640,
       "height": 432,
       "format": "webp",
       "bytes": 44,
       "alt": "Retrato de una persona sonriendo en un parque, con un letrero, un teléfono y árboles visibles en la escena.",
-      "decorative": false,
       "fallbackText": "La imagen del retrato en el parque no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
-      "responsive": true,
-      "provisional": true,
-      "editorialStatus": "draft",
       "rights": {
         "provenanceType": "provisional_placeholder",
         "license": "project-original-provisional",
         "locator": "public/media/real-o-ia/retrato-en-el-parque.webp"
-      },
-      "fingerprint": null
+      }
     },
     {
-      "id": "real-o-ia-atardecer-en-el-lago",
-      "version": "1",
-      "gameCode": "real-o-ia",
-      "kind": "image",
+      "itemId": "real-o-ia-002",
+      "assetId": "real-o-ia-atardecer-en-el-lago",
+      "assetVersion": "1",
       "src": "/media/real-o-ia/atardecer-en-el-lago.webp",
+      "provisional": true,
       "width": 640,
       "height": 432,
       "format": "webp",
       "bytes": 44,
       "alt": "Paisaje de un lago al atardecer con montañas, el sol bajando sobre el agua y un rótulo con el nombre del lugar y el año.",
-      "decorative": false,
       "fallbackText": "La imagen del atardecer en el lago no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
-      "responsive": true,
-      "provisional": true,
-      "editorialStatus": "draft",
       "rights": {
         "provenanceType": "provisional_placeholder",
         "license": "project-original-provisional",
         "locator": "public/media/real-o-ia/atardecer-en-el-lago.webp"
-      },
-      "fingerprint": null
+      }
     },
     {
-      "id": "real-o-ia-plaza-de-la-ciudad",
-      "version": "1",
-      "gameCode": "real-o-ia",
-      "kind": "image",
+      "itemId": "real-o-ia-003",
+      "assetId": "real-o-ia-plaza-de-la-ciudad",
+      "assetVersion": "1",
       "src": "/media/real-o-ia/plaza-de-la-ciudad.webp",
+      "provisional": true,
       "width": 640,
       "height": 432,
       "format": "webp",
       "bytes": 44,
       "alt": "Plaza de una ciudad con edificios de colores, un letrero de bienvenida, un poste de luz y una persona caminando.",
-      "decorative": false,
       "fallbackText": "La imagen de la plaza de la ciudad no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
-      "responsive": true,
-      "provisional": true,
-      "editorialStatus": "draft",
       "rights": {
         "provenanceType": "provisional_placeholder",
         "license": "project-original-provisional",
         "locator": "public/media/real-o-ia/plaza-de-la-ciudad.webp"
-      },
-      "fingerprint": null
+      }
     },
     {
-      "id": "real-o-ia-gato-en-la-ventana",
-      "version": "1",
-      "gameCode": "real-o-ia",
-      "kind": "image",
+      "itemId": "real-o-ia-004",
+      "assetId": "real-o-ia-gato-en-la-ventana",
+      "assetVersion": "1",
       "src": "/media/real-o-ia/gato-en-la-ventana.webp",
+      "provisional": true,
       "width": 640,
       "height": 432,
       "format": "webp",
       "bytes": 44,
       "alt": "Un gato naranja descansando junto a una ventana, con una maceta cerca y luz cálida de interior.",
-      "decorative": false,
       "fallbackText": "La imagen del gato en la ventana no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
-      "responsive": true,
-      "provisional": true,
-      "editorialStatus": "draft",
       "rights": {
         "provenanceType": "provisional_placeholder",
         "license": "project-original-provisional",
         "locator": "public/media/real-o-ia/gato-en-la-ventana.webp"
-      },
-      "fingerprint": null
+      }
     },
     {
-      "id": "real-o-ia-perro-en-el-parque",
-      "version": "1",
-      "gameCode": "real-o-ia",
-      "kind": "image",
+      "itemId": "real-o-ia-005",
+      "assetId": "real-o-ia-perro-en-el-parque",
+      "assetVersion": "1",
       "src": "/media/real-o-ia/perro-en-el-parque.webp",
+      "provisional": true,
       "width": 640,
       "height": 432,
       "format": "webp",
       "bytes": 44,
       "alt": "Un perro marrón de pie sobre la hierba de un parque verde, con el sol visible al fondo.",
-      "decorative": false,
       "fallbackText": "La imagen del perro en el parque no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
-      "responsive": true,
-      "provisional": true,
-      "editorialStatus": "draft",
       "rights": {
         "provenanceType": "provisional_placeholder",
         "license": "project-original-provisional",
         "locator": "public/media/real-o-ia/perro-en-el-parque.webp"
-      },
-      "fingerprint": null
+      }
     },
     {
-      "id": "real-o-ia-puesto-de-frutas",
-      "version": "1",
-      "gameCode": "real-o-ia",
-      "kind": "image",
+      "itemId": "real-o-ia-006",
+      "assetId": "real-o-ia-puesto-de-frutas",
+      "assetVersion": "1",
       "src": "/media/real-o-ia/puesto-de-frutas.webp",
+      "provisional": true,
       "width": 640,
       "height": 432,
       "format": "webp",
       "bytes": 44,
       "alt": "Puesto de frutas en un mercado, con naranjas, fresas y plátanos ordenados y un cartel con los precios.",
-      "decorative": false,
       "fallbackText": "La imagen del puesto de frutas no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
-      "responsive": true,
-      "provisional": true,
-      "editorialStatus": "draft",
       "rights": {
         "provenanceType": "provisional_placeholder",
         "license": "project-original-provisional",
         "locator": "public/media/real-o-ia/puesto-de-frutas.webp"
-      },
-      "fingerprint": null
+      }
     },
     {
-      "id": "real-o-ia-multitud-en-el-concierto",
-      "version": "1",
-      "gameCode": "real-o-ia",
-      "kind": "image",
+      "itemId": "real-o-ia-007",
+      "assetId": "real-o-ia-multitud-en-el-concierto",
+      "assetVersion": "1",
       "src": "/media/real-o-ia/multitud-en-el-concierto.webp",
+      "provisional": true,
       "width": 640,
       "height": 432,
       "format": "webp",
       "bytes": 44,
       "alt": "Multitud de personas en un concierto nocturno, con luces de colores, un escenario al fondo y un teléfono levantado entre el público.",
-      "decorative": false,
       "fallbackText": "La imagen de la multitud en el concierto no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
-      "responsive": true,
-      "provisional": true,
-      "editorialStatus": "draft",
       "rights": {
         "provenanceType": "provisional_placeholder",
         "license": "project-original-provisional",
         "locator": "public/media/real-o-ia/multitud-en-el-concierto.webp"
-      },
-      "fingerprint": null
+      }
     },
     {
-      "id": "real-o-ia-retrato-de-la-abuela",
-      "version": "1",
-      "gameCode": "real-o-ia",
-      "kind": "image",
+      "itemId": "real-o-ia-008",
+      "assetId": "real-o-ia-retrato-de-la-abuela",
+      "assetVersion": "1",
       "src": "/media/real-o-ia/retrato-de-la-abuela.webp",
+      "provisional": true,
       "width": 640,
       "height": 432,
       "format": "webp",
       "bytes": 44,
       "alt": "Retrato de una mujer mayor con lentes y cabello canoso, sonriendo en una celebración familiar.",
-      "decorative": false,
       "fallbackText": "La imagen del retrato de la abuela no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
-      "responsive": true,
-      "provisional": true,
-      "editorialStatus": "draft",
       "rights": {
         "provenanceType": "provisional_placeholder",
         "license": "project-original-provisional",
         "locator": "public/media/real-o-ia/retrato-de-la-abuela.webp"
-      },
-      "fingerprint": null
+      }
     }
   ]
 }
