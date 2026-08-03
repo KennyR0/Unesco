@@ -1457,6 +1457,122 @@ html[data-motion="paused"] .kinetic-marquee__track span[aria-hidden="true"] {
   text-transform: uppercase;
 }
 
+.result-card {
+  position: relative;
+  display: grid;
+  gap: 0.85rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: var(--border-brutal);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-brutal);
+}
+
+.result-card .eyebrow {
+  width: fit-content;
+  margin: 0;
+  padding: 0.25rem 0.45rem;
+  background: var(--color-ink);
+  color: var(--color-surface);
+  font-family: var(--font-mono), monospace;
+}
+
+.result-card h2 {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.result-card h3 {
+  width: fit-content;
+  margin: 0.35rem 0 0;
+  padding-bottom: 0.15rem;
+  border-bottom: 3px solid var(--color-ink);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.result-card__alias,
+.result-card__progress,
+.result-card__learning p,
+.result-card__reach,
+.result-card__ranking-note {
+  margin: 0;
+  max-width: 42rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.result-card__learning,
+.result-card__score-block {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.result-card__score {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+}
+
+.result-card__score-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding: 0.55rem 0.75rem;
+  border: 2px solid var(--color-ink);
+  background: var(--color-paper, var(--color-surface));
+}
+
+.result-card__score-row dt {
+  margin: 0;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.result-card__score-row dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.result-card__reach {
+  padding: 0.75rem;
+  border: 2px dashed var(--color-ink);
+  background: rgb(10 10 10 / 4%);
+}
+
+.result-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: var(--border-brutal);
+}
+
+.result-card__ranking-link {
+  font-size: 0.95rem;
+}
+
+.result-card__ranking-note {
+  color: rgb(10 10 10 / 78%);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+
+.result-card--unavailable {
+  background: var(--color-amber, var(--color-acid));
+}
+
 .state-page {
   display: grid;
   min-height: calc(100svh - 5.5rem);
