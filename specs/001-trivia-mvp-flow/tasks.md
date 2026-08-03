@@ -145,7 +145,7 @@ revela la solución solo después de aceptar y la media tiene alt o fallback.
 - [X] T041 [US4] Implementar la evaluación image_verdict con pistas de autenticidad y puntuación +10/0 en src/features/game/domain/mechanics/image-verdict.ts.
 - [X] T042 [US4] Implementar el componente de imagen, contexto y controles Real/IA en src/components/games/real-o-ia-game.tsx.
 - [X] T043 [US4] Registrar media real/provisional, alt, fallback y derechos en public/media/real-o-ia/media-index.v1.json y src/features/game/content/media-manifest.v1.json.
-- [ ] T044 [US4] Cubrir los ocho items, proyección privada, teclado, fallback y score máximo 80 en tests/components/real-o-ia-game.test.tsx y tests/integration/database/real-o-ia-flow.test.ts.
+- [X] T044 [US4] Cubrir los ocho items, proyección privada, teclado, fallback y score máximo 80 en tests/components/real-o-ia-game.test.tsx y tests/integration/database/real-o-ia-flow.test.ts.
 
 **Checkpoint**: Real o IA funciona como historia aislada dentro del shell.
 
