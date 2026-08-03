@@ -1,10 +1,13 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
 import { GameShell } from "./game-shell";
 
 describe("GameShell arcade", () => {
-  it("expone progreso, estado, error y feedback inline en una sola vista", () => {
+  it("expone progreso, estado, error y feedback inline en una sola vista", async () => {
+    const user = userEvent.setup();
+
     render(
       <GameShell
         title="¿Real o IA?"
@@ -23,6 +26,7 @@ describe("GameShell arcade", () => {
         nextAction={<button type="button">Siguiente item</button>}
       >
         <p>Contenido público del item.</p>
+        <button type="button">Responder otra vez</button>
       </GameShell>,
     );
 
@@ -34,10 +38,28 @@ describe("GameShell arcade", () => {
       "data-game-code",
       "real-o-ia",
     );
-    expect(screen.getByRole("status")).toHaveTextContent("Respuesta recibida");
-    expect(screen.getByRole("alert")).toHaveTextContent("Debes revisar esta acción.");
+    expect(screen.getByRole("main")).toHaveAttribute(
+      "data-feedback-pending",
+      "true",
+    );
+    expect(screen.getByText("Respuesta recibida")).toBeVisible();
+    expect(
+      screen.getByRole("region", { name: "Feedback educativo" }),
+    ).toHaveAttribute("aria-describedby");
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "Debes revisar esta acción.",
+    );
     expect(screen.getByText("Contenido público del item.")).toBeVisible();
     expect(screen.getByText("La decisión necesita más contexto.")).toBeVisible();
+    expect(
+      screen.getByText("Contenido público del item.").closest(".game-shell__content"),
+    ).toHaveAttribute("inert");
+
+    expect(
+      screen.queryByRole("button", { name: "Siguiente item" }),
+    ).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Aceptar feedback" }));
     expect(screen.getByRole("button", { name: "Siguiente item" })).toBeVisible();
   });
 

@@ -92,6 +92,7 @@ export function GameShell({
   const titleId = `${id}-title`;
   const errorId = `${id}-error`;
   const shellClassName = ["game-shell", className].filter(Boolean).join(" ");
+  const feedbackPending = Boolean(feedback);
 
   return (
     <>
@@ -101,6 +102,7 @@ export function GameShell({
         className={shellClassName}
         data-game-code={gameCode}
         data-session-status={status}
+        data-feedback-pending={feedbackPending ? "true" : "false"}
         aria-labelledby={titleId}
         aria-describedby={error ? errorId : undefined}
         aria-busy={status === "processing"}
@@ -128,11 +130,16 @@ export function GameShell({
           </div>
         ) : null}
 
+        <section
+          className="game-shell__content"
+          inert={feedbackPending || undefined}
+        >
+          {children}
+        </section>
+
         {feedback ? (
           <FeedbackPanel feedback={feedback} nextAction={nextAction} />
         ) : null}
-
-        <section className="game-shell__content">{children}</section>
       </main>
     </>
   );
