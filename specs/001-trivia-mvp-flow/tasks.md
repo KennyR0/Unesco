@@ -184,7 +184,7 @@ teclado producen la misma entrada y la racha solo bonifica grupos de tres aciert
 - [X] T049 [P] [US6] Crear los doce titulares, fuentes, categorías y feedback editorial en src/features/game/content/game-items/clickbait-swipe.v1.json.
 - [X] T050 [US6] Implementar la evaluación headline_classification, racha de tres y score +1 con bono máximo +4 en src/features/game/domain/mechanics/headline-classification.ts.
 - [X] T051 [US6] Implementar swipe cancelable, botones, flechas, teclado y foco posterior en src/components/games/clickbait-swipe-game.tsx.
-- [ ] T052 [US6] Cubrir gesto, cancelación, teclado, equivalencia de controles, racha y score máximo 16 en tests/components/clickbait-swipe-game.test.tsx y tests/e2e/clickbait-swipe.spec.ts.
+- [X] T052 [US6] Cubrir gesto, cancelación, teclado, equivalencia de controles, racha y score máximo 16 en tests/components/clickbait-swipe-game.test.tsx y tests/e2e/clickbait-swipe.spec.ts.
 
 **Checkpoint**: Clickbait Swipe es utilizable sin gesto y no expone la regla
 privada antes de responder.
