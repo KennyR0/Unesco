@@ -109,6 +109,7 @@ export function MisinformationAutopsyGame({
     : "mente-maestra-selection";
   const sessionId = "mente-maestra-session-selections";
   const autopsyId = "mente-maestra-autopsy";
+  const autopsyTitleId = "mente-maestra-autopsy-title";
   const reachId = "mente-maestra-reach";
 
   const selectedLabel =
@@ -169,7 +170,8 @@ export function MisinformationAutopsyGame({
     <section
       className="mente-maestra"
       data-game-code="mente-maestra"
-      aria-labelledby={item ? promptId : autopsyId}
+      aria-labelledby={item ? promptId : undefined}
+      aria-label={item ? undefined : "Mente Maestra"}
       aria-describedby={`${progressId} ${selectionStatusId}`}
     >
       <p id={progressId} className="mente-maestra__progress">
@@ -269,10 +271,10 @@ export function MisinformationAutopsyGame({
           id={autopsyId}
           className="mente-maestra__autopsy"
           tabIndex={-1}
-          aria-label="Autopsia de la simulación"
+          aria-labelledby={autopsyTitleId}
         >
           <p className="mente-maestra__kicker">Simulación educativa</p>
-          <h2 className="mente-maestra__autopsy-title">
+          <h2 id={autopsyTitleId} className="mente-maestra__autopsy-title">
             Autopsia de tu fake news
           </h2>
           <p className="mente-maestra__disclaimer">
