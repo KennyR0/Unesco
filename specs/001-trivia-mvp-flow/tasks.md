@@ -116,7 +116,7 @@ materializar resultado y ofrecer el ranking global solo como acción secundaria.
 y recomendación antes de avanzar; un reintento es idempotente; el resultado
 incluye GameScore y el ranking global no bloquea el flujo.
 
-- [ ] T032 [US3] Implementar submitGameAction y advanceGame con rechazo de solution, score, nextItem y completed enviados por el cliente en src/features/game/application/submit-game-action.ts y src/app/actions/game.ts.
+- [X] T032 [US3] Implementar submitGameAction y advanceGame con rechazo de solution, score, nextItem y completed enviados por el cliente en src/features/game/application/submit-game-action.ts y src/app/actions/game.ts.
 - [ ] T033 [US3] Integrar feedback persistente, anuncio accesible y avance bloqueado hasta aceptar en src/components/game/feedback-panel.tsx, src/components/game/feedback-card.tsx y src/components/game/game-shell.tsx.
 - [ ] T034 [US3] Implementar la proyección post-partida por gameCode (aprendizaje, GameScore y enlace discreto al ranking) sin mover el feedback educativo fuera del shell, en src/app/games/[gameCode]/result/page.tsx y src/components/game/result-card.tsx.
 - [ ] T035 [US3] Implementar la lectura global de leaderboard con máximo diez entradas, elegibilidad server-only, rankingScore normalizado, exclusión de incompletos/expirados y copia neutral en src/features/game/application/leaderboard.ts y src/features/game/infrastructure/supabase-game-gateway.ts.

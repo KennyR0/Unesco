@@ -32,14 +32,29 @@ import {
 } from "../infrastructure/memory-arcade-gateway";
 import { createGameGateway } from "../infrastructure/supabase-game-gateway";
 import {
-  advanceGameOperation,
   arcadeFailure,
+  assertActionPayloadWithinLimit,
+  containsForbiddenAuthorityFields,
   getGameResultOperation,
   getGameStateOperation,
   getLeaderboardOperation,
 } from "./game-operations";
 import { startGame } from "./start-game";
-import { submitGameAction } from "./submit-game-action";
+import { advanceGame, submitGameAction } from "./submit-game-action";
+
+function rejectClientAuthorityPayload(
+  payload: unknown,
+): ArcadeOperationResult<never> | null {
+  const sizeError = assertActionPayloadWithinLimit(payload);
+  if (sizeError) return { ok: false, error: sizeError };
+  if (containsForbiddenAuthorityFields(payload)) {
+    return arcadeFailure(
+      "INVALID_ACTION",
+      "La acción no puede incluir campos de autoridad del servidor.",
+    );
+  }
+  return null;
+}
 
 export type ArcadeServerDependencies = Readonly<{
   gateway?: ArcadeGameGateway;
@@ -213,6 +228,10 @@ export async function submitArcadeGameActionServer(
   if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
     return arcadeFailure("INVALID_ACTION");
   }
+
+  const authorityRejection = rejectClientAuthorityPayload(payload);
+  if (authorityRejection) return authorityRejection;
+
   const gameCodeResult = GameCodeSchema.safeParse(
     (payload as { gameCode?: unknown }).gameCode,
   );
@@ -235,6 +254,9 @@ export async function advanceArcadeGameServer(
     return arcadeFailure("INVALID_ACTION");
   }
 
+  const authorityRejection = rejectClientAuthorityPayload(payload);
+  if (authorityRejection) return authorityRejection;
+
   const gameCodeResult = GameCodeSchema.safeParse(
     (payload as { gameCode?: unknown }).gameCode,
   );
@@ -243,13 +265,10 @@ export async function advanceArcadeGameServer(
   const session = await resolveArcadeSession(gameCodeResult.data, dependencies);
   if (!session.ok) return session;
 
-  return advanceGameOperation(
-    {
-      sessionId: session.data.sessionId,
-      itemId: (payload as { itemId?: unknown }).itemId,
-    },
-    { gateway: resolveGateway(dependencies) },
-  );
+  return advanceGame(payload, {
+    gateway: resolveGateway(dependencies),
+    resolveSessionId: async () => session.data.sessionId,
+  });
 }
 
 export async function getArcadeGameResultServer(

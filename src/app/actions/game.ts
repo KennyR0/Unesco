@@ -65,16 +65,30 @@ export async function getArcadeGameStateAction(
   return getArcadeGameStateServer(payload);
 }
 
-export async function submitGameActionAction(
+/** submitGameAction: rechaza solution, score, nextItem y completed del cliente. */
+export async function submitGameAction(
   payload: unknown,
 ): Promise<ArcadeOperationResult<GameState>> {
   return submitArcadeGameActionServer(payload);
 }
 
-export async function advanceArcadeGameAction(
+/** advanceGame: rechaza solution, score, nextItem y completed del cliente. */
+export async function advanceGame(
   payload: unknown,
 ): Promise<ArcadeOperationResult<GameState>> {
   return advanceArcadeGameServer(payload);
+}
+
+export async function submitGameActionAction(
+  payload: unknown,
+): Promise<ArcadeOperationResult<GameState>> {
+  return submitGameAction(payload);
+}
+
+export async function advanceArcadeGameAction(
+  payload: unknown,
+): Promise<ArcadeOperationResult<GameState>> {
+  return advanceGame(payload);
 }
 
 export async function getArcadeGameResultAction(

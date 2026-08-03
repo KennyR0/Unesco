@@ -202,4 +202,53 @@ describe("transporte server-only arcade", () => {
     expect(result.data.status).toBe("finished");
     expect(result.data.gameCode).toBe("clickbait-swipe");
   });
+
+  it("rechaza advance con solution, score, nextItem o completed del cliente", async () => {
+    const gateway = createMemoryArcadeGateway();
+    const cookieStore = createMemoryCookieStore();
+    const deps = { gateway, cookieStore: cookieStore as never, secure: false };
+
+    await startArcadeGameServer(
+      { alias: "Ana", gameCode: "clickbait-swipe" },
+      deps,
+    );
+    await submitArcadeGameActionServer(
+      {
+        gameCode: "clickbait-swipe",
+        itemId: "item-1",
+        input: {
+          kind: "headline_classification",
+          value: "journalism",
+          source: "button",
+        },
+      },
+      deps,
+    );
+
+    for (const forbidden of [
+      { solution: { classification: "clickbait" } },
+      { score: 16 },
+      { nextItem: "item-2" },
+      { completed: true },
+    ]) {
+      const rejected = await advanceArcadeGameServer(
+        {
+          gameCode: "clickbait-swipe",
+          itemId: "item-1",
+          ...forbidden,
+        },
+        deps,
+      );
+      expect(rejected.ok).toBe(false);
+      if (!rejected.ok) {
+        expect(rejected.error.code).toBe("INVALID_ACTION");
+      }
+    }
+
+    const advanced = await advanceArcadeGameServer(
+      { gameCode: "clickbait-swipe", itemId: "item-1" },
+      deps,
+    );
+    expect(advanced.ok).toBe(true);
+  });
 });
