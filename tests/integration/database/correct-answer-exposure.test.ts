@@ -2,7 +2,9 @@ import { describe, expect, it } from 'vitest';
 
 import { sql } from '../../fixtures/supabase-local';
 
-describe('exposicion de soluciones', () => {
+const supabasePhysicalGateOpen = process.env.RUN_SUPABASE_TESTS === 'true';
+
+describe.skipIf(!supabasePhysicalGateOpen)('exposicion de soluciones (puerta Supabase)', () => {
   it('separa la solucion privada y bloquea claves sensibles del payload publico', () => {
     expect(sql(`select has_table_privilege('anon', 'private_arcade.item_solution_private', 'SELECT');`)).toBe('f');
     expect(sql(`select has_table_privilege('authenticated', 'private_arcade.item_solution_private', 'SELECT');`)).toBe('f');

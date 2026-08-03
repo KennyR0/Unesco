@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import { newTokenHash, resetGameData, sql, startGame } from "../../fixtures/supabase-local";
 
-describe("retención y Cron", () => {
+const supabaseRpcGateOpen = process.env.RUN_SUPABASE_TESTS === "true";
+
+describe.skipIf(!supabaseRpcGateOpen)("retención y Cron (puerta Supabase)", () => {
   it("registra job de seis horas e invalida abandonadas desde expires_at", () => {
     resetGameData();
     const tokenHash = newTokenHash();

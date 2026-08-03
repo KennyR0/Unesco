@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import { completeRound, finish, newTokenHash, resetGameData, sessionRow, startGame } from "../../fixtures/supabase-local";
 
-describe("api.finish_game", () => {
+const supabaseRpcGateOpen = process.env.RUN_SUPABASE_TESTS === "true";
+
+describe.skipIf(!supabaseRpcGateOpen)("api.finish_game (puerta Supabase)", () => {
   it("congela el resultado y devuelve el mismo resultado en replay", () => {
     resetGameData();
     const tokenHash = newTokenHash();
