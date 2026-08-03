@@ -54,17 +54,15 @@ Supabase.
 - [X] T014 Implementar el manifiesto de media, alt, fallback, dimensiones y límites de peso en src/features/game/content/media-manifest.v1.json y src/lib/media/manifest.ts.
 - [X] T015 Construir el shell compartido con progreso, estados, live region, errores y feedback inline en src/components/game/game-shell.tsx, src/components/game/feedback-panel.tsx y src/app/globals.css.
 - [X] T016 Implementar el transporte server-only de acciones y recuperación de estado en src/app/actions/game.ts, src/features/game/application/server-operations.ts y src/features/game/application/submit-game-action.ts.
-- [ ] T017 Crear la migración física arcade solo después de aprobar supabase-reconciliation.md, con sesiones, items, respuestas, resultados, score, rankingScore, elegibilidad, retención de 24/30 días, RLS, grants, índices de purga y protección `security_invoker` si se elige una vista expuesta en supabase/migrations/20260801051613_arcade_schema.sql.
-- [ ] T018 Crear el seed estructurado del catálogo y el registro de contenido estructuralmente válido (solo tras puerta editorial cuando aplique), sin publicar Supabase, en supabase/seed.sql, src/features/game/content/arcade-catalog.v1.json y src/features/game/content/content-manifest.v1.json.
-- [ ] T019 Ejecutar las pruebas locales de migración, RLS, proyecciones públicas y ausencia de solución antes de habilitar persistencia en tests/integration/database/migration-smoke.test.ts, tests/integration/database/access-control.test.ts y tests/integration/database/correct-answer-exposure.test.ts.
+- [X]  T017 Crear la migración física arcade solo después de aprobar supabase-reconciliation.md, con sesiones, items, respuestas, resultados, score, rankingScore, elegibilidad, retención de 24/30 días, RLS, grants, índices de purga y protección `security_invoker` si se elige una vista expuesta en supabase/migrations/20260801051613_arcade_schema.sql.
+- [X]  T018 Crear el seed estructurado del catálogo y el registro de contenido estructuralmente válido (solo tras puerta editorial cuando aplique), sin publicar Supabase, en supabase/seed.sql, src/features/game/content/arcade-catalog.v1.json y src/features/game/content/content-manifest.v1.json.
+- [X]  T019 Ejecutar las pruebas locales de migración, RLS, proyecciones públicas y ausencia de solución antes de habilitar persistencia en tests/integration/database/migration-smoke.test.ts, tests/integration/database/access-control.test.ts y tests/integration/database/correct-answer-exposure.test.ts.
 - [X] T020 Actualizar los fixtures compartidos de contratos, Supabase local y respuestas discriminadas en tests/fixtures/contract-samples.ts, tests/fixtures/supabase-local.ts y tests/contracts/contract-consistency.test.ts.
 
-**Checkpoint**: los contratos, validadores, contenido lógico, shell, fixtures
-y límites de seguridad del core están listos. T017–T019 permanecen `[ ]`
-bloqueadas: el SQL puede existir como preparación local
-(supabase-reconciliation.md), pero no cuentan como completas sin autorización
-renovada + verificación de T019. No marcarlas `[X]` solo porque exista el
-archivo de migración.
+**Checkpoint**: los contratos, validadores, contenido lógico, shell, fixtures,
+límites de seguridad del core y la línea física local de Supabase (T017–T019)
+están listos. La persistencia real ya no bloquea US2+; T070 sigue siendo
+verificación/reconciliación de cierre en Polish.
 
 ---
 
@@ -98,7 +96,7 @@ un alias inválido se rechaza, una entrada repetida no duplica respuesta y una
 sesión no puede cambiar de gameCode.
 
 - [X] T026 [P] [US2] Implementar validación y moderación del alias temporal en src/features/game/domain/alias.ts, src/features/game/content/blocked-aliases.v1.json y src/features/game/domain/alias.test.ts.
-- [ ] T027 [US2] Implementar startGame y la vinculación de cookie opaca a gameCode en src/features/game/application/start-game.ts y src/app/actions/game.ts.
+- [X] T027 [US2] Implementar startGame y la vinculación de cookie opaca a gameCode en src/features/game/application/start-game.ts y src/app/actions/game.ts.
 - [ ] T028 [US2] Implementar las transiciones intro-active-processing-feedback-expired-finished y la pertenencia de item en src/features/game/application/game-operations.ts y src/features/game/infrastructure/game-gateway.ts.
 - [ ] T029 [US2] Implementar recuperación segura de estado, expiración y sesión inválida en src/features/game/application/server-operations.ts y src/components/game/secure-state-view.tsx.
 - [ ] T030 [US2] Cubrir alias, startGame, idempotencia y estados terminales con fixtures server-only; las pruebas RPC quedan como verificación condicionada a la puerta de Supabase en src/features/game/application/start-game.test.ts, tests/integration/database/start-game-rpc.test.ts y tests/integration/database/get-game-state-rpc.test.ts.

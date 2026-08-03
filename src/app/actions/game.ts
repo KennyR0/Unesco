@@ -23,10 +23,12 @@ import {
   getArcadeGameResultServer,
   getArcadeGameStateServer,
   getArcadeLeaderboardServer,
-  startArcadeGameServer,
   submitArcadeGameActionServer,
 } from "../../features/game/application/server-operations";
-import { startGame } from "../../features/game/application/start-game";
+import {
+  startGame,
+  startLegacyTriviaGame,
+} from "../../features/game/application/start-game";
 import { mapDatabaseError } from "../../features/game/infrastructure/map-database-error";
 import { createGameGateway } from "../../features/game/infrastructure/supabase-game-gateway";
 import {
@@ -45,7 +47,7 @@ export async function startGameAction(
   formData: FormData,
 ): Promise<OperationResult<StartGameResult>> {
   const rawAlias = String(formData.get("alias") ?? "");
-  const result = await startGame(rawAlias, {
+  const result = await startLegacyTriviaGame(rawAlias, {
     onSessionCreated: async (token, expiresAt) => {
       const secure = process.env.NODE_ENV !== "development";
       (await cookies()).set(buildSessionCookie({ token, expiresAt, secure }));
@@ -147,11 +149,24 @@ export async function finishGameAction(
   }
 }
 
-/** Acciones arcade: transporte server-only sobre T010/T011. */
+/** Acciones arcade: startGame + cookie opaca vinculada a gameCode. */
 export async function startArcadeGameAction(
   payload: unknown,
 ): Promise<ArcadeOperationResult<GameState>> {
-  return startArcadeGameServer(payload);
+  const jar = await cookies();
+  const secure = process.env.NODE_ENV !== "development";
+  return startGame(payload, {
+    onSessionCreated: async ({ token, expiresAt, gameCode }) => {
+      jar.set(
+        buildSessionCookie({
+          token,
+          expiresAt,
+          secure,
+          gameCode,
+        }),
+      );
+    },
+  });
 }
 
 export async function getArcadeGameStateAction(

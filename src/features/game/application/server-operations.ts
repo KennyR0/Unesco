@@ -21,7 +21,6 @@ import {
   SESSION_COOKIE_NAME,
 } from "../../../lib/security/session-cookie";
 import {
-  createSessionToken,
   hashSessionToken,
   isSessionToken,
 } from "../../../lib/security/session-token";
@@ -29,7 +28,10 @@ import { createServerSupabaseClient } from "../../../lib/supabase/server";
 import { GameCodeSchema } from "../domain/schemas";
 import type { ArcadeGameGateway } from "../infrastructure/game-gateway";
 import { mapDatabaseError } from "../infrastructure/map-database-error";
-import { createMemoryArcadeGateway } from "../infrastructure/memory-arcade-gateway";
+import {
+  getSharedMemoryArcadeGateway,
+  type MemoryArcadeGateway,
+} from "../infrastructure/memory-arcade-gateway";
 import { createGameGateway } from "../infrastructure/supabase-game-gateway";
 import {
   advanceGameOperation,
@@ -37,8 +39,8 @@ import {
   getGameResultOperation,
   getGameStateOperation,
   getLeaderboardOperation,
-  startGameOperation,
 } from "./game-operations";
+import { startGame } from "./start-game";
 import { submitGameAction } from "./submit-game-action";
 
 export type ArcadeServerDependencies = Readonly<{
@@ -47,11 +49,9 @@ export type ArcadeServerDependencies = Readonly<{
   secure?: boolean;
 }>;
 
-const defaultArcadeGateway = createMemoryArcadeGateway();
-
 function isMemoryGateway(
   gateway: ArcadeGameGateway,
-): gateway is ReturnType<typeof createMemoryArcadeGateway> {
+): gateway is MemoryArcadeGateway {
   return (
     "resolveSessionId" in gateway &&
     typeof (gateway as { resolveSessionId?: unknown }).resolveSessionId ===
@@ -72,7 +72,7 @@ function isSecure(dependencies: ArcadeServerDependencies): boolean {
 function resolveGateway(
   dependencies: ArcadeServerDependencies = {},
 ): ArcadeGameGateway {
-  return dependencies.gateway ?? defaultArcadeGateway;
+  return dependencies.gateway ?? getSharedMemoryArcadeGateway();
 }
 
 export async function readArcadeSessionToken(
@@ -155,31 +155,20 @@ export async function startArcadeGameServer(
   payload: unknown,
   dependencies: ArcadeServerDependencies = {},
 ): Promise<ArcadeOperationResult<GameState>> {
-  const token = createSessionToken();
-  const tokenHash = hashSessionToken(token);
-  const gateway = resolveGateway(dependencies);
-  const result = await startGameOperation(payload, {
-    gateway,
-    sessionTokenHash: tokenHash,
+  const jar = await cookieJar(dependencies);
+  return startGame(payload, {
+    gateway: resolveGateway(dependencies),
+    onSessionCreated: async ({ token, expiresAt, gameCode }) => {
+      jar.set(
+        buildSessionCookie({
+          token,
+          expiresAt,
+          secure: isSecure(dependencies),
+          gameCode,
+        }),
+      );
+    },
   });
-  if (!result.ok) return result;
-
-  const gameCode = result.data.gameCode;
-  const expiresAt = isMemoryGateway(gateway)
-    ? (gateway.getSessionExpiresAt(result.data.sessionId) ??
-      new Date(Date.now() + 86_400_000))
-    : new Date(Date.now() + 86_400_000);
-
-  (await cookieJar(dependencies)).set(
-    buildSessionCookie({
-      token,
-      expiresAt,
-      secure: isSecure(dependencies),
-      gameCode,
-    }),
-  );
-
-  return result;
 }
 
 export async function getArcadeGameStateServer(

@@ -65,6 +65,14 @@ function toPublicState(
   };
 }
 
+let sharedMemoryArcadeGateway: MemoryArcadeGateway | null = null;
+
+/** Singleton de proceso en memoria compartido por startGame y el transporte. */
+export function getSharedMemoryArcadeGateway(): MemoryArcadeGateway {
+  sharedMemoryArcadeGateway ??= createMemoryArcadeGateway();
+  return sharedMemoryArcadeGateway;
+}
+
 /**
  * Gateway arcade en memoria para transporte server-only y pruebas de frontera.
  * No reemplaza la persistencia Supabase (puerta T017+).
