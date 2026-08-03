@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 
 import type { PublicItem } from "@antidoto/contracts";
@@ -17,18 +17,35 @@ const CHOICE_LABELS: Record<VerdictChoice, string> = {
 const DEFAULT_FALLBACK_TEXT =
   "La imagen no está disponible; puedes responder con el texto del caso.";
 
+const MOBILE_FIRST_SIZES =
+  "(max-width: 480px) 100vw, (max-width: 768px) 100vw, 640px";
+
 export type RealOrIaGameProps = Readonly<{
   item: RealOrIaItem;
   onVerdict: (verdict: VerdictChoice) => void;
   selectedVerdict?: VerdictChoice | null;
   disabled?: boolean;
+  /** Prioriza la primera imagen visible de la partida. */
+  priority?: boolean;
 }>;
+
+function buildSrcSet(
+  srcSet: RealOrIaItem["media"]["srcSet"] | undefined,
+): string | undefined {
+  if (!srcSet) return undefined;
+  const parts: string[] = [];
+  if (srcSet["480"]) parts.push(`${srcSet["480"]} 480w`);
+  if (srcSet["768"]) parts.push(`${srcSet["768"]} 768w`);
+  if (srcSet["1280"]) parts.push(`${srcSet["1280"]} 1280w`);
+  return parts.length > 0 ? parts.join(", ") : undefined;
+}
 
 export function RealOrIaGame({
   item,
   onVerdict,
   selectedVerdict = null,
   disabled = false,
+  priority = false,
 }: RealOrIaGameProps) {
   const [imageFailed, setImageFailed] = useState(false);
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -38,6 +55,11 @@ export function RealOrIaGame({
   const { media } = item;
   const showFallback =
     imageFailed || media.kind === "none" || media.src === null;
+  const responsiveSrcSet = buildSrcSet(media.srcSet);
+
+  useEffect(() => {
+    setImageFailed(false);
+  }, [item.itemId, media.src]);
 
   function focusSibling(currentIndex: number, direction: 1 | -1) {
     const total = item.choices.length;
@@ -75,14 +97,32 @@ export function RealOrIaGame({
           <p className="image-fallback" role="status">
             {media.fallbackText ?? DEFAULT_FALLBACK_TEXT}
           </p>
+        ) : responsiveSrcSet ? (
+          // Excepción documentada: variantes estáticas 480/768/1280 para que el
+          // navegador descargue una sola URL (contracts/media.md responsive).
+          // eslint-disable-next-line @next/next/no-img-element -- srcSet estático multi-archivo
+          <img
+            src={media.src as string}
+            srcSet={responsiveSrcSet}
+            sizes={MOBILE_FIRST_SIZES}
+            width={media.width ?? 768}
+            height={media.height ?? 432}
+            alt={media.decorative ? "" : (media.alt ?? "")}
+            className="verdict-game__image"
+            decoding="async"
+            loading={priority ? "eager" : "lazy"}
+            fetchPriority={priority ? "high" : "auto"}
+            onError={() => setImageFailed(true)}
+          />
         ) : (
           <Image
             src={media.src as string}
             alt={media.decorative ? "" : (media.alt ?? "")}
-            width={media.width ?? 640}
+            width={media.width ?? 768}
             height={media.height ?? 432}
-            sizes="(max-width: 768px) 100vw, 640px"
+            sizes={MOBILE_FIRST_SIZES}
             className="verdict-game__image"
+            priority={priority}
             onError={() => setImageFailed(true)}
           />
         )}

@@ -13,13 +13,18 @@ function makeItem(overrides: Partial<RealOrIaItem> = {}): RealOrIaItem {
     context: "Subida hace 2 horas · 12.4k compartidos.",
     media: {
       kind: "image",
-      src: "/media/real-o-ia/retrato-en-el-parque.webp",
+      src: "/media/real-o-ia/ai/imagen-01-768.webp",
       alt: "Retrato de una persona sonriendo en un parque.",
       decorative: false,
-      width: 640,
-      height: 432,
+      width: 768,
+      height: 434,
       fallbackText:
         "La imagen no está disponible; la pregunta y el feedback se conservan.",
+      srcSet: {
+        "480": "/media/real-o-ia/ai/imagen-01-480.webp",
+        "768": "/media/real-o-ia/ai/imagen-01-768.webp",
+        "1280": "/media/real-o-ia/ai/imagen-01-1280.webp",
+      },
     },
     choices: ["real", "ai"],
     ...overrides,

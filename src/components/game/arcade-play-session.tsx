@@ -176,6 +176,7 @@ export function ArcadePlaySession({
             }
             selectedVerdict={selected as VerdictChoice | null}
             disabled={pending}
+            priority={(state?.position ?? 0) === 0}
           />
         );
       case "clickbait-swipe":

@@ -1941,8 +1941,21 @@ html[data-motion="paused"] .kinetic-marquee__track span[aria-hidden="true"] {
 .verdict-game__image {
   display: block;
   width: 100%;
+  max-height: min(62vh, 36rem);
   height: auto;
-  object-fit: cover;
+  margin-inline: auto;
+  object-fit: contain;
+  background: var(--color-paper);
+}
+
+@media (max-width: 760px) {
+  .verdict-game__frame {
+    min-height: 12rem;
+  }
+
+  .verdict-game__image {
+    max-height: min(52vh, 28rem);
+  }
 }
 
 .verdict-game__prompt,

@@ -88,6 +88,8 @@ export interface PublicMedia {
   width: number | null;
   height: number | null;
   fallbackText: string | null;
+  /** Variantes responsive opcionales (anchos en px → ruta local). */
+  srcSet?: Readonly<Partial<Record<'480' | '768' | '1280', string>>> | null;
 }
 
 export interface PublicFeedback {
