@@ -259,7 +259,7 @@ cerrar la entrega.
 - [X] T068 [P] Implementar pruebas de media, dimensiones, fallback, peso y responsive en tests/contracts/media-contract.test.ts y tests/e2e/arcade-media.spec.ts.
 - [X] T069 [P] Añadir pruebas de frontera de servidor, Zod, secretos, cookies, URL, item ajeno y score enviado por cliente en tests/architecture/server-boundaries.test.ts, tests/contracts/domain-import.test.ts y tests/contracts/contract-consistency.test.ts.
 - [X] T070 Ejecutar la reconciliación física local y las pruebas RLS solo con autorización renovada, sin db push, incluyendo elegibilidad del ranking, protección `security_invoker` si aplica y división segura en supabase/migrations/20260801051613_arcade_schema.sql, tests/integration/database/migration-smoke.test.ts y tests/integration/database/access-control.test.ts.
-- [ ] T071 [P] Medir límites de 180/200 KB de JS, 350 KB de transferencia inicial, 16 KB por acción, 50 KB de dependencias nuevas, 300 KB/1 MB de media y 1.5 MB visible, además de estados de carga/error en tests/e2e/arcade-performance.spec.ts y next.config.ts.
+- [X] T071 [P] Medir límites de 180/200 KB de JS, 350 KB de transferencia inicial, 16 KB por acción, 50 KB de dependencias nuevas, 300 KB/1 MB de media y 1.5 MB visible, además de estados de carga/error en tests/e2e/arcade-performance.spec.ts y next.config.ts.
 - [ ] T072 Registrar la revisión manual de contenido, accesibilidad, ranking secundario, prueba moderada de portada menor de 30 segundos y flujo completo en specs/001-trivia-mvp-flow/evidence/arcade-implementation-review.md.
 - [ ] T073 Ejecutar typecheck, lint, pruebas unitarias, integración, E2E y quickstart, registrando resultados en specs/001-trivia-mvp-flow/evidence/arcade-implementation-review.md.
 

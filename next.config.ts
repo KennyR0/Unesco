@@ -1,7 +1,24 @@
 import type { NextConfig } from "next";
 
+export const PERFORMANCE_BUDGETS = {
+  interactionJsRecommendedBytes: 180 * 1024,
+  interactionJsHardBytes: 200 * 1024,
+  initialTransferBytes: 350 * 1024,
+  actionPayloadBytes: 16 * 1024,
+  newDependencyBudgetBytes: 50 * 1024,
+  newDependencyBytes: 0,
+  mediaRecommendedBytes: 300 * 1024,
+  mediaMaxBytes: 1 * 1024 * 1024,
+  visibleFirstViewMediaBytes: 1_500 * 1024,
+} as const;
+
+/** No se añadieron dependencias nuevas al bundle de interacción de T071. */
+export const NEW_INTERACTION_DEPENDENCIES = [] as const;
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  compress: true,
+  poweredByHeader: false,
   // Playwright and local tooling often hit 127.0.0.1 while `next dev` binds localhost.
   allowedDevOrigins: ["127.0.0.1", "localhost"],
   images: {
