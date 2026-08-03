@@ -13,3 +13,7 @@ playwright-report/
 .agents/
 supabase/.branches/
 supabase/.temp/
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp

@@ -11,17 +11,28 @@ import {
   ARCADE_GATEWAY_OPERATIONS,
   type ArcadeGameGateway,
 } from "../infrastructure/game-gateway";
+import { validateContentCollection } from "../content/content-validation";
+import feedContentPack from "../content/game-items/feed-60.v1.json";
+import {
+  FEED_TIME_LIMIT_SECONDS,
+  FEED_VERIFY_COST_SECONDS,
+} from "../domain/mechanics/timed-feed";
 import {
   MAX_ACTION_PAYLOAD_BYTES,
   assertActionPayloadWithinLimit,
   containsForbiddenAuthorityFields,
   createArcadePublicError,
+  createTimedFeedSessionClock,
   getGameStateOperation,
   getLeaderboardOperation,
   measurePayloadBytes,
+  projectTimedFeedRemainingSeconds,
+  resolveTimedFeedSubmit,
   startGameOperation,
   submitGameActionOperation,
 } from "./game-operations";
+
+const feedItems = validateContentCollection(feedContentPack);
 
 const baseState: GameState = {
   sessionId: "session-1",
@@ -194,5 +205,82 @@ describe("operaciones arcade server-only", () => {
       expect(result.error.message).toContain("Reintenta");
       expect(result.error.message).not.toContain("game_sessions");
     }
+  });
+
+  it("rechaza remainingSeconds del cliente en Feed 60” y resuelve verify/expiración", async () => {
+    const gateway = createGateway({
+      submitGameAction: vi.fn(async () => ({
+        ok: true as const,
+        data: {
+          ...baseState,
+          gameCode: "feed-60",
+          mechanic: "timed_feed",
+          total: 10,
+        },
+      })),
+    });
+
+    const forged = await submitGameActionOperation(
+      {
+        sessionId: "session-feed",
+        gameCode: "feed-60",
+        itemId: "feed-60-001",
+        input: { kind: "feed_action", value: "verify" },
+        remainingSeconds: 99,
+      },
+      { gateway },
+    );
+    expect(forged.ok).toBe(false);
+    if (!forged.ok) {
+      expect(forged.error.code).toBe("INVALID_ACTION");
+    }
+    expect(gateway.submitGameAction).not.toHaveBeenCalled();
+
+    const accepted = await submitGameActionOperation(
+      {
+        sessionId: "session-feed",
+        gameCode: "feed-60",
+        itemId: "feed-60-001",
+        input: { kind: "feed_action", value: "verify" },
+      },
+      { gateway },
+    );
+    expect(accepted.ok).toBe(true);
+
+    const startedAt = new Date("2026-08-02T22:00:00.000Z");
+    const clock = createTimedFeedSessionClock(startedAt);
+    expect(projectTimedFeedRemainingSeconds(clock, startedAt)).toBe(
+      FEED_TIME_LIMIT_SECONDS,
+    );
+
+    const item = feedItems[0];
+    const verified = resolveTimedFeedSubmit({
+      action: "verify",
+      itemId: item.itemId,
+      sessionItemIds: feedItems.map((entry) => entry.itemId),
+      clock,
+      solution: item.solutionPrivate,
+      feedback: item.feedback,
+      now: new Date(startedAt.getTime() + 2_000),
+      clientProposedExpiresAt: new Date(startedAt.getTime() + 120_000),
+    });
+    expect(verified.kind).toBe("verified");
+    if (verified.kind === "verified") {
+      expect(verified.clock.verifySecondsConsumed).toBe(FEED_VERIFY_COST_SECONDS);
+      expect(verified.clock.expiresAt.getTime()).toBeLessThan(
+        clock.expiresAt.getTime(),
+      );
+    }
+
+    const expired = resolveTimedFeedSubmit({
+      action: "share",
+      itemId: item.itemId,
+      sessionItemIds: feedItems.map((entry) => entry.itemId),
+      clock,
+      solution: item.solutionPrivate,
+      feedback: item.feedback,
+      now: new Date(clock.expiresAt.getTime() + 1),
+    });
+    expect(expired.kind).toBe("expired");
   });
 });
