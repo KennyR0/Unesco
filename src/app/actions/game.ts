@@ -25,6 +25,7 @@ import {
   getArcadeLeaderboardServer,
   submitArcadeGameActionServer,
 } from "../../features/game/application/server-operations";
+import { GameCodeSchema } from "../../features/game/domain/schemas";
 import {
   startGame,
   startLegacyTriviaGame,
@@ -57,9 +58,18 @@ export async function startGameAction(
   return result;
 }
 
-export async function clearInvalidSessionAction(): Promise<never> {
+export async function clearInvalidSessionAction(
+  formData?: FormData,
+): Promise<never> {
   const secure = process.env.NODE_ENV !== "development";
-  (await cookies()).set(buildExpiredSessionCookie(secure));
+  const gameCode = GameCodeSchema.safeParse(formData?.get("gameCode"));
+  (await cookies()).set(
+    buildExpiredSessionCookie(
+      secure,
+      new Date(),
+      gameCode.success ? gameCode.data : undefined,
+    ),
+  );
   redirect("/");
 }
 

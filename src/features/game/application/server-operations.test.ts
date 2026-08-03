@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import type { GameCode } from "@antidoto/contracts";
 
+import { arcadeSessionCookieName } from "../../../lib/security/session-cookie";
+import { createSessionToken } from "../../../lib/security/session-token";
 import { createMemoryArcadeGateway } from "../infrastructure/memory-arcade-gateway";
 import {
   advanceArcadeGameServer,
@@ -110,6 +112,56 @@ describe("transporte server-only arcade", () => {
     expect(submitted.ok).toBe(false);
     if (!submitted.ok) {
       expect(submitted.error.code).toBe("INVALID_ACTION");
+    }
+  });
+
+  it("clasifica cookie arcade ausente, malformada y desconocida sin filtrar detalles", async () => {
+    const gateway = createMemoryArcadeGateway();
+    const cookieStore = createMemoryCookieStore();
+    const dependencies = { gateway, cookieStore: cookieStore as never };
+
+    const missing = await getArcadeGameStateServer(
+      { gameCode: "real-o-ia" },
+      dependencies,
+    );
+    expect(missing).toEqual(
+      expect.objectContaining({
+        ok: false,
+        error: expect.objectContaining({ code: "SESSION_NOT_FOUND" }),
+      }),
+    );
+
+    cookieStore.set({
+      name: arcadeSessionCookieName("real-o-ia"),
+      value: "not-a-session-token",
+    });
+    const malformed = await getArcadeGameStateServer(
+      { gameCode: "real-o-ia" },
+      dependencies,
+    );
+    expect(malformed).toEqual(
+      expect.objectContaining({
+        ok: false,
+        error: expect.objectContaining({ code: "SESSION_INVALID" }),
+      }),
+    );
+
+    cookieStore.set({
+      name: arcadeSessionCookieName("real-o-ia"),
+      value: createSessionToken(),
+    });
+    const unknown = await getArcadeGameStateServer(
+      { gameCode: "real-o-ia" },
+      dependencies,
+    );
+    expect(unknown).toEqual(
+      expect.objectContaining({
+        ok: false,
+        error: expect.objectContaining({ code: "SESSION_INVALID" }),
+      }),
+    );
+    if (!unknown.ok) {
+      expect(unknown.error.message).not.toMatch(/token|hash|cookie|sessionId/i);
     }
   });
 
