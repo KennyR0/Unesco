@@ -33,7 +33,7 @@ test.describe("Feed 60” (T061)", () => {
     page,
   }) => {
     await page.setViewportSize({ width: 320, height: 800 });
-    await page.goto("/games/feed-60", { waitUntil: "domcontentloaded" });
+    await page.goto("/games/feed-60");
 
     const shell = page.locator('main[data-game-code="feed-60"]');
     await expect(shell).toBeVisible();
@@ -74,7 +74,7 @@ test.describe("Feed 60” (T061)", () => {
     page,
   }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.goto("/games/feed-60", { waitUntil: "domcontentloaded" });
+    await page.goto("/games/feed-60");
 
     await expect(page.locator("html")).toHaveAttribute("data-motion", "paused");
     await expect(
