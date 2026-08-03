@@ -15,13 +15,12 @@ import {
   getArcadeGameResultServer,
   getArcadeGameStateServer,
   getArcadeLeaderboardServer,
+  startArcadeGameServer,
   submitArcadeGameActionServer,
 } from "../../features/game/application/server-operations";
-import { startGame } from "../../features/game/application/start-game";
 import { GameCodeSchema } from "../../features/game/domain/schemas";
 import {
   buildExpiredSessionCookie,
-  buildSessionCookie,
 } from "../../lib/security/session-cookie";
 
 export async function clearInvalidSessionAction(
@@ -43,20 +42,7 @@ export async function clearInvalidSessionAction(
 export async function startArcadeGameAction(
   payload: unknown,
 ): Promise<ArcadeOperationResult<GameState>> {
-  const jar = await cookies();
-  const secure = process.env.NODE_ENV !== "development";
-  return startGame(payload, {
-    onSessionCreated: async ({ token, expiresAt, gameCode }) => {
-      jar.set(
-        buildSessionCookie({
-          token,
-          expiresAt,
-          secure,
-          gameCode,
-        }),
-      );
-    },
-  });
+  return startArcadeGameServer(payload);
 }
 
 /**

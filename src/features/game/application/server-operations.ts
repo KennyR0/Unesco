@@ -22,14 +22,16 @@ import {
   hashSessionToken,
   isSessionToken,
 } from "../../../lib/security/session-token";
-import { createServerSupabaseClient } from "../../../lib/supabase/server";
+import { resolveArcadeGatewayMode } from "../../../lib/env/arcade-gateway";
+import {
+  createLegacyApiSupabaseClient,
+  createServerSupabaseClient,
+} from "../../../lib/supabase/server";
 import { GameCodeSchema } from "../domain/schemas";
 import type { ArcadeGameGateway } from "../infrastructure/game-gateway";
 import { mapDatabaseError } from "../infrastructure/map-database-error";
-import {
-  getSharedMemoryArcadeGateway,
-  type MemoryArcadeGateway,
-} from "../infrastructure/memory-arcade-gateway";
+import { getSharedMemoryArcadeGateway } from "../infrastructure/memory-arcade-gateway";
+import { getSharedSupabaseArcadeGateway } from "../infrastructure/supabase-arcade-gateway";
 import { createGameGateway } from "../infrastructure/supabase-game-gateway";
 import {
   arcadeFailure,
@@ -72,9 +74,15 @@ type ArcadeSessionResolution =
   | Readonly<{ kind: "invalid" }>
   | Readonly<{ kind: "valid"; token: string }>;
 
-function isMemoryGateway(
+type SessionResolvingGateway = ArcadeGameGateway & {
+  resolveSessionId(
+    tokenHash: string,
+  ): string | null | Promise<string | null>;
+};
+
+function hasResolveSessionId(
   gateway: ArcadeGameGateway,
-): gateway is MemoryArcadeGateway {
+): gateway is SessionResolvingGateway {
   return (
     "resolveSessionId" in gateway &&
     typeof (gateway as { resolveSessionId?: unknown }).resolveSessionId ===
@@ -92,10 +100,16 @@ function isSecure(dependencies: ArcadeServerDependencies): boolean {
   return dependencies.secure ?? process.env.NODE_ENV !== "development";
 }
 
-function resolveGateway(
+export function resolveGateway(
   dependencies: ArcadeServerDependencies = {},
 ): ArcadeGameGateway {
-  return dependencies.gateway ?? getSharedMemoryArcadeGateway();
+  if (dependencies.gateway) return dependencies.gateway;
+
+  const mode = resolveArcadeGatewayMode();
+  if (mode === "supabase") {
+    return getSharedSupabaseArcadeGateway(createServerSupabaseClient());
+  }
+  return getSharedMemoryArcadeGateway();
 }
 
 export async function readArcadeSessionToken(
@@ -131,9 +145,10 @@ async function resolveArcadeSession(
 
   const gateway = resolveGateway(dependencies);
   const tokenHash = hashSessionToken(cookie.token);
-  const sessionId = isMemoryGateway(gateway)
-    ? gateway.resolveSessionId(tokenHash)
-    : tokenHash;
+  if (!hasResolveSessionId(gateway)) {
+    return arcadeFailure("SESSION_INVALID");
+  }
+  const sessionId = await gateway.resolveSessionId(tokenHash);
 
   if (!sessionId) return arcadeFailure("SESSION_INVALID");
   return { ok: true, data: { sessionId, token: cookie.token } };
@@ -159,7 +174,7 @@ export async function getLeaderboardServer(): Promise<
   const token = await currentLegacyToken();
   try {
     const result = await createGameGateway(
-      createServerSupabaseClient(),
+      createLegacyApiSupabaseClient(),
     ).getLeaderboard(token ? hashSessionToken(token) : undefined);
     if (!result.ok) return mapDatabaseError(result.code);
     return { ok: true, data: result.data };

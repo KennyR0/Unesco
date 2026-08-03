@@ -43,6 +43,14 @@ import {
   type ArcadeSessionRecord,
 } from "../domain/session";
 import type { GuidedAutopsySelection } from "../domain/mechanics/guided-autopsy";
+import {
+  deserializeFeedClock,
+  deserializeSessionRecord,
+  serializeFeedClock,
+  serializeSessionRecord,
+  type ArcadeSessionSnapshot,
+  type SerializedAnswer,
+} from "./arcade-session-snapshot";
 import type {
   ArcadeGameGateway,
   ArcadeGatewayResult,
@@ -122,6 +130,8 @@ export type MemoryArcadeGatewayOptions = Readonly<{
 export type MemoryArcadeGateway = ArcadeGameGateway & {
   resolveSessionId(tokenHash: string): string | null;
   getSessionExpiresAt(sessionId: string): Date | null;
+  exportSession(sessionId: string): ArcadeSessionSnapshot | null;
+  importSession(snapshot: ArcadeSessionSnapshot): void;
 };
 
 const GENERIC_ACCEPT_FEEDBACK: PublicFeedback = {
@@ -698,6 +708,25 @@ export function createMemoryArcadeGateway(
     }
   }
 
+  function exportStored(stored: MemorySession): ArcadeSessionSnapshot {
+    return {
+      version: 1,
+      tokenHash: stored.tokenHash,
+      record: serializeSessionRecord(stored.record),
+      state: stored.state,
+      result: stored.result,
+      answers: Array.from(stored.answers.values()) as SerializedAnswer[],
+      assignedItemIds: [...stored.assignedItemIds],
+      feed60: stored.feed60
+        ? {
+            clock: serializeFeedClock(stored.feed60.clock),
+            itemStates: Array.from(stored.feed60.itemStates.entries()),
+            hintsByItem: Array.from(stored.feed60.hintsByItem.entries()),
+          }
+        : null,
+    };
+  }
+
   const gateway: MemoryArcadeGateway = {
     resolveSessionId(tokenHash: string): string | null {
       return byTokenHash.get(tokenHash)?.record.sessionId ?? null;
@@ -705,6 +734,43 @@ export function createMemoryArcadeGateway(
 
     getSessionExpiresAt(sessionId: string): Date | null {
       return bySessionId.get(sessionId)?.record.expiresAt ?? null;
+    },
+
+    exportSession(sessionId: string): ArcadeSessionSnapshot | null {
+      const stored = lookupBySessionId(sessionId);
+      return stored ? exportStored(stored) : null;
+    },
+
+    importSession(snapshot: ArcadeSessionSnapshot): void {
+      const record = deserializeSessionRecord(snapshot.record);
+      const answers = new Map<string, MemoryAnswer>();
+      for (const answer of snapshot.answers) {
+        answers.set(answer.itemId, answer as MemoryAnswer);
+      }
+      const feed60: Feed60SessionState | null = snapshot.feed60
+        ? {
+            clock: deserializeFeedClock(snapshot.feed60.clock),
+            itemStates: new Map(snapshot.feed60.itemStates),
+            hintsByItem: new Map(snapshot.feed60.hintsByItem),
+          }
+        : null;
+
+      const stored: MemorySession = {
+        tokenHash: snapshot.tokenHash,
+        record,
+        state: snapshot.state,
+        result: snapshot.result,
+        answers,
+        assignedItemIds: Object.freeze([...snapshot.assignedItemIds]),
+        feed60,
+      };
+
+      const previous = bySessionId.get(record.sessionId);
+      if (previous && previous.tokenHash !== snapshot.tokenHash) {
+        byTokenHash.delete(previous.tokenHash);
+      }
+      byTokenHash.set(snapshot.tokenHash, stored);
+      bySessionId.set(record.sessionId, stored);
     },
 
     async startGame(

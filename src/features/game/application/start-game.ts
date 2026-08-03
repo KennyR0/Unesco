@@ -6,11 +6,21 @@ import type {
   GameState,
 } from "@antidoto/contracts";
 
+import { resolveArcadeGatewayMode } from "../../../lib/env/arcade-gateway";
 import { createSessionToken, hashSessionToken } from "../../../lib/security/session-token";
+import { createServerSupabaseClient } from "../../../lib/supabase/server";
 import { SESSION_ACTIVITY_RETENTION_MS } from "../domain/session";
 import type { ArcadeGameGateway } from "../infrastructure/game-gateway";
 import { getSharedMemoryArcadeGateway } from "../infrastructure/memory-arcade-gateway";
+import { getSharedSupabaseArcadeGateway } from "../infrastructure/supabase-arcade-gateway";
 import { startGameOperation } from "./game-operations";
+
+function defaultGateway(): ArcadeGameGateway {
+  if (resolveArcadeGatewayMode() === "supabase") {
+    return getSharedSupabaseArcadeGateway(createServerSupabaseClient());
+  }
+  return getSharedMemoryArcadeGateway();
+}
 
 export type ArcadeSessionCredential = Readonly<{
   token: string;
@@ -52,7 +62,7 @@ export async function startGame(
 ): Promise<ArcadeOperationResult<GameState>> {
   const token = createSessionToken();
   const tokenHash = hashSessionToken(token);
-  const gateway = dependencies.gateway ?? getSharedMemoryArcadeGateway();
+  const gateway = dependencies.gateway ?? defaultGateway();
   const now = dependencies.now?.() ?? new Date();
 
   const result = await startGameOperation(payload, {

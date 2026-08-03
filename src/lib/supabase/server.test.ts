@@ -10,7 +10,7 @@ const base = {
 };
 
 describe("cliente Supabase server-only", () => {
-  it("usa la clave privada preferida y esquema api", () => {
+  it("usa la clave privada preferida y esquema private_arcade", () => {
     const client = createServerSupabaseClient(base);
     expect(client).toBeDefined();
     expect(client.from).toBeTypeOf("function");

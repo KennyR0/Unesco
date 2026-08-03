@@ -24,7 +24,7 @@ import {
 import { z } from "zod";
 
 import type { Json } from "../../../lib/supabase/database.types";
-import type { ServerSupabaseClient } from "../../../lib/supabase/server";
+import type { LegacyApiSupabaseClient } from "../../../lib/supabase/server";
 import {
   getLeaderboardFromCandidates,
   LEADERBOARD_COPY,
@@ -174,7 +174,7 @@ function failureOrNull(payload: Json, operation: string): GatewayFailure | null 
 }
 
 export class SupabaseGameGateway {
-  constructor(private readonly client: ServerSupabaseClient) {}
+  constructor(private readonly client: LegacyApiSupabaseClient) {}
 
   async startGame(
     alias: string,
@@ -378,7 +378,7 @@ function bytea(hash: string): string {
 }
 
 export function createGameGateway(
-  client: ServerSupabaseClient,
+  client: LegacyApiSupabaseClient,
 ): SupabaseGameGateway {
   return new SupabaseGameGateway(client);
 }
