@@ -220,7 +220,7 @@ segundos y score con piso 0 hasta 30.
 segundos en servidor, la expiración gana carreras correctamente y el cliente no
 puede extender el límite.
 
-- [ ] T057 [P] [US8] Crear hasta diez publicaciones, fuentes, señales SIFT y feedback en src/features/game/content/game-items/feed-60.v1.json.
+- [X] T057 [P] [US8] Crear hasta diez publicaciones, fuentes, señales SIFT y feedback en src/features/game/content/game-items/feed-60.v1.json.
 - [ ] T058 [US8] Implementar el reloj autoritativo, expiración, verify de cuatro segundos y resolución de carreras en src/features/game/domain/mechanics/timed-feed.ts y src/features/game/application/game-operations.ts.
 - [ ] T059 [US8] Implementar verify/share/discard, pausa visual sin detener el reloj autoritativo, recuperación de foco, reloj textual, aviso anticipado y estado expirado en src/components/games/feed-60-game.tsx.
 - [ ] T060 [US8] Implementar la fórmula +2/-1/+1, piso 0 y máximo 30 en src/features/game/domain/mechanics/feed-scoring.ts.
