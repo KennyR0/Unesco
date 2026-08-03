@@ -49,6 +49,16 @@ export type ArcadeServerDependencies = Readonly<{
   secure?: boolean;
 }>;
 
+type ResolvedArcadeSession = Readonly<{
+  sessionId: string;
+  token: string;
+}>;
+
+type ArcadeSessionResolution =
+  | Readonly<{ kind: "missing" }>
+  | Readonly<{ kind: "invalid" }>
+  | Readonly<{ kind: "valid"; token: string }>;
+
 function isMemoryGateway(
   gateway: ArcadeGameGateway,
 ): gateway is MemoryArcadeGateway {
@@ -85,18 +95,43 @@ export async function readArcadeSessionToken(
   );
 }
 
+async function resolveArcadeSessionCookie(
+  gameCode: GameCode,
+  dependencies: ArcadeServerDependencies = {},
+): Promise<ArcadeSessionResolution> {
+  const jar = await cookieJar(dependencies);
+  const rawValue = jar.get(arcadeSessionCookieName(gameCode))?.value;
+  if (rawValue === undefined) return { kind: "missing" };
+
+  const token = parseOpaqueSessionToken(rawValue);
+  if (!token) return { kind: "invalid" };
+  return { kind: "valid", token };
+}
+
+async function resolveArcadeSession(
+  gameCode: GameCode,
+  dependencies: ArcadeServerDependencies = {},
+): Promise<ArcadeOperationResult<ResolvedArcadeSession>> {
+  const cookie = await resolveArcadeSessionCookie(gameCode, dependencies);
+  if (cookie.kind === "missing") return arcadeFailure("SESSION_NOT_FOUND");
+  if (cookie.kind === "invalid") return arcadeFailure("SESSION_INVALID");
+
+  const gateway = resolveGateway(dependencies);
+  const tokenHash = hashSessionToken(cookie.token);
+  const sessionId = isMemoryGateway(gateway)
+    ? gateway.resolveSessionId(tokenHash)
+    : tokenHash;
+
+  if (!sessionId) return arcadeFailure("SESSION_INVALID");
+  return { ok: true, data: { sessionId, token: cookie.token } };
+}
+
 export async function resolveArcadeSessionId(
   gameCode: GameCode,
   dependencies: ArcadeServerDependencies = {},
 ): Promise<string | null> {
-  const token = await readArcadeSessionToken(gameCode, dependencies);
-  if (!token) return null;
-  const gateway = resolveGateway(dependencies);
-  const tokenHash = hashSessionToken(token);
-  if (isMemoryGateway(gateway)) {
-    return gateway.resolveSessionId(tokenHash);
-  }
-  return tokenHash;
+  const resolved = await resolveArcadeSession(gameCode, dependencies);
+  return resolved.ok ? resolved.data.sessionId : null;
 }
 
 async function currentLegacyToken(): Promise<string | null> {
@@ -192,12 +227,12 @@ export async function getArcadeGameStateServer(
     return arcadeFailure("INVALID_ACTION");
   }
 
-  const sessionId = await resolveArcadeSessionId(gameCode, dependencies);
-  if (!sessionId) return arcadeFailure("SESSION_NOT_FOUND");
+  const session = await resolveArcadeSession(gameCode, dependencies);
+  if (!session.ok) return session;
 
   return getGameStateOperation(
     {
-      sessionId,
+      sessionId: session.data.sessionId,
       gameCode,
     },
     { gateway: resolveGateway(dependencies) },
@@ -208,10 +243,20 @@ export async function submitArcadeGameActionServer(
   payload: unknown,
   dependencies: ArcadeServerDependencies = {},
 ): Promise<ArcadeOperationResult<GameState>> {
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    return arcadeFailure("INVALID_ACTION");
+  }
+  const gameCodeResult = GameCodeSchema.safeParse(
+    (payload as { gameCode?: unknown }).gameCode,
+  );
+  if (!gameCodeResult.success) return arcadeFailure("INVALID_GAME");
+
+  const session = await resolveArcadeSession(gameCodeResult.data, dependencies);
+  if (!session.ok) return session;
+
   return submitGameAction(payload, {
     gateway: resolveGateway(dependencies),
-    resolveSessionId: (gameCode) =>
-      resolveArcadeSessionId(gameCode, dependencies),
+    resolveSessionId: async () => session.data.sessionId,
   });
 }
 
@@ -228,15 +273,12 @@ export async function advanceArcadeGameServer(
   );
   if (!gameCodeResult.success) return arcadeFailure("INVALID_GAME");
 
-  const sessionId = await resolveArcadeSessionId(
-    gameCodeResult.data,
-    dependencies,
-  );
-  if (!sessionId) return arcadeFailure("SESSION_NOT_FOUND");
+  const session = await resolveArcadeSession(gameCodeResult.data, dependencies);
+  if (!session.ok) return session;
 
   return advanceGameOperation(
     {
-      sessionId,
+      sessionId: session.data.sessionId,
       itemId: (payload as { itemId?: unknown }).itemId,
     },
     { gateway: resolveGateway(dependencies) },
@@ -256,14 +298,11 @@ export async function getArcadeGameResultServer(
   );
   if (!gameCodeResult.success) return arcadeFailure("INVALID_GAME");
 
-  const sessionId = await resolveArcadeSessionId(
-    gameCodeResult.data,
-    dependencies,
-  );
-  if (!sessionId) return arcadeFailure("SESSION_NOT_FOUND");
+  const session = await resolveArcadeSession(gameCodeResult.data, dependencies);
+  if (!session.ok) return session;
 
   return getGameResultOperation(
-    { sessionId },
+    { sessionId: session.data.sessionId },
     { gateway: resolveGateway(dependencies) },
   );
 }
