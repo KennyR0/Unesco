@@ -125,7 +125,9 @@ test("portada y shell no emiten errores de consola", async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
-test("la ruta antigua de ranking no se publica", async ({ page }) => {
-  const response = await page.goto("/ranking");
-  expect(response?.status()).toBe(404);
+test("las rutas single_choice antiguas no se publican", async ({ page }) => {
+  for (const path of ["/ranking", "/play", "/results"] as const) {
+    const response = await page.goto(path);
+    expect(response?.status(), path).toBe(404);
+  }
 });
