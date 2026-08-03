@@ -267,16 +267,20 @@ export function ArcadePlaySession({
       <GameShell
         title={gameName}
         gameCode={gameCode}
-        eyebrow={objective}
+        eyebrow="Antídoto / Arcade MIL"
         status={state?.status}
         statusMessage={statusMessageFor(state)}
         error={error}
         progress={null}
         className="game-route"
       >
-        <section className="game-intro" aria-label={`Introducción a ${gameName}`}>
-          <p>{objective}</p>
-          <p className="mechanic">{introMechanic}</p>
+        <article
+          className="game-route__intro"
+          aria-label={`Introducción a ${gameName}`}
+        >
+          <p className="game-route__label">Misión {gameCode}</p>
+          <p className="game-route__objective">{objective}</p>
+          <p className="game-route__mechanic">{introMechanic}</p>
           <AliasStartForm
             action={startArcadeGameFormAction}
             gameCode={gameCode}
@@ -284,12 +288,15 @@ export function ArcadePlaySession({
             disabled={pending}
             error={error}
           />
-          <p>
+          <nav
+            className="game-route__navigation"
+            aria-label="Navegación de la misión"
+          >
             <Link className="secondary-action" href="/">
               Volver al arcade
             </Link>
-          </p>
-        </section>
+          </nav>
+        </article>
       </GameShell>
     );
   }
@@ -298,7 +305,7 @@ export function ArcadePlaySession({
     <GameShell
       title={gameName}
       gameCode={gameCode}
-      eyebrow={objective}
+      eyebrow="Antídoto / Arcade MIL"
       status={state.status}
       statusMessage={statusMessageFor(state)}
       progress={{

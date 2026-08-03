@@ -1277,7 +1277,8 @@ html[data-motion="paused"] .kinetic-marquee__track span[aria-hidden="true"] {
 .game-shell__content {
   display: grid;
   gap: 1.5rem;
-  max-width: var(--reading-width);
+  width: min(100%, var(--reading-width));
+  justify-self: center;
   padding: clamp(1.25rem, 3vw, 2.5rem);
   border: var(--border-brutal);
   background: var(--color-surface);
