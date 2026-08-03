@@ -164,7 +164,7 @@ consecuencia educativa y una alerta oficial verificada no se penaliza por defect
 - [X] T045 [P] [US5] Crear las seis escenas, acciones y feedback editorial de El Grupo en src/features/game/content/game-items/grupo.v1.json.
 - [X] T046 [US5] Implementar la evaluación group_action, consecuencia segura y score +2/+1/0 en src/features/game/domain/mechanics/group-decision.ts.
 - [X] T047 [US5] Implementar el chat narrativo, acciones de cuidado y live region en src/components/games/group-game.tsx.
-- [ ] T048 [US5] Cubrir orden de lectura, acciones forward/verify/pause, consecuencias y límites de score en tests/components/group-game.test.tsx y tests/integration/database/group-flow.test.ts.
+- [X] T048 [US5] Cubrir orden de lectura, acciones forward/verify/pause, consecuencias y límites de score en tests/components/group-game.test.tsx y tests/integration/database/group-flow.test.ts.
 
 **Checkpoint**: El Grupo funciona de forma independiente y mantiene el feedback
 en la misma vista.
