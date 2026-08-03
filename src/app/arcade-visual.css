@@ -1573,6 +1573,114 @@ html[data-motion="paused"] .kinetic-marquee__track span[aria-hidden="true"] {
   background: var(--color-amber, var(--color-acid));
 }
 
+.leaderboard-page {
+  display: grid;
+  gap: 1.5rem;
+  padding-bottom: clamp(2rem, 6vw, 4rem);
+}
+
+.leaderboard {
+  display: grid;
+  gap: 0.85rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: var(--border-brutal);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-brutal);
+}
+
+.leaderboard .eyebrow {
+  width: fit-content;
+  margin: 0;
+  padding: 0.25rem 0.45rem;
+  background: var(--color-ink);
+  color: var(--color-surface);
+  font-family: var(--font-mono), monospace;
+}
+
+.leaderboard h1 {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2.8rem, 7vw, 5rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.leaderboard__support,
+.leaderboard__empty,
+.leaderboard__error {
+  margin: 0;
+  max-width: 46rem;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.leaderboard__error {
+  padding: 0.75rem 1rem;
+  border: var(--border-brutal);
+  background: var(--color-magenta);
+  color: var(--color-ink);
+}
+
+.leaderboard__empty {
+  padding: 0.75rem 1rem;
+  border: 2px dashed var(--color-ink);
+}
+
+.leaderboard__table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.leaderboard__table {
+  width: 100%;
+  min-width: 40rem;
+  border-collapse: collapse;
+}
+
+.leaderboard__caption {
+  caption-side: bottom;
+  padding-top: 0.75rem;
+  text-align: left;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.leaderboard__table th,
+.leaderboard__table td {
+  padding: 0.7rem 0.75rem;
+  border: 2px solid var(--color-ink);
+  text-align: left;
+  vertical-align: top;
+  font-weight: 650;
+}
+
+.leaderboard__table thead th {
+  background: var(--color-ink);
+  color: var(--color-surface);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.leaderboard__table tbody th {
+  font-family: var(--font-mono), monospace;
+  font-weight: 700;
+}
+
+.leaderboard__score-text {
+  font-family: var(--font-mono), monospace;
+}
+
+.leaderboard-page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
 .state-page {
   display: grid;
   min-height: calc(100svh - 5.5rem);
