@@ -16,7 +16,8 @@
     "test:watch": "vitest",
     "test:components": "vitest run src/components tests/components",
     "test:integration": "vitest run --config vitest.integration.config.ts",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "seed:content": "node scripts/generate-arcade-content-seed.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",

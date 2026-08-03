@@ -1,7 +1,7 @@
 # Quickstart de Antídoto Arcade
 
-**Estado**: la convergencia visual de las superficies existentes está
-autorizada. Este flujo no aplica, resetea, seed-ea, lint-a ni publica Supabase.
+**Estado**: arcade jugable (seis misiones), CI en GitHub Actions, persistencia
+Supabase **local** opcional vía `ARCADE_GATEWAY`. Sin `db push` remoto.
 
 ## 1. Verificar Spec Kit y el alcance
 
@@ -9,38 +9,56 @@ Desde la raíz del checkout:
 
     powershell.exe -NoProfile -ExecutionPolicy Bypass -File .specify/scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks
 
-La salida debe resolver `FEATURE_DIR` en `specs/001-trivia-mvp-flow`. Antes de
-editar, las listas de `checklists/` deben tener cero requisitos incompletos.
+La salida debe resolver `FEATURE_DIR` en `specs/001-trivia-mvp-flow`.
 
-La convergencia actual comprende portada, rutas introductorias, shell,
-feedback, estados comunes y los componentes ya existentes de ¿Real o IA?, El
-Grupo, Clickbait Swipe y Radar de Fuentes. No comprende lógica nueva de Feed
-60, Mente Maestra, sesiones, puntuación ni Supabase.
+## 2. Instalar y ejecutar (memory, default)
 
-## 2. Instalar y ejecutar
-
-La base requiere Node.js 24.x y pnpm 11.8.0:
+Requiere Node.js 24.x y pnpm 11.8.0:
 
     corepack pnpm install --frozen-lockfile
     corepack pnpm dev
 
-Abrir `http://localhost:3000`. El prototipo en `prototipo/` sirve como referencia
-de intención, experiencia y sistema visual; no forma parte del build.
+Abrir `http://localhost:3000`. El prototipo en `prototipo/` es referencia
+visual; no forma parte del build.
 
-## 3. Contratos que deben coincidir
+Copia `.env.example` a `.env.local` si vas a usar Supabase. Con
+`ARCADE_GATEWAY` vacío o `memory` no hace falta una DB para jugar.
 
-- `spec.md` contiene FR-020/FR-021 y SC-011/SC-012.
-- `contracts/visual-system.md` fija tokens, tipografías, firma por superficie,
-  temas por `gameCode` y movimiento.
-- `contracts/accessibility.md` exige pausa global, contraste y equivalencia
-  estática.
-- `prototype-comparison.md` distingue qué se conserva, mejora y descarta.
-- `tasks.md` registra la convergencia de forma append-only en T074–T081.
+## 3. Persistencia Supabase local (opcional)
 
-“Referencia, no dependencia” significa conservar la intención visual sin copiar
-cada `div`, texto, posición o tamaño del HTML histórico.
+Autorización: `supabase-reconciliation.md` (2026-08-03). Solo local.
 
-## 4. Verificación automática
+1. Tener Docker + Supabase CLI.
+2. Completar `.env.local` con `SUPABASE_URL` y una clave service_role/secret
+   del stack local (`supabase status`).
+3. Aplicar schema y seed:
+
+       supabase db reset --yes
+       # regenerar seed de packs si cambió el JSON editorial:
+       pnpm seed:content
+
+4. Arrancar Next con gateway durable:
+
+       # en .env.local
+       ARCADE_GATEWAY=supabase
+
+5. Suite física (opcional):
+
+       # PowerShell
+       $env:RUN_SUPABASE_TESTS="true"; corepack pnpm test:integration
+
+## 4. Variables (Vercel / local)
+
+| Variable | Notas |
+|---|---|
+| `SUPABASE_URL` | Server-only |
+| `SUPABASE_SECRET_KEY` o `SUPABASE_SERVICE_ROLE_KEY` | Exactamente una |
+| `ARCADE_GATEWAY` | `memory` (default) o `supabase` |
+| `GAME_ROUND_SIZE` | Opcional; default 5 |
+
+Prohibido: `NEXT_PUBLIC_SUPABASE_SECRET_KEY` / `SERVICE_ROLE*`.
+
+## 5. Verificación automática
 
     corepack pnpm typecheck
     corepack pnpm lint
@@ -49,30 +67,10 @@ cada `div`, texto, posición o tamaño del HTML histórico.
     corepack pnpm test:e2e
     corepack pnpm build
 
-La suite de portada previa no es evidencia suficiente por sí sola. Las pruebas
-contractuales deben validar tokens, fuentes, `data-game-code`, `data-motion` y
-la estructura visual obligatoria. La regresión visual se captura con movimiento
-pausado para evitar diferencias cinéticas.
+CI: `.github/workflows/ci.yml` (quality + E2E). Job Supabase solo por
+`workflow_dispatch`.
 
-## 5. Revisión visual y accesible
+## 6. Contratos
 
-Revisar al menos:
-
-- portada a 1440×900 y 390×844;
-- portada y shell a 320 px, sin scroll horizontal;
-- zoom 200 %, navegación de teclado y foco visible;
-- shell de ¿Real o IA? en escritorio y móvil;
-- feedback, carga, error, sesión inválida y 404;
-- pausa/reactivación, persistencia `antidoto:motion:v1` y preferencia del
-  sistema sin valor guardado;
-- composición estática completa de marquee, glitch, scanlines y flotación;
-- consola sin errores de hidratación, tipografía ni Tailwind.
-
-La primera pantalla pasa cuando comunica inmediatamente “arcade contra la
-desinformación” y se siente heredera del prototipo sin replicar su HTML.
-
-## 6. Límite de persistencia
-
-La reconciliación documental de las 22 migraciones continúa siendo obligatoria
-solo para T017–T019 y T070. Ningún comando de este quickstart modifica
-`supabase/`, y la convergencia visual no renueva esa autorización.
+- `spec.md`, `contracts/*`, `data-model.md`, `supabase-reconciliation.md`
+- Ranking secundario; no CTA del landing.

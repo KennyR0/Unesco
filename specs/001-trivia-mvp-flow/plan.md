@@ -1,9 +1,10 @@
 # Plan de implementación: Antídoto Arcade MIL
 
 **Feature**: 001-trivia-mvp-flow
-**Estado**: convergencia visual entregada; scoring aprobado y normativo.
-Siguiente foco: sesiones/submit (US2–US3). Persistencia física Supabase
-(T017–T019/T070) permanece bloqueada hasta autorización renovada.
+**Estado**: convergencia visual + runtime arcade entregados; scoring normativo.
+Persistencia Supabase **local** desbloqueada (2026-08-03): migraciones,
+seed de contenido, `SupabaseArcadeGateway` y selector `ARCADE_GATEWAY`.
+Default runtime sigue en `memory`. **Sin `db push` remoto** en este corte.
 
 ## Resumen
 
@@ -44,7 +45,7 @@ autoridad de estos documentos.
 | Renderizado | Server Components por defecto; Client Components solo para interacción, foco y APIs del navegador |
 | Estilos | CSS custom properties y CSS semántico por componente; Tailwind queda configurado para el código existente sin exigir una reescritura a utilidades |
 | Tipografía | Anton, Archivo y Space Mono mediante `next/font`, sin solicitudes externas en runtime |
-| Persistencia | Supabase server-only después de aprobar el modelo |
+| Persistencia | Supabase server-only (`private_arcade`) con selector `ARCADE_GATEWAY`; default memory |
 | Contenido visual | next/image para imágenes informativas; fallback y alt contractual |
 | Despliegue | El mecanismo existente del proyecto, después de verificar Preview; no se despliega en esta revisión |
 | Prototipo | Fuente de intención, experiencia y sistema visual en prototipo/; no se importa ni se enlaza como dependencia del build |

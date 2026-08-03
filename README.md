@@ -11,13 +11,14 @@ está en `specs/001-trivia-mvp-flow/contracts/visual-system.md`.
 
 ## Estado actual
 
-La convergencia visual cubre la portada, las rutas introductorias, el shell,
-feedback, estados comunes y los componentes ya implementados de ¿Real o IA?, El
-Grupo, Clickbait Swipe y Radar de Fuentes. Feed 60 y Mente Maestra conservan su
-tema documentado, pero no reciben lógica o componentes nuevos en este corte.
+Seis misiones jugables (¿Real o IA?, El Grupo, Clickbait Swipe, Radar de Fuentes,
+Feed 60, Mente Maestra) con shell compartido, feedback educativo y E2E.
 
-No se modifican APIs, payloads, puntuación, sesiones, base de datos, migraciones,
-seed ni Supabase.
+Persistencia: gateway en memoria por defecto (`ARCADE_GATEWAY=memory`). Supabase
+local opcional (`ARCADE_GATEWAY=supabase`) con schema `private_arcade`, seed de
+contenido y `SupabaseArcadeGateway`. Sin push remoto en este corte.
+
+CI: `.github/workflows/ci.yml`.
 
 ## Desarrollo
 
@@ -35,5 +36,4 @@ Verificación:
     corepack pnpm test:e2e
     corepack pnpm build
 
-El quickstart y la evidencia de implementación viven en
-`specs/001-trivia-mvp-flow/`.
+Supabase local (opcional): ver `specs/001-trivia-mvp-flow/quickstart.md`.
