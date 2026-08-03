@@ -213,8 +213,8 @@ describe("operaciones arcade server-only", () => {
         ok: true as const,
         data: {
           ...baseState,
-          gameCode: "feed-60",
-          mechanic: "timed_feed",
+          gameCode: "feed-60" as const,
+          mechanic: "timed_feed" as const,
           total: 10,
         },
       })),

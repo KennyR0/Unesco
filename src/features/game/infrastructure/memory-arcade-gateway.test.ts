@@ -15,6 +15,20 @@ afterEach(() => {
 });
 
 describe("memory arcade gateway: T028", () => {
+  it("repite startGame de forma idempotente para el mismo hash de sesiÃ³n", async () => {
+    const gateway = createMemoryArcadeGateway();
+    const command = {
+      alias: "Ana",
+      gameCode: "real-o-ia" as const,
+      sessionTokenHash: "repeated-token-hash",
+    };
+
+    const first = await gateway.startGame(command);
+    const retry = await gateway.startGame(command);
+
+    expect(retry).toEqual(first);
+  });
+
   it("rejects an item that is not assigned to the session", async () => {
     const gateway = createMemoryArcadeGateway();
     const started = await gateway.startGame({
