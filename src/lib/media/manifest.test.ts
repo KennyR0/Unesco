@@ -75,4 +75,19 @@ describe("manifiesto de media arcade", () => {
     expect(missing.kind).toBe("none");
     expect(missing.fallbackText).toMatch(/no está disponible/i);
   });
+
+  it("incluye los ocho assets provisionales de real-o-ia con fallback utilizable", () => {
+    const arcade = listMediaAssets({ gameCode: "real-o-ia" });
+    expect(arcade).toHaveLength(8);
+    expect(arcade.every((asset) => asset.provisional)).toBe(true);
+    expect(arcade.every((asset) => asset.alt && asset.fallbackText)).toBe(true);
+
+    const archivedFallback = resolvePublicMediaOrFallback(
+      "real-o-ia-retrato-en-el-parque",
+      "missing-version",
+    );
+    expect(archivedFallback.kind).toBe("none");
+    expect(archivedFallback.fallbackText).toMatch(/no está disponible/i);
+  });
 });
+
