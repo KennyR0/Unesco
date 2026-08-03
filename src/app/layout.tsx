@@ -50,6 +50,7 @@ export default function RootLayout({
       lang="es"
       suppressHydrationWarning
       data-scroll-behavior="smooth"
+      data-motion="active"
       className={`${anton.variable} ${archivo.variable} ${spaceMono.variable}`}
     >
       <head>

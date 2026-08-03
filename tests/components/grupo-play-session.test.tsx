@@ -4,9 +4,9 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { GameState } from "@antidoto/contracts";
 
-import { GrupoPlaySession } from "@/components/game/grupo-play-session";
-import { createContentRepository } from "@/features/game/content/content-repository";
-import contentPack from "@/features/game/content/game-items/grupo.v1.json";
+import { GrupoPlaySession } from "../../src/components/game/grupo-play-session";
+import { createContentRepository } from "../../src/features/game/content/content-repository";
+import contentPack from "../../src/features/game/content/game-items/grupo.v1.json";
 
 const startGrupoGameFormAction = vi.fn();
 const submitGameActionAction = vi.fn();

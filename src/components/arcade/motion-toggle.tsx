@@ -39,6 +39,17 @@ export function MotionToggle() {
       }
     };
 
+    let stored: string | null = null;
+    try {
+      stored = window.localStorage.getItem(MOTION_STORAGE_KEY);
+    } catch {
+      // Storage is optional; fall through to the document or system preference.
+    }
+    if (stored !== "active" && stored !== "paused") {
+      applyPreference(mediaQuery?.matches ? "paused" : "active");
+    } else {
+      applyPreference(stored);
+    }
     syncFromDocument();
     window.addEventListener("antidoto:motion-change", syncFromDocument);
     mediaQuery?.addEventListener("change", syncFromSystem);

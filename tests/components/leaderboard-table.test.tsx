@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 
 import type { LeaderboardEntry } from "@antidoto/contracts";
 
-import { LeaderboardTable } from "@/components/game/leaderboard-table";
-import { LEADERBOARD_COPY } from "@/features/game/application/leaderboard";
+import { LeaderboardTable } from "../../src/components/game/leaderboard-table";
+import { LEADERBOARD_COPY } from "../../src/features/game/application/leaderboard";
 
 function entry(
   overrides: Partial<LeaderboardEntry> &

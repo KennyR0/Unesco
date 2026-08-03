@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useState, type ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 
 import type { AnswerResult, PublicFeedback } from "@antidoto/contracts";
 
@@ -25,14 +25,8 @@ export function FeedbackPanel({
   id = "game-feedback",
 }: FeedbackPanelProps) {
   const reactId = useId();
-  const [announcement, setAnnouncement] = useState(() =>
-    describeFeedbackAnnouncement(feedback),
-  );
+  const announcement = describeFeedbackAnnouncement(feedback);
   const liveId = `${id}-live-${reactId}`;
-
-  useEffect(() => {
-    setAnnouncement(describeFeedbackAnnouncement(feedback));
-  }, [feedback]);
 
   return (
     <section
@@ -44,6 +38,7 @@ export function FeedbackPanel({
       data-feedback-persistent="true"
     >
       <div
+        key={announcement}
         id={liveId}
         className="feedback-panel__live"
         role="status"

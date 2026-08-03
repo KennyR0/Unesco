@@ -22,6 +22,7 @@ describe("GamePage", () => {
     render(
       await GamePage({
         params: Promise.resolve({ gameCode: "real-o-ia" }),
+        searchParams: Promise.resolve({}),
       }),
     );
 
@@ -40,6 +41,7 @@ describe("GamePage", () => {
     await expect(
       GamePage({
         params: Promise.resolve({ gameCode: "no-existe" }),
+        searchParams: Promise.resolve({}),
       }),
     ).rejects.toThrow("NEXT_NOT_FOUND");
 

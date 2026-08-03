@@ -70,13 +70,24 @@ export function FeedTimerGame({
   disabled = false,
 }: FeedTimerGameProps) {
   const [motionPaused, setMotionPaused] = useState(false);
-  const [warningAnnounced, setWarningAnnounced] = useState(false);
-  const [displaySeconds, setDisplaySeconds] = useState(() =>
-    clampSeconds(remainingSeconds),
-  );
+  const authoritativeSeconds = clampSeconds(remainingSeconds);
+  const [clockSource, setClockSource] = useState(() => ({
+    itemId: item.itemId,
+    remaining: authoritativeSeconds,
+  }));
+  const [displaySeconds, setDisplaySeconds] = useState(authoritativeSeconds);
   const promptRef = useRef<HTMLHeadingElement | null>(null);
   const decisionRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const statusRef = useRef<HTMLParagraphElement | null>(null);
+
+  // Reinicia el tick visual cuando el servidor proyecta otro item o tiempo.
+  if (
+    clockSource.itemId !== item.itemId ||
+    clockSource.remaining !== authoritativeSeconds
+  ) {
+    setClockSource({ itemId: item.itemId, remaining: authoritativeSeconds });
+    setDisplaySeconds(authoritativeSeconds);
+  }
 
   const promptId = `feed-60-${item.itemId}-prompt`;
   const timerId = `feed-60-${item.itemId}-timer`;
@@ -93,12 +104,7 @@ export function FeedTimerGame({
   const showExpiredState = expired || displaySeconds === 0;
   const showHints = verified && verificationHints.length > 0;
 
-  // El texto del reloj refleja el valor autoritativo; el tick visual es solo
-  // una aproximación local y nunca extiende el límite.
-  useEffect(() => {
-    setDisplaySeconds(clampSeconds(remainingSeconds));
-  }, [remainingSeconds, item.itemId]);
-
+  // El tick visual es solo una aproximación local y nunca extiende el límite.
   useEffect(() => {
     if (showExpiredState) return;
     const timer = window.setInterval(() => {
@@ -111,16 +117,7 @@ export function FeedTimerGame({
       });
     }, 1_000);
     return () => window.clearInterval(timer);
-  }, [item.itemId, showExpiredState]);
-
-  useEffect(() => {
-    if (showEarlyWarning && !warningAnnounced) {
-      setWarningAnnounced(true);
-    }
-    if (!showEarlyWarning) {
-      setWarningAnnounced(false);
-    }
-  }, [showEarlyWarning, item.itemId]);
+  }, [item.itemId, showExpiredState, authoritativeSeconds]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;

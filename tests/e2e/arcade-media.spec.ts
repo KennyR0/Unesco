@@ -19,13 +19,20 @@ async function loadResponsiveImage(page: Page, asset: (typeof imageAssets)[numbe
       }>((resolve, reject) => {
         const frame = document.createElement("figure");
         frame.className = "verdict-game__frame";
+        frame.style.width = "min(100%, 36rem)";
+        frame.style.maxWidth = "100%";
         const image = document.createElement("img");
         image.className = "verdict-game__image";
         image.src = src;
         image.alt = alt ?? "";
         image.width = width ?? 640;
         image.height = height ?? 432;
+        image.style.width = "100%";
+        image.style.height = "auto";
         image.onload = () => {
+          // Fuerza layout tras decodificar: en viewports estrechos el primer
+          // getBoundingClientRect puede llegar antes de aplicar CSS de imagen.
+          void image.offsetHeight;
           const frameBox = frame.getBoundingClientRect();
           const imageBox = image.getBoundingClientRect();
           resolve({

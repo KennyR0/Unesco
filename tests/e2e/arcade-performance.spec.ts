@@ -158,8 +158,16 @@ test.describe("presupuesto de rendimiento del arcade", () => {
     page,
   }) => {
     await page.goto("/games/real-o-ia", { waitUntil: "commit" });
-    await expect(page.locator("main#main-content")).toBeVisible();
-    await expect(page.getByRole("status")).toBeVisible();
+    // Durante la transición loading → intro pueden coexistir dos mains.
+    await expect(page.locator("main#main-content").first()).toBeVisible();
+    await expect(
+      page.locator('main#main-content[data-game-code="real-o-ia"]'),
+    ).toBeVisible();
+    await expect(
+      page
+        .locator('main#main-content[data-game-code="real-o-ia"]')
+        .getByRole("status"),
+    ).toBeVisible();
 
     await page.goto("/ruta-que-no-existe");
     await expect(page.getByRole("alert")).toBeVisible();

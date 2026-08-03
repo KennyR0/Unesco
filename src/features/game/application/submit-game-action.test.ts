@@ -40,7 +40,12 @@ function createGateway(
     submitGameAction: vi.fn(async () => ({ ok: true as const, data: baseState })),
     advanceGame: vi.fn(async () => ({
       ok: true as const,
-      data: { ...baseState, status: "active", nextAction: "submit", feedback: null },
+      data: {
+        ...baseState,
+        status: "active" as const,
+        nextAction: "submit" as const,
+        feedback: null,
+      },
     })),
     getGameResult: vi.fn(unimplemented),
     getLeaderboard: vi.fn(unimplemented),
