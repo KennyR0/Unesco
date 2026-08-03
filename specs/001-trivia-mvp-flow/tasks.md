@@ -255,7 +255,7 @@ producir daño real.
 cerrar la entrega.
 
 - [X] T066 Retirar las rutas y componentes single_choice obsoletos después de que las nuevas rutas pasen sus pruebas en src/app/play/page.tsx, src/app/results/page.tsx, src/app/ranking/page.tsx y src/components/game/question-card.tsx.
-- [ ] T067 [P] Implementar verificación de teclado, foco, live regions, zoom 200 %, reduced motion y 320 px en tests/e2e/arcade-accessibility.spec.ts y src/app/globals.css.
+- [X] T067 [P] Implementar verificación de teclado, foco, live regions, zoom 200 %, reduced motion y 320 px en tests/e2e/arcade-accessibility.spec.ts y src/app/globals.css.
 - [ ] T068 [P] Implementar pruebas de media, dimensiones, fallback, peso y responsive en tests/contracts/media-contract.test.ts y tests/e2e/arcade-media.spec.ts.
 - [ ] T069 [P] Añadir pruebas de frontera de servidor, Zod, secretos, cookies, URL, item ajeno y score enviado por cliente en tests/architecture/server-boundaries.test.ts, tests/contracts/domain-import.test.ts y tests/contracts/contract-consistency.test.ts.
 - [ ] T070 Ejecutar la reconciliación física local y las pruebas RLS solo con autorización renovada, sin db push, incluyendo elegibilidad del ranking, protección `security_invoker` si aplica y división segura en supabase/migrations/20260801051613_arcade_schema.sql, tests/integration/database/migration-smoke.test.ts y tests/integration/database/access-control.test.ts.

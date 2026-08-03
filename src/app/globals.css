@@ -592,3 +592,65 @@ fieldset {
 .arcade-card__meta span {
   overflow-wrap: anywhere;
 }
+
+/* Accessibility contract: keep navigation and secondary actions operable by
+   touch and keyboard at every viewport size. */
+.arcade-header__nav a,
+.text-action {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+
+.arcade-header__nav {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.arcade-header__brand {
+  max-width: 100%;
+  min-width: 0;
+}
+
+.arcade-home {
+  overflow-x: clip;
+}
+
+.skip-link {
+  max-width: calc(100vw - 1.5rem);
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+@media (max-width: 760px) {
+  .arcade-header__brand {
+    width: 100%;
+  }
+
+  .arcade-header__nav {
+    width: 100%;
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-motion="active"]),
+  html:not([data-motion="active"]) body {
+    scroll-behavior: auto !important;
+  }
+
+  html:not([data-motion="active"]) *,
+  html:not([data-motion="active"]) *::before,
+  html:not([data-motion="active"]) *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+html[data-motion="paused"] *,
+html[data-motion="paused"] *::before,
+html[data-motion="paused"] *::after {
+  animation-play-state: paused !important;
+}
