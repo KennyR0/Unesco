@@ -18,6 +18,7 @@ import {
 } from "../fixtures/supabase-local";
 import {
   GameActionSchema,
+  GameCatalogEntrySchema,
   GameResultSchema,
   GameStateSchema,
   LeaderboardSchema,
@@ -66,7 +67,63 @@ describe("consistencia del contrato arcade", () => {
     expect(
       PublicItemSchema.safeParse(arcadeContractSamples.publicItems[0]).success,
     ).toBe(true);
-    expect(CLIENT_FORBIDDEN_AUTHORITY_FIELDS).toContain("solution");
-    expect(CLIENT_FORBIDDEN_AUTHORITY_FIELDS).toContain("rankingScore");
+    for (const field of CLIENT_FORBIDDEN_AUTHORITY_FIELDS) {
+      expect(
+        GameActionSchema.safeParse({
+          ...discriminatedActions[0],
+          [field]: true,
+        }).success,
+      ).toBe(false);
+    }
+  });
+
+  it("rechaza item ajeno, score enviado y URLs fuera del contrato", () => {
+    const foreignItem = {
+      ...arcadeContractSamples.publicItems[1],
+      gameCode: "real-o-ia",
+      mechanic: "image_verdict",
+    };
+    expect(PublicItemSchema.safeParse(foreignItem).success).toBe(false);
+
+    const stateWithForeignItem = {
+      ...arcadeContractSamples.state,
+      item: arcadeContractSamples.publicItems[1],
+    };
+    expect(GameStateSchema.safeParse(stateWithForeignItem).success).toBe(false);
+
+    const actionWithClientScore = {
+      ...discriminatedActions[0],
+      score: 100,
+    };
+    expect(GameActionSchema.safeParse(actionWithClientScore).success).toBe(false);
+
+    const catalogEntry = {
+      gameCode: "real-o-ia" as const,
+      mechanic: "image_verdict" as const,
+      name: "Real o IA",
+      objective: "Distingue señales visuales.",
+      route: "/games/real-o-ia",
+      contentVersion: "v1",
+      available: true,
+    };
+    expect(GameCatalogEntrySchema.safeParse(catalogEntry).success).toBe(true);
+    expect(
+      GameCatalogEntrySchema.safeParse({
+        ...catalogEntry,
+        route: "https://evil.example/steal-session",
+      }).success,
+    ).toBe(false);
+
+    const forgedLeaderboard = {
+      ...arcadeContractSamples.leaderboard,
+      entries: [
+        {
+          ...arcadeContractSamples.leaderboard.entries[0],
+          points: 1,
+          rankingScore: 100,
+        },
+      ],
+    };
+    expect(LeaderboardSchema.safeParse(forgedLeaderboard).success).toBe(false);
   });
 });
