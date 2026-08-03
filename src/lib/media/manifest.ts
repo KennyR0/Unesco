@@ -196,16 +196,27 @@ export const MediaManifestSchema = z
       }
     }
 
+    // Presupuesto de primera vista: assets compartidos + el peor caso de un
+    // solo asset por juego (pools grandes no se suman enteros).
     const visibleApproved = manifest.assets.filter(
       (asset) =>
         asset.editorialStatus === "approved" &&
         asset.kind !== "none" &&
         !asset.decorative,
     );
-    const visibleBytes = visibleApproved.reduce(
-      (total, asset) => total + asset.bytes,
-      0,
-    );
+    const sharedBytes = visibleApproved
+      .filter((asset) => asset.gameCode === null)
+      .reduce((total, asset) => total + asset.bytes, 0);
+    const heaviestByGame = new Map<string, number>();
+    for (const asset of visibleApproved) {
+      if (asset.gameCode === null) continue;
+      const previous = heaviestByGame.get(asset.gameCode) ?? 0;
+      if (asset.bytes > previous) {
+        heaviestByGame.set(asset.gameCode, asset.bytes);
+      }
+    }
+    const worstGameBytes = Math.max(0, ...heaviestByGame.values());
+    const visibleBytes = sharedBytes + worstGameBytes;
     if (visibleBytes > manifest.limits.maxVisibleFirstViewBytes) {
       context.addIssue({
         code: z.ZodIssueCode.custom,

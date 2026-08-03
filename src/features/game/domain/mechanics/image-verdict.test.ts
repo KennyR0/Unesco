@@ -36,7 +36,12 @@ describe("evaluador image_verdict", () => {
   });
 
   it("asigna 0 cuando el veredicto falla y conserva el feedback para aprender", () => {
-    const item = items[1];
+    const item = items.find(
+      (entry) =>
+        parseImageVerdictSolution(entry.solutionPrivate).verdict === "real",
+    );
+    expect(item).toBeDefined();
+    if (!item) return;
     const solution = parseImageVerdictSolution(item.solutionPrivate);
 
     const evaluation = evaluateImageVerdict({

@@ -80,6 +80,11 @@ import {
   evaluateRadarSubmit,
   type RadarAnswerRecord,
 } from "./memory-radar-runtime";
+import { parseImageVerdictSolution } from "../domain/mechanics/image-verdict";
+import {
+  pickRealOrIaSessionItemIds,
+  REAL_O_IA_SESSION_ITEM_COUNT,
+} from "../domain/real-o-ia-session-pick";
 import {
   evaluateRealOrIaSubmit,
   type RealOrIaAnswerRecord,
@@ -221,6 +226,7 @@ export function createMemoryArcadeGateway(
   const byTokenHash = new Map<string, MemorySession>();
   const bySessionId = new Map<string, MemorySession>();
   const nextDefaultItemNumber = new Map<GameCode, number>();
+  let realOrIaSessionStarts = 0;
   const now = options.now ?? (() => new Date());
   const contentRepository =
     options.contentRepository ?? getArcadeContentRepository();
@@ -236,6 +242,24 @@ export function createMemoryArcadeGateway(
         throw new Error("CONTENT_UNAVAILABLE: una sesión requiere items.");
       }
       return Object.freeze([...configured]);
+    }
+
+    if (gameCode === "real-o-ia") {
+      const pool = contentRepository.listPublishedItems("real-o-ia").map((item) => ({
+        itemId: item.itemId,
+        verdict: parseImageVerdictSolution(item.solutionPrivate).verdict,
+      }));
+      if (pool.length < REAL_O_IA_SESSION_ITEM_COUNT) {
+        throw new Error(
+          "CONTENT_UNAVAILABLE: real-o-ia requiere un pool de al menos 8 items.",
+        );
+      }
+      const sessionStartCount = realOrIaSessionStarts;
+      realOrIaSessionStarts += 1;
+      return pickRealOrIaSessionItemIds({
+        pool,
+        sessionStartCount,
+      });
     }
 
     const published = contentRepository

@@ -18,26 +18,26 @@ function readVerdict(solutionPrivate: Record<string, unknown>): string {
 describe("pack editorial real-o-ia.v1 (T040)", () => {
   const items = validateContentCollection(contentPack);
 
-  it("pasa la revisión estructural con exactamente ocho items", () => {
-    expect(items).toHaveLength(8);
+  it("pasa la revisión estructural con pool de veinte items", () => {
+    expect(items).toHaveLength(20);
   });
 
-  it("declara los ocho items aprobados en la versión registrada del manifiesto", () => {
+  it("declara los veinte items aprobados en la versión activa del arcade", () => {
     for (const item of items) {
       expect(item.editorialStatus).toBe("approved");
       expect(item.contentVersion).toBe("2026-07-30.1");
       expect(item.gameCode).toBe("real-o-ia");
       expect(item.mechanic).toBe("image_verdict");
     }
-    expect(items.map((item) => item.sequence)).toEqual([
-      1, 2, 3, 4, 5, 6, 7, 8,
-    ]);
+    expect(items.map((item) => item.sequence)).toEqual(
+      Array.from({ length: 20 }, (_, index) => index + 1),
+    );
   });
 
-  it("equilibra cuatro reales y cuatro generadas, con respuesta revelable coherente", () => {
+  it("equilibra diez reales y diez generadas, con respuesta revelable coherente", () => {
     const verdicts = items.map((item) => readVerdict(item.solutionPrivate));
-    expect(verdicts.filter((verdict) => verdict === "real")).toHaveLength(4);
-    expect(verdicts.filter((verdict) => verdict === "ai")).toHaveLength(4);
+    expect(verdicts.filter((verdict) => verdict === "real")).toHaveLength(10);
+    expect(verdicts.filter((verdict) => verdict === "ai")).toHaveLength(10);
 
     for (const item of items) {
       const verdict = readVerdict(item.solutionPrivate);
@@ -48,7 +48,7 @@ describe("pack editorial real-o-ia.v1 (T040)", () => {
     }
   });
 
-  it("mantiene media informativa sin revelar el veredicto ni las pistas en el alt", () => {
+  it("mantiene media informativa responsive sin revelar el veredicto ni las pistas en el alt", () => {
     for (const item of items) {
       const publicItem = item.publicItem;
       if (publicItem.gameCode !== "real-o-ia") {
@@ -58,8 +58,13 @@ describe("pack editorial real-o-ia.v1 (T040)", () => {
       expect(media.kind).toBe("image");
       expect(media.decorative).toBe(false);
       expect(media.alt).not.toBeNull();
-      expect(media.src).toMatch(/^\/media\/real-o-ia\/.+\.webp$/);
+      expect(media.src).toMatch(/^\/media\/real-o-ia\/(ai|real)\/.+\.webp$/);
       expect(media.fallbackText).not.toBeNull();
+      expect(media.srcSet?.["480"]).toMatch(/-480\.webp$/);
+      expect(media.srcSet?.["768"]).toBe(media.src);
+      expect(media.srcSet?.["1280"]).toMatch(/-1280\.webp$/);
+      expect(media.width).toBeGreaterThan(0);
+      expect(media.height).toBeGreaterThan(0);
 
       const alt = media.alt ?? "";
       expect(VERDICT_VOCABULARY.test(alt)).toBe(false);
@@ -71,21 +76,12 @@ describe("pack editorial real-o-ia.v1 (T040)", () => {
     }
   });
 
-  it("publica los ocho items en orden y nunca expone la solución privada", () => {
+  it("publica los veinte items y nunca expone la solución privada", () => {
     const repository = createContentRepository(contentPack);
 
     expect(repository.activeVersion).toBe("2026-07-30.1");
     const published = repository.listPublishedItems("real-o-ia");
-    expect(published.map((item) => item.itemId)).toEqual([
-      "real-o-ia-001",
-      "real-o-ia-002",
-      "real-o-ia-003",
-      "real-o-ia-004",
-      "real-o-ia-005",
-      "real-o-ia-006",
-      "real-o-ia-007",
-      "real-o-ia-008",
-    ]);
+    expect(published).toHaveLength(20);
 
     for (const item of published) {
       const publicItem = repository.getPublicItem("real-o-ia", item.itemId);

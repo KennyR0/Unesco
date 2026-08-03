@@ -20,28 +20,24 @@ const VERDICTS: readonly ImageVerdict[] = ["real", "ai"];
 const arcadeDatabaseAvailable = arcadeSchemaAvailable;
 
 describe("flujo de ¿Real o IA? (T044)", () => {
-  it("cubre ocho items, proyección privada y score máximo 80 con fixtures", () => {
+  it("cubre el pool de veinte items, proyección privada y score máximo 80 con fixtures", () => {
     const items = validateContentCollection(contentPack);
     const repository = createContentRepository(contentPack, {
       activeVersion: "2026-07-30.1",
     });
     const published = repository.listPublishedItems("real-o-ia");
 
-    expect(items).toHaveLength(8);
-    expect(published).toHaveLength(8);
-    expect(published.map((item) => item.sequence)).toEqual([
-      1, 2, 3, 4, 5, 6, 7, 8,
-    ]);
-    expect(published.map((item) => item.itemId)).toEqual([
-      "real-o-ia-001",
-      "real-o-ia-002",
-      "real-o-ia-003",
-      "real-o-ia-004",
-      "real-o-ia-005",
-      "real-o-ia-006",
-      "real-o-ia-007",
-      "real-o-ia-008",
-    ]);
+    expect(items).toHaveLength(20);
+    expect(published).toHaveLength(20);
+    expect(published.map((item) => item.sequence)).toEqual(
+      Array.from({ length: 20 }, (_, index) => index + 1),
+    );
+    expect(published.map((item) => item.itemId)).toEqual(
+      Array.from(
+        { length: 20 },
+        (_, index) => `real-o-ia-${String(index + 1).padStart(3, "0")}`,
+      ),
+    );
 
     const answers = published.map((item) => {
       const publicItem = repository.getPublicItem("real-o-ia", item.itemId);
@@ -76,9 +72,10 @@ describe("flujo de ¿Real o IA? (T044)", () => {
 
     expect(maxPointsForGame("real-o-ia")).toBe(80);
 
+    // La partida usa 8 del pool de 20.
     const perfect = calculateGameScore({
       gameCode: "real-o-ia",
-      answers,
+      answers: answers.slice(0, 8),
     });
     expect(perfect).toMatchObject({
       points: 80,

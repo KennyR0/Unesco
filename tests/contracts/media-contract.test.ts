@@ -54,15 +54,26 @@ describe("contrato de media pública del arcade", () => {
       }
     }
 
-    const visibleApprovedBytes = manifest.assets
-      .filter(
-        (asset) =>
-          asset.editorialStatus === "approved" &&
-          asset.kind !== "none" &&
-          !asset.decorative,
-      )
+    const visibleApproved = manifest.assets.filter(
+      (asset) =>
+        asset.editorialStatus === "approved" &&
+        asset.kind !== "none" &&
+        !asset.decorative,
+    );
+    const sharedBytes = visibleApproved
+      .filter((asset) => asset.gameCode === null)
       .reduce((total, asset) => total + asset.bytes, 0);
-    expect(visibleApprovedBytes).toBeLessThanOrEqual(
+    const heaviestByGame = new Map<string, number>();
+    for (const asset of visibleApproved) {
+      if (asset.gameCode === null) continue;
+      const previous = heaviestByGame.get(asset.gameCode) ?? 0;
+      if (asset.bytes > previous) {
+        heaviestByGame.set(asset.gameCode, asset.bytes);
+      }
+    }
+    const firstViewBytes =
+      sharedBytes + Math.max(0, ...heaviestByGame.values());
+    expect(firstViewBytes).toBeLessThanOrEqual(
       MEDIA_MAX_VISIBLE_FIRST_VIEW_BYTES,
     );
   });

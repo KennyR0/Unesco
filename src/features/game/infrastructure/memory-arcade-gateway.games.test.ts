@@ -1,7 +1,17 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import contentPack from "../content/game-items/real-o-ia.v1.json";
 import { createMemoryArcadeGateway } from "./memory-arcade-gateway";
 import type { GameStateWithCompanion } from "./session-companion";
+
+function realOrIaVerdict(itemId: string): "real" | "ai" {
+  const item = contentPack.find((entry) => entry.itemId === itemId);
+  const verdict = item?.solutionPrivate?.verdict;
+  if (verdict !== "real" && verdict !== "ai") {
+    throw new Error(`Sin veredicto para ${itemId}`);
+  }
+  return verdict;
+}
 
 afterEach(() => {
   vi.useRealTimers();
@@ -23,7 +33,7 @@ async function startSession(
 }
 
 describe("memory arcade gateway: seis misiones con contenido", () => {
-  it("real-o-ia: asigna las ocho imágenes y puntúa el verdict", async () => {
+  it("real-o-ia: asigna ocho imágenes del pool y puntúa el verdict", async () => {
     const gateway = createMemoryArcadeGateway();
     const started = await startSession(gateway, "real-o-ia");
 
@@ -33,17 +43,21 @@ describe("memory arcade gateway: seis misiones con contenido", () => {
       total: 8,
       position: 0,
       nextAction: "submit",
-      item: { gameCode: "real-o-ia", itemId: "real-o-ia-001" },
+      item: { gameCode: "real-o-ia" },
     });
+    expect(started.item?.itemId).toMatch(/^real-o-ia-\d{3}$/);
     expect(JSON.stringify(started)).not.toMatch(
       /solutionPrivate|evaluationSignals/,
     );
 
+    const firstItemId = started.item!.itemId;
+    const firstVerdict = realOrIaVerdict(firstItemId);
+
     const correct = await gateway.submitGameAction({
       sessionId: started.sessionId,
       gameCode: "real-o-ia",
-      itemId: "real-o-ia-001",
-      input: { kind: "verdict", value: "ai" },
+      itemId: firstItemId,
+      input: { kind: "verdict", value: firstVerdict },
     });
     expect(correct).toEqual(
       expect.objectContaining({
@@ -63,24 +77,25 @@ describe("memory arcade gateway: seis misiones con contenido", () => {
 
     const advanced = await gateway.advanceGame({
       sessionId: started.sessionId,
-      itemId: "real-o-ia-001",
+      itemId: firstItemId,
     });
-    expect(advanced).toEqual(
-      expect.objectContaining({
-        ok: true,
-        data: expect.objectContaining({
-          status: "active",
-          position: 1,
-          item: expect.objectContaining({ itemId: "real-o-ia-002" }),
-        }),
-      }),
-    );
+    expect(advanced.ok).toBe(true);
+    if (!advanced.ok) throw new Error("advance falló");
+    const secondState = advanced.data as GameStateWithCompanion;
+    expect(secondState).toMatchObject({
+      status: "active",
+      position: 1,
+    });
+    expect(secondState.item?.itemId).toMatch(/^real-o-ia-\d{3}$/);
+    expect(secondState.item?.itemId).not.toBe(firstItemId);
 
+    const secondItemId = secondState.item!.itemId;
+    const wrongValue = realOrIaVerdict(secondItemId) === "ai" ? "real" : "ai";
     const wrong = await gateway.submitGameAction({
       sessionId: started.sessionId,
       gameCode: "real-o-ia",
-      itemId: "real-o-ia-002",
-      input: { kind: "verdict", value: "ai" },
+      itemId: secondItemId,
+      input: { kind: "verdict", value: wrongValue },
     });
     expect(wrong).toEqual(
       expect.objectContaining({
@@ -91,6 +106,52 @@ describe("memory arcade gateway: seis misiones con contenido", () => {
         }),
       }),
     );
+  });
+
+  it("real-o-ia: rota ratios 5-3, 3-5 y 4-4 entre partidas", async () => {
+    const gateway = createMemoryArcadeGateway();
+    const ratios: Array<{ ai: number; real: number }> = [];
+
+    for (let index = 0; index < 3; index += 1) {
+      const started = await startSession(gateway, "real-o-ia", `Rot${index}`);
+      expect(started.total).toBe(8);
+      let ai = 0;
+      let real = 0;
+      let itemId = started.item!.itemId;
+
+      for (let step = 0; step < 8; step += 1) {
+        const verdict = realOrIaVerdict(itemId);
+        if (verdict === "ai") ai += 1;
+        else real += 1;
+
+        const submitted = await gateway.submitGameAction({
+          sessionId: started.sessionId,
+          gameCode: "real-o-ia",
+          itemId,
+          input: { kind: "verdict", value: verdict },
+        });
+        expect(submitted.ok).toBe(true);
+
+        const advanced = await gateway.advanceGame({
+          sessionId: started.sessionId,
+          itemId,
+        });
+        expect(advanced.ok).toBe(true);
+        if (!advanced.ok) throw new Error("advance falló");
+        const next = advanced.data as GameStateWithCompanion;
+        if (step < 7) {
+          itemId = next.item!.itemId;
+        }
+      }
+
+      ratios.push({ ai, real });
+    }
+
+    expect(ratios).toEqual([
+      { ai: 5, real: 3 },
+      { ai: 3, real: 5 },
+      { ai: 4, real: 4 },
+    ]);
   });
 
   it("clickbait-swipe: conserva la racha y otorga el bono al tercer acierto", async () => {

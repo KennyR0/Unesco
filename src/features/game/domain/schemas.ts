@@ -88,6 +88,16 @@ export const GameCatalogSchema = z
 
 const MediaDimensionSchema = PositiveIntegerSchema.max(4_096).nullable();
 
+const MediaSrcSetSchema = z
+  .object({
+    "480": z.string().min(1).max(2_048).optional(),
+    "768": z.string().min(1).max(2_048).optional(),
+    "1280": z.string().min(1).max(2_048).optional(),
+  })
+  .strict()
+  .nullable()
+  .optional();
+
 export const PublicMediaSchema = z
   .object({
     kind: z.enum(["image", "illustration", "audio", "none"]),
@@ -97,6 +107,7 @@ export const PublicMediaSchema = z
     width: MediaDimensionSchema,
     height: MediaDimensionSchema,
     fallbackText: ShortTextSchema.nullable(),
+    srcSet: MediaSrcSetSchema,
   })
   .strict()
   .superRefine((media, context) => {

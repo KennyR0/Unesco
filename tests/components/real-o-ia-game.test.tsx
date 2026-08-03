@@ -24,8 +24,8 @@ function asRealOrIaItem(itemId: string): RealOrIaItem {
 }
 
 describe("RealOrIaGame (T044)", () => {
-  it("cubre los ocho items públicos con alt o fallback y sin proyección privada", () => {
-    expect(items).toHaveLength(8);
+  it("cubre el pool público con alt o fallback y sin proyección privada", () => {
+    expect(items).toHaveLength(20);
 
     for (const item of items) {
       const publicItem = asRealOrIaItem(item.itemId);

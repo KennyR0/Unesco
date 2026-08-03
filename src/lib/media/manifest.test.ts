@@ -76,14 +76,17 @@ describe("manifiesto de media arcade", () => {
     expect(missing.fallbackText).toMatch(/no está disponible/i);
   });
 
-  it("incluye los ocho assets provisionales de real-o-ia con fallback utilizable", () => {
+  it("incluye los veinte assets Pexels de real-o-ia con fallback utilizable", () => {
     const arcade = listMediaAssets({ gameCode: "real-o-ia" });
-    expect(arcade).toHaveLength(8);
-    expect(arcade.every((asset) => asset.provisional)).toBe(true);
+    expect(arcade).toHaveLength(20);
+    expect(arcade.every((asset) => asset.provisional === false)).toBe(true);
+    expect(
+      arcade.every((asset) => asset.rights.provenanceType === "pexels"),
+    ).toBe(true);
     expect(arcade.every((asset) => asset.alt && asset.fallbackText)).toBe(true);
 
     const archivedFallback = resolvePublicMediaOrFallback(
-      "real-o-ia-retrato-en-el-parque",
+      "real-o-ia-lago-turquesa",
       "missing-version",
     );
     expect(archivedFallback.kind).toBe("none");
