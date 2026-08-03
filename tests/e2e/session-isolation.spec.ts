@@ -2,6 +2,8 @@ import { expect, test, type BrowserContext } from "@playwright/test";
 
 import { createSessionToken } from "../../src/lib/security/session-token";
 
+test.describe.configure({ mode: "serial" });
+
 const sessionCookieExpiry = Math.floor(Date.now() / 1000) + 3_600;
 
 async function installArcadeCookie(
@@ -71,10 +73,8 @@ test("no comparte cookies de sesión entre contextos de navegador", async ({
 
     const firstPage = await firstContext.newPage();
     const secondPage = await secondContext.newPage();
-    await Promise.all([
-      firstPage.goto("/games/real-o-ia"),
-      secondPage.goto("/games/real-o-ia"),
-    ]);
+    await firstPage.goto("/games/real-o-ia");
+    await secondPage.goto("/games/real-o-ia");
 
     await expect(firstPage.locator('main[data-game-code="real-o-ia"]')).toBeVisible();
     await expect(secondPage.locator('main[data-game-code="real-o-ia"]')).toBeVisible();
