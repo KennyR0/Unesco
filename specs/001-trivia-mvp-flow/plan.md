@@ -1,9 +1,9 @@
 # Plan de implementación: Antídoto Arcade MIL
 
 **Feature**: 001-trivia-mvp-flow
-**Estado**: convergencia visual autorizada sobre las superficies existentes.
-Persistencia, sesiones nuevas y mecánicas ausentes continúan condicionadas por
-sus puertas específicas.
+**Estado**: convergencia visual entregada; scoring aprobado y normativo.
+Siguiente foco: sesiones/submit (US2–US3). Persistencia física Supabase
+(T017–T019/T070) permanece bloqueada hasta autorización renovada.
 
 ## Resumen
 
@@ -27,7 +27,9 @@ La autoridad de producto se reparte así:
 3. data-model.md define entidades, relaciones, exposición y retención.
 4. plan.md define arquitectura futura y orden de diseño.
 5. tasks.md es la única fuente normativa de progreso y propietarios.
-6. scoring-proposal.md es una propuesta no normativa hasta aprobación explícita.
+6. scoring-proposal.md está aprobado desde 2026-07-31; su fórmula es normativa
+   para contratos, modelo, dominio y pruebas. El archivo conserva el historial
+   de la propuesta, pero ya no queda “fuera” de implementación.
 7. prototype-comparison.md compara explícitamente experiencia previa y propuesta.
 8. supabase-reconciliation.md conserva la auditoría de la línea base local.
 
@@ -46,6 +48,11 @@ autoridad de estos documentos.
 | Contenido visual | next/image para imágenes informativas; fallback y alt contractual |
 | Despliegue | El mecanismo existente del proyecto, después de verificar Preview; no se despliega en esta revisión |
 | Prototipo | Fuente de intención, experiencia y sistema visual en prototipo/; no se importa ni se enlaza como dependencia del build |
+
+Excepción proporcional (constitución XII): la constitución lista Tailwind en el
+stack aprobado; esta feature lo mantiene configurado, pero la convergencia
+visual entrega tokens y CSS semántico por componente sin reescribir toda la UI
+a utilidades. No se elimina Tailwind del proyecto.
 
 “Referencia, no dependencia” no debilita la obligación visual: evita copiar el
 HTML antiguo, pero exige conservar su energía, contraste, geometría, lenguaje
@@ -78,17 +85,17 @@ cookies, logs y secretos.
 
 | Ruta | Responsabilidad | Estado |
 |---|---|---|
-| / | Portada arcade con seis tarjetas y llamada a la acción | Implementada; en convergencia visual |
-| /games/[gameCode] | Introducción, partida y resultado de un juego permitido | Shell e introducciones implementados; lógica parcial según juego |
-| /games/[gameCode]/result | Puede ser una proyección interna del shell; no separar feedback educativo | Decidir durante contrato de navegación |
-| código desconocido | Estado seguro con vuelta al arcade | Diseñar |
+| / | Portada arcade con seis tarjetas y llamada a la acción | Implementada; convergencia visual cerrada en evidencia |
+| /games/[gameCode] | Introducción, partida, feedback inline y estados del shell | Shell e introducciones listos; sesión/submit pendientes |
+| /games/[gameCode]/result | Proyección post-partida (alias, aprendizaje, GameScore, enlace discreto al ranking) | Diseñar/implementar en US3; no sustituye el feedback inline |
+| código desconocido | Estado seguro con vuelta al arcade | Implementado en ruta dinámica |
 | /leaderboard | Ranking global secundario, máximo diez resultados | Diseñar después del resultado; no aparece como tarjeta principal |
 | /ranking | Ruta no canónica | Ausente/404 |
 
-La decisión de usar una ruta de resultado separada no puede hacer que la
-explicación desaparezca de la vista de respuesta. La opción preferida es que
-el shell muestre feedback y resultado en el mismo flujo, aunque la URL pueda
-reflejar el estado.
+Contrato de navegación cerrado: el feedback educativo (resultado de la
+decisión, explicación, señales y recomendación) DEBE mostrarse inline en la
+vista de respuesta dentro del shell. `/games/[gameCode]/result` es solo la
+proyección de cierre de partida; NUNCA mueve ni oculta ese feedback.
 
 ## Shell visual compartido
 
@@ -113,14 +120,14 @@ elemento en una tarjeta ni convertir el arcade en una cuadrícula bento.
 
 ## Componentes específicos
 
-| Mecánica | Componente conceptual | Decisiones que debe soportar |
-|---|---|---|
-| real-o-ia | ImageVerdictGame | imagen, contexto, Real/IA, pistas y fallback |
-| grupo | GroupChatGame | mensajes, acciones de cuidado, consecuencia y avance |
-| clickbait-swipe | HeadlineSwipeGame | gesto cancelable, botones, flechas, racha y feedback |
-| radar-de-fuentes | SourceRadarGame | selección, categorías, estado de tarjeta y explicación |
-| feed-60 | FeedTimerGame | reloj textual, verificar, acción final, expiración y recuperación |
-| mente-maestra | MisinformationAutopsyGame | cuatro pasos, alcance simulado, autopsia y detección |
+| Mecánica | Concepto | Archivo de UI | Decisiones que debe soportar |
+|---|---|---|---|
+| real-o-ia | ImageVerdictGame | `src/components/games/real-o-ia-game.tsx` | imagen, contexto, Real/IA, pistas y fallback |
+| grupo | GroupChatGame | `src/components/games/group-game.tsx` | mensajes, acciones de cuidado, consecuencia y avance |
+| clickbait-swipe | HeadlineSwipeGame | `src/components/games/clickbait-swipe-game.tsx` | gesto cancelable, botones, flechas, racha y feedback |
+| radar-de-fuentes | SourceRadarGame | `src/components/games/source-radar-game.tsx` | selección, categorías, estado de tarjeta y explicación |
+| feed-60 | FeedTimerGame | `src/components/games/feed-60-game.tsx` | reloj textual, verificar, acción final, expiración y recuperación |
+| mente-maestra | MisinformationAutopsyGame | `src/components/games/misinformation-autopsy-game.tsx` | cuatro pasos, alcance simulado, autopsia y detección |
 
 Todos consumen el shell y el contrato común; ninguno recibe la solución privada
 ni calcula la autoridad del resultado.
@@ -145,8 +152,9 @@ reconstruye esos valores.
 
 Antes de responder, la proyección contiene únicamente el texto, media, contexto,
 opciones y metadatos permitidos. Después de aceptar contiene feedback, señales,
-recomendación y la transición pública permitida. La fórmula de puntos permanece
-fuera hasta aprobar scoring-proposal.md.
+recomendación y la transición pública permitida. La fórmula de puntos aprobada
+en scoring-proposal.md ya es autoridad de dominio: el servidor la calcula y el
+cliente nunca la aporta ni la sobrescribe.
 
 ## Modelo de datos y persistencia
 
@@ -285,11 +293,21 @@ ausencia de dependencia para jugar.
 
 ## Fases de diseño e implementación posterior
 
+Equivalencia con `tasks.md` (evitar confusión de numeración):
+
+| Plan | tasks.md | Estado |
+|---|---|---|
+| Fase 0 documental | preparación + hallazgos de analyze | En cierre al alinear spec/plan/tasks |
+| Fase 1 visual/shell | Phase 13 (T074–T081) + restos de T015/T021 | Convergencia visual entregada en evidencia |
+| Fase 2 contratos/contenido/persistencia | Phase 2 (T005–T020) | Core lógico listo; T017–T019 bloqueadas |
+| Fase 3 sesiones y juego | Phases 4–11 (US2–US9) | Siguiente foco: US2 → US3 |
+| Fase 4 resultados y calidad | Phase 5 (resultado/ranking) + Phase 12 | Pendiente tras US3 |
+
 ### Fase 0 — Revisión y aprobación documental
 
 - actualizar especificación, plan, contratos, modelo y tareas;
-- ejecutar el análisis de consistencia y resolver sus hallazgos; regenerar
-  tasks.md solo si cambia el alcance o la descomposición;
+- ejecutar el análisis de consistencia y resolver sus hallazgos críticos;
+  regenerar tasks.md solo si cambia el alcance o la descomposición;
 - registrar la comparación del prototipo y la propuesta de puntuación;
 - reconciliar Supabase local sin alterar sus archivos;
 - mantener incorporada la fórmula aprobada en contratos y modelo;
@@ -311,10 +329,9 @@ definidos solamente en el contrato visual.
 
 ### Fase 2 — Contratos, contenido y persistencia aprobados
 
-- cerrar payloads discriminados;
-- cerrar fórmula de cada juego;
-- diseñar migraciones nuevas o decisión de reemplazo;
-- aprobar contenido y media.
+- payloads discriminados y fórmula por juego ya cerrados en contratos/modelo;
+- diseñar migraciones nuevas o decisión de reemplazo (línea T017–T019);
+- distinguir contenido estructuralmente válido de aprobación editorial final.
 
 La aprobación física de Supabase solo habilita la línea de persistencia. Las
 sesiones lógicas, mecánicas, componentes y pruebas pueden avanzar con el
@@ -322,8 +339,11 @@ gateway y fixtures server-only mientras esa decisión está pendiente.
 
 ### Fase 3 — Sesiones y juego
 
-- implementar sesiones independientes;
-- implementar cada mecánica como historia aislable;
+- implementar sesiones independientes (US2) antes de tratar un juego como
+  jugable de punta a punta;
+- completar submit/feedback/resultado (US3);
+- implementar cada mecánica como historia aislable con fixtures hasta que
+  US2/US3 cierren el transporte autoritativo;
 - mantener feedback inline y autoridad en servidor.
 
 ### Fase 4 — Resultados y calidad

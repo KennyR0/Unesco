@@ -3,8 +3,10 @@
 **Feature**: 001-trivia-mvp-flow
 **Revisión**: arcade basado en el prototipo
 **Creada**: 2026-07-31
-**Estado**: convergencia visual autorizada e implementación en curso; la línea
-de Supabase y las mecánicas aún no implementadas permanecen fuera de alcance
+**Estado**: convergencia visual entregada; hallazgos críticos del analyze
+resueltos en documentos. Siguiente foco: US2–US3 (sesión, submit, feedback y
+resultado). Línea física de Supabase y mecánicas ausentes (Feed 60”, Mente
+Maestra) siguen condicionadas por sus puertas
 
 ## Cambio de alcance
 
@@ -92,8 +94,9 @@ interacción táctil que no tenga alternativa de teclado.
 | feed-60 | Feed 60” | Revisar publicación, opcionalmente verificar y compartir o descartar | action: verify, share o discard | Tiempo restante, pistas de verificación, decisión aceptada y feedback | SIFT, contexto, fuente, fecha, gráfico manipulado y responsabilidad de compartir |
 | mente-maestra | Mente Maestra | Elegir cuatro piezas de una fake news y leer su autopsia | step choice por objetivo, emoción, titular y prueba | Simulación de alcance, autopsia y recomendaciones de detección | Cómo se combinan miedo, autoridad falsa, formatos oficiales, imagen reciclada o IA y ejes truncados |
 
-La matriz define interacción y aprendizaje, no una fórmula aprobada de puntos.
-La propuesta separada está en scoring-proposal.md.
+La matriz define interacción y aprendizaje; no redefine puntuación. La fórmula
+normativa por juego vive en scoring-proposal.md (aprobada 2026-07-31) y en los
+contratos/modelo que la materializan.
 
 ## User Scenarios & Testing
 
@@ -291,8 +294,10 @@ técnicas de manipulación.
   máximo, alt o tratamiento decorativo, comportamiento responsive y fallback.
 - **FR-015**: Todo control debe funcionar con teclado, foco visible, orden
   lógico, tamaño táctil medible, mensajes asociados y soporte para zoom 200 %.
-- **FR-016**: El diseño debe funcionar desde 320 px sin scroll horizontal y
-  debe respetar prefers-reduced-motion.
+- **FR-016**: El diseño debe funcionar desde 320 px sin scroll horizontal.
+  Sin preferencia de movimiento guardada por la persona, el sistema debe
+  respetar `prefers-reduced-motion` como valor por defecto (la pausa global
+  persistida queda en FR-021).
 - **FR-017**: La sesión debe funcionar sin registro obligatorio y solo persistir
   datos con finalidad y retención documentadas.
 - **FR-018**: Ningún secreto de Supabase o autoridad de servidor puede aparecer
@@ -344,24 +349,46 @@ aplicar estas reglas antes de ordenar o limitar la respuesta:
 No se permite una transición del cliente que salte de active a finished ni que
 reabra feedback o una respuesta aceptada.
 
-## Puerta de puntuación
+## Puertas de entrega
 
-La propuesta de scoring-proposal.md fue aprobada el 2026-07-31 y ya fue
-incorporada al contrato y al modelo con la fórmula por juego, sus límites, el
-tratamiento de errores, el tiempo y el resultado educativo. El backlog ya fue
-regenerado; la siguiente puerta es ejecutar el análisis de consistencia y
-resolver sus hallazgos antes de implementar la lógica.
+La propuesta de scoring-proposal.md fue aprobada el 2026-07-31 y ya es
+normativa: contratos, modelo, dominio y pruebas deben usar la fórmula por
+juego, sus límites, el tratamiento de errores, el tiempo y el resultado
+educativo.
+
+El análisis de consistencia (`$speckit-analyze`) ya se ejecutó. Sus hallazgos
+críticos (autoridad de scoring en plan, estado falso de T017–T019, orden de
+T030 y navegación de resultado) se resolvieron en los documentos. La
+implementación de lógica de sesión y respuesta (US2–US3) puede continuar.
+
+Puertas que siguen abiertas:
+
+1. US2–US3: `startGame`, transiciones, `submitGameAction`, feedback inline y
+   resultado post-partida antes de declarar un juego jugable de punta a punta.
+2. Navegación de resultado: feedback educativo siempre inline en el shell;
+   `/games/[gameCode]/result` solo proyecta el cierre de partida.
+3. Supabase físico (T017–T019, T070): preparado localmente según
+   supabase-reconciliation.md, pero no completo ni aplicable sin autorización
+   renovada y verificación.
+4. Aprobación editorial final del contenido: distinto de “válido
+   estructuralmente” en JSON/manifiestos.
+5. Polish transversal (accesibilidad E2E, media, rendimiento, Preview).
 
 ## Supuestos
 
 - La feature sigue en specs/001-trivia-mvp-flow y no se crea una 002.
 - Next.js sigue siendo la tecnología nueva del build, pero se documenta en
   plan.md, no como dependencia del prototipo.
-- El contenido actual del prototipo es semilla inicial y no aprobación
-  editorial definitiva.
+- El contenido actual del prototipo es semilla inicial. Las tareas de items
+  pueden cerrarse como “estructuralmente válidas” (esquema, feedback,
+  señales); la aprobación editorial definitiva es una puerta aparte antes de
+  seed/producción.
 - Las imágenes de ¿Real o IA? pueden ser provisionales en esta fase y deberán
   sustituirse o aprobarse antes de producción.
 - Cada juego tiene su propia sesión y resultado.
+- Los componentes y evaluadores de US4–US7 pueden avanzar con fixtures
+  server-only; no se consideran entregables jugables de punta a punta hasta
+  cerrar US2–US3.
 - El ranking global se conserva como capacidad secundaria, no aparece en el
   landing principal y no compite con el feedback. Esta decisión mantiene la
   capacidad prevista por la constitución sin convertirla en el objetivo del
@@ -370,7 +397,10 @@ resolver sus hallazgos antes de implementar la lógica.
 ## Criterios de éxito
 
 - **SC-001**: Una persona puede identificar los seis juegos y abrir cualquiera
-  desde la portada en menos de 30 segundos durante una prueba moderada.
+  desde la portada en menos de 30 segundos. Protocolo mínimo: viewport
+  390×844, sin coaching previo, script de tres pasos (leer propósito → elegir
+  un juego → activar CTA), cronómetro desde carga completa de la portada hasta
+  llegada a `/games/[gameCode]`.
 - **SC-002**: El flujo completo de cada juego funciona desde 320 px sin scroll
   horizontal y con zoom de 200 %.
 - **SC-003**: En pruebas de teclado, el 100 % de los controles de portada,

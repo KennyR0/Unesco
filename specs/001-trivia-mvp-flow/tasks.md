@@ -54,15 +54,17 @@ Supabase.
 - [X] T014 Implementar el manifiesto de media, alt, fallback, dimensiones y límites de peso en src/features/game/content/media-manifest.v1.json y src/lib/media/manifest.ts.
 - [X] T015 Construir el shell compartido con progreso, estados, live region, errores y feedback inline en src/components/game/game-shell.tsx, src/components/game/feedback-panel.tsx y src/app/globals.css.
 - [X] T016 Implementar el transporte server-only de acciones y recuperación de estado en src/app/actions/game.ts, src/features/game/application/server-operations.ts y src/features/game/application/submit-game-action.ts.
-- [X] T017 Crear la migración física arcade solo después de aprobar supabase-reconciliation.md, con sesiones, items, respuestas, resultados, score, rankingScore, elegibilidad, retención de 24/30 días, RLS, grants, índices de purga y protección `security_invoker` si se elige una vista expuesta en supabase/migrations/20260801051613_arcade_schema.sql.
-- [X] T018 Crear el seed estructurado del catálogo y el registro de contenido aprobado, sin publicar Supabase, en supabase/seed.sql, src/features/game/content/arcade-catalog.v1.json y src/features/game/content/content-manifest.v1.json.
-- [X] T019 Ejecutar las pruebas locales de migración, RLS, proyecciones públicas y ausencia de solución antes de habilitar persistencia en tests/integration/database/migration-smoke.test.ts, tests/integration/database/access-control.test.ts y tests/integration/database/correct-answer-exposure.test.ts.
+- [ ] T017 Crear la migración física arcade solo después de aprobar supabase-reconciliation.md, con sesiones, items, respuestas, resultados, score, rankingScore, elegibilidad, retención de 24/30 días, RLS, grants, índices de purga y protección `security_invoker` si se elige una vista expuesta en supabase/migrations/20260801051613_arcade_schema.sql.
+- [ ] T018 Crear el seed estructurado del catálogo y el registro de contenido estructuralmente válido (solo tras puerta editorial cuando aplique), sin publicar Supabase, en supabase/seed.sql, src/features/game/content/arcade-catalog.v1.json y src/features/game/content/content-manifest.v1.json.
+- [ ] T019 Ejecutar las pruebas locales de migración, RLS, proyecciones públicas y ausencia de solución antes de habilitar persistencia en tests/integration/database/migration-smoke.test.ts, tests/integration/database/access-control.test.ts y tests/integration/database/correct-answer-exposure.test.ts.
 - [X] T020 Actualizar los fixtures compartidos de contratos, Supabase local y respuestas discriminadas en tests/fixtures/contract-samples.ts, tests/fixtures/supabase-local.ts y tests/contracts/contract-consistency.test.ts.
 
-**Checkpoint**: los contratos, validadores, contenido, shell, sesiones, fixtures
-y límites de seguridad del core están listos; T017–T019 siguen separadas y
-bloqueadas solo para habilitar persistencia si no existe aprobación explícita de
-la reconciliación física.
+**Checkpoint**: los contratos, validadores, contenido lógico, shell, fixtures
+y límites de seguridad del core están listos. T017–T019 permanecen `[ ]`
+bloqueadas: el SQL puede existir como preparación local
+(supabase-reconciliation.md), pero no cuentan como completas sin autorización
+renovada + verificación de T019. No marcarlas `[X]` solo porque exista el
+archivo de migración.
 
 ---
 
@@ -99,7 +101,7 @@ sesión no puede cambiar de gameCode.
 - [ ] T027 [US2] Implementar startGame y la vinculación de cookie opaca a gameCode en src/features/game/application/start-game.ts y src/app/actions/game.ts.
 - [ ] T028 [US2] Implementar las transiciones intro-active-processing-feedback-expired-finished y la pertenencia de item en src/features/game/application/game-operations.ts y src/features/game/infrastructure/game-gateway.ts.
 - [ ] T029 [US2] Implementar recuperación segura de estado, expiración y sesión inválida en src/features/game/application/server-operations.ts y src/components/game/secure-state-view.tsx.
-- [ ] T030 [P] [US2] Cubrir alias, startGame, idempotencia y estados terminales con fixtures server-only; las pruebas RPC quedan como verificación condicionada a la puerta de Supabase en src/features/game/application/start-game.test.ts, tests/integration/database/start-game-rpc.test.ts y tests/integration/database/get-game-state-rpc.test.ts.
+- [ ] T030 [US2] Cubrir alias, startGame, idempotencia y estados terminales con fixtures server-only; las pruebas RPC quedan como verificación condicionada a la puerta de Supabase en src/features/game/application/start-game.test.ts, tests/integration/database/start-game-rpc.test.ts y tests/integration/database/get-game-state-rpc.test.ts.
 - [ ] T031 [US2] Verificar aislamiento de sesiones y recuperación tras recarga en tests/e2e/foundation.spec.ts y tests/e2e/session-isolation.spec.ts.
 
 **Checkpoint**: una sesión independiente puede comenzar, recuperarse, expirar y
@@ -118,7 +120,7 @@ incluye GameScore y el ranking global no bloquea el flujo.
 
 - [ ] T032 [US3] Implementar submitGameAction y advanceGame con rechazo de solution, score, nextItem y completed enviados por el cliente en src/features/game/application/submit-game-action.ts y src/app/actions/game.ts.
 - [ ] T033 [US3] Integrar feedback persistente, anuncio accesible y avance bloqueado hasta aceptar en src/components/game/feedback-panel.tsx, src/components/game/feedback-card.tsx y src/components/game/game-shell.tsx.
-- [ ] T034 [US3] Implementar el resultado propio por gameCode con aprendizaje, GameScore y enlace discreto al ranking en src/app/games/[gameCode]/result/page.tsx y src/components/game/result-card.tsx.
+- [ ] T034 [US3] Implementar la proyección post-partida por gameCode (aprendizaje, GameScore y enlace discreto al ranking) sin mover el feedback educativo fuera del shell, en src/app/games/[gameCode]/result/page.tsx y src/components/game/result-card.tsx.
 - [ ] T035 [US3] Implementar la lectura global de leaderboard con máximo diez entradas, elegibilidad server-only, rankingScore normalizado, exclusión de incompletos/expirados y copia neutral en src/features/game/application/leaderboard.ts y src/features/game/infrastructure/supabase-game-gateway.ts.
 - [ ] T036 [US3] Implementar la página secundaria /leaderboard y su tabla accesible sin añadirla al landing en src/app/leaderboard/page.tsx y src/components/game/leaderboard-table.tsx.
 - [ ] T037 [US3] Actualizar el mapeo de errores de resultado y ranking, incluyendo estado vacío y fallo retryable, en src/features/game/application/game-error.ts y src/features/game/infrastructure/map-database-error.ts.
@@ -134,10 +136,14 @@ el ranking en requisito para jugar.
 
 **Goal**: jugar ¿Real o IA? con media estructurada, verdict, pistas y feedback.
 
+**Status note**: contenido/evaluador/UI pueden cerrarse con fixtures
+server-only (“estructuralmente válidos”). La historia no es jugable de punta
+a punta hasta T027–T033. La aprobación editorial definitiva es puerta aparte.
+
 **Independent Test**: se puede responder Real/IA con botones y teclado, se
 revela la solución solo después de aceptar y la media tiene alt o fallback.
 
-- [X] T040 [P] [US4] Crear el contenido aprobado de ocho imágenes y sus feedbacks en src/features/game/content/game-items/real-o-ia.v1.json.
+- [X] T040 [P] [US4] Crear el contenido estructuralmente válido de ocho imágenes y sus feedbacks en src/features/game/content/game-items/real-o-ia.v1.json.
 - [X] T041 [US4] Implementar la evaluación image_verdict con pistas de autenticidad y puntuación +10/0 en src/features/game/domain/mechanics/image-verdict.ts.
 - [X] T042 [US4] Implementar el componente de imagen, contexto y controles Real/IA en src/components/games/real-o-ia-game.tsx.
 - [ ] T043 [US4] Registrar media real/provisional, alt, fallback y derechos en public/media/real-o-ia/media-index.v1.json y src/features/game/content/media-manifest.v1.json.
@@ -151,6 +157,8 @@ revela la solución solo después de aceptar y la media tiene alt o fallback.
 
 **Goal**: resolver seis escenas de grupo con forward, verify y pause, consecuencias
 seguras y score 0–12.
+
+**Status note**: mismo criterio fixtures-only que US4 hasta cerrar US2–US3.
 
 **Independent Test**: los mensajes conservan orden, cada acción produce una
 consecuencia educativa y una alerta oficial verificada no se penaliza por defecto.
@@ -170,6 +178,8 @@ en la misma vista.
 **Goal**: clasificar doce titulares mediante swipe cancelable, botones o teclado,
 con racha limitada y score 0–16.
 
+**Status note**: mismo criterio fixtures-only que US4 hasta cerrar US2–US3.
+
 **Independent Test**: un gesto bajo el umbral cancela sin enviar, botones y
 teclado producen la misma entrada y la racha solo bonifica grupos de tres aciertos.
 
@@ -187,6 +197,8 @@ privada antes de responder.
 
 **Goal**: clasificar nueve fuentes en reliable, doubtful o fraudulent con una
 aceptación por fuente y score 0–9.
+
+**Status note**: mismo criterio fixtures-only que US4 hasta cerrar US2–US3.
 
 **Independent Test**: una tarjeta no asignada a la sesión se rechaza, una fuente
 solo se acepta una vez y la categoría seleccionada queda anunciada.
@@ -432,7 +444,8 @@ persona antes de comenzar.
 - Foundational: T007, T008, T013, T014 y T020 después de T005–T006; T017–T019
   quedan separados por la puerta de Supabase y no bloquean la línea lógica.
 - US1: T021 y T022; después T023–T025.
-- US2: T026 y T030; después T027–T029.
+- US2: T026 en paralelo con la fundación ya cerrada; luego T027–T029 en orden;
+  T030 después de T026–T029 (no es paralela); T031 al cierre.
 - US3: T033 y T035 cuando T032 esté listo; T038 y T039 después de sus
   componentes.
 - US4–US9: el contenido de cada historia puede avanzar en paralelo con su
@@ -478,4 +491,9 @@ de mecánicas compartido.
   historias pueden avanzar con gateways y fixtures server-only mientras esa
   línea espera aprobación.
 - No se debe marcar una tarea completa solo porque existan sus archivos; debe
-  pasar su verificación.
+  pasar su verificación. En particular, la migración generada localmente no
+  completa T017 hasta T019/autorización renovada.
+- US4–US7 marcadas parciales con fixtures no implican flujo autoritativo
+  completo; US2–US3 son prerequisito de “jugable de punta a punta”.
+- Feedback educativo vive inline en el shell; T034 (`/result`) solo proyecta
+  el cierre de partida.
