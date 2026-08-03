@@ -13,8 +13,12 @@ import type {
 } from "@antidoto/contracts";
 
 import { createArcadePublicError } from "../application/game-operations";
+import { getArcadeContentRepository } from "../content/arcade-content";
+import type { ContentRepository } from "../content/content-repository";
 import {
   buildLeaderboard,
+  calculateGameScore,
+  maxPointsForGame,
   type RankingCandidate,
 } from "../domain/scoring";
 import {
@@ -33,13 +37,22 @@ import type {
   GetGameResultCommand,
   GetGameStateCommand,
 } from "./game-gateway";
+import {
+  evaluateGrupoSubmit,
+  resolveGrupoPublicItem,
+  type GrupoAnswerRecord,
+} from "./memory-grupo-runtime";
+
+type MemoryAnswer = AcceptedAnswerSnapshot & {
+  grupo?: GrupoAnswerRecord;
+};
 
 type MemorySession = {
   tokenHash: string;
   record: ArcadeSessionRecord;
   state: GameState;
   result: GameResult | null;
-  answers: Map<string, AcceptedAnswerSnapshot>;
+  answers: Map<string, MemoryAnswer>;
   assignedItemIds: readonly string[];
 };
 
@@ -48,6 +61,8 @@ export type MemoryArcadeGatewayOptions = Readonly<{
   itemIdsByGameCode?: Partial<Record<GameCode, readonly string[]>>;
   /** Reloj inyectable para probar expiración y carreras de tiempo. */
   now?: () => Date;
+  /** Repositorio editorial; por defecto usa el pack arcade activo. */
+  contentRepository?: ContentRepository;
 }>;
 
 export type MemoryArcadeGateway = ArcadeGameGateway & {
@@ -96,6 +111,8 @@ export function createMemoryArcadeGateway(
   const bySessionId = new Map<string, MemorySession>();
   const nextDefaultItemNumber = new Map<GameCode, number>();
   const now = options.now ?? (() => new Date());
+  const contentRepository =
+    options.contentRepository ?? getArcadeContentRepository();
 
   function lookupBySessionId(sessionId: string): MemorySession | null {
     return bySessionId.get(sessionId) ?? null;
@@ -108,6 +125,16 @@ export function createMemoryArcadeGateway(
         throw new Error("CONTENT_UNAVAILABLE: una sesión requiere items.");
       }
       return Object.freeze([...configured]);
+    }
+
+    if (gameCode === "grupo") {
+      const published = contentRepository
+        .listPublishedItems("grupo")
+        .map((item) => item.itemId);
+      if (published.length === 0) {
+        throw new Error("CONTENT_UNAVAILABLE: El Grupo no tiene items publicados.");
+      }
+      return Object.freeze(published);
     }
 
     const nextNumber = (nextDefaultItemNumber.get(gameCode) ?? 0) + 1;
@@ -123,10 +150,45 @@ export function createMemoryArcadeGateway(
     return stored.assignedItemIds.includes(itemId) && currentItemId(stored) === itemId;
   }
 
+  function currentPublicItem(stored: MemorySession) {
+    if (stored.record.gameCode !== "grupo") return null;
+    return resolveGrupoPublicItem(contentRepository, currentItemId(stored));
+  }
+
+  function buildGrupoScore(stored: MemorySession) {
+    const answers = Array.from(stored.answers.values())
+      .map((answer) => answer.grupo)
+      .filter((answer): answer is GrupoAnswerRecord => Boolean(answer))
+      .map((answer) => ({ outcome: answer.outcome }));
+
+    return calculateGameScore({
+      gameCode: "grupo",
+      answers,
+    });
+  }
+
   function materializeResult(
     stored: MemorySession,
     status: "finished" | "expired",
   ): GameResult {
+    if (stored.record.gameCode === "grupo") {
+      const score = buildGrupoScore(stored);
+      return {
+        sessionId: stored.record.sessionId,
+        gameCode: "grupo",
+        alias: stored.record.alias,
+        status,
+        answered: stored.answers.size,
+        total: stored.record.total,
+        learningSummary:
+          status === "expired"
+            ? "La partida expiró; conserva el cuidado que practicaste en el chat."
+            : "Practicaste decisiones de cuidado en el chat familiar antes de amplificar rumores.",
+        score,
+        simulatedReach: null,
+      };
+    }
+
     return {
       sessionId: stored.record.sessionId,
       gameCode: stored.record.gameCode,
@@ -140,7 +202,7 @@ export function createMemoryArcadeGateway(
           : "Completaste la partida de prueba del transporte.",
       score: {
         points: 0,
-        maxPoints: stored.record.total,
+        maxPoints: maxPointsForGame(stored.record.gameCode),
         correct: null,
         errors: 0,
         bonusPoints: 0,
@@ -195,30 +257,36 @@ export function createMemoryArcadeGateway(
         now: now(),
       });
       const active = transitionSession(record, "active", now());
-      const state: GameState = {
-        sessionId: active.sessionId,
-        gameCode: active.gameCode,
-        mechanic: active.mechanic,
-        status: active.status,
-        alias: active.alias,
-        position: 0,
-        total: active.total,
-        item: null,
-        feedback: null,
-        provisionalScore: null,
-        nextAction: "submit",
-      };
       const stored: MemorySession = {
         tokenHash: command.sessionTokenHash,
         record: active,
-        state,
+        state: {
+          sessionId: active.sessionId,
+          gameCode: active.gameCode,
+          mechanic: active.mechanic,
+          status: active.status,
+          alias: active.alias,
+          position: 0,
+          total: active.total,
+          item: null,
+          feedback: null,
+          provisionalScore: null,
+          nextAction: "submit",
+        },
         result: null,
         answers: new Map(),
         assignedItemIds,
       };
+      stored.state = {
+        ...toPublicState(active, stored.state),
+        item: currentPublicItem(stored),
+        feedback: null,
+        provisionalScore: null,
+        nextAction: "submit",
+      };
       byTokenHash.set(command.sessionTokenHash, stored);
       bySessionId.set(active.sessionId, stored);
-      return { ok: true, data: toPublicState(active, state) };
+      return { ok: true, data: stored.state };
     },
 
     async getGameState(
@@ -272,22 +340,41 @@ export function createMemoryArcadeGateway(
       }
 
       if (idempotency.kind === "accept") {
+        const grupoEvaluation =
+          command.gameCode === "grupo"
+            ? evaluateGrupoSubmit({
+                repository: contentRepository,
+                itemId: command.itemId,
+                action: command,
+              })
+            : null;
+
+        if (command.gameCode === "grupo" && !grupoEvaluation) {
+          return failure("INVALID_ACTION");
+        }
+
         stored.answers.set(command.itemId, {
           itemId: command.itemId,
           idempotencyKey: idempotency.idempotencyKey,
           inputFingerprint: idempotency.inputFingerprint,
+          ...(grupoEvaluation ? { grupo: grupoEvaluation.answer } : {}),
         });
         stored.record = transitionSession(stored.record, "processing", now());
         stored.record = transitionSession(stored.record, "feedback", now());
         stored.state = {
           ...toPublicState(stored.record, stored.state),
-          feedback: {
+          item: currentPublicItem(stored),
+          feedback: grupoEvaluation?.feedback ?? {
             status: "instructive",
             explanation: "Respuesta aceptada por el servidor.",
             signals: ["La evaluación es autoritativa."],
             recommendation: "Revisa el feedback antes de avanzar.",
             revealedAnswer: null,
           },
+          provisionalScore:
+            stored.record.gameCode === "grupo"
+              ? buildGrupoScore(stored)
+              : null,
           nextAction: "advance",
         };
       }
@@ -317,8 +404,12 @@ export function createMemoryArcadeGateway(
         stored.record = transitionSession(stored.record, "active", now());
         stored.state = {
           ...toPublicState(stored.record, stored.state),
-          item: null,
+          item: currentPublicItem(stored),
           feedback: null,
+          provisionalScore:
+            stored.record.gameCode === "grupo"
+              ? buildGrupoScore(stored)
+              : null,
           nextAction: "submit",
         };
         return { ok: true, data: stored.state };
@@ -330,6 +421,8 @@ export function createMemoryArcadeGateway(
         ...toPublicState(stored.record, stored.state),
         item: null,
         feedback: null,
+        provisionalScore:
+          stored.record.gameCode === "grupo" ? stored.result.score : null,
         nextAction: "result",
       };
       return { ok: true, data: stored.state };

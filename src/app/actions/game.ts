@@ -59,6 +59,28 @@ export async function startArcadeGameAction(
   });
 }
 
+/**
+ * Inicio de El Grupo vía <form action>.
+ * Funciona aunque la hidratación cliente falle (p. ej. localhost vs 127.0.0.1).
+ */
+export async function startGrupoGameFormAction(
+  formData: FormData,
+): Promise<void> {
+  const alias = String(formData.get("alias") ?? "");
+  const result = await startArcadeGameAction({
+    alias,
+    gameCode: "grupo",
+  });
+
+  if (!result.ok) {
+    redirect(
+      `/games/grupo?startError=${encodeURIComponent(result.error.message)}`,
+    );
+  }
+
+  redirect("/games/grupo");
+}
+
 export async function getArcadeGameStateAction(
   payload: unknown,
 ): Promise<ArcadeOperationResult<GameState>> {

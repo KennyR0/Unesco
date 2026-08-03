@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // Playwright and local tooling often hit 127.0.0.1 while `next dev` binds localhost.
+  allowedDevOrigins: ["127.0.0.1", "localhost"],
   images: {
     // Keep generated variants aligned with the 320 px mobile baseline and the
     // fixed 448 px question-image slot used by the current shell.

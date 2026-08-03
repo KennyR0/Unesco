@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import { FeedbackPanel } from "./feedback-panel";
 
 describe("FeedbackPanel arcade", () => {
-  it("anuncia resultado, explicación, señales y recomendación, y bloquea el avance hasta aceptar", async () => {
+  it("anuncia el resultado completo y ofrece la siguiente acción de inmediato", async () => {
     const user = userEvent.setup();
 
     render(
@@ -24,7 +24,6 @@ describe("FeedbackPanel arcade", () => {
     const region = screen.getByRole("region", { name: "Feedback educativo" });
     expect(region).toBeVisible();
     expect(region).toHaveAttribute("data-feedback-persistent", "true");
-    expect(region).toHaveAttribute("data-feedback-accepted", "false");
 
     expect(
       screen.getByText("La respuesta coincide con las señales observables."),
@@ -33,6 +32,12 @@ describe("FeedbackPanel arcade", () => {
     expect(
       screen.getByText("Comprueba la fuente original antes de compartir."),
     ).toBeVisible();
+
+    // Un solo clic: la acción siguiente está disponible sin gate previo.
+    expect(screen.getByRole("button", { name: "Continuar" })).toBeVisible();
+
+    // La respuesta revelada se expone al abrir el detalle progresivo.
+    await user.click(screen.getByRole("button", { name: "Ver detalle" }));
     expect(screen.getByText("Respuesta revelada:")).toBeVisible();
     expect(screen.getByText("Verificar")).toBeVisible();
 
@@ -42,16 +47,6 @@ describe("FeedbackPanel arcade", () => {
     expect(live).toHaveTextContent(
       "La respuesta coincide con las señales observables.",
     );
-
-    expect(
-      screen.queryByRole("button", { name: "Continuar" }),
-    ).not.toBeInTheDocument();
-
-    await user.click(screen.getByRole("button", { name: "Aceptar feedback" }));
-
-    expect(region).toHaveAttribute("data-feedback-accepted", "true");
-    expect(screen.getByRole("button", { name: "Continuar" })).toBeVisible();
-    expect(live).toHaveTextContent(/Siguiente acción disponible/i);
   });
 
   it("mantiene el feedback visible sin auto-ocultarlo", () => {

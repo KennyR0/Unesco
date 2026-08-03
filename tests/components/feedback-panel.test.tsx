@@ -1,5 +1,4 @@
 import { render, screen, within } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
 import type { PublicFeedback } from "@antidoto/contracts";
@@ -18,9 +17,7 @@ const arcadeFeedback: PublicFeedback = {
 };
 
 describe("FeedbackPanel / US3 (T038)", () => {
-  it("muestra feedback inline con anuncio accesible y avance bloqueado hasta aceptar", async () => {
-    const user = userEvent.setup();
-
+  it("muestra feedback inline con anuncio accesible y avance disponible de inmediato", () => {
     render(
       <GameShell
         title="¿Real o IA?"
@@ -42,17 +39,12 @@ describe("FeedbackPanel / US3 (T038)", () => {
       "aria-live",
       "polite",
     );
-    expect(
-      screen.queryByRole("button", { name: "Siguiente item" }),
-    ).not.toBeInTheDocument();
-    expect(region.outerHTML).not.toContain("solutionPrivate");
-
-    await user.click(screen.getByRole("button", { name: "Aceptar feedback" }));
+    // Un solo clic: el avance no exige una aceptación previa.
     expect(screen.getByRole("button", { name: "Siguiente item" })).toBeVisible();
+    expect(region.outerHTML).not.toContain("solutionPrivate");
   });
 
-  it("mantiene el feedback estable ante un reintento idéntico de presentación", async () => {
-    const user = userEvent.setup();
+  it("mantiene el feedback estable ante un reintento idéntico de presentación", () => {
     const { rerender } = render(
       <FeedbackPanel
         feedback={arcadeFeedback}
@@ -60,7 +52,6 @@ describe("FeedbackPanel / US3 (T038)", () => {
       />,
     );
 
-    await user.click(screen.getByRole("button", { name: "Aceptar feedback" }));
     expect(screen.getByRole("button", { name: "Continuar" })).toBeVisible();
 
     rerender(
@@ -70,10 +61,11 @@ describe("FeedbackPanel / US3 (T038)", () => {
       />,
     );
 
-    // Misma identidad de feedback: el panel vuelve a exigir aceptación (idempotencia de vista).
+    // Misma identidad de feedback: el panel sigue visible con su acción.
     expect(
       screen.getByRole("region", { name: "Feedback educativo" }),
-    ).toHaveAttribute("data-feedback-accepted", "false");
+    ).toHaveAttribute("data-feedback-persistent", "true");
+    expect(screen.getByRole("button", { name: "Continuar" })).toBeVisible();
     expect(screen.getByText(arcadeFeedback.explanation)).toBeVisible();
   });
 

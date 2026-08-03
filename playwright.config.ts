@@ -1,6 +1,6 @@
 import { defineConfig, devices } from "@playwright/test";
 
-const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:3000";
+const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:3000";
 const externalServer = Boolean(process.env.PLAYWRIGHT_BASE_URL);
 
 export default defineConfig({
@@ -28,7 +28,7 @@ export default defineConfig({
     : {
         command:
           process.env.PLAYWRIGHT_WEB_SERVER_COMMAND ??
-          "corepack pnpm dev --hostname 127.0.0.1",
+          "corepack pnpm dev --hostname localhost",
         url: baseURL,
         reuseExistingServer: true,
         timeout: 120_000,

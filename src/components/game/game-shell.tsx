@@ -132,6 +132,7 @@ export function GameShell({
 
         <section
           className="game-shell__content"
+          hidden={feedbackPending}
           inert={feedbackPending || undefined}
         >
           {children}

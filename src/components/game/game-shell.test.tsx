@@ -1,13 +1,10 @@
 import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
 import { GameShell } from "./game-shell";
 
 describe("GameShell arcade", () => {
-  it("expone progreso, estado, error y feedback inline en una sola vista", async () => {
-    const user = userEvent.setup();
-
+  it("expone progreso, estado, error y feedback inline en una sola vista", () => {
     render(
       <GameShell
         title="¿Real o IA?"
@@ -49,17 +46,15 @@ describe("GameShell arcade", () => {
     expect(screen.getByRole("alert")).toHaveTextContent(
       "Debes revisar esta acción.",
     );
-    expect(screen.getByText("Contenido público del item.")).toBeVisible();
+    // Con feedback pendiente, el área de juego se oculta (no solo inert).
+    const content = screen
+      .getByText("Contenido público del item.")
+      .closest(".game-shell__content");
+    expect(content).not.toBeVisible();
+    expect(content).toHaveAttribute("inert");
     expect(screen.getByText("La decisión necesita más contexto.")).toBeVisible();
-    expect(
-      screen.getByText("Contenido público del item.").closest(".game-shell__content"),
-    ).toHaveAttribute("inert");
 
-    expect(
-      screen.queryByRole("button", { name: "Siguiente item" }),
-    ).not.toBeInTheDocument();
-
-    await user.click(screen.getByRole("button", { name: "Aceptar feedback" }));
+    // La acción siguiente se ofrece de inmediato (flujo de un solo clic).
     expect(screen.getByRole("button", { name: "Siguiente item" })).toBeVisible();
   });
 
