@@ -41,6 +41,11 @@ import type {
   GetGameResultCommand,
   GetGameStateCommand,
 } from "../infrastructure/game-gateway";
+import {
+  RANKING_EMPTY_MESSAGE,
+  RANKING_UNAVAILABLE_MESSAGE,
+  RESULT_NOT_AVAILABLE_MESSAGE,
+} from "./game-error";
 
 /** Límite contractual de cada acción cliente → servidor. */
 export const MAX_ACTION_PAYLOAD_BYTES = 16 * 1024;
@@ -68,10 +73,10 @@ const PUBLIC_MESSAGES: Record<ArcadePublicErrorCode, string> = {
   INVALID_ACTION: "La acción no es válida para este momento del juego.",
   ANSWER_ALREADY_ACCEPTED: "Ya aceptamos esa respuesta. Continúa con el feedback.",
   SESSION_EXPIRED: "La partida expiró. Consulta el resultado o inicia otra.",
-  RESULT_NOT_AVAILABLE: "El resultado estará disponible cuando termine la partida.",
+  RESULT_NOT_AVAILABLE: RESULT_NOT_AVAILABLE_MESSAGE,
   RESULT_ACCESS_EXPIRED: SAFE_ARCADE_SESSION_MESSAGE,
-  LEADERBOARD_UNAVAILABLE: "El ranking no está disponible ahora. Puedes reintentar sin afectar tu partida.",
-  LEADERBOARD_EMPTY: "Todavía no hay resultados elegibles en el ranking.",
+  LEADERBOARD_UNAVAILABLE: RANKING_UNAVAILABLE_MESSAGE,
+  LEADERBOARD_EMPTY: RANKING_EMPTY_MESSAGE,
   CONFLICT: "Hubo un conflicto al guardar. Recupera el estado e inténtalo de nuevo.",
   CONTENT_UNAVAILABLE: "El contenido no está disponible. Usa el fallback o reintenta.",
   INTERNAL_ERROR: "Ocurrió un problema inesperado. Reintenta sin duplicar la acción.",

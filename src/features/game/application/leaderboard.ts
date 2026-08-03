@@ -14,6 +14,10 @@ import {
   type RankingCandidate,
 } from "../domain/scoring";
 import type { ArcadeGameGateway } from "../infrastructure/game-gateway";
+import {
+  RANKING_EMPTY_MESSAGE,
+  RANKING_UNAVAILABLE_MESSAGE,
+} from "./game-error";
 import { arcadeFailure, getLeaderboardOperation } from "./game-operations";
 
 /** Copia neutral: ranking secundario, nunca competitivo ni requisito de juego. */
@@ -21,9 +25,8 @@ export const LEADERBOARD_COPY = {
   scopeLabel: "Ranking global secundario",
   supporting:
     "Esta lectura es opcional y no es un objetivo de aprendizaje ni un requisito para jugar.",
-  empty: "Todavía no hay resultados elegibles en el ranking.",
-  unavailable:
-    "El ranking no está disponible ahora. Puedes reintentar sin afectar tu partida.",
+  empty: RANKING_EMPTY_MESSAGE,
+  unavailable: RANKING_UNAVAILABLE_MESSAGE,
 } as const;
 
 const RankingCandidateIngestSchema = z
