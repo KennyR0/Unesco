@@ -1,4 +1,3 @@
-import { execFileSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
 
 import { describe, expect, it } from "vitest";
@@ -19,36 +18,13 @@ import {
 } from "../../../src/features/game/domain/scoring";
 import {
   ARCADE_SCHEMA,
+  arcadeSchemaAvailable,
   jsonSql,
   resetArcadeData,
   sql,
 } from "../../fixtures/supabase-local";
 
-function arcadeDatabaseAvailable(): boolean {
-  try {
-    execFileSync(
-      "docker",
-      [
-        "exec",
-        process.env.SUPABASE_DB_CONTAINER ?? "supabase_db_antidoto-trivia-mvp",
-        "psql",
-        "-U",
-        "postgres",
-        "-d",
-        "postgres",
-        "-X",
-        "-q",
-        "-At",
-        "-c",
-        "select 1;",
-      ],
-      { stdio: "ignore" },
-    );
-    return true;
-  } catch {
-    return false;
-  }
-}
+const arcadeDatabaseAvailable = arcadeSchemaAvailable;
 
 function candidate(
   overrides: Partial<RankingCandidate> & Pick<RankingCandidate, "resultId">,

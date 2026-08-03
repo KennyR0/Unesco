@@ -51,6 +51,19 @@ export function sql(statement: string): string {
   ).trim();
 }
 
+/** True when local Docker Postgres has private_arcade applied. */
+export function arcadeSchemaAvailable(): boolean {
+  try {
+    return (
+      sql(
+        "select exists(select 1 from information_schema.schemata where schema_name = 'private_arcade');",
+      ) === "t"
+    );
+  } catch {
+    return false;
+  }
+}
+
 export function jsonSql<T = JsonRecord>(statement: string): T {
   const output = sql(statement);
   return JSON.parse(output) as T;

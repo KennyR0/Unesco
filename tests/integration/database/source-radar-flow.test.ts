@@ -1,4 +1,3 @@
-import { execFileSync } from "node:child_process";
 
 import { describe, expect, it } from "vitest";
 
@@ -13,33 +12,9 @@ import {
   calculateGameScore,
   maxPointsForGame,
 } from "../../../src/features/game/domain/scoring";
-import { sql } from "../../fixtures/supabase-local";
+import { arcadeSchemaAvailable, sql } from "../../fixtures/supabase-local";
 
-function arcadeDatabaseAvailable(): boolean {
-  try {
-    execFileSync(
-      "docker",
-      [
-        "exec",
-        process.env.SUPABASE_DB_CONTAINER ?? "supabase_db_antidoto-trivia-mvp",
-        "psql",
-        "-U",
-        "postgres",
-        "-d",
-        "postgres",
-        "-X",
-        "-q",
-        "-At",
-        "-c",
-        "select 1;",
-      ],
-      { stdio: "ignore" },
-    );
-    return true;
-  } catch {
-    return false;
-  }
-}
+const arcadeDatabaseAvailable = arcadeSchemaAvailable;
 
 describe("flujo de Radar de Fuentes (T056)", () => {
   it("rechaza una fuente ajena sin evaluarla ni revelar feedback", () => {

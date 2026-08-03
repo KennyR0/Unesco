@@ -2,9 +2,11 @@ import { describe, expect, it } from "vitest";
 
 import { newTokenHash, resetGameData, sql, startGame } from "../../fixtures/supabase-local";
 
-const supabaseRpcGateOpen = process.env.RUN_SUPABASE_TESTS === "true";
-
-describe.skipIf(!supabaseRpcGateOpen)("api.start_game (puerta Supabase)", () => {
+/**
+ * LEGACY_SINGLE_CHOICE: retired with private_arcade (no api.* schema).
+ * Arcade durability uses SupabaseArcadeGateway + runtime_snapshot.
+ */
+describe.skip("api.start_game (legacy single_choice retired)", () => {
   it("asigna 1, 5 y 10 posiciones y es idempotente por hash", () => {
     resetGameData();
     for (const roundSize of [1, 5, 10]) {

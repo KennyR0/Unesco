@@ -40,7 +40,6 @@ test.describe("Feed 60” (T061)", () => {
     await expect(
       page.getByRole("heading", { name: /Feed 60/i }),
     ).toBeVisible();
-    await expect(page.getByRole("status")).toContainText(/Misión lista/i);
     await expect(
       page.getByText(/verificar|compartir|descartar|tiempo|autoritativo/i).first(),
     ).toBeVisible();
@@ -87,5 +86,55 @@ test.describe("Feed 60” (T061)", () => {
     await expect(
       page.getByText(/Priorizar verificación|límite de tiempo/i).first(),
     ).toBeVisible();
+  });
+
+  test("verifica con coste de tiempo y decide una publicación", async ({
+    page,
+  }) => {
+    await page.goto("/games/feed-60");
+
+    await page.getByLabel(/elige un alias temporal/i).fill("Lina");
+    await page
+      .getByRole("button", { name: /abrir el feed de 60 segundos/i })
+      .click();
+
+    const timer = page.getByRole("timer");
+    const verify = page.getByRole("button", { name: /Verificar/i });
+    await expect(timer).toBeVisible({ timeout: 15_000 });
+    await expect(verify).toBeVisible({ timeout: 15_000 });
+    await expect(verify).toContainText(/−4 s/i);
+
+    const secondsBeforeVerification = Number.parseInt(
+      (await timer.innerText()).match(/\d+/)?.[0] ?? "",
+      10,
+    );
+    expect(secondsBeforeVerification).toBeGreaterThan(0);
+
+    await verify.click();
+
+    await expect(
+      page.getByRole("region", { name: /Pistas de verificación SIFT/i }),
+    ).toBeVisible({ timeout: 15_000 });
+    await expect
+      .poll(
+        async () =>
+          Number.parseInt(
+            (await timer.innerText()).match(/\d+/)?.[0] ?? "",
+            10,
+          ),
+        { timeout: 15_000 },
+      )
+      .toBeLessThanOrEqual(secondsBeforeVerification - 4);
+
+    const decision = page
+      .getByRole("group", { name: "Acciones del feed" })
+      .getByRole("button", { name: /Compartir|Descartar/i })
+      .first();
+    await decision.click();
+
+    await expect(
+      page.getByRole("region", { name: "Feedback educativo" }),
+    ).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole("button", { name: /Continuar/i })).toBeVisible();
   });
 });

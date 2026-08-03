@@ -37,8 +37,13 @@ describe('seguridad declarada de la migración Supabase', () => {
     );
     expect(migration).not.toMatch(/security\s+definer/i);
     expect(migration).not.toMatch(/create\s+(or\s+replace\s+)?view\s/i);
-    expect(config).toContain('schemas = ["public"]');
-    expect(config).not.toContain('private_arcade');
+    // private_arcade is listed for service_role PostgREST access; table grants
+    // remain revoked from anon/authenticated in the migration.
+    expect(config).toMatch(/schemas\s*=\s*\[["']public["']/);
+    expect(config).toContain('"private_arcade"');
+    expect(migration).toContain(
+      'revoke all on schema private_arcade from anon, authenticated;',
+    );
   });
 });
 

@@ -5,6 +5,8 @@ import { describe, expect, it } from 'vitest';
 import { sql } from '../../fixtures/supabase-local';
 
 const MIGRATION_PATH = 'supabase/migrations/20260801051613_arcade_schema.sql';
+const SESSION_RUNTIME_MIGRATION_PATH =
+  'supabase/migrations/20260803164000_arcade_session_token_runtime.sql';
 const ARCADE_TABLES = [
   'game_catalog',
   'game_items',
@@ -44,6 +46,14 @@ describe('reconciliación física de migraciones Supabase', () => {
     expect(migration).toContain("status = 'finished'");
     expect(migration).toContain('answered = total');
     expect(migration).toContain('max_points > 0');
+  });
+
+  it('añade token hash y runtime_snapshot en la migración follow-up', async () => {
+    const followUp = await readFile(SESSION_RUNTIME_MIGRATION_PATH, 'utf8');
+    expect(followUp).toContain('session_token_hash');
+    expect(followUp).toContain('runtime_snapshot');
+    expect(followUp).toContain('editorial_item_id');
+    expect(followUp).toContain('game_sessions_token_hash_uidx');
   });
 });
 

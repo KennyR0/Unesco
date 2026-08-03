@@ -2,9 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import { newTokenHash, resetGameData, sql, startGame } from "../../fixtures/supabase-local";
 
-const supabaseRpcGateOpen = process.env.RUN_SUPABASE_TESTS === "true";
-
-describe.skipIf(!supabaseRpcGateOpen)("retención y Cron (puerta Supabase)", () => {
+/** LEGACY_SINGLE_CHOICE: retired with private_arcade (no api.* / private.run_retention). */
+describe.skip("retención y Cron (legacy single_choice retired)", () => {
   it("registra job de seis horas e invalida abandonadas desde expires_at", () => {
     resetGameData();
     const tokenHash = newTokenHash();

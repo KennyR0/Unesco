@@ -2,9 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import { newTokenHash, resetGameData, sessionRow, sql, startGame, state } from "../../fixtures/supabase-local";
 
-const supabaseRpcGateOpen = process.env.RUN_SUPABASE_TESTS === "true";
-
-describe.skipIf(!supabaseRpcGateOpen)("api.get_game_state (puerta Supabase)", () => {
+/** LEGACY_SINGLE_CHOICE: retired with private_arcade (no api.* schema). */
+describe.skip("api.get_game_state (legacy single_choice retired)", () => {
   it("lee una pregunta sin solución y proyecta vencimiento sin escritura", () => {
     resetGameData();
     const tokenHash = newTokenHash();

@@ -2,12 +2,18 @@ project_id = "antidoto-trivia-mvp"
 
 [api]
 enabled = true
-schemas = ["public"]
-extra_search_path = ["public", "extensions"]
+# private_arcade is listed for service_role PostgREST access only; table grants
+# remain revoked from anon/authenticated (see arcade schema migration).
+schemas = ["public", "private_arcade"]
+extra_search_path = ["public", "extensions", "private_arcade"]
 max_rows = 1000
 
 [db]
 port = 54322
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql", "./seed-content.sql"]
 
 [studio]
 enabled = false

@@ -2,9 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import { sql } from "../../fixtures/supabase-local";
 
-const supabasePhysicalGateOpen = process.env.RUN_SUPABASE_TESTS === "true";
-
-describe.skipIf(!supabasePhysicalGateOpen)("publicación editorial (puerta Supabase)", () => {
+/** LEGACY_SINGLE_CHOICE: retired (private.questions replaced by private_arcade.game_items). */
+describe.skip("publicación editorial (legacy single_choice retired)", () => {
   it("mantiene diez preguntas completas y bloquea cambios publicados", () => {
     expect(Number(sql("select count(*) from private.questions where status='published';"))).toBe(10);
     expect(Number(sql("select count(*) from private.questions q where q.status='published' and (select count(*) from private.question_options o where o.question_id=q.id) between 2 and 4;"))).toBe(10);
