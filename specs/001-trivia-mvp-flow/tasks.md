@@ -239,10 +239,10 @@ daño real y mantener score 0–4.
 **Independent Test**: objective, emotion, headline y evidence se completan en
 orden, la viralidad permanece simulada y la autopsia aparece inline.
 
-- [ ] T062 [P] [US9] Crear los cuatro pasos, opciones, autopsia y feedback editorial en src/features/game/content/game-items/mente-maestra.v1.json.
-- [ ] T063 [US9] Implementar la evaluación guided_autopsy, score +1 por paso y viralidad separada 65–95 en src/features/game/domain/mechanics/guided-autopsy.ts.
-- [ ] T064 [US9] Implementar pasos, selección persistida en sesión, alcance simulado y autopsia inline en src/components/games/misinformation-autopsy-game.tsx.
-- [ ] T065 [US9] Cubrir orden de pasos, autopsia, separación de viralidad, no publicación externa y score máximo 4 en tests/components/misinformation-autopsy-game.test.tsx y tests/integration/database/mente-maestra-flow.test.ts.
+- [X] T062 [P] [US9] Crear los cuatro pasos, opciones, autopsia y feedback editorial en src/features/game/content/game-items/mente-maestra.v1.json.
+- [X] T063 [US9] Implementar la evaluación guided_autopsy, score +1 por paso y viralidad separada 65–95 en src/features/game/domain/mechanics/guided-autopsy.ts.
+- [X] T064 [US9] Implementar pasos, selección persistida en sesión, alcance simulado y autopsia inline en src/components/games/misinformation-autopsy-game.tsx.
+- [X] T065 [US9] Cubrir orden de pasos, autopsia, separación de viralidad, no publicación externa y score máximo 4 en tests/components/misinformation-autopsy-game.test.tsx y tests/integration/database/mente-maestra-flow.test.ts.
 
 **Checkpoint**: Mente Maestra enseña las técnicas elegidas sin premiar ni
 producir daño real.
