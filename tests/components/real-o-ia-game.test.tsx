@@ -26,9 +26,12 @@ function asRealOrIaItem(itemId: string): RealOrIaItem {
 describe("RealOrIaGame (T044)", () => {
   it("cubre el pool público con alt o fallback y sin proyección privada", () => {
     expect(items).toHaveLength(20);
+    const publicItems = items.map((item) => asRealOrIaItem(item.itemId));
+    const { rerender, unmount } = render(
+      <RealOrIaGame item={publicItems[0]} onVerdict={() => {}} />,
+    );
 
-    for (const item of items) {
-      const publicItem = asRealOrIaItem(item.itemId);
+    for (const publicItem of publicItems) {
       const serialized = JSON.stringify(publicItem);
 
       expect(serialized).not.toContain("solutionPrivate");
@@ -36,7 +39,7 @@ describe("RealOrIaGame (T044)", () => {
       expect(serialized).not.toContain('"verdict"');
       expect(publicItem.media.alt || publicItem.media.fallbackText).toBeTruthy();
 
-      const { unmount } = render(
+      rerender(
         <RealOrIaGame item={publicItem} onVerdict={() => {}} />,
       );
 
@@ -59,8 +62,9 @@ describe("RealOrIaGame (T044)", () => {
       expect(
         screen.getByRole("button", { name: "Generada por IA" }),
       ).toBeEnabled();
-      unmount();
     }
+
+    unmount();
   });
 
   it("permite elegir con teclado en un item del pack editorial", async () => {

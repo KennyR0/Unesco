@@ -137,7 +137,9 @@ describe("GrupoPlaySession", () => {
     });
     expect(feedback).toHaveTextContent(/Verificar protege al grupo/i);
 
-    await user.click(screen.getByRole("button", { name: /Continuar/i }));
+    await user.click(
+      await screen.findByRole("button", { name: /Continuar/i }),
+    );
 
     await waitFor(() => {
       expect(advanceArcadeGameAction).toHaveBeenCalledWith({

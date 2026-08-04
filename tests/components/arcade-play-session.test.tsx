@@ -126,7 +126,9 @@ describe("ArcadePlaySession", () => {
     });
     expect(feedback).toHaveTextContent(/Las manos delatan a la IA/i);
 
-    await user.click(screen.getByRole("button", { name: /continuar/i }));
+    await user.click(
+      await screen.findByRole("button", { name: /continuar/i }),
+    );
     await waitFor(() => {
       expect(advanceArcadeGameAction).toHaveBeenCalledWith({
         gameCode: "real-o-ia",

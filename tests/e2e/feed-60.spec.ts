@@ -95,7 +95,7 @@ test.describe("Feed 60” (T061)", () => {
 
     await page.getByLabel(/elige un alias temporal/i).fill("Lina");
     await page
-      .getByRole("button", { name: /abrir el feed de 60 segundos/i })
+      .getByRole("button", { name: /empezar misión/i })
       .click();
 
     const timer = page.getByRole("timer");

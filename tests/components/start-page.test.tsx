@@ -5,8 +5,8 @@ import { describe, expect, it } from "vitest";
 import HomePage from "../../src/app/page";
 
 describe("página inicial", () => {
-  it("presenta la firma visual y seis misiones sin formulario ni ranking", () => {
-    render(<HomePage />);
+  it("presenta la firma visual y seis misiones sin formulario ni ranking", async () => {
+    render(await HomePage());
 
     expect(
       screen.getByRole("heading", {
@@ -20,7 +20,7 @@ describe("página inicial", () => {
 
   it("permite alcanzar la primera misión con teclado", async () => {
     const user = userEvent.setup();
-    render(<HomePage />);
+    render(await HomePage());
     const firstMission = screen.getByRole("link", { name: "Abrir ¿Real o IA?" });
 
     for (let index = 0; index < 12 && document.activeElement !== firstMission; index += 1) {

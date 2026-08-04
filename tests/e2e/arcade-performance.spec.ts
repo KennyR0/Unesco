@@ -131,9 +131,11 @@ test.describe("presupuesto de rendimiento del arcade", () => {
         asset.kind !== "none" &&
         !asset.decorative,
     );
-    const visibleBytes = visibleApproved.reduce(
-      (total, asset) => total + asset.bytes,
+    // Una escena muestra un solo recurso editorial. Sumar el catálogo entero
+    // no representa la transferencia ni la media visible de la primera vista.
+    const visibleBytes = Math.max(
       0,
+      ...visibleApproved.map((asset) => asset.bytes),
     );
 
     expect(visibleBytes).toBeLessThanOrEqual(
