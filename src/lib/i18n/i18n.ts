@@ -17,6 +17,83 @@ export type Messages = {
     english: string;
   };
   motion: { pause: string; activate: string };
+  /** Cromo de interfaz compartido por el arcade y las mecánicas de juego. */
+  chrome: {
+    brandMark: string;
+    brandSub: string;
+    brandEyebrow: string;
+    progress: (current: number, total: number) => string;
+    processingAnswer: string;
+    answerReceived: string;
+    sharedAs: string;
+    verdictOptions: string;
+    youChose: string;
+    real: string;
+    aiGenerated: string;
+    imageUnavailable: string;
+    publishedFrom: string;
+    headlineToClassify: string;
+    classifiableCard: string;
+    dropToCancel: string;
+    dropToSubmit: string;
+    classificationOptions: string;
+    journalism: string;
+    clickbaitLabel: string;
+    dragLeft: string;
+    dragRight: string;
+    youClassified: string;
+    usingVia: string;
+    sourceSwipe: string;
+    sourceButton: string;
+    sourceKeyboard: string;
+    sourceCard: string;
+    radarCategories: string;
+    reliable: string;
+    doubtful: string;
+    fraudulent: string;
+    reliableHint: string;
+    doubtfulHint: string;
+    fraudulentHint: string;
+    messagesInOrder: string;
+    careActions: string;
+    fromLabel: string;
+    timeRemaining: string;
+    earlyWarning: (time: string) => string;
+    postNumber: (n: string) => string;
+    siftHints: string;
+    quickSift: string;
+    timeExpiredBody: string;
+    feedActions: string;
+    verify: string;
+    share: string;
+    discard: string;
+    verifyHint: string;
+    shareHint: string;
+    discardHint: string;
+    expiredByTime: string;
+    decisionAccepted: (label: string) => string;
+    verificationReady: string;
+    motionClockNote: string;
+    mastermindLabel: string;
+    sessionSelections: string;
+    stepOf: (current: number, total: number, label: string) => string;
+    completeSimulation: (total: number) => string;
+    optionsFor: (step: string) => string;
+    educationalSimulation: string;
+    autopsyOfFakeNews: string;
+    autopsyDisclaimerDefault: string;
+    simulatedReach: string;
+    reachOf: (value: number) => string;
+    reachMeter: string;
+    reachNote: string;
+    fictionalCommentsLabel: string;
+    nothingPublished: string;
+    stepObjective: string;
+    stepEmotion: string;
+    stepHeadline: string;
+    stepEvidence: string;
+    ofWord: string;
+  };
   home: {
     kicker: string;
     heroLines: readonly [string, string, string, string];
@@ -198,6 +275,85 @@ function spanishMessages(): Messages {
       english: "Inglés",
     },
     motion: { pause: "Pausar animación", activate: "Activar animación" },
+    chrome: {
+      brandMark: "ANTÍDOTO",
+      brandSub: "Arcade MIL",
+      brandEyebrow: "Antídoto / Arcade MIL",
+      progress: (current, total) => `Progreso: ${current} de ${total}`,
+      processingAnswer: "Procesando respuesta",
+      answerReceived: "Respuesta recibida",
+      sharedAs: "Se comparte como",
+      verdictOptions: "Opciones de veredicto",
+      youChose: "Elegiste",
+      real: "Real",
+      aiGenerated: "Generada por IA",
+      imageUnavailable: "La imagen no está disponible; puedes responder con el texto del caso.",
+      publishedFrom: "Se publica desde",
+      headlineToClassify: "Titular a clasificar",
+      classifiableCard: "Tarjeta clasificable",
+      dropToCancel: "Suelta aquí para cancelar; cruza la marca para enviar.",
+      dropToSubmit: "Suelta más allá de la marca para enviar.",
+      classificationOptions: "Opciones de clasificación",
+      journalism: "Periodismo",
+      clickbaitLabel: "Clickbait",
+      dragLeft: "Arrastra a la izquierda o pulsa ←",
+      dragRight: "Arrastra a la derecha o pulsa →",
+      youClassified: "Clasificaste",
+      usingVia: "mediante",
+      sourceSwipe: "gesto",
+      sourceButton: "botón",
+      sourceKeyboard: "teclado",
+      sourceCard: "Tarjeta de fuente",
+      radarCategories: "Categorías del radar",
+      reliable: "Confiable",
+      doubtful: "Dudosa",
+      fraudulent: "Fraudulenta",
+      reliableHint: "Verificable, con autor y rendición de cuentas",
+      doubtfulHint: "Opinión, sátira o información incompleta",
+      fraudulentHint: "Engaño deliberado: suplantación o estafa",
+      messagesInOrder: "Mensajes en orden",
+      careActions: "Acciones de cuidado",
+      fromLabel: "Desde",
+      timeRemaining: "Tiempo restante",
+      earlyWarning: (time) => `Quedan ${time}. Decide o la partida expira.`,
+      postNumber: (n) => `Publicación ${n}`,
+      siftHints: "Pistas de verificación SIFT",
+      quickSift: "Verificación rápida · SIFT",
+      timeExpiredBody:
+        "El tiempo se agotó. La partida expiró y la última decisión aceptada conserva su feedback.",
+      feedActions: "Acciones del feed",
+      verify: "Verificar",
+      share: "Compartir",
+      discard: "Descartar",
+      verifyHint: "−4 s para revisar las pistas SIFT",
+      shareHint: "Amplifica si es oficial o útil",
+      discardHint: "Frena lo falso, reciclado o satírico",
+      expiredByTime: "La partida expiró por tiempo.",
+      decisionAccepted: (label) => `Decisión aceptada: ${label}.`,
+      verificationReady: "Verificación lista; revisa las pistas y decide.",
+      motionClockNote:
+        "La pausa visual no detiene el reloj: el tiempo autoritativo sigue corriendo.",
+      mastermindLabel: "Mente Maestra",
+      sessionSelections: "Selecciones de esta sesión",
+      stepOf: (current, total, label) => `Paso ${current} de ${total}: ${label}`,
+      completeSimulation: (total) => `Simulación completa · ${total} pasos`,
+      optionsFor: (step) => `Opciones del paso ${step}`,
+      educationalSimulation: "Simulación educativa",
+      autopsyOfFakeNews: "Autopsia de tu fake news",
+      autopsyDisclaimerDefault:
+        "Simulación educativa: no se publica contenido externo ni se crea una cuenta real. El alcance simulado explica el mecanismo; no es un premio.",
+      simulatedReach: "Alcance simulado",
+      reachOf: (value) => `${value} de 95`,
+      reachMeter: "Medidor de alcance simulado",
+      reachNote: "Este medidor es ficticio y no suma puntos. No hay publicación externa.",
+      fictionalCommentsLabel: "Comentarios ficticios",
+      nothingPublished: "No se publicó nada fuera de esta simulación.",
+      stepObjective: "Objetivo",
+      stepEmotion: "Emoción",
+      stepHeadline: "Titular",
+      stepEvidence: "Prueba",
+      ofWord: "de",
+    },
     home: {
       kicker: "UNESCO Youth Hackathon 2026 / Arcade MIL",
       heroLines: ["La mentira", "es viral.", "La verdad", "se entrena."],
@@ -398,6 +554,85 @@ function englishMessages(): Messages {
       english: "English",
     },
     motion: { pause: "Pause animation", activate: "Activate animation" },
+    chrome: {
+      brandMark: "ANTIDOTO",
+      brandSub: "MIL Arcade",
+      brandEyebrow: "Antidoto / MIL Arcade",
+      progress: (current, total) => `Progress: ${current} of ${total}`,
+      processingAnswer: "Processing answer",
+      answerReceived: "Answer received",
+      sharedAs: "Shared as",
+      verdictOptions: "Verdict options",
+      youChose: "You chose",
+      real: "Real",
+      aiGenerated: "AI-generated",
+      imageUnavailable: "The image is unavailable; you can answer using the case text.",
+      publishedFrom: "Published from",
+      headlineToClassify: "Headline to classify",
+      classifiableCard: "Classifiable card",
+      dropToCancel: "Drop here to cancel; cross the mark to submit.",
+      dropToSubmit: "Drop beyond the mark to submit.",
+      classificationOptions: "Classification options",
+      journalism: "Journalism",
+      clickbaitLabel: "Clickbait",
+      dragLeft: "Drag left or press ←",
+      dragRight: "Drag right or press →",
+      youClassified: "You classified",
+      usingVia: "using",
+      sourceSwipe: "a gesture",
+      sourceButton: "a button",
+      sourceKeyboard: "the keyboard",
+      sourceCard: "Source card",
+      radarCategories: "Radar categories",
+      reliable: "Reliable",
+      doubtful: "Doubtful",
+      fraudulent: "Fraudulent",
+      reliableHint: "Verifiable, with an author and accountability",
+      doubtfulHint: "Opinion, satire, or incomplete information",
+      fraudulentHint: "Deliberate deception: impersonation or fraud",
+      messagesInOrder: "Messages in order",
+      careActions: "Care actions",
+      fromLabel: "From",
+      timeRemaining: "Time remaining",
+      earlyWarning: (time) => `${time} left. Decide or the game expires.`,
+      postNumber: (n) => `Post ${n}`,
+      siftHints: "SIFT verification clues",
+      quickSift: "Quick check · SIFT",
+      timeExpiredBody:
+        "Time ran out. The game expired and the last accepted decision keeps its feedback.",
+      feedActions: "Feed actions",
+      verify: "Verify",
+      share: "Share",
+      discard: "Discard",
+      verifyHint: "−4 s to review SIFT clues",
+      shareHint: "Amplify if it is official or useful",
+      discardHint: "Stop what is false, recycled, or satirical",
+      expiredByTime: "The game expired because time ran out.",
+      decisionAccepted: (label) => `Decision accepted: ${label}.`,
+      verificationReady: "Verification ready; review the clues and decide.",
+      motionClockNote:
+        "Pausing motion does not stop the clock: authoritative time keeps running.",
+      mastermindLabel: "Mastermind",
+      sessionSelections: "Selections in this session",
+      stepOf: (current, total, label) => `Step ${current} of ${total}: ${label}`,
+      completeSimulation: (total) => `Complete simulation · ${total} steps`,
+      optionsFor: (step) => `Options for ${step}`,
+      educationalSimulation: "Educational simulation",
+      autopsyOfFakeNews: "Autopsy of your fake news",
+      autopsyDisclaimerDefault:
+        "Educational simulation: no external content is published and no real account is created. Simulated reach explains the mechanism; it is not a prize.",
+      simulatedReach: "Simulated reach",
+      reachOf: (value) => `${value} of 95`,
+      reachMeter: "Simulated reach meter",
+      reachNote: "This meter is fictional and does not add points. Nothing is published externally.",
+      fictionalCommentsLabel: "Fictional comments",
+      nothingPublished: "Nothing was published outside this simulation.",
+      stepObjective: "Objective",
+      stepEmotion: "Emotion",
+      stepHeadline: "Headline",
+      stepEvidence: "Evidence",
+      ofWord: "of",
+    },
     home: {
       ...es.home,
       kicker: "UNESCO Youth Hackathon 2026 / MIL Arcade",
