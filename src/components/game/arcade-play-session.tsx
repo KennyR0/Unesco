@@ -12,6 +12,9 @@ import {
   submitGameActionAction,
 } from "../../app/actions/game";
 import type { GameStateWithCompanion } from "../../features/game/infrastructure/session-companion";
+import { localizeGameState, localizePublicItem } from "../../lib/i18n/content";
+import { useI18n } from "../../lib/i18n/provider";
+import { localizeErrorMessage } from "../../lib/i18n/errors";
 import {
   ClickbaitSwipeGame,
   type HeadlineClassificationValue,
@@ -56,6 +59,7 @@ export function ArcadePlaySession({
   initialState,
   bootstrapError = null,
 }: ArcadePlaySessionProps) {
+  const { locale, messages } = useI18n();
   const [state, setState] = useState<GameStateWithCompanion | null>(
     initialState,
   );
@@ -65,7 +69,8 @@ export function ArcadePlaySession({
   const router = useRouter();
 
   const isIntro = state === null || state.status === "intro";
-  const feedback = !isIntro ? state.feedback : null;
+  const localizedState = state ? localizeGameState(state, locale) : null;
+  const feedback = !isIntro ? localizedState?.feedback ?? null : null;
   const provisionalScore = !isIntro ? state.provisionalScore : null;
   const isFinished = !isIntro && state.nextAction === "result";
   const feedCompanion =
@@ -74,22 +79,22 @@ export function ArcadePlaySession({
     state?.companion?.kind === "mente-maestra" ? state.companion : null;
 
   function statusMessageFor(current: GameState | null): string {
-    if (!current) return "Misión lista";
+    if (!current) return messages.games.missionReady;
     switch (current.status) {
       case "intro":
-        return "Misión lista";
+        return messages.games.missionReady;
       case "active":
-        return `${itemNoun} ${current.position + 1} de ${current.total}`;
+        return messages.games.scene(current.position + 1, current.total).replace(/^Scene /, `${itemNoun} `).replace(/^Escena /, `${itemNoun} `);
       case "processing":
-        return "Procesando respuesta";
+        return locale === "en" ? "Processing answer" : "Procesando respuesta";
       case "feedback":
-        return "Respuesta recibida";
+        return messages.feedback.accepted;
       case "expired":
-        return "Partida expirada";
+        return messages.games.gameExpired;
       case "finished":
-        return "Partida terminada";
+        return messages.games.gameFinished;
       case "invalid":
-        return "Estado no disponible";
+        return messages.state.resultUnavailable;
     }
   }
 
@@ -112,7 +117,7 @@ export function ArcadePlaySession({
       router.push(`/games/${gameCode}/result`);
       return;
     }
-    setError(actionError.message);
+    setError(localizeErrorMessage(actionError.code, actionError.message, locale));
   }
 
   function submitSelection(input: unknown, selectedValue: string | null) {
@@ -277,9 +282,9 @@ export function ArcadePlaySession({
       >
         <article
           className="game-route__intro"
-          aria-label={`Introducción a ${gameName}`}
+          aria-label={`${messages.games.mission} ${gameName}`}
         >
-          <p className="game-route__label">Misión {gameCode}</p>
+          <p className="game-route__label">{messages.games.mission} {gameCode}</p>
           <p className="game-route__objective">{objective}</p>
           <p className="game-route__mechanic">{introMechanic}</p>
           <AliasStartForm
@@ -291,10 +296,10 @@ export function ArcadePlaySession({
           />
           <nav
             className="game-route__navigation"
-            aria-label="Navegación de la misión"
+            aria-label={messages.games.navigation}
           >
             <Link className="secondary-action" href="/">
-              Volver al arcade
+              {messages.games.backToArcade}
             </Link>
           </nav>
         </article>
@@ -323,7 +328,7 @@ export function ArcadePlaySession({
             onClick={handleAdvance}
             disabled={pending}
           >
-            Continuar
+            {pending ? messages.games.advancing : messages.games.continue}
           </button>
         ) : null
       }
@@ -331,13 +336,13 @@ export function ArcadePlaySession({
     >
       {provisionalScore ? (
         <p>
-          Puntaje provisional: {provisionalScore.points} de{" "}
+          {messages.result.points}: {provisionalScore.points} {locale === "en" ? "of" : "de"}{" "}
           {provisionalScore.maxPoints}
         </p>
       ) : null}
 
       {isFinished ? (
-        <section className="game-finished" aria-label={`Cierre de ${gameName}`}>
+        <section className="game-finished" aria-label={`${messages.result.result}: ${gameName}`}>
           {gameCode === "mente-maestra" ? (
             <MisinformationAutopsyGame
               item={null}
@@ -351,16 +356,16 @@ export function ArcadePlaySession({
               }
             />
           ) : (
-            <p>Partida terminada.</p>
+            <p>{messages.games.gameFinished}.</p>
           )}
           <p>
             <Link className="primary-action" href={`/games/${gameCode}/result`}>
-              Ver resultado
+              {messages.result.result}
             </Link>
           </p>
         </section>
       ) : state.item ? (
-        renderGame(state.item)
+        renderGame(localizedState?.item ?? state.item)
       ) : null}
     </GameShell>
   );

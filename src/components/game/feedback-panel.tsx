@@ -4,6 +4,7 @@ import { useId, type ReactNode } from "react";
 
 import type { AnswerResult, PublicFeedback } from "@antidoto/contracts";
 
+import { useI18n } from "../../lib/i18n/provider";
 import {
   describeFeedbackAnnouncement,
   FeedbackCard,
@@ -24,8 +25,9 @@ export function FeedbackPanel({
   nextAction,
   id = "game-feedback",
 }: FeedbackPanelProps) {
+  const { locale, messages } = useI18n();
   const reactId = useId();
-  const announcement = describeFeedbackAnnouncement(feedback);
+  const announcement = describeFeedbackAnnouncement(feedback, locale);
   const liveId = `${id}-live-${reactId}`;
 
   return (
@@ -33,7 +35,7 @@ export function FeedbackPanel({
       className="feedback-panel"
       id={id}
       role="region"
-      aria-label="Feedback educativo"
+      aria-label={messages.feedback.region}
       aria-describedby={liveId}
       data-feedback-persistent="true"
     >
@@ -52,7 +54,7 @@ export function FeedbackPanel({
 
       {nextAction ? (
         <div className="feedback-panel__action">
-          <p className="feedback-panel__action-label">Siguiente acción</p>
+          <p className="feedback-panel__action-label">{messages.feedback.nextAction}</p>
           {nextAction}
         </div>
       ) : null}

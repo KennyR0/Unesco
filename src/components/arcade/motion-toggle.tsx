@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+import { useI18n } from "../../lib/i18n/provider";
+
 const MOTION_STORAGE_KEY = "antidoto:motion:v1";
 type MotionPreference = "active" | "paused";
 
@@ -19,6 +21,7 @@ function applyPreference(preference: MotionPreference): void {
 }
 
 export function MotionToggle() {
+  const { messages } = useI18n();
   const [preference, setPreference] = useState<MotionPreference>("active");
 
   useEffect(() => {
@@ -77,7 +80,7 @@ export function MotionToggle() {
     <button
       className="motion-toggle"
       type="button"
-      aria-label={paused ? "Activar animación" : "Pausar animación"}
+      aria-label={paused ? messages.motion.activate : messages.motion.pause}
       aria-pressed={paused}
       onClick={toggleMotion}
     >
@@ -85,10 +88,10 @@ export function MotionToggle() {
         {paused ? "▶" : "Ⅱ"}
       </span>
       <span className="motion-toggle__label motion-toggle__label--active">
-        Pausar animación
+        {messages.motion.pause}
       </span>
       <span className="motion-toggle__label motion-toggle__label--paused">
-        Activar animación
+        {messages.motion.activate}
       </span>
     </button>
   );

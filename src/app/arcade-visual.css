@@ -185,6 +185,47 @@ button {
   transform: scaleX(1);
 }
 
+.arcade-header__tools {
+  display: inline-flex;
+  justify-self: end;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.language-toggle {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.45rem;
+  border: 2px solid var(--color-ink);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.language-toggle__option {
+  min-width: 2rem;
+  min-height: 34px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.language-toggle__option[aria-pressed="true"] {
+  background: var(--color-acid);
+  box-shadow: 2px 2px 0 var(--color-ink);
+}
+
+.language-toggle__divider {
+  color: var(--color-muted);
+}
+
 .motion-toggle {
   justify-self: end;
   display: inline-flex;
@@ -956,6 +997,15 @@ html[data-motion="paused"] .motion-toggle__label--paused {
     width: 44px;
     padding: 0;
     justify-content: center;
+  }
+
+  .arcade-header__tools {
+    gap: 0.35rem;
+  }
+
+  .language-toggle {
+    min-height: 44px;
+    padding-inline: 0.2rem;
   }
 
   .motion-toggle__icon {

@@ -5,6 +5,8 @@ import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 
 import type { PublicItem } from "@antidoto/contracts";
 
+import { useI18n } from "../../lib/i18n/provider";
+
 export type MisinformationAutopsyItem = Extract<
   PublicItem,
   { gameCode: "mente-maestra" }
@@ -78,6 +80,10 @@ export function MisinformationAutopsyGame({
   fictionalComments = [],
   educationalDisclaimer = null,
 }: MisinformationAutopsyGameProps) {
+  const { locale } = useI18n();
+  const stepLabels: Record<AutopsyStepKind, string> = locale === "en"
+    ? { objective: "Objective", emotion: "Emotion", headline: "Headline", evidence: "Evidence" }
+    : STEP_LABELS;
   const [pendingOptionId, setPendingOptionId] = useState<string | null>(null);
   const stepRef = useRef<HTMLHeadingElement | null>(null);
   const autopsyRef = useRef<HTMLElement | null>(null);
@@ -176,8 +182,8 @@ export function MisinformationAutopsyGame({
     >
       <p id={progressId} className="mente-maestra__progress">
         {item
-          ? `Paso ${currentStepNumber} de ${totalSteps}: ${STEP_LABELS[item.step]}`
-          : `Simulación completa · ${totalSteps} pasos`}
+          ? `${locale === "en" ? "Step" : "Paso"} ${currentStepNumber} ${locale === "en" ? "of" : "de"} ${totalSteps}: ${stepLabels[item.step]}`
+          : `${locale === "en" ? "Complete simulation" : "Simulación completa"} · ${totalSteps} ${locale === "en" ? "steps" : "pasos"}`}
       </p>
 
       {sessionSelections.length > 0 ? (
@@ -192,7 +198,7 @@ export function MisinformationAutopsyGame({
             {sessionSelections.map((selection) => (
               <li key={`${selection.step}-${selection.optionId}`}>
                 <span className="mente-maestra__session-step">
-                  {STEP_LABELS[selection.step]}
+                  {stepLabels[selection.step]}
                 </span>
                 <span className="mente-maestra__session-label">
                   {selection.label}
@@ -217,7 +223,7 @@ export function MisinformationAutopsyGame({
           <div
             className="mente-maestra__options"
             role="group"
-            aria-label={`Opciones del paso ${STEP_LABELS[item.step]}`}
+            aria-label={`${locale === "en" ? "Options for" : "Opciones del paso"} ${stepLabels[item.step]}`}
           >
             {item.options.map((option, index) => {
               const chosen =
@@ -273,13 +279,13 @@ export function MisinformationAutopsyGame({
           tabIndex={-1}
           aria-labelledby={autopsyTitleId}
         >
-          <p className="mente-maestra__kicker">Simulación educativa</p>
+          <p className="mente-maestra__kicker">{locale === "en" ? "Educational simulation" : "Simulación educativa"}</p>
           <h2 id={autopsyTitleId} className="mente-maestra__autopsy-title">
-            Autopsia de tu fake news
+            {locale === "en" ? "Autopsy of your fake news" : "Autopsia de tu fake news"}
           </h2>
           <p className="mente-maestra__disclaimer">
             {educationalDisclaimer ??
-              "Simulación educativa: no se publica contenido externo ni se crea una cuenta real. El alcance simulado explica el mecanismo; no es un premio."}
+              (locale === "en" ? "Educational simulation: no external content is published and no real account is created. Simulated reach explains the mechanism; it is not a prize." : "Simulación educativa: no se publica contenido externo ni se crea una cuenta real. El alcance simulado explica el mecanismo; no es un premio.")}
           </p>
 
           {reachValue !== null ? (
@@ -288,9 +294,9 @@ export function MisinformationAutopsyGame({
               aria-labelledby={reachId}
             >
               <div className="mente-maestra__reach-meta">
-                <span id={reachId}>Alcance simulado</span>
+                <span id={reachId}>{locale === "en" ? "Simulated reach" : "Alcance simulado"}</span>
                 <span className="mente-maestra__reach-value">
-                  {reachValue} de 95
+                  {reachValue} {locale === "en" ? "of" : "de"} 95
                 </span>
               </div>
               <div
@@ -299,7 +305,7 @@ export function MisinformationAutopsyGame({
                 aria-valuemin={65}
                 aria-valuemax={95}
                 aria-valuenow={reachValue}
-                aria-label="Medidor de alcance simulado"
+                aria-label={locale === "en" ? "Simulated reach meter" : "Medidor de alcance simulado"}
               >
                 <span
                   className="mente-maestra__reach-fill"
@@ -307,14 +313,13 @@ export function MisinformationAutopsyGame({
                 />
               </div>
               <p className="mente-maestra__reach-note">
-                Este medidor es ficticio y no suma puntos. No hay publicación
-                externa.
+                {locale === "en" ? "This meter is fictional and does not add points. Nothing is published externally." : "Este medidor es ficticio y no suma puntos. No hay publicación externa."}
               </p>
             </div>
           ) : null}
 
           {fictionalComments.length > 0 ? (
-            <ul className="mente-maestra__comments" aria-label="Comentarios ficticios">
+            <ul className="mente-maestra__comments" aria-label={locale === "en" ? "Fictional comments" : "Comentarios ficticios"}>
               {fictionalComments.map((comment) => (
                 <li key={comment} className="mente-maestra__comment">
                   {comment}
@@ -331,7 +336,7 @@ export function MisinformationAutopsyGame({
                   className="mente-maestra__autopsy-item"
                 >
                   <p className="mente-maestra__autopsy-step">
-                    {STEP_LABELS[entry.step]}
+                    {stepLabels[entry.step]}
                   </p>
                   <h3 className="mente-maestra__autopsy-technique">
                     {entry.title}
@@ -343,7 +348,7 @@ export function MisinformationAutopsyGame({
           ) : null}
 
           <p className="mente-maestra__no-publish" role="status">
-            No se publicó nada fuera de esta simulación.
+            {locale === "en" ? "Nothing was published outside this simulation." : "No se publicó nada fuera de esta simulación."}
           </p>
         </section>
       ) : null}

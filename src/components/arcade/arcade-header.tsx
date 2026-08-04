@@ -1,5 +1,9 @@
+"use client";
+
 import Link from "next/link";
 
+import { useI18n } from "../../lib/i18n/provider";
+import { LanguageToggle } from "./language-toggle";
 import { MotionToggle } from "./motion-toggle";
 
 type ArcadeHeaderProps = Readonly<{
@@ -7,16 +11,18 @@ type ArcadeHeaderProps = Readonly<{
 }>;
 
 export function ArcadeHeader({ home = false }: ArcadeHeaderProps) {
+  const { messages } = useI18n();
+
   return (
     <>
       <a className="skip-link" href="#main-content">
-        Saltar al contenido
+        {messages.header.skip}
       </a>
       <header className="arcade-header">
         <Link
           className="arcade-header__brand"
           href="/"
-          aria-label="Antídoto, ir al arcade"
+          aria-label={messages.header.brandLabel}
         >
           <span className="arcade-header__mark" aria-hidden="true">A!</span>
           <span>
@@ -25,13 +31,16 @@ export function ArcadeHeader({ home = false }: ArcadeHeaderProps) {
           </span>
         </Link>
 
-        <nav className="arcade-header__nav" aria-label="Navegación principal">
-          <Link href={home ? "#arcade" : "/#arcade"}>Arcade</Link>
-          <Link href={home ? "#manifiesto" : "/#manifiesto"}>Manifiesto</Link>
-          <Link href={home ? "#metodo" : "/#metodo"}>Método</Link>
+        <nav className="arcade-header__nav" aria-label={messages.header.primaryNav}>
+          <Link href={home ? "#arcade" : "/#arcade"}>{messages.header.arcade}</Link>
+          <Link href={home ? "#manifiesto" : "/#manifiesto"}>{messages.header.manifesto}</Link>
+          <Link href={home ? "#metodo" : "/#metodo"}>{messages.header.method}</Link>
         </nav>
 
-        <MotionToggle />
+        <div className="arcade-header__tools">
+          <LanguageToggle />
+          <MotionToggle />
+        </div>
       </header>
     </>
   );

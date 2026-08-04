@@ -5,6 +5,8 @@ import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 
 import type { PublicItem } from "@antidoto/contracts";
 
+import { useI18n } from "../../lib/i18n/provider";
+
 export type FeedTimerItem = Extract<PublicItem, { gameCode: "feed-60" }>;
 export type FeedActionValue = FeedTimerItem["actions"][number];
 export type FeedFinalDecision = "share" | "discard";
@@ -69,6 +71,13 @@ export function FeedTimerGame({
   expired = false,
   disabled = false,
 }: FeedTimerGameProps) {
+  const { locale } = useI18n();
+  const actionLabels = locale === "en"
+    ? { verify: "Verify", share: "Share", discard: "Discard" }
+    : ACTION_LABELS;
+  const actionHints = locale === "en"
+    ? { verify: "−4 s to review SIFT clues", share: "Amplify if it is official or useful", discard: "Stop what is false, recycled, or satirical" }
+    : ACTION_HINTS;
   const [motionPaused, setMotionPaused] = useState(false);
   const authoritativeSeconds = clampSeconds(remainingSeconds);
   const [clockSource, setClockSource] = useState(() => ({
@@ -273,8 +282,8 @@ export function FeedTimerGame({
           aria-describedby={verified ? hintsId : undefined}
           onClick={() => commitAction("verify")}
         >
-          <span className="feed-timer__button-label">{ACTION_LABELS.verify}</span>
-          <span className="feed-timer__button-hint">{ACTION_HINTS.verify}</span>
+          <span className="feed-timer__button-label">{actionLabels.verify}</span>
+          <span className="feed-timer__button-hint">{actionHints.verify}</span>
         </button>
 
         {item.actions
@@ -301,10 +310,10 @@ export function FeedTimerGame({
                 onKeyDown={(event) => handleDecisionKeyDown(event, index)}
               >
                 <span className="feed-timer__button-label">
-                  {ACTION_LABELS[action]}
+                  {actionLabels[action]}
                 </span>
                 <span className="feed-timer__button-hint">
-                  {ACTION_HINTS[action]}
+                  {actionHints[action]}
                 </span>
               </button>
             );

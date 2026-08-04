@@ -5,6 +5,8 @@ import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 
 import type { PublicItem } from "@antidoto/contracts";
 
+import { useI18n } from "../../lib/i18n/provider";
+
 export type SourceRadarItem = Extract<
   PublicItem,
   { gameCode: "radar-de-fuentes" }
@@ -46,6 +48,7 @@ export function SourceRadarGame({
   selectedCategory = null,
   disabled = false,
 }: SourceRadarGameProps) {
+  const { locale } = useI18n();
   const [pendingCategory, setPendingCategory] =
     useState<SourceCategoryValue | null>(null);
   const cardRef = useRef<HTMLDivElement | null>(null);
@@ -162,10 +165,14 @@ export function SourceRadarGame({
               onKeyDown={(event) => handleKeyDown(event, index)}
             >
               <span className="source-radar__button-label">
-                {CATEGORY_LABELS[category]}
+                {locale === "en"
+                  ? ({ reliable: "Reliable", doubtful: "Doubtful", fraudulent: "Fraudulent" } as const)[category]
+                  : CATEGORY_LABELS[category]}
               </span>
               <span className="source-radar__button-description">
-                {CATEGORY_DESCRIPTIONS[category]}
+                {locale === "en"
+                  ? ({ reliable: "Verifiable, with an author and accountability", doubtful: "Opinion, satire, or incomplete information", fraudulent: "Deliberate deception: impersonation or fraud" } as const)[category]
+                  : CATEGORY_DESCRIPTIONS[category]}
               </span>
             </button>
           );
@@ -180,7 +187,7 @@ export function SourceRadarGame({
       >
         {selectedCategory === null
           ? ""
-          : `Clasificaste ${CATEGORY_LABELS[selectedCategory]}.`}
+          : `${locale === "en" ? "You classified" : "Clasificaste"} ${locale === "en" ? ({ reliable: "Reliable", doubtful: "Doubtful", fraudulent: "Fraudulent" } as const)[selectedCategory] : CATEGORY_LABELS[selectedCategory]}.`}
       </p>
     </section>
   );

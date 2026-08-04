@@ -2,6 +2,8 @@
 
 import { useId, useState, type FormEvent } from "react";
 
+import { useI18n } from "../../lib/i18n/provider";
+
 export type AliasStartFormProps = Readonly<{
   /** Server Action preferida: funciona sin hidratación cliente. */
   action?: (formData: FormData) => void | Promise<void>;
@@ -25,6 +27,7 @@ export function AliasStartForm({
   error = null,
   submitLabel = "Empezar misión",
 }: AliasStartFormProps) {
+  const { messages } = useI18n();
   const fieldId = useId();
   const errorId = `${fieldId}-error`;
   const [pending, setPending] = useState(false);
@@ -43,7 +46,7 @@ export function AliasStartForm({
     const formData = new FormData(event.currentTarget);
     const nextAlias = String(formData.get("alias") ?? "").trim();
     if (!nextAlias) {
-      setLocalError("Escribe un alias para empezar.");
+      setLocalError(messages.form.aliasRequired);
       return;
     }
 
@@ -52,7 +55,7 @@ export function AliasStartForm({
     try {
       await onSubmit(nextAlias);
     } catch {
-      setLocalError("No se pudo iniciar la misión. Intenta de nuevo.");
+      setLocalError(messages.form.startFailed);
     } finally {
       setPending(false);
     }
@@ -69,10 +72,10 @@ export function AliasStartForm({
         <input type="hidden" name="gameCode" value={gameCode} />
       ) : null}
       <label className="alias-start-form__label" htmlFor={fieldId}>
-        Elige un alias temporal
+        {messages.form.aliasLabel}
       </label>
       <p className="alias-start-form__hint" id={`${fieldId}-hint`}>
-        Entre 3 y 40 caracteres. No uses datos personales reales.
+        {messages.form.aliasHint}
       </p>
       <input
         id={fieldId}
@@ -100,7 +103,7 @@ export function AliasStartForm({
         type="submit"
         disabled={disabled || pending}
       >
-        {pending ? "Iniciando…" : submitLabel}
+        {pending ? messages.form.starting : submitLabel ?? messages.form.startMission}
       </button>
     </form>
   );

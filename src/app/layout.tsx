@@ -1,5 +1,13 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { Anton, Archivo, Space_Mono } from "next/font/google";
+
+import { LanguageProvider } from "../lib/i18n/provider";
+import {
+  LOCALE_COOKIE,
+  resolveLocale,
+  type Locale,
+} from "../lib/i18n/i18n";
 
 import "./globals.css";
 import "./arcade-visual.css";
@@ -34,20 +42,35 @@ const motionInitializer = `
   document.documentElement.dataset.motion = paused ? "paused" : "active";
 })();`;
 
-export const metadata: Metadata = {
-  title: "Antídoto Arcade MIL",
-  description:
-    "Seis misiones para entrenar la mirada contra la desinformación.",
-};
+async function getRequestLocale(): Promise<Locale> {
+  const cookie = (await cookies()).get(LOCALE_COOKIE)?.value;
+  return resolveLocale(cookie);
+}
 
-export default function RootLayout({
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getRequestLocale();
+  return {
+    title: locale === "en" ? "Antidoto MIL Arcade" : "Antídoto Arcade MIL",
+    description:
+      locale === "en"
+        ? "Six missions to train your eye against misinformation."
+        : "Seis misiones para entrenar la mirada contra la desinformación.",
+    keywords:
+      locale === "en"
+        ? ["media literacy", "misinformation", "UNESCO"]
+        : ["alfabetización mediática", "desinformación", "UNESCO"],
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getRequestLocale();
   return (
     <html
-      lang="es"
+      lang={locale}
       suppressHydrationWarning
       data-scroll-behavior="smooth"
       data-motion="active"
@@ -56,7 +79,9 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: motionInitializer }} />
       </head>
-      <body>{children}</body>
+      <body>
+        <LanguageProvider initialLocale={locale}>{children}</LanguageProvider>
+      </body>
     </html>
   );
 }
