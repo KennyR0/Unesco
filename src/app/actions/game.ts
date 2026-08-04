@@ -19,9 +19,27 @@ import {
   submitArcadeGameActionServer,
 } from "../../features/game/application/server-operations";
 import { GameCodeSchema } from "../../features/game/domain/schemas";
+import { localizeGameResult, localizeGameState } from "../../lib/i18n/localize-game";
+import { getServerLocale } from "../../lib/i18n/server";
 import {
   buildExpiredSessionCookie,
 } from "../../lib/security/session-cookie";
+
+async function withLocalizedState(
+  result: ArcadeOperationResult<GameState>,
+): Promise<ArcadeOperationResult<GameState>> {
+  if (!result.ok) return result;
+  const locale = await getServerLocale();
+  return { ok: true, data: localizeGameState(result.data, locale) };
+}
+
+async function withLocalizedResult(
+  result: ArcadeOperationResult<GameResult>,
+): Promise<ArcadeOperationResult<GameResult>> {
+  if (!result.ok) return result;
+  const locale = await getServerLocale();
+  return { ok: true, data: localizeGameResult(result.data, locale) };
+}
 
 export async function clearInvalidSessionAction(
   formData?: FormData,
@@ -42,7 +60,7 @@ export async function clearInvalidSessionAction(
 export async function startArcadeGameAction(
   payload: unknown,
 ): Promise<ArcadeOperationResult<GameState>> {
-  return startArcadeGameServer(payload);
+  return withLocalizedState(await startArcadeGameServer(payload));
 }
 
 /**
@@ -93,21 +111,21 @@ export async function startGrupoGameFormAction(
 export async function getArcadeGameStateAction(
   payload: unknown,
 ): Promise<ArcadeOperationResult<GameState>> {
-  return getArcadeGameStateServer(payload);
+  return withLocalizedState(await getArcadeGameStateServer(payload));
 }
 
 /** submitGameAction: rechaza solution, score, nextItem y completed del cliente. */
 export async function submitGameAction(
   payload: unknown,
 ): Promise<ArcadeOperationResult<GameState>> {
-  return submitArcadeGameActionServer(payload);
+  return withLocalizedState(await submitArcadeGameActionServer(payload));
 }
 
 /** advanceGame: rechaza solution, score, nextItem y completed del cliente. */
 export async function advanceGame(
   payload: unknown,
 ): Promise<ArcadeOperationResult<GameState>> {
-  return advanceArcadeGameServer(payload);
+  return withLocalizedState(await advanceArcadeGameServer(payload));
 }
 
 export async function submitGameActionAction(
@@ -125,7 +143,7 @@ export async function advanceArcadeGameAction(
 export async function getArcadeGameResultAction(
   payload: unknown,
 ): Promise<ArcadeOperationResult<GameResult>> {
-  return getArcadeGameResultServer(payload);
+  return withLocalizedResult(await getArcadeGameResultServer(payload));
 }
 
 export async function getArcadeLeaderboardAction(): Promise<

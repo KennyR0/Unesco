@@ -6,9 +6,10 @@ import { ArcadePlaySession } from "../../../components/game/arcade-play-session"
 import { SecureStateView } from "../../../components/game/secure-state-view";
 import { getArcadeGameStateServer } from "../../../features/game/application/server-operations";
 import { listAvailableArcadeCatalog, requireArcadeCatalogEntry } from "../../../features/game/content/catalog";
-import { getLocalizedCatalog, translateMechanic } from "../../../lib/i18n/content";
-import { getMessages } from "../../../lib/i18n/i18n";
+import { getLocalizedCatalog, translateMechanic } from "../../../lib/i18n/catalog-locale";
 import { localizeErrorMessage } from "../../../lib/i18n/errors";
+import { getMessages } from "../../../lib/i18n/i18n";
+import { localizeGameState } from "../../../lib/i18n/localize-game";
 import { getServerLocale } from "../../../lib/i18n/server";
 import { GAME_SCORE_RULES } from "../../../features/game/domain/scoring";
 
@@ -66,7 +67,9 @@ export default async function GamePage({ params, searchParams }: GamePageProps) 
       introMechanic={`${messages.games.mechanic}: ${translateMechanic(game.mechanic, locale)} · ${rules.itemCount} ${itemNounPlural} · ${locale === "en" ? "maximum" : "máximo"} ${rules.maxPoints} ${messages.result.points.toLowerCase()}`}
       introSubmitLabel={game.gameCode === "grupo" ? messages.games.groupStart : messages.form.startMission}
       itemNoun={itemNoun}
-      initialState={stateResult.ok ? stateResult.data : null}
+      initialState={
+        stateResult.ok ? localizeGameState(stateResult.data, locale) : null
+      }
       bootstrapError={startError
         ? localizeErrorMessage(startError, messages.form.startFailed, locale)
         : !stateResult.ok && stateResult.error.code !== "SESSION_NOT_FOUND"

@@ -4,7 +4,6 @@ import Link from "next/link";
 
 import type { GameCatalogEntry } from "@antidoto/contracts";
 
-import { translateMechanic } from "../../lib/i18n/content";
 import { useI18n } from "../../lib/i18n/provider";
 
 type GameCardProps = Readonly<{
@@ -13,8 +12,10 @@ type GameCardProps = Readonly<{
 }>;
 
 export function GameCard({ game, index }: GameCardProps) {
-  const { locale, messages } = useI18n();
+  const { messages } = useI18n();
   const missionNumber = String(index + 1).padStart(2, "0");
+  const mechanicLabel =
+    messages.mechanics[game.mechanic] ?? game.mechanic.replaceAll("_", " ");
 
   return (
     <article
@@ -33,7 +34,7 @@ export function GameCard({ game, index }: GameCardProps) {
         <h3>{game.name}</h3>
         <p className="arcade-card__objective">{game.objective}</p>
         <p className="arcade-card__mechanic">
-          {messages.games.practice} / {translateMechanic(game.mechanic, locale)}
+          {messages.games.practice} / {mechanicLabel}
         </p>
       </div>
       {game.available ? (

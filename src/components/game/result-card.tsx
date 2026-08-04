@@ -4,7 +4,6 @@ import Link from "next/link";
 
 import type { GameResult, GameScore } from "@antidoto/contracts";
 
-import { localizeGameResult } from "../../lib/i18n/content";
 import { useI18n } from "../../lib/i18n/provider";
 
 export type ResultCardProps = Readonly<{ result: GameResult; gameName?: string; id?: string }>;
@@ -23,8 +22,7 @@ function ScoreMetrics({ score }: { score: GameScore }) {
 }
 
 export function ResultCard({ result, gameName, id = "game-result" }: ResultCardProps) {
-  const { locale, messages } = useI18n();
-  const localized = localizeGameResult(result, locale);
+  const { messages } = useI18n();
   const titleId = `${id}-title`;
   const summaryId = `${id}-learning`;
   const status = result.status === "finished" ? messages.result.completed : messages.result.expired;
@@ -34,7 +32,7 @@ export function ResultCard({ result, gameName, id = "game-result" }: ResultCardP
       <h2 id={titleId}>{status}</h2>
       <p className="result-card__alias">{messages.result.alias} <strong>{result.alias}</strong>{gameName ? <> · <span>{gameName}</span></> : null}</p>
       <p className="result-card__progress">{messages.result.answers(result.answered, result.total)}</p>
-      <section className="result-card__learning" aria-labelledby={summaryId}><h3 id={summaryId}>{messages.result.learning}</h3><p>{localized.learningSummary}</p></section>
+      <section className="result-card__learning" aria-labelledby={summaryId}><h3 id={summaryId}>{messages.result.learning}</h3><p>{result.learningSummary}</p></section>
       <section className="result-card__score-block" aria-labelledby={`${id}-score`}><h3 id={`${id}-score`}>{messages.result.score}</h3><ScoreMetrics score={result.score} /></section>
       {result.simulatedReach !== null ? <p className="result-card__reach" role="note">{messages.result.simulatedReach(result.simulatedReach)}</p> : null}
       <nav className="result-card__actions" aria-label={messages.result.actions}>

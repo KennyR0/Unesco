@@ -12,7 +12,6 @@ import {
   submitGameActionAction,
 } from "../../app/actions/game";
 import type { GameStateWithCompanion } from "../../features/game/infrastructure/session-companion";
-import { localizeGameState } from "../../lib/i18n/content";
 import { useI18n } from "../../lib/i18n/provider";
 import { localizeErrorMessage } from "../../lib/i18n/errors";
 import {
@@ -69,16 +68,14 @@ export function ArcadePlaySession({
   const router = useRouter();
 
   const isIntro = state === null || state.status === "intro";
-  const localizedState = state ? localizeGameState(state, locale) : null;
-  const feedback = !isIntro ? localizedState?.feedback ?? null : null;
+  // El servidor ya localiza estado inicial y respuestas de acciones.
+  const feedback = !isIntro ? state.feedback ?? null : null;
   const provisionalScore = !isIntro ? state.provisionalScore : null;
   const isFinished = !isIntro && state.nextAction === "result";
   const feedCompanion =
-    localizedState?.companion?.kind === "feed-60" ? localizedState.companion : null;
+    state?.companion?.kind === "feed-60" ? state.companion : null;
   const autopsyCompanion =
-    localizedState?.companion?.kind === "mente-maestra"
-      ? localizedState.companion
-      : null;
+    state?.companion?.kind === "mente-maestra" ? state.companion : null;
 
   function statusMessageFor(current: GameState | null): string {
     if (!current) return messages.games.missionReady;
@@ -276,7 +273,7 @@ export function ArcadePlaySession({
         title={gameName}
         gameCode={gameCode}
         eyebrow={messages.chrome.brandEyebrow}
-        status={state?.status}
+        status={state?.status ?? "intro"}
         statusMessage={statusMessageFor(state)}
         error={error}
         progress={null}
@@ -367,7 +364,7 @@ export function ArcadePlaySession({
           </p>
         </section>
       ) : state.item ? (
-        renderGame(localizedState?.item ?? state.item)
+        renderGame(state.item)
       ) : null}
     </GameShell>
   );

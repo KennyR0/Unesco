@@ -1,6 +1,8 @@
 import { ArcadeHome } from "../components/arcade/arcade-home";
-import { listAvailableArcadeCatalog } from "../features/game/content/catalog";
+import { getLocalizedCatalog } from "../lib/i18n/catalog-locale";
+import { getServerLocale } from "../lib/i18n/server";
 
-export default function HomePage() {
-  return <ArcadeHome games={listAvailableArcadeCatalog()} />;
+export default async function HomePage() {
+  const locale = await getServerLocale();
+  return <ArcadeHome games={getLocalizedCatalog(locale)} />;
 }

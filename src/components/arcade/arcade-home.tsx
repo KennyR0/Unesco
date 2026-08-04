@@ -2,7 +2,6 @@
 
 import type { GameCatalogEntry } from "@antidoto/contracts";
 
-import { getLocalizedCatalog } from "../../lib/i18n/content";
 import { useI18n } from "../../lib/i18n/provider";
 import { ArcadeHeader } from "./arcade-header";
 import { GameCard } from "./game-card";
@@ -12,8 +11,8 @@ type ArcadeHomeProps = Readonly<{
 }>;
 
 export function ArcadeHome({ games }: ArcadeHomeProps) {
-  const { locale, messages } = useI18n();
-  const localizedGames = locale === "es" ? games : getLocalizedCatalog(locale);
+  const { messages } = useI18n();
+  const localizedGames = games;
 
   return (
     <>
