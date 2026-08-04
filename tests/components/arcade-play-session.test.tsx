@@ -237,7 +237,7 @@ describe("ArcadePlaySession", () => {
       screen.getByRole("heading", { name: /autopsia de tu fake news/i }),
     ).toBeVisible();
     expect(screen.getByText(/90 de 95/)).toBeVisible();
-    expect(screen.getByRole("link", { name: /ver resultado/i })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /^resultado$/i })).toHaveAttribute(
       "href",
       "/games/mente-maestra/result",
     );

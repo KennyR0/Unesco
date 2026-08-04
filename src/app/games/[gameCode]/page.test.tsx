@@ -56,11 +56,11 @@ describe("GamePage", () => {
         .length,
     ).toBeGreaterThan(0);
     expect(
-      screen.getByText(/Mecánica: image verdict · 8 imágenes · máximo 80 puntos/i),
+      screen.getByText(/Mecánica: veredicto de imagen · 8 imágenes · máximo 80 puntos/i),
     ).toBeInTheDocument();
     expect(screen.getByLabelText(/elige un alias temporal/i)).toBeVisible();
     expect(
-      screen.getByRole("button", { name: /empezar a analizar imágenes/i }),
+      screen.getByRole("button", { name: /empezar misión/i }),
     ).toBeVisible();
     expect(screen.getByRole("link", { name: /volver al arcade/i })).toHaveAttribute(
       "href",
@@ -85,7 +85,7 @@ describe("GamePage", () => {
     ).toBeVisible();
     expect(
       screen.getByRole("button", {
-        name: /entrar al laboratorio de desinformación/i,
+        name: /empezar misión/i,
       }),
     ).toBeVisible();
     expect(notFoundMock).not.toHaveBeenCalled();

@@ -12,7 +12,7 @@ test.describe("Mente Maestra jugable", () => {
     await page.getByLabel(/elige un alias temporal/i).fill("Lina");
     await page
       .getByRole("button", {
-        name: /entrar al laboratorio de desinformación/i,
+        name: /empezar misión/i,
       })
       .click();
 
