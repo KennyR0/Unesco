@@ -5,105 +5,73 @@ import type { GameCode } from "@antidoto/contracts";
 import { ArcadePlaySession } from "../../../components/game/arcade-play-session";
 import { SecureStateView } from "../../../components/game/secure-state-view";
 import { getArcadeGameStateServer } from "../../../features/game/application/server-operations";
-import {
-  listAvailableArcadeCatalog,
-  requireArcadeCatalogEntry,
-} from "../../../features/game/content/catalog";
+import { listAvailableArcadeCatalog, requireArcadeCatalogEntry } from "../../../features/game/content/catalog";
+import { getLocalizedCatalog, translateMechanic } from "../../../lib/i18n/content";
+import { getMessages } from "../../../lib/i18n/i18n";
+import { localizeErrorMessage } from "../../../lib/i18n/errors";
+import { getServerLocale } from "../../../lib/i18n/server";
 import { GAME_SCORE_RULES } from "../../../features/game/domain/scoring";
 
 type GamePageProps = Readonly<{
   params: Promise<{ gameCode: string }>;
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }>;
 
 export function generateStaticParams(): Array<{ gameCode: GameCode }> {
   return listAvailableArcadeCatalog().map(({ gameCode }) => ({ gameCode }));
 }
 
-const INTRO_COPY: Record<
-  GameCode,
-  Readonly<{ submitLabel: string; itemNoun: string; itemNounPlural: string }>
-> = {
-  "real-o-ia": {
-    submitLabel: "Empezar a analizar imágenes",
-    itemNoun: "Imagen",
-    itemNounPlural: "imágenes",
-  },
-  grupo: {
-    submitLabel: "Entrar al chat familiar",
-    itemNoun: "Escena",
-    itemNounPlural: "escenas",
-  },
-  "clickbait-swipe": {
-    submitLabel: "Empezar a clasificar titulares",
-    itemNoun: "Titular",
-    itemNounPlural: "titulares",
-  },
-  "radar-de-fuentes": {
-    submitLabel: "Encender el radar",
-    itemNoun: "Fuente",
-    itemNounPlural: "fuentes",
-  },
-  "feed-60": {
-    submitLabel: "Abrir el feed de 60 segundos",
-    itemNoun: "Publicación",
-    itemNounPlural: "publicaciones",
-  },
-  "mente-maestra": {
-    submitLabel: "Entrar al laboratorio de desinformación",
-    itemNoun: "Paso",
-    itemNounPlural: "pasos",
-  },
-};
-
-function firstSearchParam(
-  value: string | string[] | undefined,
-): string | null {
-  if (typeof value === "string") return value;
-  if (Array.isArray(value)) return value[0] ?? null;
+function firstSearchParam(value: string | string[] | undefined): string | null {
+  if (typeof value === "string" && value.trim()) return value;
+  if (Array.isArray(value) && typeof value[0] === "string" && value[0].trim()) return value[0];
   return null;
 }
 
 export default async function GamePage({ params, searchParams }: GamePageProps) {
+  const locale = await getServerLocale();
+  const messages = getMessages(locale);
   const { gameCode } = await params;
-  const query = await searchParams;  let game;
+  const query = searchParams ? await searchParams : {};
+  let game;
   try {
     game = requireArcadeCatalogEntry(gameCode);
   } catch {
     notFound();
   }
 
-  const stateResult = await getArcadeGameStateServer({
-    gameCode: game.gameCode,
-  });
+  const localizedGame = getLocalizedCatalog(locale).find((entry) => entry.gameCode === game.gameCode) ?? game;
+  const stateResult = await getArcadeGameStateServer({ gameCode: game.gameCode });
 
-  if (
-    !stateResult.ok &&
-    (stateResult.error.code === "SESSION_INVALID" ||
-      stateResult.error.code === "GAME_MISMATCH")
-  ) {
+  if (!stateResult.ok && (stateResult.error.code === "SESSION_INVALID" || stateResult.error.code === "GAME_MISMATCH")) {
     return <SecureStateView gameCode={game.gameCode} reason="invalid" canClear />;
   }
 
-  const copy = INTRO_COPY[game.gameCode];
   const rules = GAME_SCORE_RULES[game.gameCode];
-  const startError = firstSearchParam(query.startError);
+  const itemNouns: Record<GameCode, readonly [string, string]> = {
+    "real-o-ia": [locale === "en" ? "Image" : "Imagen", locale === "en" ? "images" : "imágenes"],
+    grupo: [locale === "en" ? "Scene" : "Escena", locale === "en" ? "scenes" : "escenas"],
+    "clickbait-swipe": [locale === "en" ? "Headline" : "Titular", locale === "en" ? "headlines" : "titulares"],
+    "radar-de-fuentes": [locale === "en" ? "Source" : "Fuente", locale === "en" ? "sources" : "fuentes"],
+    "feed-60": [locale === "en" ? "Post" : "Publicación", locale === "en" ? "posts" : "publicaciones"],
+    "mente-maestra": [locale === "en" ? "Step" : "Paso", locale === "en" ? "steps" : "pasos"],
+  };
+  const [itemNoun, itemNounPlural] = itemNouns[game.gameCode];
+  const startError = firstSearchParam(query.startError ?? query.startErrorCode);
 
   return (
     <ArcadePlaySession
       gameCode={game.gameCode}
-      gameName={game.name}
-      objective={game.objective}
-      introMechanic={`Mecánica: ${game.mechanic.replaceAll("_", " ")} · ${rules.itemCount} ${copy.itemNounPlural} · máximo ${rules.maxPoints} puntos`}
-      introSubmitLabel={copy.submitLabel}
-      itemNoun={copy.itemNoun}
+      gameName={localizedGame.name}
+      objective={localizedGame.objective}
+      introMechanic={`${messages.games.mechanic}: ${translateMechanic(game.mechanic, locale)} · ${rules.itemCount} ${itemNounPlural} · ${locale === "en" ? "maximum" : "máximo"} ${rules.maxPoints} ${messages.result.points.toLowerCase()}`}
+      introSubmitLabel={game.gameCode === "grupo" ? messages.games.groupStart : messages.form.startMission}
+      itemNoun={itemNoun}
       initialState={stateResult.ok ? stateResult.data : null}
-      bootstrapError={
-        startError ??
-        (!stateResult.ok && stateResult.error.code !== "SESSION_NOT_FOUND"
-          ? stateResult.error.message
-          : null)
-      }
+      bootstrapError={startError
+        ? localizeErrorMessage(startError, messages.form.startFailed, locale)
+        : !stateResult.ok && stateResult.error.code !== "SESSION_NOT_FOUND"
+          ? localizeErrorMessage(stateResult.error.code, stateResult.error.message, locale)
+          : null}
     />
   );
 }

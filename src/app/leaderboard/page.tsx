@@ -4,16 +4,20 @@ import type { GameCode } from "@antidoto/contracts";
 
 import { ArcadeHeader } from "../../components/arcade/arcade-header";
 import { LeaderboardTable } from "../../components/game/leaderboard-table";
-import { LEADERBOARD_COPY } from "../../features/game/application/leaderboard";
 import { getArcadeLeaderboardServer } from "../../features/game/application/server-operations";
 import { listAvailableArcadeCatalog } from "../../features/game/content/catalog";
+import { getMessages } from "../../lib/i18n/i18n";
+import { getServerLocale } from "../../lib/i18n/server";
+import { localizeErrorMessage } from "../../lib/i18n/errors";
 
 export const dynamic = "force-dynamic";
 
 export default async function LeaderboardPage() {
+  const locale = await getServerLocale();
+  const messages = getMessages(locale);
   const result = await getArcadeLeaderboardServer();
   const gameLabels = Object.fromEntries(
-    listAvailableArcadeCatalog().map((game) => [game.gameCode, game.name]),
+    listAvailableArcadeCatalog().map((game) => [game.gameCode, messages.gameLabels[game.gameCode] ?? game.name]),
   ) as Partial<Record<GameCode, string>>;
 
   const isEmpty = !result.ok && result.error.code === "LEADERBOARD_EMPTY";
@@ -34,23 +38,24 @@ export default async function LeaderboardPage() {
           id="leaderboard"
           entries={result.ok ? result.data.entries : []}
           limit={result.ok ? result.data.limit : 10}
-          supportingCopy={LEADERBOARD_COPY.supporting}
-          emptyMessage={LEADERBOARD_COPY.empty}
-          errorMessage={isError ? result.error.message : null}
+          supportingCopy={messages.leaderboard.supporting}
+          emptyMessage={messages.leaderboard.empty}
+          errorMessage={isError ? localizeErrorMessage(result.error.code, result.error.message, locale) : null}
           errorRetryable={isError ? result.error.retryable : false}
           gameLabels={gameLabels}
+          locale={locale}
         />
 
         <nav
           className="leaderboard-page__actions"
-          aria-label="Acciones del ranking"
+          aria-label={messages.leaderboard.actions}
         >
           <Link className="primary-action" href="/">
-            Volver al arcade
+            {messages.games.backToArcade}
           </Link>
           {isError && result.error.retryable ? (
             <Link className="secondary-action" href="/leaderboard">
-              Reintentar lectura
+              {messages.leaderboard.retry}
             </Link>
           ) : null}
         </nav>

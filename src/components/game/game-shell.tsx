@@ -1,18 +1,14 @@
+"use client";
+
 import type { ReactNode } from "react";
 
-import type {
-  GameCode,
-  PublicFeedback,
-  SessionStatus,
-} from "@antidoto/contracts";
+import type { GameCode, PublicFeedback, SessionStatus } from "@antidoto/contracts";
 
+import { useI18n } from "../../lib/i18n/provider";
 import { ArcadeHeader } from "../arcade/arcade-header";
 import { FeedbackPanel } from "./feedback-panel";
 
-export type GameProgress = Readonly<{
-  current: number;
-  total: number;
-}>;
+export type GameProgress = Readonly<{ current: number; total: number }>;
 
 export type GameShellProps = Readonly<{
   title: string;
@@ -29,50 +25,12 @@ export type GameShellProps = Readonly<{
   className?: string;
 }>;
 
-const STATUS_MESSAGES: Record<SessionStatus, string> = {
-  intro: "Instrucciones listas",
-  active: "Item listo para responder",
-  processing: "Procesando respuesta",
-  feedback: "Respuesta recibida",
-  expired: "Partida expirada",
-  finished: "Partida terminada",
-  invalid: "Estado no disponible",
-};
-
 function normalizeProgress(progress: GameProgress): Required<GameProgress> {
-  const total = Number.isFinite(progress.total)
-    ? Math.max(1, Math.floor(progress.total))
-    : 1;
+  const total = Number.isFinite(progress.total) ? Math.max(1, Math.floor(progress.total)) : 1;
   const current = Number.isFinite(progress.current)
     ? Math.min(total, Math.max(0, Math.floor(progress.current)))
     : 0;
   return { current, total };
-}
-
-function ProgressIndicator({ progress }: { progress: GameProgress }) {
-  const safeProgress = normalizeProgress(progress);
-  const label = `Progreso: ${safeProgress.current} de ${safeProgress.total}`;
-
-  return (
-    <div className="game-shell__progress">
-      <p className="progress-label">{label}</p>
-      <div
-        className="progress-track"
-        role="progressbar"
-        aria-label="Progreso de la partida"
-        aria-valuemin={0}
-        aria-valuemax={safeProgress.total}
-        aria-valuenow={safeProgress.current}
-        aria-valuetext={label}
-      >
-        <span
-          style={{
-            width: `${(safeProgress.current / safeProgress.total) * 100}%`,
-          }}
-        />
-      </div>
-    </div>
-  );
 }
 
 export function GameShell({
@@ -89,10 +47,17 @@ export function GameShell({
   id = "game-shell",
   className,
 }: GameShellProps) {
+  const { messages } = useI18n();
   const titleId = `${id}-title`;
   const errorId = `${id}-error`;
   const shellClassName = ["game-shell", className].filter(Boolean).join(" ");
   const feedbackPending = Boolean(feedback);
+  const progressLabel = progress
+    ? (() => {
+        const safe = normalizeProgress(progress);
+        return `${messages.games.training === "MIL training" ? "Progress" : "Progreso"}: ${safe.current} ${messages.games.training === "MIL training" ? "of" : "de"} ${safe.total}`;
+      })()
+    : null;
 
   return (
     <>
@@ -110,18 +75,47 @@ export function GameShell({
         <header className="game-shell__header">
           <div className="game-shell__topline">
             <p className="game-shell__mission-sticker">
-              {gameCode ? `Misión / ${gameCode}` : "Entrenamiento MIL"}
+              {gameCode ? `${messages.games.mission} / ${gameCode}` : messages.games.training}
             </p>
             {status ? (
               <p className="game-shell__status" role="status" aria-live="polite">
                 <span aria-hidden="true">●</span>
-                {statusMessage ?? STATUS_MESSAGES[status]}
+                {statusMessage ?? (status === "processing"
+                  ? (messages.games.training === "MIL training" ? "Processing answer" : "Procesando respuesta")
+                  : status === "active"
+                    ? messages.games.missionInProgress
+                    : status === "feedback"
+                      ? (messages.games.training === "MIL training" ? "Answer received" : "Respuesta recibida")
+                      : status === "finished"
+                        ? messages.games.gameFinished
+                        : status === "expired"
+                          ? messages.games.gameExpired
+                          : messages.games.missionReady)}
               </p>
             ) : null}
           </div>
           {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
           <h1 id={titleId}>{title}</h1>
-          {progress ? <ProgressIndicator progress={progress} /> : null}
+          {progressLabel ? (
+            <div className="game-shell__progress">
+              <p className="progress-label">{progressLabel}</p>
+              <div
+                className="progress-track"
+                role="progressbar"
+                aria-label={messages.games.mission}
+                aria-valuemin={0}
+                aria-valuemax={normalizeProgress(progress as GameProgress).total}
+                aria-valuenow={normalizeProgress(progress as GameProgress).current}
+                aria-valuetext={progressLabel}
+              >
+                <span
+                  style={{
+                    width: `${(normalizeProgress(progress as GameProgress).current / normalizeProgress(progress as GameProgress).total) * 100}%`,
+                  }}
+                />
+              </div>
+            </div>
+          ) : null}
         </header>
 
         {error ? (
@@ -130,17 +124,11 @@ export function GameShell({
           </div>
         ) : null}
 
-        <section
-          className="game-shell__content"
-          hidden={feedbackPending}
-          inert={feedbackPending || undefined}
-        >
+        <section className="game-shell__content" hidden={feedbackPending} inert={feedbackPending || undefined}>
           {children}
         </section>
 
-        {feedback ? (
-          <FeedbackPanel feedback={feedback} nextAction={nextAction} />
-        ) : null}
+        {feedback ? <FeedbackPanel feedback={feedback} nextAction={nextAction} /> : null}
       </main>
     </>
   );

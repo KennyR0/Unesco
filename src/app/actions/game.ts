@@ -83,7 +83,7 @@ export async function startGrupoGameFormAction(
 
   if (!result.ok) {
     redirect(
-      `/games/grupo?startError=${encodeURIComponent(result.error.message)}`,
+      `/games/grupo?startErrorCode=${encodeURIComponent(result.error.code)}`,
     );
   }
 

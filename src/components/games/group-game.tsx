@@ -5,6 +5,8 @@ import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 
 import type { PublicItem } from "@antidoto/contracts";
 
+import { useI18n } from "../../lib/i18n/provider";
+
 export type GroupItem = Extract<PublicItem, { gameCode: "grupo" }>;
 export type GroupActionValue = GroupItem["actions"][number];
 
@@ -18,18 +20,6 @@ export type GroupGameProps = Readonly<{
   selectedAction?: GroupActionValue | null;
   disabled?: boolean;
 }>;
-
-const ACTION_LABELS: Record<GroupActionValue, string> = {
-  forward: "Reenviar",
-  verify: "Verificar",
-  pause: "Frenar",
-};
-
-const ACTION_DESCRIPTIONS: Record<GroupActionValue, string> = {
-  forward: "Amplifica sin comprobar",
-  verify: "Contrasta y corrige",
-  pause: "Detiene la cadena",
-};
 
 const SENDER_COLORS = [
   "group-chat__avatar--magenta",
@@ -64,6 +54,9 @@ export function GroupGame({
   selectedAction = null,
   disabled = false,
 }: GroupGameProps) {
+  const { locale, messages } = useI18n();
+  const actionLabels = messages.games.groupActions;
+  const actionDescriptions = messages.games.groupActionDescriptions;
   const [pendingAction, setPendingAction] = useState<GroupActionValue | null>(null);
   const threadRef = useRef<HTMLOListElement | null>(null);
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -161,7 +154,7 @@ export function GroupGame({
       <div
         className="group-chat__controls"
         role="group"
-        aria-label="Acciones de cuidado"
+        aria-label={locale === "en" ? "Care actions" : "Acciones de cuidado"}
       >
         {item.actions.map((action, index) => {
           const chosen = selectedAction === action;
@@ -187,10 +180,10 @@ export function GroupGame({
               onKeyDown={(event) => handleKeyDown(event, index)}
             >
               <span className="group-chat__button-label">
-                {ACTION_LABELS[action]}
+                {actionLabels[action]}
               </span>
               <span className="group-chat__button-description">
-                {ACTION_DESCRIPTIONS[action]}
+                {actionDescriptions[action]}
               </span>
             </button>
           );
@@ -205,7 +198,7 @@ export function GroupGame({
       >
         {selectedAction === null
           ? ""
-          : `Elegiste ${ACTION_LABELS[selectedAction]}.`}
+          : `${locale === "en" ? "You chose" : "Elegiste"} ${messages.games.groupActions[selectedAction]}.`}
       </p>
     </section>
   );

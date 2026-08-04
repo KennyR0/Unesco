@@ -11,6 +11,8 @@ import {
 
 import type { PublicItem } from "@antidoto/contracts";
 
+import { useI18n } from "../../lib/i18n/provider";
+
 export type ClickbaitSwipeItem = Extract<
   PublicItem,
   { gameCode: "clickbait-swipe" }
@@ -76,6 +78,7 @@ export function ClickbaitSwipeGame({
   selectedClassification = null,
   disabled = false,
 }: ClickbaitSwipeGameProps) {
+  const { locale } = useI18n();
   const [drag, setDrag] = useState<DragState | null>(null);
   const [offsetX, setOffsetX] = useState(0);
   const [pendingSource, setPendingSource] = useState<ClassificationSource | null>(
@@ -258,10 +261,10 @@ export function ClickbaitSwipeGame({
               onClick={() => commitSelection(action, "button")}
             >
               <span className="headline-swipe__button-label">
-                {CLASSIFICATION_LABELS[action]}
+                {locale === "en" && action === "journalism" ? "Journalism" : CLASSIFICATION_LABELS[action]}
               </span>
               <span className="headline-swipe__button-hint">
-                {CLASSIFICATION_HINTS[action]}
+                {locale === "en" ? (action === "journalism" ? "Drag left or press ←" : "Drag right or press →") : CLASSIFICATION_HINTS[action]}
               </span>
             </button>
           );
@@ -276,7 +279,7 @@ export function ClickbaitSwipeGame({
       >
         {selectedClassification === null
           ? ""
-          : `Clasificaste ${CLASSIFICATION_LABELS[selectedClassification]} mediante ${describeSource(
+          : `${locale === "en" ? "You classified" : "Clasificaste"} ${locale === "en" && selectedClassification === "journalism" ? "Journalism" : CLASSIFICATION_LABELS[selectedClassification]} ${locale === "en" ? "using" : "mediante"} ${describeSource(
               pendingSource ?? "button",
             )}.`}
       </p>
