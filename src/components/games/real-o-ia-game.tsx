@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import type { KeyboardEvent as ReactKeyboardEvent } from "react";
 
 import type { PublicItem } from "@antidoto/contracts";
@@ -11,7 +11,6 @@ import { useI18n } from "../../lib/i18n/provider";
 export type RealOrIaItem = Extract<PublicItem, { gameCode: "real-o-ia" }>;
 export type VerdictChoice = RealOrIaItem["choices"][number];
 
-const DEFAULT_FALLBACK_TEXT = "La imagen no está disponible; puedes responder con el texto del caso.";
 const MOBILE_FIRST_SIZES = "(max-width: 480px) 100vw, (max-width: 768px) 100vw, 640px";
 
 export type RealOrIaGameProps = Readonly<{
@@ -32,22 +31,20 @@ function buildSrcSet(srcSet: RealOrIaItem["media"]["srcSet"] | undefined): strin
 }
 
 export function RealOrIaGame({ item, onVerdict, selectedVerdict = null, disabled = false, priority = false }: RealOrIaGameProps) {
-  const { locale } = useI18n();
+  const { messages } = useI18n();
+  const chrome = messages.chrome;
   const choiceLabels: Record<VerdictChoice, string> = {
-    real: "Real",
-    ai: locale === "en" ? "AI-generated" : "Generada por IA",
+    real: chrome.real,
+    ai: chrome.aiGenerated,
   };
-  const [imageFailed, setImageFailed] = useState(false);
+  const [failedImageKey, setFailedImageKey] = useState<string | null>(null);
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const promptId = `real-o-ia-${item.itemId}-prompt`;
   const controlsDisabled = disabled || selectedVerdict !== null;
   const { media } = item;
-  const showFallback = imageFailed || media.kind === "none" || media.src === null;
+  const imageKey = `${item.itemId}:${media.src ?? "none"}`;
+  const showFallback = failedImageKey === imageKey || media.kind === "none" || media.src === null;
   const responsiveSrcSet = buildSrcSet(media.srcSet);
-
-  useEffect(() => {
-    setImageFailed(false);
-  }, [item.itemId, media.src]);
 
   function focusSibling(currentIndex: number, direction: 1 | -1) {
     const total = item.choices.length;
@@ -61,11 +58,11 @@ export function RealOrIaGame({ item, onVerdict, selectedVerdict = null, disabled
 
   return (
     <section className="verdict-game" aria-labelledby={promptId}>
-      <p className="verdict-game__context"><span className="verdict-game__context-label">{locale === "en" ? "Shared as" : "Se comparte como"}</span>{item.context}</p>
+      <p className="verdict-game__context"><span className="verdict-game__context-label">{chrome.sharedAs}</span>{item.context}</p>
       <figure className="verdict-game__frame">
         {showFallback ? (
           <p className="image-fallback" role="status">
-            {media.fallbackText ?? (locale === "en" ? "The image is unavailable; you can answer using the case text." : DEFAULT_FALLBACK_TEXT)}
+            {media.fallbackText ?? chrome.imageUnavailable}
           </p>
         ) : responsiveSrcSet ? (
           // eslint-disable-next-line @next/next/no-img-element -- static responsive srcSet is part of the media contract.
@@ -80,7 +77,7 @@ export function RealOrIaGame({ item, onVerdict, selectedVerdict = null, disabled
             decoding="async"
             loading={priority ? "eager" : "lazy"}
             fetchPriority={priority ? "high" : "auto"}
-            onError={() => setImageFailed(true)}
+            onError={() => setFailedImageKey(imageKey)}
           />
         ) : (
           <Image
@@ -91,12 +88,12 @@ export function RealOrIaGame({ item, onVerdict, selectedVerdict = null, disabled
             sizes={MOBILE_FIRST_SIZES}
             className="verdict-game__image"
             priority={priority}
-            onError={() => setImageFailed(true)}
+            onError={() => setFailedImageKey(imageKey)}
           />
         )}
       </figure>
       <h2 id={promptId} className="verdict-game__prompt">{item.prompt}</h2>
-      <div className="verdict-game__controls" role="group" aria-label={locale === "en" ? "Verdict options" : "Opciones de veredicto"}>
+      <div className="verdict-game__controls" role="group" aria-label={chrome.verdictOptions}>
         {item.choices.map((choice, index) => {
           const chosen = selectedVerdict === choice;
           return (
@@ -106,7 +103,7 @@ export function RealOrIaGame({ item, onVerdict, selectedVerdict = null, disabled
           );
         })}
       </div>
-      <p className="visually-hidden" role="status" aria-live="polite">{selectedVerdict === null ? "" : `${locale === "en" ? "You chose" : "Elegiste"}: ${choiceLabels[selectedVerdict]}.`}</p>
+      <p className="visually-hidden" role="status" aria-live="polite">{selectedVerdict === null ? "" : `${chrome.youChose}: ${choiceLabels[selectedVerdict]}.`}</p>
     </section>
   );
 }

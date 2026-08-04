@@ -11,6 +11,7 @@ import {
 
 import type { PublicItem } from "@antidoto/contracts";
 
+import type { Messages } from "../../lib/i18n/i18n";
 import { useI18n } from "../../lib/i18n/provider";
 
 export type ClickbaitSwipeItem = Extract<
@@ -33,16 +34,6 @@ export type ClickbaitSwipeGameProps = Readonly<{
   disabled?: boolean;
 }>;
 
-const CLASSIFICATION_LABELS: Record<HeadlineClassificationValue, string> = {
-  journalism: "Periodismo",
-  clickbait: "Clickbait",
-};
-
-const CLASSIFICATION_HINTS: Record<HeadlineClassificationValue, string> = {
-  journalism: "Arrastra a la izquierda o pulsa ←",
-  clickbait: "Arrastra a la derecha o pulsa →",
-};
-
 const SWIPE_THRESHOLD_PX = 96;
 const SWIPE_SLOP_PX = 4;
 
@@ -56,14 +47,17 @@ function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
 
-function describeSource(source: ClassificationSource): string {
+function describeSource(
+  source: ClassificationSource,
+  chrome: Messages["chrome"],
+): string {
   switch (source) {
     case "swipe":
-      return "gesto";
+      return chrome.sourceSwipe;
     case "button":
-      return "botón";
+      return chrome.sourceButton;
     case "keyboard":
-      return "teclado";
+      return chrome.sourceKeyboard;
   }
 }
 
@@ -78,7 +72,16 @@ export function ClickbaitSwipeGame({
   selectedClassification = null,
   disabled = false,
 }: ClickbaitSwipeGameProps) {
-  const { locale } = useI18n();
+  const { messages } = useI18n();
+  const chrome = messages.chrome;
+  const classificationLabels: Record<HeadlineClassificationValue, string> = {
+    journalism: chrome.journalism,
+    clickbait: chrome.clickbaitLabel,
+  };
+  const classificationHints: Record<HeadlineClassificationValue, string> = {
+    journalism: chrome.dragLeft,
+    clickbait: chrome.dragRight,
+  };
   const [drag, setDrag] = useState<DragState | null>(null);
   const [offsetX, setOffsetX] = useState(0);
   const [pendingSource, setPendingSource] = useState<ClassificationSource | null>(
@@ -187,7 +190,7 @@ export function ClickbaitSwipeGame({
       aria-describedby={feedbackId}
     >
       <p className="headline-swipe__context">
-        <span className="headline-swipe__context-label">Se publica desde</span>
+        <span className="headline-swipe__context-label">{chrome.publishedFrom}</span>
         {item.sourceLabel}
       </p>
 
@@ -200,7 +203,7 @@ export function ClickbaitSwipeGame({
           ref={cardRef}
           tabIndex={-1}
           role="group"
-          aria-roledescription="Tarjeta clasificable"
+          aria-roledescription={chrome.classifiableCard}
           aria-labelledby={headlineId}
           aria-grabbed={dragging}
           className={[
@@ -218,7 +221,7 @@ export function ClickbaitSwipeGame({
           onPointerCancel={handlePointerCancel}
           onKeyDown={handleCardKeyDown}
         >
-          <p className="headline-swipe__kicker">Titular a clasificar</p>
+          <p className="headline-swipe__kicker">{chrome.headlineToClassify}</p>
           <p id={headlineId} className="headline-swipe__headline">
             {item.headline}
           </p>
@@ -229,9 +232,7 @@ export function ClickbaitSwipeGame({
           </div>
 
           <p className="headline-swipe__cancel-note">
-            {dragging && !readyToCommit
-              ? "Suelta aquí para cancelar; cruza la marca para enviar."
-              : "Suelta más allá de la marca para enviar."}
+            {dragging && !readyToCommit ? chrome.dropToCancel : chrome.dropToSubmit}
           </p>
         </article>
       </div>
@@ -239,7 +240,7 @@ export function ClickbaitSwipeGame({
       <div
         className="headline-swipe__controls"
         role="group"
-        aria-label="Opciones de clasificación"
+        aria-label={chrome.classificationOptions}
       >
         {item.actions.map((action) => {
           const chosen = selectedClassification === action;
@@ -261,10 +262,10 @@ export function ClickbaitSwipeGame({
               onClick={() => commitSelection(action, "button")}
             >
               <span className="headline-swipe__button-label">
-                {locale === "en" && action === "journalism" ? "Journalism" : CLASSIFICATION_LABELS[action]}
+                {classificationLabels[action]}
               </span>
               <span className="headline-swipe__button-hint">
-                {locale === "en" ? (action === "journalism" ? "Drag left or press ←" : "Drag right or press →") : CLASSIFICATION_HINTS[action]}
+                {classificationHints[action]}
               </span>
             </button>
           );
@@ -279,8 +280,9 @@ export function ClickbaitSwipeGame({
       >
         {selectedClassification === null
           ? ""
-          : `${locale === "en" ? "You classified" : "Clasificaste"} ${locale === "en" && selectedClassification === "journalism" ? "Journalism" : CLASSIFICATION_LABELS[selectedClassification]} ${locale === "en" ? "using" : "mediante"} ${describeSource(
+          : `${chrome.youClassified} ${classificationLabels[selectedClassification]} ${chrome.usingVia} ${describeSource(
               pendingSource ?? "button",
+              chrome,
             )}.`}
       </p>
     </section>

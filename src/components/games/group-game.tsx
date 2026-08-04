@@ -54,7 +54,7 @@ export function GroupGame({
   selectedAction = null,
   disabled = false,
 }: GroupGameProps) {
-  const { locale, messages } = useI18n();
+  const { messages } = useI18n();
   const actionLabels = messages.games.groupActions;
   const actionDescriptions = messages.games.groupActionDescriptions;
   const [pendingAction, setPendingAction] = useState<GroupActionValue | null>(null);
@@ -117,7 +117,7 @@ export function GroupGame({
       </h2>
 
       <p id={threadLabelId} className="group-chat__thread-label">
-        Mensajes en orden
+        {messages.chrome.messagesInOrder}
       </p>
 
       <ol
@@ -154,7 +154,7 @@ export function GroupGame({
       <div
         className="group-chat__controls"
         role="group"
-        aria-label={locale === "en" ? "Care actions" : "Acciones de cuidado"}
+        aria-label={messages.chrome.careActions}
       >
         {item.actions.map((action, index) => {
           const chosen = selectedAction === action;
@@ -198,7 +198,7 @@ export function GroupGame({
       >
         {selectedAction === null
           ? ""
-          : `${locale === "en" ? "You chose" : "Elegiste"} ${messages.games.groupActions[selectedAction]}.`}
+          : `${messages.chrome.youChose} ${actionLabels[selectedAction]}.`}
       </p>
     </section>
   );

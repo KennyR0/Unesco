@@ -25,18 +25,6 @@ export type SourceRadarGameProps = Readonly<{
   disabled?: boolean;
 }>;
 
-const CATEGORY_LABELS: Record<SourceCategoryValue, string> = {
-  reliable: "Confiable",
-  doubtful: "Dudosa",
-  fraudulent: "Fraudulenta",
-};
-
-const CATEGORY_DESCRIPTIONS: Record<SourceCategoryValue, string> = {
-  reliable: "Verificable, con autor y rendición de cuentas",
-  doubtful: "Opinión, sátira o información incompleta",
-  fraudulent: "Engaño deliberado: suplantación o estafa",
-};
-
 /**
  * Radar de Fuentes: una fuente y tres categorías seleccionables.
  * La URL visible es la señal principal; el foco se gestiona con flechas y la
@@ -48,7 +36,18 @@ export function SourceRadarGame({
   selectedCategory = null,
   disabled = false,
 }: SourceRadarGameProps) {
-  const { locale } = useI18n();
+  const { messages } = useI18n();
+  const chrome = messages.chrome;
+  const categoryLabels: Record<SourceCategoryValue, string> = {
+    reliable: chrome.reliable,
+    doubtful: chrome.doubtful,
+    fraudulent: chrome.fraudulent,
+  };
+  const categoryDescriptions: Record<SourceCategoryValue, string> = {
+    reliable: chrome.reliableHint,
+    doubtful: chrome.doubtfulHint,
+    fraudulent: chrome.fraudulentHint,
+  };
   const [pendingCategory, setPendingCategory] =
     useState<SourceCategoryValue | null>(null);
   const cardRef = useRef<HTMLDivElement | null>(null);
@@ -115,7 +114,7 @@ export function SourceRadarGame({
         ref={cardRef}
         tabIndex={-1}
         role="group"
-        aria-roledescription="Tarjeta de fuente"
+        aria-roledescription={chrome.sourceCard}
         aria-labelledby={sourceLabelId}
         aria-describedby={`${urlLabelId} ${descriptionId}`}
         className={[
@@ -139,7 +138,7 @@ export function SourceRadarGame({
       <div
         className="source-radar__controls"
         role="group"
-        aria-label="Categorías del radar"
+        aria-label={chrome.radarCategories}
       >
         {item.categories.map((category, index) => {
           const chosen = selectedCategory === category;
@@ -165,14 +164,10 @@ export function SourceRadarGame({
               onKeyDown={(event) => handleKeyDown(event, index)}
             >
               <span className="source-radar__button-label">
-                {locale === "en"
-                  ? ({ reliable: "Reliable", doubtful: "Doubtful", fraudulent: "Fraudulent" } as const)[category]
-                  : CATEGORY_LABELS[category]}
+                {categoryLabels[category]}
               </span>
               <span className="source-radar__button-description">
-                {locale === "en"
-                  ? ({ reliable: "Verifiable, with an author and accountability", doubtful: "Opinion, satire, or incomplete information", fraudulent: "Deliberate deception: impersonation or fraud" } as const)[category]
-                  : CATEGORY_DESCRIPTIONS[category]}
+                {categoryDescriptions[category]}
               </span>
             </button>
           );
@@ -187,7 +182,7 @@ export function SourceRadarGame({
       >
         {selectedCategory === null
           ? ""
-          : `${locale === "en" ? "You classified" : "Clasificaste"} ${locale === "en" ? ({ reliable: "Reliable", doubtful: "Doubtful", fraudulent: "Fraudulent" } as const)[selectedCategory] : CATEGORY_LABELS[selectedCategory]}.`}
+          : `${chrome.youClassified} ${categoryLabels[selectedCategory]}.`}
       </p>
     </section>
   );

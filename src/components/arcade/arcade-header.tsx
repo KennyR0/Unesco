@@ -26,8 +26,8 @@ export function ArcadeHeader({ home = false }: ArcadeHeaderProps) {
         >
           <span className="arcade-header__mark" aria-hidden="true">A!</span>
           <span>
-            <strong>ANTÍDOTO</strong>
-            <small>Arcade MIL</small>
+            <strong>{messages.chrome.brandMark}</strong>
+            <small>{messages.chrome.brandSub}</small>
           </span>
         </Link>
 

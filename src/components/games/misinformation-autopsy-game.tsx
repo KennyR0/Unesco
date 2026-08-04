@@ -49,13 +49,6 @@ export type MisinformationAutopsyGameProps = Readonly<{
   educationalDisclaimer?: string | null;
 }>;
 
-const STEP_LABELS: Record<AutopsyStepKind, string> = {
-  objective: "Objetivo",
-  emotion: "Emoción",
-  headline: "Titular",
-  evidence: "Prueba",
-};
-
 const TOTAL_STEPS_DEFAULT = 4;
 
 function clampReach(value: number): number {
@@ -80,10 +73,14 @@ export function MisinformationAutopsyGame({
   fictionalComments = [],
   educationalDisclaimer = null,
 }: MisinformationAutopsyGameProps) {
-  const { locale } = useI18n();
-  const stepLabels: Record<AutopsyStepKind, string> = locale === "en"
-    ? { objective: "Objective", emotion: "Emotion", headline: "Headline", evidence: "Evidence" }
-    : STEP_LABELS;
+  const { messages } = useI18n();
+  const chrome = messages.chrome;
+  const stepLabels: Record<AutopsyStepKind, string> = {
+    objective: chrome.stepObjective,
+    emotion: chrome.stepEmotion,
+    headline: chrome.stepHeadline,
+    evidence: chrome.stepEvidence,
+  };
   const [pendingOptionId, setPendingOptionId] = useState<string | null>(null);
   const stepRef = useRef<HTMLHeadingElement | null>(null);
   const autopsyRef = useRef<HTMLElement | null>(null);
@@ -177,13 +174,13 @@ export function MisinformationAutopsyGame({
       className="mente-maestra"
       data-game-code="mente-maestra"
       aria-labelledby={item ? promptId : undefined}
-      aria-label={item ? undefined : "Mente Maestra"}
+      aria-label={item ? undefined : chrome.mastermindLabel}
       aria-describedby={`${progressId} ${selectionStatusId}`}
     >
       <p id={progressId} className="mente-maestra__progress">
         {item
-          ? `${locale === "en" ? "Step" : "Paso"} ${currentStepNumber} ${locale === "en" ? "of" : "de"} ${totalSteps}: ${stepLabels[item.step]}`
-          : `${locale === "en" ? "Complete simulation" : "Simulación completa"} · ${totalSteps} ${locale === "en" ? "steps" : "pasos"}`}
+          ? chrome.stepOf(currentStepNumber, totalSteps, stepLabels[item.step])
+          : chrome.completeSimulation(totalSteps)}
       </p>
 
       {sessionSelections.length > 0 ? (
@@ -192,7 +189,7 @@ export function MisinformationAutopsyGame({
           aria-labelledby={sessionId}
         >
           <h3 id={sessionId} className="mente-maestra__session-title">
-            Selecciones de esta sesión
+            {chrome.sessionSelections}
           </h3>
           <ol className="mente-maestra__session-list">
             {sessionSelections.map((selection) => (
@@ -223,7 +220,7 @@ export function MisinformationAutopsyGame({
           <div
             className="mente-maestra__options"
             role="group"
-            aria-label={`${locale === "en" ? "Options for" : "Opciones del paso"} ${stepLabels[item.step]}`}
+            aria-label={chrome.optionsFor(stepLabels[item.step])}
           >
             {item.options.map((option, index) => {
               const chosen =
@@ -268,7 +265,7 @@ export function MisinformationAutopsyGame({
         role="status"
         aria-live="polite"
       >
-        {selectedLabel ? `Elegiste ${selectedLabel}.` : ""}
+        {selectedLabel ? `${chrome.youChose} ${selectedLabel}.` : ""}
       </p>
 
       {showAutopsy ? (
@@ -279,13 +276,12 @@ export function MisinformationAutopsyGame({
           tabIndex={-1}
           aria-labelledby={autopsyTitleId}
         >
-          <p className="mente-maestra__kicker">{locale === "en" ? "Educational simulation" : "Simulación educativa"}</p>
+          <p className="mente-maestra__kicker">{chrome.educationalSimulation}</p>
           <h2 id={autopsyTitleId} className="mente-maestra__autopsy-title">
-            {locale === "en" ? "Autopsy of your fake news" : "Autopsia de tu fake news"}
+            {chrome.autopsyOfFakeNews}
           </h2>
           <p className="mente-maestra__disclaimer">
-            {educationalDisclaimer ??
-              (locale === "en" ? "Educational simulation: no external content is published and no real account is created. Simulated reach explains the mechanism; it is not a prize." : "Simulación educativa: no se publica contenido externo ni se crea una cuenta real. El alcance simulado explica el mecanismo; no es un premio.")}
+            {educationalDisclaimer ?? chrome.autopsyDisclaimerDefault}
           </p>
 
           {reachValue !== null ? (
@@ -294,9 +290,9 @@ export function MisinformationAutopsyGame({
               aria-labelledby={reachId}
             >
               <div className="mente-maestra__reach-meta">
-                <span id={reachId}>{locale === "en" ? "Simulated reach" : "Alcance simulado"}</span>
+                <span id={reachId}>{chrome.simulatedReach}</span>
                 <span className="mente-maestra__reach-value">
-                  {reachValue} {locale === "en" ? "of" : "de"} 95
+                  {chrome.reachOf(reachValue)}
                 </span>
               </div>
               <div
@@ -305,21 +301,19 @@ export function MisinformationAutopsyGame({
                 aria-valuemin={65}
                 aria-valuemax={95}
                 aria-valuenow={reachValue}
-                aria-label={locale === "en" ? "Simulated reach meter" : "Medidor de alcance simulado"}
+                aria-label={chrome.reachMeter}
               >
                 <span
                   className="mente-maestra__reach-fill"
                   style={{ width: `${reachPercent}%` }}
                 />
               </div>
-              <p className="mente-maestra__reach-note">
-                {locale === "en" ? "This meter is fictional and does not add points. Nothing is published externally." : "Este medidor es ficticio y no suma puntos. No hay publicación externa."}
-              </p>
+              <p className="mente-maestra__reach-note">{chrome.reachNote}</p>
             </div>
           ) : null}
 
           {fictionalComments.length > 0 ? (
-            <ul className="mente-maestra__comments" aria-label={locale === "en" ? "Fictional comments" : "Comentarios ficticios"}>
+            <ul className="mente-maestra__comments" aria-label={chrome.fictionalCommentsLabel}>
               {fictionalComments.map((comment) => (
                 <li key={comment} className="mente-maestra__comment">
                   {comment}
@@ -348,7 +342,7 @@ export function MisinformationAutopsyGame({
           ) : null}
 
           <p className="mente-maestra__no-publish" role="status">
-            {locale === "en" ? "Nothing was published outside this simulation." : "No se publicó nada fuera de esta simulación."}
+            {chrome.nothingPublished}
           </p>
         </section>
       ) : null}

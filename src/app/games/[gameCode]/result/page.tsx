@@ -8,7 +8,7 @@ import { ResultCard } from "../../../../components/game/result-card";
 import { SecureStateView } from "../../../../components/game/secure-state-view";
 import { getArcadeGameResultServer } from "../../../../features/game/application/server-operations";
 import { listAvailableArcadeCatalog, requireArcadeCatalogEntry } from "../../../../features/game/content/catalog";
-import { getLocalizedCatalog } from "../../../../lib/i18n/content";
+import { getLocalizedCatalog, localizeGameResult } from "../../../../lib/i18n/content";
 import { getMessages } from "../../../../lib/i18n/i18n";
 import { getServerLocale } from "../../../../lib/i18n/server";
 import { localizeErrorMessage } from "../../../../lib/i18n/errors";
@@ -61,7 +61,7 @@ export default async function GameResultPage({ params }: GameResultPageProps) {
   if (result.data.gameCode !== game.gameCode) return <SecureStateView gameCode={game.gameCode} reason="invalid" canClear />;
   return (
     <GameShell title={localizedGame.name} gameCode={game.gameCode} eyebrow={messages.result.result} status={result.data.status === "finished" ? "finished" : "expired"} statusMessage={result.data.status === "finished" ? messages.games.gameFinished : messages.games.gameExpired} className="game-route game-route--result">
-      <ResultCard result={result.data} gameName={localizedGame.name} />
+      <ResultCard result={localizeGameResult(result.data, locale)} gameName={localizedGame.name} />
     </GameShell>
   );
 }

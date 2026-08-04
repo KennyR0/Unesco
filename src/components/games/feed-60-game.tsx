@@ -30,18 +30,6 @@ export type FeedTimerGameProps = Readonly<{
   disabled?: boolean;
 }>;
 
-const ACTION_LABELS: Record<FeedActionValue, string> = {
-  verify: "Verificar",
-  share: "Compartir",
-  discard: "Descartar",
-};
-
-const ACTION_HINTS: Record<FeedActionValue, string> = {
-  verify: `−4 s para revisar las pistas SIFT`,
-  share: "Amplifica si es oficial o útil",
-  discard: "Frena lo falso, reciclado o satírico",
-};
-
 /** Segundos restantes a partir de los que se anuncia el aviso anticipado. */
 const EARLY_WARNING_SECONDS = 10;
 const TICK_MS = 200;
@@ -71,13 +59,18 @@ export function FeedTimerGame({
   expired = false,
   disabled = false,
 }: FeedTimerGameProps) {
-  const { locale } = useI18n();
-  const actionLabels = locale === "en"
-    ? { verify: "Verify", share: "Share", discard: "Discard" }
-    : ACTION_LABELS;
-  const actionHints = locale === "en"
-    ? { verify: "−4 s to review SIFT clues", share: "Amplify if it is official or useful", discard: "Stop what is false, recycled, or satirical" }
-    : ACTION_HINTS;
+  const { messages } = useI18n();
+  const chrome = messages.chrome;
+  const actionLabels: Record<FeedActionValue, string> = {
+    verify: chrome.verify,
+    share: chrome.share,
+    discard: chrome.discard,
+  };
+  const actionHints: Record<FeedActionValue, string> = {
+    verify: chrome.verifyHint,
+    share: chrome.shareHint,
+    discard: chrome.discardHint,
+  };
   const [motionPaused, setMotionPaused] = useState(false);
   const authoritativeSeconds = clampSeconds(remainingSeconds);
   const [clockSource, setClockSource] = useState(() => ({
@@ -193,7 +186,7 @@ export function FeedTimerGame({
     >
       <div className="feed-timer__meta">
         <p className="feed-timer__source">
-          <span className="feed-timer__source-label">Desde</span>
+          <span className="feed-timer__source-label">{chrome.fromLabel}</span>
           {item.sourceLabel}
         </p>
 
@@ -210,7 +203,7 @@ export function FeedTimerGame({
           aria-live="polite"
           aria-atomic="true"
         >
-          <span className="feed-timer__clock-label">Tiempo restante</span>
+          <span className="feed-timer__clock-label">{chrome.timeRemaining}</span>
           <span className="feed-timer__clock-value">
             {showExpiredState ? "0 s" : formatSeconds(displaySeconds)}
           </span>
@@ -226,12 +219,12 @@ export function FeedTimerGame({
 
       {showEarlyWarning ? (
         <p className="feed-timer__warning" role="alert">
-          Quedan {formatSeconds(displaySeconds)}. Decide o la partida expira.
+          {chrome.earlyWarning(formatSeconds(displaySeconds))}
         </p>
       ) : null}
 
       <article className="feed-timer__post">
-        <p className="feed-timer__kicker">Publicación {item.itemId.slice(-3)}</p>
+        <p className="feed-timer__kicker">{chrome.postNumber(item.itemId.slice(-3))}</p>
         <h2 id={promptId} ref={promptRef} className="feed-timer__prompt">
           {item.prompt}
         </h2>
@@ -243,9 +236,9 @@ export function FeedTimerGame({
           id={hintsId}
           className="feed-timer__hints"
           role="region"
-          aria-label="Pistas de verificación SIFT"
+          aria-label={chrome.siftHints}
         >
-          <p className="feed-timer__hints-title">Verificación rápida · SIFT</p>
+          <p className="feed-timer__hints-title">{chrome.quickSift}</p>
           <ul className="feed-timer__hints-list">
             {verificationHints.map((hint) => (
               <li key={hint} className="feed-timer__hint">
@@ -258,15 +251,14 @@ export function FeedTimerGame({
 
       {showExpiredState ? (
         <p className="feed-timer__expired" role="alert">
-          El tiempo se agotó. La partida expiró y la última decisión aceptada
-          conserva su feedback.
+          {chrome.timeExpiredBody}
         </p>
       ) : null}
 
       <div
         className="feed-timer__controls"
         role="group"
-        aria-label="Acciones del feed"
+        aria-label={chrome.feedActions}
       >
         <button
           type="button"
@@ -329,19 +321,18 @@ export function FeedTimerGame({
         aria-live="polite"
       >
         {showExpiredState
-          ? "La partida expiró por tiempo."
+          ? chrome.expiredByTime
           : resolved
-            ? `Decisión aceptada: ${ACTION_LABELS[selectedAction as FeedActionValue]}.`
+            ? chrome.decisionAccepted(
+                actionLabels[selectedAction as FeedActionValue],
+              )
             : verified
-              ? "Verificación lista; revisa las pistas y decide."
+              ? chrome.verificationReady
               : ""}
       </p>
 
       {motionPaused ? (
-        <p className="feed-timer__motion-note">
-          La pausa visual no detiene el reloj: el tiempo autoritativo sigue
-          corriendo.
-        </p>
+        <p className="feed-timer__motion-note">{chrome.motionClockNote}</p>
       ) : null}
     </section>
   );

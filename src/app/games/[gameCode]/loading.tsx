@@ -10,7 +10,7 @@ export default function Loading() {
       <ArcadeHeader />
       <main id="main-content" className="game-shell game-route__loading" aria-busy="true">
         <header className="game-shell__header">
-          <p className="game-shell__mission-sticker">Antídoto / Arcade MIL</p>
+          <p className="game-shell__mission-sticker">{messages.chrome.brandEyebrow}</p>
           <h1 id="game-loading-title">{messages.state.gameLoadingTitle}</h1>
           <p className="game-shell__status" role="status" aria-live="polite"><span aria-hidden="true">●</span> {messages.state.gameLoadingBody}</p>
         </header>

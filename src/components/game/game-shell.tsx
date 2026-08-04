@@ -55,7 +55,7 @@ export function GameShell({
   const progressLabel = progress
     ? (() => {
         const safe = normalizeProgress(progress);
-        return `${messages.games.training === "MIL training" ? "Progress" : "Progreso"}: ${safe.current} ${messages.games.training === "MIL training" ? "of" : "de"} ${safe.total}`;
+        return messages.chrome.progress(safe.current, safe.total);
       })()
     : null;
 
@@ -81,11 +81,11 @@ export function GameShell({
               <p className="game-shell__status" role="status" aria-live="polite">
                 <span aria-hidden="true">●</span>
                 {statusMessage ?? (status === "processing"
-                  ? (messages.games.training === "MIL training" ? "Processing answer" : "Procesando respuesta")
+                  ? messages.chrome.processingAnswer
                   : status === "active"
                     ? messages.games.missionInProgress
                     : status === "feedback"
-                      ? (messages.games.training === "MIL training" ? "Answer received" : "Respuesta recibida")
+                      ? messages.chrome.answerReceived
                       : status === "finished"
                         ? messages.games.gameFinished
                         : status === "expired"

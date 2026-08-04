@@ -12,7 +12,7 @@ import {
   submitGameActionAction,
 } from "../../app/actions/game";
 import type { GameStateWithCompanion } from "../../features/game/infrastructure/session-companion";
-import { localizeGameState, localizePublicItem } from "../../lib/i18n/content";
+import { localizeGameState } from "../../lib/i18n/content";
 import { useI18n } from "../../lib/i18n/provider";
 import { localizeErrorMessage } from "../../lib/i18n/errors";
 import {
@@ -74,9 +74,11 @@ export function ArcadePlaySession({
   const provisionalScore = !isIntro ? state.provisionalScore : null;
   const isFinished = !isIntro && state.nextAction === "result";
   const feedCompanion =
-    state?.companion?.kind === "feed-60" ? state.companion : null;
+    localizedState?.companion?.kind === "feed-60" ? localizedState.companion : null;
   const autopsyCompanion =
-    state?.companion?.kind === "mente-maestra" ? state.companion : null;
+    localizedState?.companion?.kind === "mente-maestra"
+      ? localizedState.companion
+      : null;
 
   function statusMessageFor(current: GameState | null): string {
     if (!current) return messages.games.missionReady;
@@ -86,7 +88,7 @@ export function ArcadePlaySession({
       case "active":
         return messages.games.scene(current.position + 1, current.total).replace(/^Scene /, `${itemNoun} `).replace(/^Escena /, `${itemNoun} `);
       case "processing":
-        return locale === "en" ? "Processing answer" : "Procesando respuesta";
+        return messages.chrome.processingAnswer;
       case "feedback":
         return messages.feedback.accepted;
       case "expired":
@@ -273,7 +275,7 @@ export function ArcadePlaySession({
       <GameShell
         title={gameName}
         gameCode={gameCode}
-        eyebrow="Antídoto / Arcade MIL"
+        eyebrow={messages.chrome.brandEyebrow}
         status={state?.status}
         statusMessage={statusMessageFor(state)}
         error={error}
@@ -311,7 +313,7 @@ export function ArcadePlaySession({
     <GameShell
       title={gameName}
       gameCode={gameCode}
-      eyebrow="Antídoto / Arcade MIL"
+      eyebrow={messages.chrome.brandEyebrow}
       status={state.status}
       statusMessage={statusMessageFor(state)}
       progress={{
@@ -336,7 +338,7 @@ export function ArcadePlaySession({
     >
       {provisionalScore ? (
         <p>
-          {messages.result.points}: {provisionalScore.points} {locale === "en" ? "of" : "de"}{" "}
+          {messages.result.points}: {provisionalScore.points} {messages.chrome.ofWord}{" "}
           {provisionalScore.maxPoints}
         </p>
       ) : null}
