@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 export const PERFORMANCE_BUDGETS = {
-  interactionJsRecommendedBytes: 180 * 1024,
+  // Chrome bilingüe (es/en) en el shell; el hard de 200 KiB se mantiene.
+  interactionJsRecommendedBytes: 190 * 1024,
   interactionJsHardBytes: 200 * 1024,
   initialTransferBytes: 350 * 1024,
   actionPayloadBytes: 16 * 1024,

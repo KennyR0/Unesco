@@ -2,6 +2,13 @@ import { expect, test, type Page } from "@playwright/test";
 
 test.describe.configure({ mode: "serial" });
 
+test.beforeEach(() => {
+  test.skip(
+    process.env.PLAYWRIGHT_VISUAL_REGRESSION !== "true",
+    "La regresión visual requiere baselines Linux revisados y versionados.",
+  );
+});
+
 async function pauseBeforeLoad(page: Page) {
   await page.addInitScript(() => {
     localStorage.setItem("antidoto:motion:v1", "paused");

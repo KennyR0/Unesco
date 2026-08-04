@@ -18,13 +18,13 @@ jobs:
       CI: "true"
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Enable Corepack
         run: corepack enable
 
       - name: Set up Node.js 24
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 24.x
           cache: pnpm
@@ -55,10 +55,14 @@ jobs:
 
       - name: Run end-to-end tests
         run: pnpm test:e2e
+        env:
+          # next dev (Turbopack) provoca carreras RSC/JSON y omite el presupuesto de bundle.
+          PLAYWRIGHT_PERFORMANCE_PRODUCTION: "true"
+          PLAYWRIGHT_WEB_SERVER_COMMAND: pnpm start --hostname localhost
 
       - name: Upload Playwright artifacts
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: playwright-test-results
           path: test-results
@@ -73,13 +77,13 @@ jobs:
       CI: "true"
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Enable Corepack
         run: corepack enable
 
       - name: Set up Node.js 24
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 24.x
           cache: pnpm
