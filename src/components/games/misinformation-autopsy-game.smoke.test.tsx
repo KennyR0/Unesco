@@ -75,7 +75,9 @@ describe("MisinformationAutopsyGame (smoke T064)", () => {
     );
 
     expect(screen.getByText(/Selecciones de esta sesión/)).toBeVisible();
-    expect(screen.getByText(/Pánico sanitario/)).toBeVisible();
+    expect(
+      screen.getByText("Pánico sanitario", { selector: ".mente-maestra__session-label" }),
+    ).toBeVisible();
 
     await user.click(screen.getByRole("button", { name: /Miedo/ }));
     expect(onChoose).toHaveBeenCalledWith({ optionId: "emotion-fear" });

@@ -98,6 +98,13 @@ export function ClickbaitSwipeGame({
   const dragging = drag !== null;
   const progress = clamp(offsetX / SWIPE_THRESHOLD_PX, -1, 1);
   const readyToCommit = Math.abs(offsetX) >= SWIPE_THRESHOLD_PX;
+  // Direction tint must match category buttons: left/acid = journalism, right/magenta = clickbait.
+  const dragToward: HeadlineClassificationValue | null =
+    offsetX > SWIPE_SLOP_PX
+      ? "clickbait"
+      : offsetX < -SWIPE_SLOP_PX
+        ? "journalism"
+        : null;
 
   useEffect(() => {
     if (resolved) {
@@ -209,6 +216,7 @@ export function ClickbaitSwipeGame({
           className={[
             "headline-swipe__card",
             dragging ? "headline-swipe__card--dragging" : null,
+            dragToward ? `headline-swipe__card--toward-${dragToward}` : null,
             readyToCommit ? "headline-swipe__card--armed" : null,
             resolved ? "headline-swipe__card--resolved" : null,
           ]

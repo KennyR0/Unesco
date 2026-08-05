@@ -72,6 +72,7 @@ export function FeedTimerGame({
     discard: chrome.discardHint,
   };
   const [motionPaused, setMotionPaused] = useState(false);
+  const [failedImageKey, setFailedImageKey] = useState<string | null>(null);
   const authoritativeSeconds = clampSeconds(remainingSeconds);
   const [clockSource, setClockSource] = useState(() => ({
     itemId: item.itemId,
@@ -105,6 +106,19 @@ export function FeedTimerGame({
     !expired && displaySeconds > 0 && displaySeconds <= EARLY_WARNING_SECONDS;
   const showExpiredState = expired || displaySeconds === 0;
   const showHints = verified && verificationHints.length > 0;
+  const media = item.media;
+  const imageKey = `${item.itemId}:${media?.src ?? "none"}`;
+  const showMediaFallback =
+    Boolean(media) &&
+    (failedImageKey === imageKey || media?.kind === "none" || media?.src === null);
+  const responsiveSrcSet = (() => {
+    if (!media?.srcSet) return undefined;
+    const parts: string[] = [];
+    if (media.srcSet["480"]) parts.push(`${media.srcSet["480"]} 480w`);
+    if (media.srcSet["768"]) parts.push(`${media.srcSet["768"]} 768w`);
+    if (media.srcSet["1280"]) parts.push(`${media.srcSet["1280"]} 1280w`);
+    return parts.length > 0 ? parts.join(", ") : undefined;
+  })();
 
   // El tick visual es solo una aproximación local y nunca extiende el límite.
   useEffect(() => {
@@ -228,26 +242,49 @@ export function FeedTimerGame({
         <h2 id={promptId} ref={promptRef} className="feed-timer__prompt">
           {item.prompt}
         </h2>
+        {media ? (
+          <figure className="feed-timer__media">
+            {showMediaFallback ? (
+              <p className="image-fallback" role="status">
+                {media.fallbackText ?? chrome.imageUnavailable}
+              </p>
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element -- static responsive srcSet is part of the media contract.
+              <img
+                src={media.src as string}
+                srcSet={responsiveSrcSet}
+                sizes="(max-width: 480px) 100vw, (max-width: 768px) 100vw, 640px"
+                width={media.width ?? 768}
+                height={media.height ?? 432}
+                alt={media.decorative ? "" : (media.alt ?? "")}
+                className="feed-timer__image"
+                decoding="async"
+                loading="lazy"
+                onError={() => setFailedImageKey(imageKey)}
+              />
+            )}
+          </figure>
+        ) : null}
         <p className="feed-timer__body">{item.post}</p>
+        {showHints ? (
+          <div
+            id={hintsId}
+            className="feed-timer__hint-chips"
+            role="region"
+            aria-label={chrome.siftHints}
+            aria-live="polite"
+          >
+            <p className="feed-timer__hints-title">{chrome.quickSift}</p>
+            <ul className="feed-timer__hint-chip-list">
+              {verificationHints.map((hint) => (
+                <li key={hint} className="feed-timer__hint-chip">
+                  {hint}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
       </article>
-
-      {showHints ? (
-        <div
-          id={hintsId}
-          className="feed-timer__hints"
-          role="region"
-          aria-label={chrome.siftHints}
-        >
-          <p className="feed-timer__hints-title">{chrome.quickSift}</p>
-          <ul className="feed-timer__hints-list">
-            {verificationHints.map((hint) => (
-              <li key={hint} className="feed-timer__hint">
-                {hint}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
 
       {showExpiredState ? (
         <p className="feed-timer__expired" role="alert">

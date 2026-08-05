@@ -1,9 +1,13 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import type { GameResult } from "@antidoto/contracts";
 
 import { ResultCard } from "./result-card";
+
+vi.mock("../../app/actions/game", () => ({
+  playAgainArcadeGameFormAction: vi.fn(),
+}));
 
 const finishedResult: GameResult = {
   sessionId: "session-result-1",
@@ -24,6 +28,7 @@ const finishedResult: GameResult = {
     timeUsedSeconds: null,
   },
   simulatedReach: null,
+  itemDigests: null,
 };
 
 describe("ResultCard", () => {
@@ -43,6 +48,9 @@ describe("ResultCard", () => {
     expect(screen.getByText("7")).toBeVisible();
     expect(screen.getByText("1")).toBeVisible();
 
+    expect(
+      screen.getByRole("button", { name: /jugar de nuevo/i }),
+    ).toBeVisible();
     const rankingLink = screen.getByRole("link", {
       name: /consultar ranking global \(opcional\)/i,
     });
@@ -67,6 +75,49 @@ describe("ResultCard", () => {
       screen.queryByRole("heading", { name: "Qué hacer" }),
     ).not.toBeInTheDocument();
     expect(screen.queryByLabelText("Feedback educativo")).not.toBeInTheDocument();
+  });
+
+  it("lista digests colapsables en el resultado de Feed 60", () => {
+    render(
+      <ResultCard
+        result={{
+          ...finishedResult,
+          gameCode: "feed-60",
+          answered: 1,
+          total: 10,
+          learningSummary: "Bajo presión, practicaste Buscar cobertura.",
+          score: {
+            ...finishedResult.score,
+            points: 2,
+            maxPoints: 30,
+            correct: 1,
+            errors: 0,
+            timeLimitSeconds: 60,
+          },
+          itemDigests: [
+            {
+              itemId: "feed-60-001",
+              prompt: "Minsa: campaña de vacunación gratuita.",
+              decisionCorrect: true,
+              keySignal: "Encuentra mejor cobertura: medios serios replican.",
+              explanation: "Es un aviso oficial útil.",
+              recommendation: "Comparte cuando la fuente oficial coincide.",
+              revealedAnswer: "Compartir",
+            },
+          ],
+        }}
+      />,
+    );
+
+    expect(
+      screen.getByRole("heading", { name: "Revisión del feed" }),
+    ).toBeVisible();
+    expect(
+      screen.getByText(/Minsa: campaña de vacunación gratuita/i),
+    ).toBeVisible();
+    expect(
+      screen.getByText(/Encuentra mejor cobertura: medios serios replican/i),
+    ).toBeVisible();
   });
 
   it("separa el alcance simulado de la puntuación en Mente Maestra", () => {

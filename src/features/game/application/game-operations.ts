@@ -15,7 +15,7 @@ import {
 } from "@antidoto/contracts";
 
 import { requireArcadeCatalogEntry } from "../content/catalog";
-import { validateAlias } from "../domain/alias";
+import { GUEST_DISPLAY_ALIAS, validateAlias } from "../domain/alias";
 import {
   coerceFeedClockAuthority,
   createFeedClock,
@@ -274,9 +274,16 @@ export async function startGameOperation(
     return arcadeFailure("INVALID_ACTION");
   }
 
-  const alias = validateAlias(parsed.data.alias);
-  if (!alias.ok) {
-    return arcadeFailure("INVALID_ALIAS");
+  const guest = parsed.data.guest === true;
+  let resolvedAlias: string;
+  if (guest) {
+    resolvedAlias = GUEST_DISPLAY_ALIAS;
+  } else {
+    const alias = validateAlias(parsed.data.alias);
+    if (!alias.ok) {
+      return arcadeFailure("INVALID_ALIAS");
+    }
+    resolvedAlias = alias.alias;
   }
 
   try {
@@ -286,8 +293,9 @@ export async function startGameOperation(
   }
 
   const command: StartGameCommand = {
-    alias: alias.alias,
+    alias: resolvedAlias,
     gameCode: parsed.data.gameCode,
+    guest,
   };
 
   if (!dependencies.sessionTokenHash) {
