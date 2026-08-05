@@ -13,6 +13,8 @@ import { localizeGameState } from "../../../lib/i18n/localize-game";
 import { getServerLocale } from "../../../lib/i18n/server";
 import { GAME_SCORE_RULES } from "../../../features/game/domain/scoring";
 
+export const dynamic = "force-dynamic";
+
 type GamePageProps = Readonly<{
   params: Promise<{ gameCode: string }>;
   searchParams?: Promise<Record<string, string | string[] | undefined>>;
@@ -43,7 +45,9 @@ export default async function GamePage({ params, searchParams }: GamePageProps) 
   const localizedGame = getLocalizedCatalog(locale).find((entry) => entry.gameCode === game.gameCode) ?? game;
   const stateResult = await getArcadeGameStateServer({ gameCode: game.gameCode });
 
-  if (!stateResult.ok && (stateResult.error.code === "SESSION_INVALID" || stateResult.error.code === "GAME_MISMATCH")) {
+  // Cookie de otro juego: bloqueo seguro. Cookie huérfana/inválida: intro para
+  // poder iniciar (el arranque sobrescribe la cookie).
+  if (!stateResult.ok && stateResult.error.code === "GAME_MISMATCH") {
     return <SecureStateView gameCode={game.gameCode} reason="invalid" canClear />;
   }
 
@@ -73,7 +77,9 @@ export default async function GamePage({ params, searchParams }: GamePageProps) 
       }
       bootstrapError={startError
         ? localizeErrorMessage(startError, messages.form.startFailed, locale)
-        : !stateResult.ok && stateResult.error.code !== "SESSION_NOT_FOUND"
+        : !stateResult.ok &&
+            stateResult.error.code !== "SESSION_NOT_FOUND" &&
+            stateResult.error.code !== "SESSION_INVALID"
           ? localizeErrorMessage(stateResult.error.code, stateResult.error.message, locale)
           : null}
     />

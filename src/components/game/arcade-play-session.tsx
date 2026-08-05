@@ -9,7 +9,9 @@ import type { GameCode, GameState, PublicItem, SiftStep } from "@antidoto/contra
 import {
   advanceArcadeGameAction,
   playAgainArcadeGameFormAction,
+  startArcadeGameAction,
   startArcadeGameFormAction,
+  startArcadeGuestGameFormAction,
   submitGameActionAction,
 } from "../../app/actions/game";
 import type { GameStateWithCompanion } from "../../features/game/infrastructure/session-companion";
@@ -166,6 +168,26 @@ export function ArcadePlaySession({
     });
   }
 
+  /**
+   * Arranque con JS: aplica el GameState de la acción. Evita redirect + releer
+   * cookie, que en el primer "jugar sin alias" dejaba SESSION_INVALID.
+   */
+  function startMission(alias: string, guest = false) {
+    if (pending) return;
+    startTransition(async () => {
+      const result = await startArcadeGameAction({
+        alias,
+        gameCode,
+        ...(guest ? { guest: true } : {}),
+      });
+      if (!result.ok) {
+        handleActionError(result.error);
+        return;
+      }
+      applyState(result.data);
+    });
+  }
+
   function renderGame(item: PublicItem): ReactNode {
     switch (item.gameCode) {
       case "grupo":
@@ -300,6 +322,9 @@ export function ArcadePlaySession({
           <SiftFocusBanner steps={siftFocus} mode="practicing" />
           <AliasStartForm
             action={startArcadeGameFormAction}
+            guestAction={startArcadeGuestGameFormAction}
+            onSubmit={(alias) => startMission(alias)}
+            onGuestStart={() => startMission("", true)}
             gameCode={gameCode}
             submitLabel={introSubmitLabel}
             disabled={pending}

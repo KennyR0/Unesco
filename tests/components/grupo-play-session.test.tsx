@@ -23,6 +23,8 @@ vi.mock("../../src/app/actions/game", () => ({
     startGrupoGameFormAction(...args),
   startArcadeGameFormAction: (...args: unknown[]) =>
     startArcadeGameFormAction(...args),
+  startArcadeGuestGameFormAction: vi.fn(),
+  startArcadeGameAction: vi.fn(),
   submitGameActionAction: (...args: unknown[]) => submitGameActionAction(...args),
   advanceArcadeGameAction: (...args: unknown[]) =>
     advanceArcadeGameAction(...args),

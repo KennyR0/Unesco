@@ -85,6 +85,10 @@ export async function startArcadeGameAction(
  * Inicio de cualquier misión arcade vía <form action>.
  * Funciona aunque la hidratación cliente falle (p. ej. localhost vs 127.0.0.1).
  * El gameCode viaja en un campo oculto y se valida en servidor.
+ *
+ * Preferir startArcadeGameAction desde el cliente cuando hay JS: así se aplica
+ * el estado devuelto sin un redirect que relee la cookie (carrera en el primer
+ * arranque, sobre todo "jugar sin alias").
  */
 export async function startArcadeGameFormAction(
   formData: FormData,
@@ -106,11 +110,20 @@ export async function startArcadeGameFormAction(
 
   if (!result.ok) {
     redirect(
-      `/games/${gameCode}?startError=${encodeURIComponent(result.error.message)}`,
+      `/games/${gameCode}?startError=${encodeURIComponent(result.error.code)}`,
     );
   }
 
   redirect(`/games/${gameCode}`);
+}
+
+/** Respaldo sin JS: fuerza intent guest aunque el submitter no viaje en FormData. */
+export async function startArcadeGuestGameFormAction(
+  formData: FormData,
+): Promise<void> {
+  formData.set("intent", "guest");
+  formData.set("guest", "1");
+  return startArcadeGameFormAction(formData);
 }
 
 /** Conserva el arranque directo de El Grupo para clientes existentes. */

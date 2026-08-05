@@ -5,11 +5,13 @@ import { useId, useState, type FormEvent } from "react";
 import { useI18n } from "../../lib/i18n/provider";
 
 export type AliasStartFormProps = Readonly<{
-  /** Server Action preferida: funciona sin hidratación cliente. */
+  /** Server Action de respaldo (sin JS / progressive enhancement). */
   action?: (formData: FormData) => void | Promise<void>;
-  /** Fallback cliente cuando no hay action de servidor. */
+  /** Server Action dedicada a invitado (fuerza guest sin depender del submitter). */
+  guestAction?: (formData: FormData) => void | Promise<void>;
+  /** Arranque con alias cuando hay JS (evita redirect+releer cookie). */
   onSubmit?: (alias: string) => Promise<void> | void;
-  /** Arranque invitado (sin ranking) cuando no hay action de servidor. */
+  /** Arranque invitado cuando hay JS. */
   onGuestStart?: () => Promise<void> | void;
   /** Juego a iniciar; viaja oculto para la Server Action. */
   gameCode?: string;
@@ -21,9 +23,14 @@ export type AliasStartFormProps = Readonly<{
 /**
  * Formulario mínimo de alias temporal para iniciar una misión arcade.
  * También permite jugar sin alias (partida no elegible al ranking).
+ *
+ * Con JS: usa onSubmit/onGuestStart para aplicar el estado devuelto por la
+ * acción sin depender de un redirect que relee la cookie.
+ * Sin JS: usa la Server Action del form (intent=named|guest).
  */
 export function AliasStartForm({
   action,
+  guestAction,
   onSubmit,
   onGuestStart,
   gameCode,
@@ -37,18 +44,29 @@ export function AliasStartForm({
   const [pending, setPending] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
   const shownError = error ?? localError;
+  const preferClientStart = Boolean(onSubmit || onGuestStart);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    if (action) {
-      // Deja que el Server Action del form maneje el envío.
+    if (!preferClientStart) {
+      // Sin handlers cliente: progressive enhancement vía Server Action.
       return;
     }
 
     event.preventDefault();
-    if (disabled || pending || !onSubmit) return;
+    if (disabled || pending) return;
 
     const formData = new FormData(event.currentTarget);
-    const intent = String(formData.get("intent") ?? "named");
+    const submitter = (event.nativeEvent as SubmitEvent).submitter;
+    const intentAttr =
+      submitter instanceof HTMLElement
+        ? submitter.getAttribute("data-start-intent")
+        : null;
+    const intentFromButton =
+      submitter instanceof HTMLButtonElement ? submitter.value : null;
+    const intent = String(
+      intentAttr ?? intentFromButton ?? formData.get("intent") ?? "named",
+    );
+
     if (intent === "guest") {
       if (!onGuestStart) {
         setLocalError(messages.form.startFailed);
@@ -63,6 +81,11 @@ export function AliasStartForm({
       } finally {
         setPending(false);
       }
+      return;
+    }
+
+    if (!onSubmit) {
+      setLocalError(messages.form.startFailed);
       return;
     }
 
@@ -87,7 +110,7 @@ export function AliasStartForm({
     <form
       className="alias-start-form"
       action={action}
-      onSubmit={action ? undefined : handleSubmit}
+      onSubmit={handleSubmit}
       noValidate
     >
       {gameCode ? (
@@ -125,6 +148,7 @@ export function AliasStartForm({
           type="submit"
           name="intent"
           value="named"
+          data-start-intent="named"
           disabled={disabled || pending}
         >
           {pending ? messages.form.starting : submitLabel ?? messages.form.startMission}
@@ -132,8 +156,10 @@ export function AliasStartForm({
         <button
           className="secondary-action"
           type="submit"
-          name="intent"
-          value="guest"
+          data-start-intent="guest"
+          {...(guestAction
+            ? { formAction: guestAction }
+            : { name: "intent", value: "guest" })}
           disabled={disabled || pending}
         >
           {messages.form.playAsGuest}

@@ -43,6 +43,31 @@ function createMemoryCookieStore() {
 }
 
 describe("transporte server-only arcade", () => {
+  it("inicia como invitado sin alias y deja cookie recuperable", async () => {
+    const gateway = createMemoryArcadeGateway({
+      itemIdsByGameCode: { "real-o-ia": ["item-1"] },
+    });
+    const cookieStore = createMemoryCookieStore();
+
+    const started = await startArcadeGameServer(
+      { alias: "", gameCode: "real-o-ia", guest: true },
+      { gateway, cookieStore: cookieStore as never, secure: false },
+    );
+    expect(started.ok).toBe(true);
+    if (!started.ok) return;
+    expect(started.data.alias).toBe("Invitado");
+    expect(cookieStore.jar.has("antidoto_session.real-o-ia")).toBe(true);
+
+    const state = await getArcadeGameStateServer(
+      { gameCode: "real-o-ia" },
+      { gateway, cookieStore: cookieStore as never },
+    );
+    expect(state.ok).toBe(true);
+    if (!state.ok) return;
+    expect(state.data.alias).toBe("Invitado");
+    expect(state.data.sessionId).toBe(started.data.sessionId);
+  });
+
   it("inicia, recupera estado y rechaza sessionId del cliente en submit", async () => {
     const gateway = createMemoryArcadeGateway({
       itemIdsByGameCode: { "real-o-ia": ["item-1"] },

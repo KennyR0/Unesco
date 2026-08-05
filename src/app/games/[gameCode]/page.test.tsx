@@ -18,6 +18,8 @@ vi.mock("next/navigation", () => ({
 
 vi.mock("../../actions/game", () => ({
   startArcadeGameFormAction: vi.fn(),
+  startArcadeGuestGameFormAction: vi.fn(),
+  startArcadeGameAction: vi.fn(),
   submitGameActionAction: vi.fn(),
   advanceArcadeGameAction: vi.fn(),
 }));

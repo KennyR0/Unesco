@@ -13,6 +13,8 @@ import menteMaestraPack from "../../src/features/game/content/game-items/mente-m
 import realOrIaPack from "../../src/features/game/content/game-items/real-o-ia.v1.json";
 
 const startArcadeGameFormAction = vi.fn();
+const startArcadeGuestGameFormAction = vi.fn();
+const startArcadeGameAction = vi.fn();
 const playAgainArcadeGameFormAction = vi.fn();
 const submitGameActionAction = vi.fn();
 const advanceArcadeGameAction = vi.fn();
@@ -25,6 +27,9 @@ vi.mock("next/navigation", () => ({
 vi.mock("../../src/app/actions/game", () => ({
   startArcadeGameFormAction: (...args: unknown[]) =>
     startArcadeGameFormAction(...args),
+  startArcadeGuestGameFormAction: (...args: unknown[]) =>
+    startArcadeGuestGameFormAction(...args),
+  startArcadeGameAction: (...args: unknown[]) => startArcadeGameAction(...args),
   playAgainArcadeGameFormAction: (...args: unknown[]) =>
     playAgainArcadeGameFormAction(...args),
   submitGameActionAction: (...args: unknown[]) => submitGameActionAction(...args),
@@ -65,9 +70,44 @@ function activeState(
 describe("ArcadePlaySession", () => {
   beforeEach(() => {
     startArcadeGameFormAction.mockReset();
+    startArcadeGuestGameFormAction.mockReset();
+    startArcadeGameAction.mockReset();
     submitGameActionAction.mockReset();
     advanceArcadeGameAction.mockReset();
     push.mockReset();
+  });
+
+  it("inicia sin alias aplicando el estado de la acción (sin redirect)", async () => {
+    const user = userEvent.setup();
+    const started = activeState("real-o-ia", "real-o-ia-001", 8, {
+      alias: "Invitado",
+    });
+    startArcadeGameAction.mockResolvedValue({ ok: true, data: started });
+
+    render(
+      <ArcadePlaySession
+        gameCode="real-o-ia"
+        gameName="¿Real o IA?"
+        objective="Detecta señales visuales."
+        introMechanic="Mecánica: image verdict · 8 imágenes · máximo 80 puntos"
+        introSubmitLabel="Empezar a analizar imágenes"
+        itemNoun="Imagen"
+        siftFocus={["investigate"]}
+        initialState={null}
+      />,
+    );
+
+    await user.click(screen.getByRole("button", { name: /jugar sin alias/i }));
+
+    await waitFor(() => {
+      expect(startArcadeGameAction).toHaveBeenCalledWith({
+        alias: "",
+        gameCode: "real-o-ia",
+        guest: true,
+      });
+    });
+    expect(screen.getByRole("button", { name: /generada por ia/i })).toBeVisible();
+    expect(startArcadeGameFormAction).not.toHaveBeenCalled();
   });
 
   it("real-o-ia: envía verdict, muestra feedback y avanza", async () => {
