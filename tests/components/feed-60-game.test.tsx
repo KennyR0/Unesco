@@ -84,9 +84,12 @@ describe("FeedTimerGame (T061)", () => {
 
     expect(screen.getByRole("button", { name: /Verificar/ })).toBeDisabled();
     expect(screen.getByText("Fuente oficial del Ministerio.")).toBeVisible();
-    expect(
-      screen.getByRole("region", { name: /Pistas de verificación SIFT/i }),
-    ).toBeVisible();
+    const hints = screen.getByRole("region", {
+      name: /Pistas de verificación SIFT/i,
+    });
+    expect(hints).toBeVisible();
+    expect(hints).toHaveClass("feed-timer__hint-chips");
+    expect(hints.querySelectorAll(".feed-timer__hint-chip")).toHaveLength(3);
 
     const share = screen.getByRole("button", { name: /Compartir/ });
     expect(share).toHaveFocus();

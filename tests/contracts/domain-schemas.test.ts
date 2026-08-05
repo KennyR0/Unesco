@@ -167,6 +167,7 @@ describe("schemas de dominio", () => {
         timeUsedSeconds: null,
       },
       simulatedReach: null,
+      itemDigests: null,
     };
 
     expect(ArcadeGameResultSchema.safeParse(result).success).toBe(true);

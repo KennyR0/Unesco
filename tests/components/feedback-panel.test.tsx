@@ -91,6 +91,7 @@ describe("FeedbackPanel / US3 (T038)", () => {
             timeUsedSeconds: null,
           },
           simulatedReach: null,
+          itemDigests: null,
         }}
         gameName="¿Real o IA?"
       />,

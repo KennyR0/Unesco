@@ -13,6 +13,7 @@ import menteMaestraPack from "../../src/features/game/content/game-items/mente-m
 import realOrIaPack from "../../src/features/game/content/game-items/real-o-ia.v1.json";
 
 const startArcadeGameFormAction = vi.fn();
+const playAgainArcadeGameFormAction = vi.fn();
 const submitGameActionAction = vi.fn();
 const advanceArcadeGameAction = vi.fn();
 const push = vi.fn();
@@ -24,6 +25,8 @@ vi.mock("next/navigation", () => ({
 vi.mock("../../src/app/actions/game", () => ({
   startArcadeGameFormAction: (...args: unknown[]) =>
     startArcadeGameFormAction(...args),
+  playAgainArcadeGameFormAction: (...args: unknown[]) =>
+    playAgainArcadeGameFormAction(...args),
   submitGameActionAction: (...args: unknown[]) => submitGameActionAction(...args),
   advanceArcadeGameAction: (...args: unknown[]) =>
     advanceArcadeGameAction(...args),
@@ -107,6 +110,7 @@ describe("ArcadePlaySession", () => {
         introMechanic="Mecánica: image verdict · 8 imágenes · máximo 80 puntos"
         introSubmitLabel="Empezar a analizar imágenes"
         itemNoun="Imagen"
+        siftFocus={["investigate"]}
         initialState={base}
       />,
     );
@@ -168,6 +172,7 @@ describe("ArcadePlaySession", () => {
         introMechanic="Mecánica: timed feed · 10 publicaciones · máximo 30 puntos"
         introSubmitLabel="Abrir el feed de 60 segundos"
         itemNoun="Publicación"
+        siftFocus={["find", "trace"]}
         initialState={base}
       />,
     );
@@ -187,6 +192,83 @@ describe("ArcadePlaySession", () => {
     expect(
       await screen.findByText(/sitio oficial del Ministerio de Salud/i),
     ).toBeVisible();
+  });
+
+  it("feed-60: tras decidir muestra pulso y auto-avanza sin Decisión aceptada", async () => {
+    const user = userEvent.setup();
+    const withFeedback: GameStateWithCompanion = {
+      ...activeState("feed-60", "feed-60-001", 10),
+      status: "feedback",
+      nextAction: "advance",
+      feedback: {
+        status: "correct",
+        explanation: "Es un aviso oficial útil.",
+        signals: [
+          "Encuentra mejor cobertura: otros medios serios replican la campaña.",
+        ],
+        recommendation: "Comparte cuando la fuente oficial coincide.",
+        revealedAnswer: "Compartir",
+      },
+      provisionalScore: {
+        points: 2,
+        maxPoints: 30,
+        correct: 1,
+        errors: 0,
+        bonusPoints: 0,
+        penaltyPoints: 0,
+        timeLimitSeconds: 60,
+        timeUsedSeconds: null,
+      },
+      companion: {
+        kind: "feed-60",
+        verified: false,
+        verificationHints: [],
+        remainingSeconds: 48,
+      },
+    };
+    const nextPost: GameStateWithCompanion = {
+      ...activeState("feed-60", "feed-60-002", 10, { position: 1 }),
+      companion: {
+        kind: "feed-60",
+        verified: false,
+        verificationHints: [],
+        remainingSeconds: 48,
+      },
+    };
+
+    advanceArcadeGameAction.mockResolvedValue({ ok: true, data: nextPost });
+
+    render(
+      <ArcadePlaySession
+        gameCode="feed-60"
+        gameName="Feed 60”"
+        objective="Decide en 60 segundos."
+        introMechanic="Mecánica: timed feed · 10 publicaciones · máximo 30 puntos"
+        introSubmitLabel="Abrir el feed de 60 segundos"
+        itemNoun="Publicación"
+        siftFocus={["find", "trace"]}
+        initialState={withFeedback}
+      />,
+    );
+
+    expect(screen.getByTestId("feed-decision-pulse")).toBeVisible();
+    expect(
+      screen.queryByRole("region", { name: "Feedback educativo" }),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/Decisión aceptada/i)).not.toBeInTheDocument();
+    expect(
+      screen.getByText(/Encuentra mejor cobertura: otros medios serios/i),
+    ).toBeVisible();
+    expect(screen.getByRole("timer")).toBeVisible();
+
+    await user.click(screen.getByRole("button", { name: /continuar/i }));
+
+    await waitFor(() => {
+      expect(advanceArcadeGameAction).toHaveBeenCalledWith({
+        gameCode: "feed-60",
+        itemId: "feed-60-001",
+      });
+    });
   });
 
   it("mente-maestra: al terminar muestra la autopsia sin redirigir", () => {
@@ -216,7 +298,12 @@ describe("ArcadePlaySession", () => {
         selectedOptionId: null,
         simulatedReach: 90,
         autopsyEntries: [
-          { step: "objective", title: "Pánico sanitario", tip: "Verifica el canal institucional." },
+          {
+            step: "objective",
+            title: "Pánico sanitario",
+            tip: "Verifica el canal institucional.",
+            siftStep: "investigate",
+          },
         ],
         fictionalComments: ["@preocupado22: COMPARTIDO."],
         educationalDisclaimer: "Simulación educativa.",
@@ -231,6 +318,7 @@ describe("ArcadePlaySession", () => {
         introMechanic="Mecánica: guided autopsy · 4 pasos · máximo 4 puntos"
         introSubmitLabel="Entrar al laboratorio de desinformación"
         itemNoun="Paso"
+        siftFocus={["investigate", "trace"]}
         initialState={finished}
       />,
     );
@@ -255,6 +343,7 @@ describe("ArcadePlaySession", () => {
         introMechanic="Mecánica: source classification · 9 fuentes · máximo 9 puntos"
         introSubmitLabel="Encender el radar"
         itemNoun="Fuente"
+        siftFocus={["investigate", "trace"]}
         initialState={null}
       />,
     );

@@ -174,6 +174,7 @@ describe("MisinformationAutopsyGame (T065)", () => {
           step: entry.step,
           title: entry.title,
           tip: entry.tip,
+          siftStep: entry.siftStep,
         }))}
         fictionalComments={session.fictionalComments}
         educationalDisclaimer={session.educationalDisclaimer}
@@ -231,14 +232,33 @@ describe("MisinformationAutopsyGame (T065)", () => {
     expect(session.simulatedReach).not.toBe(score.points);
     expect(score).not.toHaveProperty("simulatedReach");
 
+    const sessionSelections: PersistedAutopsySelection[] = selections.map(
+      (selection, index) => {
+        const item = items[index];
+        if (item.publicItem.gameCode !== "mente-maestra") {
+          throw new Error("Se esperaba un item de mente-maestra.");
+        }
+        const option = item.publicItem.options.find(
+          (candidate) => candidate.optionId === selection.optionId,
+        );
+        return {
+          step: selection.step,
+          optionId: selection.optionId,
+          label: option?.label ?? selection.optionId,
+        };
+      },
+    );
+
     render(
       <MisinformationAutopsyGame
         item={null}
+        sessionSelections={sessionSelections}
         simulatedReach={session.simulatedReach}
         autopsyEntries={session.autopsyEntries.map((entry) => ({
           step: entry.step,
           title: entry.title,
           tip: entry.tip,
+          siftStep: entry.siftStep,
         }))}
         fictionalComments={session.fictionalComments}
         educationalDisclaimer={session.educationalDisclaimer}
@@ -260,11 +280,17 @@ describe("MisinformationAutopsyGame (T065)", () => {
       String(session.simulatedReach),
     );
     expect(within(autopsy!).getByText(/no suma puntos/i)).toBeVisible();
+    expect(
+      within(autopsy!).getByText(/NOTICIA DE ÚLTIMA HORA — SIMULACIÓN/i),
+    ).toBeVisible();
 
     for (const entry of session.autopsyEntries) {
       expect(within(autopsy!).getByText(entry.title)).toBeVisible();
       expect(within(autopsy!).getByText(entry.tip)).toBeVisible();
     }
+    expect(
+      within(autopsy!).getAllByText(/Investiga|Rastrea/i).length,
+    ).toBeGreaterThan(0);
   });
 
   it("no ofrece publicación externa ni cuenta real en la simulación", () => {

@@ -1,4 +1,4 @@
-ï»¿import {
+import {
   PublicQuestionSchema,
   RoundSizeSchema,
   ValidatedAliasSchema,
@@ -17,7 +17,7 @@ export const publicRef = "A1b2C3d4E5f6G7h8I9j0K1";
 export const validQuestion = {
   ref: publicRef,
   mechanic: "single_choice" as const,
-  prompt: "Â¿QuÃ© ayuda a verificar una afirmaciÃ³n?",
+  prompt: "¿Qué ayuda a verificar una afirmación?",
   image: null,
   options: [
     { ref: "B1b2C3d4E5f6G7h8I9j0K2", label: "La fuente", position: 1 },
@@ -28,11 +28,11 @@ export const validQuestion = {
 const publicMedia = {
   kind: "image" as const,
   src: "/media/real-o-ia/item-1.webp",
-  alt: "Escena urbana con seÃ±ales visuales observables.",
+  alt: "Escena urbana con señales visuales observables.",
   decorative: false,
   width: 640,
   height: 480,
-  fallbackText: "La imagen no estÃ¡ disponible.",
+  fallbackText: "La imagen no está disponible.",
 };
 
 export const publicItems = [
@@ -40,8 +40,8 @@ export const publicItems = [
     gameCode: "real-o-ia",
     mechanic: "image_verdict",
     itemId: "item-real-1",
-    prompt: "Â¿La imagen parece real o generada por IA?",
-    context: "Observa la iluminaciÃ³n, los bordes y los detalles pequeÃ±os.",
+    prompt: "¿La imagen parece real o generada por IA?",
+    context: "Observa la iluminación, los bordes y los detalles pequeños.",
     media: publicMedia,
     choices: ["real", "ai"],
   }),
@@ -49,10 +49,10 @@ export const publicItems = [
     gameCode: "grupo",
     mechanic: "group_decision",
     itemId: "item-grupo-1",
-    prompt: "Â¿QuÃ© harÃ­as antes de compartir este mensaje?",
+    prompt: "¿Qué harías antes de compartir este mensaje?",
     messages: [
       { sender: "Marta", text: "Miren esta alerta urgente.", timeLabel: "09:10" },
-      { sender: "Luis", text: "Â¿Alguien verificÃ³ la fuente?", timeLabel: "09:11" },
+      { sender: "Luis", text: "¿Alguien verificó la fuente?", timeLabel: "09:11" },
     ],
     actions: ["forward", "verify", "pause"],
   }),
@@ -62,7 +62,7 @@ export const publicItems = [
     itemId: "item-headline-1",
     prompt: "Clasifica el titular.",
     headline: "Lo que este detalle revela sobre la noticia",
-    sourceLabel: "BoletÃ­n local",
+    sourceLabel: "Boletín local",
     actions: ["journalism", "clickbait"],
     keyboardEquivalent: true,
   }),
@@ -70,19 +70,19 @@ export const publicItems = [
     gameCode: "radar-de-fuentes",
     mechanic: "source_classification",
     itemId: "item-source-1",
-    prompt: "Clasifica esta fuente segÃºn sus seÃ±ales observables.",
+    prompt: "Clasifica esta fuente según sus señales observables.",
     sourceName: "Observatorio de Medios",
     urlLabel: "observatorio.example.org",
-    description: "Publica autorÃ­a, fecha y enlaces a documentos verificables.",
+    description: "Publica autoría, fecha y enlaces a documentos verificables.",
     categories: ["reliable", "doubtful", "fraudulent"],
   }),
   PublicItemSchema.parse({
     gameCode: "feed-60",
     mechanic: "timed_feed",
     itemId: "item-feed-1",
-    prompt: "Decide quÃ© hacer con esta publicaciÃ³n.",
-    post: "Una publicaciÃ³n viral afirma que una medida entra en vigor hoy.",
-    sourceLabel: "Cuenta pÃºblica",
+    prompt: "Decide qué hacer con esta publicación.",
+    post: "Una publicación viral afirma que una medida entra en vigor hoy.",
+    sourceLabel: "Cuenta pública",
     actions: ["verify", "share", "discard"],
     remainingSeconds: 60,
     verificationAvailable: true,
@@ -92,17 +92,17 @@ export const publicItems = [
     mechanic: "guided_autopsy",
     itemId: "item-autopsy-1",
     step: "objective",
-    prompt: "Â¿QuÃ© objetivo intenta provocar este contenido?",
+    prompt: "¿Qué objetivo intenta provocar este contenido?",
     options: [
       {
         optionId: "objective-1",
-        label: "Obtener una reacciÃ³n",
-        description: "Busca que la persona actÃºe antes de comprobar.",
+        label: "Obtener una reacción",
+        description: "Busca que la persona actúe antes de comprobar.",
       },
       {
         optionId: "objective-2",
         label: "Informar con contexto",
-        description: "Presenta evidencia y lÃ­mites verificables.",
+        description: "Presenta evidencia y límites verificables.",
       },
     ],
   }),
@@ -171,7 +171,7 @@ export const arcadeContractSamples = {
     status: "finished",
     answered: 8,
     total: 8,
-    learningSummary: "Observaste seÃ±ales antes de decidir.",
+    learningSummary: "Observaste señales antes de decidir.",
     score: {
       points: 80,
       maxPoints: 80,
@@ -183,6 +183,7 @@ export const arcadeContractSamples = {
       timeUsedSeconds: null,
     },
     simulatedReach: null,
+    itemDigests: null,
   }),
   leaderboard: LeaderboardSchema.parse({
     scope: "global",

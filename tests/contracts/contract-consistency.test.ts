@@ -105,6 +105,7 @@ describe("consistencia del contrato arcade", () => {
       route: "/games/real-o-ia",
       contentVersion: "v1",
       available: true,
+      siftFocus: ["investigate"] as const,
     };
     expect(GameCatalogEntrySchema.safeParse(catalogEntry).success).toBe(true);
     expect(

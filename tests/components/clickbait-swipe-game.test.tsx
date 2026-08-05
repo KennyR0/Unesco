@@ -151,6 +151,36 @@ describe("ClickbaitSwipeGame (T052)", () => {
     });
   });
 
+  it("usa clases de dirección distintas: derecha clickbait, izquierda journalism", () => {
+    render(<ClickbaitSwipeGame item={makeItem()} onClassify={() => {}} />);
+    const card = getCard();
+
+    act(() => {
+      dispatchPointer(card, "pointerdown", 200, 120);
+    });
+    act(() => {
+      dispatchPointer(card, "pointermove", 200 + SWIPE_THRESHOLD_PX + 4, 120);
+    });
+    expect(card.className).toContain("headline-swipe__card--toward-clickbait");
+    expect(card.className).toContain("headline-swipe__card--armed");
+    expect(card.className).not.toContain(
+      "headline-swipe__card--toward-journalism",
+    );
+
+    act(() => {
+      dispatchPointer(card, "pointermove", 200 - (SWIPE_THRESHOLD_PX + 4), 120);
+    });
+    expect(card.className).toContain("headline-swipe__card--toward-journalism");
+    expect(card.className).toContain("headline-swipe__card--armed");
+    expect(card.className).not.toContain(
+      "headline-swipe__card--toward-clickbait",
+    );
+
+    act(() => {
+      dispatchPointer(card, "pointerup", 200 - (SWIPE_THRESHOLD_PX + 4), 120);
+    });
+  });
+
   it("cancela el arrastre vertical sin enviar", () => {
     const onClassify = vi.fn();
     render(<ClickbaitSwipeGame item={makeItem()} onClassify={onClassify} />);
