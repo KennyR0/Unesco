@@ -15,7 +15,6 @@ import {
   getArcadeGameResultServer,
   getArcadeGameStateServer,
   getArcadeLeaderboardServer,
-  startArcadeGameServer,
   submitArcadeGameActionServer,
 } from "../../features/game/application/server-operations";
 import { GameCodeSchema } from "../../features/game/domain/schemas";
@@ -24,6 +23,9 @@ import { getServerLocale } from "../../lib/i18n/server";
 import {
   buildExpiredSessionCookie,
 } from "../../lib/security/session-cookie";
+import { startArcadeGameAction } from "./start-arcade-game";
+
+export { startArcadeGameAction } from "./start-arcade-game";
 
 async function withLocalizedState(
   result: ArcadeOperationResult<GameState>,
@@ -74,13 +76,6 @@ export async function playAgainArcadeGameFormAction(
   redirect(`/games/${gameCode}`);
 }
 
-/** Acciones arcade: startGame + cookie opaca vinculada a gameCode. */
-export async function startArcadeGameAction(
-  payload: unknown,
-): Promise<ArcadeOperationResult<GameState>> {
-  return withLocalizedState(await startArcadeGameServer(payload));
-}
-
 /**
  * Inicio de cualquier misión arcade vía <form action>.
  * Funciona aunque la hidratación cliente falle (p. ej. localhost vs 127.0.0.1).
@@ -115,15 +110,6 @@ export async function startArcadeGameFormAction(
   }
 
   redirect(`/games/${gameCode}`);
-}
-
-/** Respaldo sin JS: fuerza intent guest aunque el submitter no viaje en FormData. */
-export async function startArcadeGuestGameFormAction(
-  formData: FormData,
-): Promise<void> {
-  formData.set("intent", "guest");
-  formData.set("guest", "1");
-  return startArcadeGameFormAction(formData);
 }
 
 /** Conserva el arranque directo de El Grupo para clientes existentes. */

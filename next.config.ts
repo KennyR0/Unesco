@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 export const PERFORMANCE_BUDGETS = {
-  // Chrome bilingüe (es/en) en el shell; el hard de 200 KiB se mantiene.
-  interactionJsRecommendedBytes: 190 * 1024,
+  // Chrome bilingüe + arranque guest (chunk diferido); hard 200 KiB intacto.
+  interactionJsRecommendedBytes: 193 * 1024,
   interactionJsHardBytes: 200 * 1024,
   initialTransferBytes: 350 * 1024,
   actionPayloadBytes: 16 * 1024,

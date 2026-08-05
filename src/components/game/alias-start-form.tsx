@@ -7,8 +7,6 @@ import { useI18n } from "../../lib/i18n/provider";
 export type AliasStartFormProps = Readonly<{
   /** Server Action de respaldo (sin JS / progressive enhancement). */
   action?: (formData: FormData) => void | Promise<void>;
-  /** Server Action dedicada a invitado (fuerza guest sin depender del submitter). */
-  guestAction?: (formData: FormData) => void | Promise<void>;
   /** Arranque con alias cuando hay JS (evita redirect+releer cookie). */
   onSubmit?: (alias: string) => Promise<void> | void;
   /** Arranque invitado cuando hay JS. */
@@ -30,7 +28,6 @@ export type AliasStartFormProps = Readonly<{
  */
 export function AliasStartForm({
   action,
-  guestAction,
   onSubmit,
   onGuestStart,
   gameCode,
@@ -48,7 +45,6 @@ export function AliasStartForm({
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     if (!preferClientStart) {
-      // Sin handlers cliente: progressive enhancement vía Server Action.
       return;
     }
 
@@ -156,10 +152,9 @@ export function AliasStartForm({
         <button
           className="secondary-action"
           type="submit"
+          name="intent"
+          value="guest"
           data-start-intent="guest"
-          {...(guestAction
-            ? { formAction: guestAction }
-            : { name: "intent", value: "guest" })}
           disabled={disabled || pending}
         >
           {messages.form.playAsGuest}

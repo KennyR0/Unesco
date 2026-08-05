@@ -13,7 +13,6 @@ import menteMaestraPack from "../../src/features/game/content/game-items/mente-m
 import realOrIaPack from "../../src/features/game/content/game-items/real-o-ia.v1.json";
 
 const startArcadeGameFormAction = vi.fn();
-const startArcadeGuestGameFormAction = vi.fn();
 const startArcadeGameAction = vi.fn();
 const playAgainArcadeGameFormAction = vi.fn();
 const submitGameActionAction = vi.fn();
@@ -27,14 +26,15 @@ vi.mock("next/navigation", () => ({
 vi.mock("../../src/app/actions/game", () => ({
   startArcadeGameFormAction: (...args: unknown[]) =>
     startArcadeGameFormAction(...args),
-  startArcadeGuestGameFormAction: (...args: unknown[]) =>
-    startArcadeGuestGameFormAction(...args),
-  startArcadeGameAction: (...args: unknown[]) => startArcadeGameAction(...args),
   playAgainArcadeGameFormAction: (...args: unknown[]) =>
     playAgainArcadeGameFormAction(...args),
   submitGameActionAction: (...args: unknown[]) => submitGameActionAction(...args),
   advanceArcadeGameAction: (...args: unknown[]) =>
     advanceArcadeGameAction(...args),
+}));
+
+vi.mock("../../src/app/actions/start-arcade-game", () => ({
+  startArcadeGameAction: (...args: unknown[]) => startArcadeGameAction(...args),
 }));
 
 const repository = createContentRepository(
@@ -70,7 +70,6 @@ function activeState(
 describe("ArcadePlaySession", () => {
   beforeEach(() => {
     startArcadeGameFormAction.mockReset();
-    startArcadeGuestGameFormAction.mockReset();
     startArcadeGameAction.mockReset();
     submitGameActionAction.mockReset();
     advanceArcadeGameAction.mockReset();
