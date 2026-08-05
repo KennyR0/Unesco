@@ -39,6 +39,16 @@ export const GAME_CODE_TO_MECHANIC = {
 
 export const LEADERBOARD_LIMIT = 10;
 
+/** Pasos del método SIFT que un juego puede practicar de forma explícita. */
+export const SIFT_STEPS = [
+  'stop',
+  'investigate',
+  'find',
+  'trace',
+] as const;
+
+export type SiftStep = (typeof SIFT_STEPS)[number];
+
 /** Campos de autoridad que el cliente no puede enviar ni imponer. */
 export const CLIENT_FORBIDDEN_AUTHORITY_FIELDS = [
   'score',
@@ -78,6 +88,8 @@ export interface GameCatalogEntry {
   route: string;
   contentVersion: string;
   available: boolean;
+  /** 1–2 pasos SIFT que el juego enseña de forma prioritaria. */
+  siftFocus: readonly SiftStep[];
 }
 
 export interface PublicMedia {
@@ -105,6 +117,10 @@ export interface GroupChatMessage {
   sender: string;
   text: string;
   timeLabel: string | null;
+  /** Adjunto opcional (foto o fotograma de clip) cuando la escena lo requiere. */
+  media?: PublicMedia;
+  /** Cómo presentar el adjunto en el chat; por defecto foto si hay media. */
+  attachmentPresentation?: 'photo' | 'video_clip';
 }
 
 export type PublicItem =
@@ -152,6 +168,7 @@ export type PublicItem =
       prompt: string;
       post: string;
       sourceLabel: string;
+      media?: PublicMedia;
       actions: readonly ['verify', 'share', 'discard'];
       remainingSeconds: number;
       verificationAvailable: boolean;
@@ -242,6 +259,17 @@ export interface GameState {
   nextAction: 'submit' | 'advance' | 'result' | 'retry' | 'arcade';
 }
 
+/** Digest educativo por publicación en Feed 60” (detalle diferido al resultado). */
+export interface FeedItemDigest {
+  itemId: string;
+  prompt: string;
+  decisionCorrect: boolean;
+  keySignal: string;
+  explanation: string;
+  recommendation: string;
+  revealedAnswer: string | null;
+}
+
 export interface GameResult {
   sessionId: string;
   gameCode: GameCode;
@@ -256,6 +284,10 @@ export interface GameResult {
    * Nunca forma parte de GameScore ni del ranking.
    */
   simulatedReach: number | null;
+  /**
+   * Revisión por publicación en Feed 60”. Null en el resto de juegos.
+   */
+  itemDigests: readonly FeedItemDigest[] | null;
 }
 
 export interface LeaderboardEntry {

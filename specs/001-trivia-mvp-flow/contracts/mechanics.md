@@ -71,10 +71,17 @@ envía puntos ni ranking.
 ## Feed 60”
 
 - Entrada: feed_action con verify, share o discard.
-- Flujo: verify es una acción previa opcional que revela pistas; share o
-  discard es la decisión final del item.
+- Flujo: verify es una acción previa opcional que revela pistas SIFT como
+  chips inline en el post; share o discard es la decisión final del item.
+- Ritmo: tras la decisión final, la UI muestra micro-feedback (correcto o
+  incorrecto + señal clave) y auto-avanza sin panel bloqueante de
+  «Decisión aceptada». El detalle educativo completo (explicación, qué hacer,
+  respuesta) se proyecta en `GameResult.itemDigests` al final de la ronda.
+- Copy del post: `prompt` es el titular/claim evaluable; `post` es el cuerpo o
+  caption; la instrucción SIFT vive en el chrome del juego, no en el headline.
 - Tiempo: el servidor mantiene el instante de expiración; verificar consume 4
-  segundos y el cliente nunca puede extender el límite de 60 segundos.
+  segundos y el cliente nunca puede extender el límite de 60 segundos. El reloj
+  sigue corriendo durante el micro-feedback.
 - Expiración: una carrera entre verify, decisión final y expiración se resuelve
   una sola vez en servidor.
 - Puntuación: +2 por decisión adecuada, -1 por decisión inadecuada, +1 si la

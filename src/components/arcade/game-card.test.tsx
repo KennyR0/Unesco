@@ -13,6 +13,7 @@ const availableGame: GameCatalogEntry = {
   route: "/games/real-o-ia",
   contentVersion: "2026-07-30.1",
   available: true,
+  siftFocus: ["investigate"],
 };
 
 const unavailableGame: GameCatalogEntry = {

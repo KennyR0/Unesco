@@ -67,6 +67,7 @@ export default async function GamePage({ params, searchParams }: GamePageProps) 
       introMechanic={`${messages.games.mechanic}: ${translateMechanic(game.mechanic, locale)} · ${rules.itemCount} ${itemNounPlural} · ${locale === "en" ? "maximum" : "máximo"} ${rules.maxPoints} ${messages.result.points.toLowerCase()}`}
       introSubmitLabel={game.gameCode === "grupo" ? messages.games.groupStart : messages.form.startMission}
       itemNoun={itemNoun}
+      siftFocus={localizedGame.siftFocus}
       initialState={
         stateResult.ok ? localizeGameState(stateResult.data, locale) : null
       }

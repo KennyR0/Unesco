@@ -87,8 +87,8 @@ minimalismo editorial silencioso.
 | `grupo` | verde con ácido | implementado |
 | `clickbait-swipe` | magenta | implementado |
 | `radar-de-fuentes` | ámbar | implementado |
-| `feed-60` | ácido con magenta | futuro; tema documentado, sin componente nuevo |
-| `mente-maestra` | magenta con cian | futuro; tema documentado, sin componente nuevo |
+| `feed-60` | ácido con magenta | implementado; feed con media y foco SIFT Find/Trace |
+| `mente-maestra` | magenta con cian | implementado; receta, fake post, autopsia I/T y media de evidencia |
 
 Reordenar el catálogo no puede cambiar estos acentos.
 

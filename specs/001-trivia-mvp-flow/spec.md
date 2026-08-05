@@ -91,7 +91,7 @@ interacción táctil que no tenga alternativa de teclado.
 | grupo | El Grupo | Leer chat y escoger reenviar, verificar o frenar | action: forward, verify o pause | Consecuencia narrativa, evaluación de la acción y siguiente escena | Fuente oficial, contexto, phishing, daño de amplificar y responsabilidad comunitaria |
 | clickbait-swipe | Clickbait Swipe | Deslizar, usar botones o flechas para clasificar titular | classification: journalism o clickbait | Clasificación aceptada, señales del titular y estado de racha | Urgencia, mayúsculas, vaguedad, emoción extrema y curiosity gap |
 | radar-de-fuentes | Radar de Fuentes | Seleccionar una fuente y asignar una categoría | category: reliable, doubtful o fraudulent | Categoría aceptada, razones y progreso de clasificación | Dominio, autor, fecha, referencias, sátira, suplantación y phishing |
-| feed-60 | Feed 60” | Revisar publicación, opcionalmente verificar y compartir o descartar | action: verify, share o discard | Tiempo restante, pistas de verificación, decisión aceptada y feedback | SIFT, contexto, fuente, fecha, gráfico manipulado y responsabilidad de compartir |
+| feed-60 | Feed 60” | Revisar publicación, opcionalmente verificar y compartir o descartar | action: verify, share o discard | Tiempo restante, pistas SIFT inline, micro-feedback ✓/✗ y revisión detallada al final | SIFT, contexto, fuente, fecha, gráfico manipulado y responsabilidad de compartir |
 | mente-maestra | Mente Maestra | Elegir cuatro piezas de una fake news y leer su autopsia | step choice por objetivo, emoción, titular y prueba | Simulación de alcance, autopsia y recomendaciones de detección | Cómo se combinan miedo, autoridad falsa, formatos oficiales, imagen reciclada o IA y ejes truncados |
 
 La matriz define interacción y aprendizaje; no redefine puntuación. La fórmula
@@ -225,13 +225,18 @@ de tiempo sin perder accesibilidad.
 
 1. El tiempo restante es visible en texto y no se comunica solo mediante una
    barra o color.
-2. Verificar revela pistas y consume el tiempo definido por el contrato; solo
-   después se puede tomar la decisión final.
-3. La expiración autoritativa termina la sesión una sola vez y muestra el
-   feedback de la última decisión aceptada.
+2. Verificar revela pistas SIFT como chips inline en el post y consume el
+   tiempo definido por el contrato; la decisión final (compartir/descartar)
+   sigue disponible sin pantalla bloqueante.
+3. Tras compartir o descartar, el feed muestra un micro-feedback inmediato
+   (correcto/incorrecto + señal clave) y avanza solo; el detalle pedagógico
+   completo se concentra en el resultado final por publicación. La expiración
+   autoritativa termina la sesión una sola vez.
 4. El jugador puede pausar la animación o recuperar el foco de forma
    comprensible; la pausa visual no detiene el reloj autoritativo y ninguna
    animación impide la acción equivalente con teclado.
+5. El titular del post es el claim evaluable (fuente + prompt + cuerpo), no
+   una instrucción meta de práctica SIFT.
 
 ### US9 — Desmontar una fake news (Priority: P1)
 
@@ -270,6 +275,9 @@ técnicas de manipulación.
   contrato apruebe.
 - **FR-008**: El feedback educativo de cada item debe contener respuesta o
   decisión correcta, explicación, señales observables y recomendación aplicable.
+  En Feed 60”, el detalle completo puede diferirse a `itemDigests` del
+  resultado; tras cada decisión el jugador recibe al menos estado
+  correcto/incorrecto y una señal clave sin panel bloqueante.
 - **FR-009**: El resultado de cada juego debe mostrar alias temporal, juego,
   estado final, contadores de aprendizaje y la puntuación aprobada en
   scoring-proposal.md.
@@ -407,6 +415,8 @@ Puertas que siguen abiertas:
   shell, mecánica, feedback y resultado tiene foco visible y orden lógico.
 - **SC-004**: Cada decisión aceptada muestra feedback educativo inline antes de
   permitir avanzar; ninguna historia deja la explicación detrás de otra ruta.
+  Feed 60” cumple con micro-feedback inmediato y revisión detallada en el
+  resultado final.
 - **SC-005**: Un payload previo a responder no contiene solución, puntos por
   opción ni clave de evaluación en revisión contractual y prueba de frontera.
 - **SC-006**: Dos sesiones iniciadas en juegos distintos no comparten progreso,
@@ -414,7 +424,8 @@ Puertas que siguen abiertas:
 - **SC-007**: Una entrada repetida por reintento no genera más de un registro
   aceptado ni cambia el feedback ya confirmado.
 - **SC-008**: Feed 60” comunica el tiempo restante en texto, gestiona la
-  expiración una sola vez y ofrece una alternativa accesible a cada acción.
+  expiración una sola vez, ofrece una alternativa accesible a cada acción y
+  mantiene ritmo de feed (micro-feedback + auto-avance, detalle al final).
 - **SC-009**: Los seis juegos tienen contenido estructurado con explicación,
   señales y recomendación para cada item publicado.
 - **SC-010**: La revisión documental final muestra el ranking global únicamente
