@@ -26,5 +26,5 @@ on conflict (game_code) do update set
   content_version = excluded.content_version,
   available = excluded.available;
 
--- Los paquetes de items, feedback y media se materializan en T040–T062
--- después de pasar sus contratos y revisiones editoriales específicas.
+-- Packs editoriales: ver seed-content.sql (db.seed.sql_paths en config.toml).
+-- Regenerar con: pnpm seed:content
