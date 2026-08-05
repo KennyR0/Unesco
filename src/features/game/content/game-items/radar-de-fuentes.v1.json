@@ -10,22 +10,26 @@
       "gameCode": "radar-de-fuentes",
       "mechanic": "source_classification",
       "itemId": "radar-de-fuentes-001",
-      "prompt": "Lee el dominio, la autoría y las referencias. ¿Dónde ubicas esta fuente?",
+      "prompt": "Investiga la fuente y rastrea su origen. ¿Dónde la ubicas?",
       "sourceName": "UNESCO — sitio oficial",
       "urlLabel": "https://www.unesco.org/es/articles",
       "description": "Artículo con autor institucional, fecha de publicación y referencias a documentos oficiales. Señales visibles: autor UNESCO, fecha visible, referencias.",
-      "categories": ["reliable", "doubtful", "fraudulent"]
+      "categories": [
+        "reliable",
+        "doubtful",
+        "fraudulent"
+      ]
     },
     "feedback": {
       "status": "instructive",
       "explanation": "Es una fuente confiable: organismo internacional con dominio institucional, autoría clara, fecha y referencias verificables.",
       "signals": [
-        "Dominio institucional: unesco.org pertenece a la organización.",
-        "Autoría clara: el contenido aparece firmado por la institución.",
-        "Fecha de publicación visible y comprobable.",
-        "Referencias a documentos oficiales que se pueden contrastar."
+        "Investiga: dominio institucional unesco.org con autoría clara.",
+        "Rastrea: fecha y referencias a documentos oficiales contrastables.",
+        "El contenido aparece firmado por la institución.",
+        "Las referencias permiten volver al documento primario."
       ],
-      "recommendation": "Cuando el dominio, el autor, la fecha y las referencias cuadran, puedes usarla como punto de partida verificable.",
+      "recommendation": "Cuando dominio, autor, fecha y referencias cuadran, puedes usarla como punto de partida verificable.",
       "revealedAnswer": "Confiable"
     },
     "solutionPrivate": {
@@ -39,7 +43,7 @@
     }
   },
   {
-    "itemId": "radar-de-fuentes-002",
+    "itemId": "radar-de-fuentes-004",
     "gameCode": "radar-de-fuentes",
     "mechanic": "source_classification",
     "sequence": 2,
@@ -48,99 +52,25 @@
     "publicItem": {
       "gameCode": "radar-de-fuentes",
       "mechanic": "source_classification",
-      "itemId": "radar-de-fuentes-002",
-      "prompt": "Lee el dominio, la autoría y las referencias. ¿Dónde ubicas esta fuente?",
-      "sourceName": "Agencia de noticias EFE-style",
-      "urlLabel": "https://agencia-efe.example.com/economia",
-      "description": "Cable de agencia con redactor identificado, hora exacta y política pública de correcciones. Señales visibles: autor firmado, hora exacta, correcciones públicas.",
-      "categories": ["reliable", "doubtful", "fraudulent"]
-    },
-    "feedback": {
-      "status": "instructive",
-      "explanation": "Es confiable porque las agencias verifican antes de publicar y corrigen en público cuando fallan. Esa rendición de cuentas es la señal clave.",
-      "signals": [
-        "Redactor identificado con nombre y cargo.",
-        "Hora exacta de publicación, no un texto sin datar.",
-        "Política pública de correcciones que asume errores.",
-        "Formato de cable de agencia con hechos separables de opinión."
-      ],
-      "recommendation": "Busca firmas, horarios y correcciones visibles: son señales de una fuente que rinde cuentas.",
-      "revealedAnswer": "Confiable"
-    },
-    "solutionPrivate": {
-      "classification": "reliable",
-      "evaluationSignals": [
-        "signed_reporter",
-        "exact_timestamp",
-        "public_corrections",
-        "agency_accountability"
-      ]
-    }
-  },
-  {
-    "itemId": "radar-de-fuentes-003",
-    "gameCode": "radar-de-fuentes",
-    "mechanic": "source_classification",
-    "sequence": 3,
-    "contentVersion": "2026-07-30.1",
-    "editorialStatus": "approved",
-    "publicItem": {
-      "gameCode": "radar-de-fuentes",
-      "mechanic": "source_classification",
-      "itemId": "radar-de-fuentes-003",
-      "prompt": "Lee el dominio, la autoría y las referencias. ¿Dónde ubicas esta fuente?",
-      "sourceName": "Artículo en revista científica",
-      "urlLabel": "https://revista-ciencia.example.org/articulo/doi",
-      "description": "Estudio con DOI, metodología descrita, revisión por pares y declaración de conflictos de interés. Señales visibles: DOI, peer review, metodología abierta.",
-      "categories": ["reliable", "doubtful", "fraudulent"]
-    },
-    "feedback": {
-      "status": "instructive",
-      "explanation": "Es confiable: el DOI permite rastrearlo y la revisión por pares indica que otros expertos lo examinaron antes de publicarse.",
-      "signals": [
-        "DOI que identifica y localiza el artículo.",
-        "Metodología descrita de forma abierta.",
-        "Revisión por pares previa a la publicación.",
-        "Declaración de conflictos de interés."
-      ],
-      "recommendation": "En ciencia, prioriza DOI, método y revisión por pares antes de aceptar un hallazgo viral.",
-      "revealedAnswer": "Confiable"
-    },
-    "solutionPrivate": {
-      "classification": "reliable",
-      "evaluationSignals": [
-        "doi_present",
-        "peer_review",
-        "open_methodology",
-        "conflict_disclosure"
-      ]
-    }
-  },
-  {
-    "itemId": "radar-de-fuentes-004",
-    "gameCode": "radar-de-fuentes",
-    "mechanic": "source_classification",
-    "sequence": 4,
-    "contentVersion": "2026-07-30.1",
-    "editorialStatus": "approved",
-    "publicItem": {
-      "gameCode": "radar-de-fuentes",
-      "mechanic": "source_classification",
       "itemId": "radar-de-fuentes-004",
-      "prompt": "Lee el dominio, la autoría y las referencias. ¿Dónde ubicas esta fuente?",
+      "prompt": "Investiga la fuente y rastrea su origen. ¿Dónde la ubicas?",
       "sourceName": "Blog personal de opinión",
-      "urlLabel": "https://miblogsincensura.exampleblog.com/post",
-      "description": "Columna de opinión sin fuentes citadas: «Yo digo la verdad que los medios ocultan». Señales visibles: sin fuentes, opinión disfrazada de noticia.",
-      "categories": ["reliable", "doubtful", "fraudulent"]
+      "urlLabel": "https://vozsinfiltro.blog/post/la-verdad-oculta",
+      "description": "Columna de opinión sin fuentes citadas: «Yo digo la verdad que los medios ocultan». Señales: sin fuentes, opinión disfrazada de noticia.",
+      "categories": [
+        "reliable",
+        "doubtful",
+        "fraudulent"
+      ]
     },
     "feedback": {
       "status": "instructive",
       "explanation": "Es dudosa: no es necesariamente falsa, pero es opinión sin evidencia. Puede servir como punto de partida, nunca como prueba.",
       "signals": [
-        "No cita fuentes comprobables.",
-        "El tono personal presenta una opinión como si fuera noticia.",
-        "Afirma revelar verdades ocultas sin documentarlas.",
-        "No hay fecha editorial ni política de correcciones."
+        "Investiga: no cita fuentes comprobables ni fecha editorial.",
+        "Rastrea: no hay origen documental que contrastar.",
+        "Tono personal que presenta opinión como si fuera noticia.",
+        "Afirma revelar verdades ocultas sin documentarlas."
       ],
       "recommendation": "Separa opinión de evidencia: un blog puede orientar la búsqueda, pero no sustituye una fuente verificable.",
       "revealedAnswer": "Dudosa"
@@ -156,110 +86,36 @@
     }
   },
   {
-    "itemId": "radar-de-fuentes-005",
-    "gameCode": "radar-de-fuentes",
-    "mechanic": "source_classification",
-    "sequence": 5,
-    "contentVersion": "2026-07-30.1",
-    "editorialStatus": "approved",
-    "publicItem": {
-      "gameCode": "radar-de-fuentes",
-      "mechanic": "source_classification",
-      "itemId": "radar-de-fuentes-005",
-      "prompt": "Lee el dominio, la autoría y las referencias. ¿Dónde ubicas esta fuente?",
-      "sourceName": "Agregador sin autor ni fecha",
-      "urlLabel": "https://noticiasrapidas24.example.info/nota/4471",
-      "description": "Texto copiado de otros portales. No firma nadie, no tiene fecha y no enlaza a la fuente original. Señales visibles: sin autor, sin fecha, sin enlaces.",
-      "categories": ["reliable", "doubtful", "fraudulent"]
-    },
-    "feedback": {
-      "status": "instructive",
-      "explanation": "Es dudosa: sin autor ni fecha no hay a quién pedirle cuentas. Rastrea la noticia original antes de creerla.",
-      "signals": [
-        "Sin autor identificable.",
-        "Sin fecha de publicación.",
-        "No enlaza la fuente original del texto.",
-        "El contenido parece reutilizado de otros portales."
-      ],
-      "recommendation": "Si nadie firma ni data la nota, busca el origen antes de compartirla o usarla como prueba.",
-      "revealedAnswer": "Dudosa"
-    },
-    "solutionPrivate": {
-      "classification": "doubtful",
-      "evaluationSignals": [
-        "missing_author",
-        "missing_date",
-        "no_source_links",
-        "aggregated_copy"
-      ]
-    }
-  },
-  {
-    "itemId": "radar-de-fuentes-006",
-    "gameCode": "radar-de-fuentes",
-    "mechanic": "source_classification",
-    "sequence": 6,
-    "contentVersion": "2026-07-30.1",
-    "editorialStatus": "approved",
-    "publicItem": {
-      "gameCode": "radar-de-fuentes",
-      "mechanic": "source_classification",
-      "itemId": "radar-de-fuentes-006",
-      "prompt": "Lee el dominio, la autoría y las referencias. ¿Dónde ubicas esta fuente?",
-      "sourceName": "Cuenta de humor satírico",
-      "urlLabel": "https://eldiariodelamedialuna.example.com",
-      "description": "Noticias inventadas con fines de humor. En su sección «Acerca de» lo declara abiertamente. Señales visibles: sátira declarada en «Acerca de».",
-      "categories": ["reliable", "doubtful", "fraudulent"]
-    },
-    "feedback": {
-      "status": "instructive",
-      "explanation": "Es dudosa por sátira: no busca engañar, pero sacada de contexto circula como noticia real. Lee siempre el «Acerca de» del sitio.",
-      "signals": [
-        "El sitio declara humor o sátira en «Acerca de».",
-        "Las piezas inventan hechos para provocar risa, no para informar.",
-        "Fuera de contexto puede circular como si fuera una noticia.",
-        "No aporta autoría periodística ni correcciones de hechos."
-      ],
-      "recommendation": "La sátira no es fraude, pero tampoco es evidencia: comprueba el «Acerca de» antes de tomarla en serio.",
-      "revealedAnswer": "Dudosa"
-    },
-    "solutionPrivate": {
-      "classification": "doubtful",
-      "evaluationSignals": [
-        "declared_satire",
-        "humor_not_reporting",
-        "context_collapse_risk",
-        "not_evidence"
-      ]
-    }
-  },
-  {
     "itemId": "radar-de-fuentes-007",
     "gameCode": "radar-de-fuentes",
     "mechanic": "source_classification",
-    "sequence": 7,
+    "sequence": 3,
     "contentVersion": "2026-07-30.1",
     "editorialStatus": "approved",
     "publicItem": {
       "gameCode": "radar-de-fuentes",
       "mechanic": "source_classification",
       "itemId": "radar-de-fuentes-007",
-      "prompt": "Lee el dominio, la autoría y las referencias. ¿Dónde ubicas esta fuente?",
+      "prompt": "Investiga la fuente y rastrea su origen. ¿Dónde la ubicas?",
       "sourceName": "Portal de «becas» internacionales",
-      "urlLabel": "https://unesco-becas2026.example.xyz",
-      "description": "Imita el logo de la UNESCO, promete dinero y pide DNI más datos bancarios para «registrarte». Señales visibles: dominio .xyz, pide datos bancarios, urgencia.",
-      "categories": ["reliable", "doubtful", "fraudulent"]
+      "urlLabel": "https://unesco-becas2026.premium-forms.xyz",
+      "description": "Imita el logo de la UNESCO, promete dinero y pide DNI más datos bancarios. Señales: dominio .xyz, pide datos bancarios, urgencia.",
+      "categories": [
+        "reliable",
+        "doubtful",
+        "fraudulent"
+      ]
     },
     "feedback": {
       "status": "instructive",
       "explanation": "Es fraudulenta: typosquatting y phishing. La UNESCO real es unesco.org. Ninguna beca real pide tu tarjeta para «registrarte».",
       "signals": [
-        "Dominio engañoso (.xyz) que imita una marca conocida.",
-        "Promesa de dinero o becas con urgencia artificial.",
-        "Solicita DNI y datos bancarios para un registro.",
-        "Usa el logo de una institución sin ser su sitio oficial."
+        "Investiga: dominio .xyz que imita una marca conocida.",
+        "Rastrea: la UNESCO real está en unesco.org, no en este formulario.",
+        "Pide DNI y tarjeta para un «registro» de beca.",
+        "Urgencia artificial («últimos cupos») típica de phishing."
       ],
-      "recommendation": "Mira la barra de direcciones, no el logo: unesco.org no es lo mismo que unesco-becas2026.example.xyz.",
+      "recommendation": "Investiga la barra de direcciones y rastrea el dominio oficial: unesco.org no es unesco-becas2026.premium-forms.xyz.",
       "revealedAnswer": "Fraudulenta"
     },
     "solutionPrivate": {
@@ -273,28 +129,118 @@
     }
   },
   {
+    "itemId": "radar-de-fuentes-002",
+    "gameCode": "radar-de-fuentes",
+    "mechanic": "source_classification",
+    "sequence": 4,
+    "contentVersion": "2026-07-30.1",
+    "editorialStatus": "approved",
+    "publicItem": {
+      "gameCode": "radar-de-fuentes",
+      "mechanic": "source_classification",
+      "itemId": "radar-de-fuentes-002",
+      "prompt": "Investiga la fuente y rastrea su origen. ¿Dónde la ubicas?",
+      "sourceName": "Agencia de noticias con redactor firmado",
+      "urlLabel": "https://cables.agencia-norte.news/economia",
+      "description": "Cable con redactor identificado, hora exacta y política pública de correcciones. Señales: autor firmado, timestamp, correcciones visibles.",
+      "categories": [
+        "reliable",
+        "doubtful",
+        "fraudulent"
+      ]
+    },
+    "feedback": {
+      "status": "instructive",
+      "explanation": "Es confiable porque las agencias verifican antes de publicar y corrigen en público cuando fallan. Esa rendición de cuentas es la señal clave.",
+      "signals": [
+        "Investiga: redactor identificado con nombre y cargo.",
+        "Rastrea: hora exacta y política pública de correcciones.",
+        "Formato de cable con hechos separables de opinión.",
+        "Dominio de agencia reconocible, no un clon improvisado."
+      ],
+      "recommendation": "Investiga firmas y rastrea horarios/correcciones: así se ve si la fuente rinde cuentas.",
+      "revealedAnswer": "Confiable"
+    },
+    "solutionPrivate": {
+      "classification": "reliable",
+      "evaluationSignals": [
+        "signed_reporter",
+        "exact_timestamp",
+        "public_corrections",
+        "agency_accountability"
+      ]
+    }
+  },
+  {
+    "itemId": "radar-de-fuentes-005",
+    "gameCode": "radar-de-fuentes",
+    "mechanic": "source_classification",
+    "sequence": 5,
+    "contentVersion": "2026-07-30.1",
+    "editorialStatus": "approved",
+    "publicItem": {
+      "gameCode": "radar-de-fuentes",
+      "mechanic": "source_classification",
+      "itemId": "radar-de-fuentes-005",
+      "prompt": "Investiga la fuente y rastrea su origen. ¿Dónde la ubicas?",
+      "sourceName": "Agregador sin autor ni fecha",
+      "urlLabel": "https://noticiasrapidas24.info/nota/4471",
+      "description": "Texto copiado de otros portales. No firma nadie, no tiene fecha y no enlaza a la fuente original. Señales: sin autor, sin fecha, sin enlaces.",
+      "categories": [
+        "reliable",
+        "doubtful",
+        "fraudulent"
+      ]
+    },
+    "feedback": {
+      "status": "instructive",
+      "explanation": "Es dudosa: sin autor ni fecha no hay a quién pedirle cuentas. Rastrea la noticia original antes de creerla.",
+      "signals": [
+        "Investiga: sin autor identificable ni fecha de publicación.",
+        "Rastrea: no enlaza la fuente original del texto.",
+        "El contenido parece reutilizado de otros portales.",
+        "No hay a quién pedirle cuentas."
+      ],
+      "recommendation": "Si nadie firma ni data la nota, rastrea el origen antes de compartirla o usarla como prueba.",
+      "revealedAnswer": "Dudosa"
+    },
+    "solutionPrivate": {
+      "classification": "doubtful",
+      "evaluationSignals": [
+        "missing_author",
+        "missing_date",
+        "no_source_links",
+        "aggregated_copy"
+      ]
+    }
+  },
+  {
     "itemId": "radar-de-fuentes-008",
     "gameCode": "radar-de-fuentes",
     "mechanic": "source_classification",
-    "sequence": 8,
+    "sequence": 6,
     "contentVersion": "2026-07-30.1",
     "editorialStatus": "approved",
     "publicItem": {
       "gameCode": "radar-de-fuentes",
       "mechanic": "source_classification",
       "itemId": "radar-de-fuentes-008",
-      "prompt": "Lee el dominio, la autoría y las referencias. ¿Dónde ubicas esta fuente?",
+      "prompt": "Investiga la fuente y rastrea su origen. ¿Dónde la ubicas?",
       "sourceName": "Diario clonado",
-      "urlLabel": "https://elpais-internacional.example.press",
-      "description": "Copia el diseño de un diario famoso, pero el dominio es .press y todas las noticias atacan al mismo partido. Señales visibles: suplantación de marca, sesgo total.",
-      "categories": ["reliable", "doubtful", "fraudulent"]
+      "urlLabel": "https://elpais-internacional.press",
+      "description": "Copia el diseño de un diario famoso, pero el dominio es .press y todas las noticias atacan al mismo partido. Señales: suplantación de marca, sesgo total.",
+      "categories": [
+        "reliable",
+        "doubtful",
+        "fraudulent"
+      ]
     },
     "feedback": {
       "status": "instructive",
       "explanation": "Es fraudulenta: suplanta una marca conocida cambiando el dominio. Mira siempre la barra de direcciones, no el logo.",
       "signals": [
-        "Dominio distinto al del medio que imita (.press).",
-        "Copia visual de una marca periodística conocida.",
+        "Investiga: el dominio .press no es el del medio que imita.",
+        "Rastrea: la marca visual no coincide con la identidad editorial real.",
         "Cobertura sesgada que empuja un único adversario político.",
         "No ofrece una identidad editorial verificable propia."
       ],
@@ -312,6 +258,92 @@
     }
   },
   {
+    "itemId": "radar-de-fuentes-003",
+    "gameCode": "radar-de-fuentes",
+    "mechanic": "source_classification",
+    "sequence": 7,
+    "contentVersion": "2026-07-30.1",
+    "editorialStatus": "approved",
+    "publicItem": {
+      "gameCode": "radar-de-fuentes",
+      "mechanic": "source_classification",
+      "itemId": "radar-de-fuentes-003",
+      "prompt": "Investiga la fuente y rastrea su origen. ¿Dónde la ubicas?",
+      "sourceName": "Artículo en revista científica con DOI",
+      "urlLabel": "https://revistas.cienciaabierta.org/articulo/10.1234/demo",
+      "description": "Estudio con DOI, metodología descrita, revisión por pares y declaración de conflictos. Señales: DOI, peer review, método abierto.",
+      "categories": [
+        "reliable",
+        "doubtful",
+        "fraudulent"
+      ]
+    },
+    "feedback": {
+      "status": "instructive",
+      "explanation": "Es confiable: el DOI permite rastrearlo y la revisión por pares indica que otros expertos lo examinaron antes de publicarse.",
+      "signals": [
+        "Investiga: DOI, metodología abierta y declaración de conflictos.",
+        "Rastrea: la revisión por pares y el identificador permiten localizar el original.",
+        "No es un resumen viral sin fuente.",
+        "El dominio de revista científica es verificable."
+      ],
+      "recommendation": "En ciencia, investiga método y conflictos; rastrea el DOI antes de aceptar un hallazgo viral.",
+      "revealedAnswer": "Confiable"
+    },
+    "solutionPrivate": {
+      "classification": "reliable",
+      "evaluationSignals": [
+        "doi_present",
+        "peer_review",
+        "open_methodology",
+        "conflict_disclosure"
+      ]
+    }
+  },
+  {
+    "itemId": "radar-de-fuentes-006",
+    "gameCode": "radar-de-fuentes",
+    "mechanic": "source_classification",
+    "sequence": 8,
+    "contentVersion": "2026-07-30.1",
+    "editorialStatus": "approved",
+    "publicItem": {
+      "gameCode": "radar-de-fuentes",
+      "mechanic": "source_classification",
+      "itemId": "radar-de-fuentes-006",
+      "prompt": "Investiga la fuente y rastrea su origen. ¿Dónde la ubicas?",
+      "sourceName": "Cuenta de humor satírico",
+      "urlLabel": "https://eldiariodelamedialuna.satira",
+      "description": "Noticias inventadas con fines de humor. En «Acerca de» lo declara abiertamente. Señales: sátira declarada.",
+      "categories": [
+        "reliable",
+        "doubtful",
+        "fraudulent"
+      ]
+    },
+    "feedback": {
+      "status": "instructive",
+      "explanation": "Es dudosa por sátira: no busca engañar, pero sacada de contexto circula como noticia real. Lee siempre el «Acerca de» del sitio.",
+      "signals": [
+        "Investiga: el sitio declara humor o sátira en «Acerca de».",
+        "Rastrea: el origen aclara que inventa hechos para reír, no para informar.",
+        "Fuera de contexto puede circular como noticia real.",
+        "No aporta autoría periodística ni correcciones de hechos."
+      ],
+      "recommendation": "La sátira no es fraude, pero tampoco es evidencia: comprueba el «Acerca de» antes de tomarla en serio.",
+      "revealedAnswer": "Dudosa"
+    },
+    "solutionPrivate": {
+      "classification": "doubtful",
+      "evaluationSignals": [
+        "declared_satire",
+        "humor_not_reporting",
+        "context_collapse_risk",
+        "not_evidence"
+      ]
+    }
+  },
+  {
     "itemId": "radar-de-fuentes-009",
     "gameCode": "radar-de-fuentes",
     "mechanic": "source_classification",
@@ -322,20 +354,24 @@
       "gameCode": "radar-de-fuentes",
       "mechanic": "source_classification",
       "itemId": "radar-de-fuentes-009",
-      "prompt": "Lee el dominio, la autoría y las referencias. ¿Dónde ubicas esta fuente?",
+      "prompt": "Investiga la fuente y rastrea su origen. ¿Dónde la ubicas?",
       "sourceName": "Perfil «Noticias Verdaderas Oficial»",
-      "urlLabel": "https://x.example.com/NoticiasVerdaderas_Oficial",
-      "description": "Cuenta creada hace 3 semanas, foto de perfil genérica, publica 40 veces al día y nunca enlaza fuentes. Señales visibles: cuenta nueva, 40 posts/día, cero fuentes.",
-      "categories": ["reliable", "doubtful", "fraudulent"]
+      "urlLabel": "https://social.example-net/NoticiasVerdaderas_Oficial",
+      "description": "Cuenta creada hace 3 semanas, foto genérica, publica 40 veces al día y nunca enlaza fuentes. Señales: cuenta nueva, volumen extremo, cero fuentes.",
+      "categories": [
+        "reliable",
+        "doubtful",
+        "fraudulent"
+      ]
     },
     "feedback": {
       "status": "instructive",
       "explanation": "Es fraudulenta: patrón de granja de desinformación con cuenta nueva, volumen inhumano de publicaciones y ninguna fuente enlazada.",
       "signals": [
-        "Cuenta creada hace pocas semanas.",
-        "Foto de perfil genérica sin identidad verificable.",
+        "Investiga: cuenta creada hace pocas semanas con identidad genérica.",
+        "Rastrea: nunca enlaza fuentes comprobables; el origen se pierde.",
         "Volumen extremo: decenas de publicaciones al día.",
-        "Nunca enlaza fuentes comprobables."
+        "Patrón típico de granja de desinformación."
       ],
       "recommendation": "Cuenta nueva + volumen inhumano + cero fuentes suele ser una granja de desinformación, no un medio.",
       "revealedAnswer": "Fraudulenta"

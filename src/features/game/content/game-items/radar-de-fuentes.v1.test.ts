@@ -74,6 +74,30 @@ describe("pack editorial radar-de-fuentes.v1 (T053)", () => {
     }
   });
 
+  it("intercala categorías en orden pedagógico (sin bloques de tres iguales)", () => {
+    const classifications = items.map((item) =>
+      readClassification(item.solutionPrivate),
+    );
+
+    // Round-robin: confiable → dudosa → fraudulenta, tres vueltas.
+    expect(classifications).toEqual([
+      "reliable",
+      "doubtful",
+      "fraudulent",
+      "reliable",
+      "doubtful",
+      "fraudulent",
+      "reliable",
+      "doubtful",
+      "fraudulent",
+    ]);
+
+    for (let index = 0; index < classifications.length - 2; index += 1) {
+      const window = classifications.slice(index, index + 3);
+      expect(new Set(window).size).toBeGreaterThan(1);
+    }
+  });
+
   it("publica nombre, URL visible y descripción sin revelar la categoría privada", () => {
     for (const item of items) {
       const publicItem = item.publicItem;
@@ -113,20 +137,21 @@ describe("pack editorial radar-de-fuentes.v1 (T053)", () => {
     }
   });
 
-  it("publica las nueve fuentes en orden y nunca expone la solución privada", () => {
+  it("publica las nueve fuentes en orden pedagógico y nunca expone la solución privada", () => {
     const repository = createContentRepository(contentPack);
 
     expect(repository.activeVersion).toBe("2026-07-30.1");
     const published = repository.listPublishedItems("radar-de-fuentes");
+    // Intercalado confiable/dudosa/fraudulenta con dificultad creciente.
     expect(published.map((item) => item.itemId)).toEqual([
       "radar-de-fuentes-001",
-      "radar-de-fuentes-002",
-      "radar-de-fuentes-003",
       "radar-de-fuentes-004",
-      "radar-de-fuentes-005",
-      "radar-de-fuentes-006",
       "radar-de-fuentes-007",
+      "radar-de-fuentes-002",
+      "radar-de-fuentes-005",
       "radar-de-fuentes-008",
+      "radar-de-fuentes-003",
+      "radar-de-fuentes-006",
       "radar-de-fuentes-009",
     ]);
 
