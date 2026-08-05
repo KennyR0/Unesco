@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Ant�doto">
+  <rect width="32" height="32" fill="#FF2D6F"/>
+  <rect x="1.5" y="1.5" width="29" height="29" fill="none" stroke="#0A0A0A" stroke-width="3"/>
+  <g fill="#0A0A0A" transform="translate(16 17)">
+    <!-- A -->
+    <path d="M-8.2 7 L-1.6 -8.2 L1.6 -8.2 L8.2 7 L4.6 7 L3.4 3.6 H-3.4 L-4.6 7 Z M-2.4 1.2 H2.4 L0 -5.2 Z"/>
+    <!-- ! -->
+    <rect x="9.2" y="-8.2" width="3.2" height="10.4" rx="0.4"/>
+    <rect x="9.2" y="4.2" width="3.2" height="3.2" rx="0.4"/>
+  </g>
+</svg>
