@@ -116,6 +116,7 @@ describe("operaciones arcade server-only", () => {
     expect(gateway.startGame).toHaveBeenCalledWith({
       alias: "Ana",
       gameCode: "real-o-ia",
+      guest: false,
       sessionTokenHash: "a".repeat(64),
     });
 
