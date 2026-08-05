@@ -26,10 +26,13 @@ export function FeedDecisionPulse({
   const { messages } = useI18n();
   const advancedRef = useRef(false);
   const onAdvanceRef = useRef(onAdvance);
-  onAdvanceRef.current = onAdvance;
 
   const correct = feedback.status === "correct";
   const keySignal = feedback.signals[0] ?? feedback.explanation;
+
+  useEffect(() => {
+    onAdvanceRef.current = onAdvance;
+  }, [onAdvance]);
 
   useEffect(() => {
     advancedRef.current = false;
