@@ -109,7 +109,7 @@ describe("evaluador source_classification", () => {
       itemId: item.itemId,
       sessionItemIds,
       acceptedItemIds: [],
-      answer: "reliable",
+      answer: solution.classification,
       solution,
       feedback: item.feedback,
     });

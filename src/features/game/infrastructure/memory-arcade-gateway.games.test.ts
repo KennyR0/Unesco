@@ -262,7 +262,7 @@ describe("memory arcade gateway: seis misiones con contenido", () => {
         kind: "feed-60",
         verified: true,
         verificationHints: expect.arrayContaining([
-          expect.stringMatching(/Ministerio de Salud/),
+          expect.stringMatching(/minsa\.gob\.pe/),
         ]),
       }),
     );
