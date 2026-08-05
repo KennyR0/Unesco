@@ -310,6 +310,11 @@ export interface Leaderboard {
 export interface StartGameCommand {
   alias: string;
   gameCode: GameCode;
+  /**
+   * Partida sin alias de ranking. El servidor asigna una etiqueta de invitado
+   * y marca la sesión como no elegible para el ranking.
+   */
+  guest?: boolean;
 }
 
 export interface AdvanceGameCommand {

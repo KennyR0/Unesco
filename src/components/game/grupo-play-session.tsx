@@ -1,6 +1,6 @@
 "use client";
 
-import type { GameState } from "@antidoto/contracts";
+import type { GameState, SiftStep } from "@antidoto/contracts";
 
 import { useI18n } from "../../lib/i18n/provider";
 import { ArcadePlaySession } from "./arcade-play-session";
@@ -8,6 +8,7 @@ import { ArcadePlaySession } from "./arcade-play-session";
 export type GrupoPlaySessionProps = Readonly<{
   gameName: string;
   objective: string;
+  siftFocus?: readonly SiftStep[];
   initialState: GameState | null;
   bootstrapError?: string | null;
 }>;
@@ -23,6 +24,7 @@ export function GrupoPlaySession(props: GrupoPlaySessionProps) {
       introMechanic={`${messages.games.mechanic}: ${messages.games.groupMechanic}`}
       introSubmitLabel={messages.games.groupStart}
       itemNoun={locale === "en" ? "Scene" : "Escena"}
+      siftFocus={props.siftFocus ?? ["stop", "investigate"]}
       initialState={props.initialState}
       bootstrapError={props.bootstrapError}
     />

@@ -39,6 +39,7 @@ const sampleResult: GameResult = {
     timeUsedSeconds: null,
   },
   simulatedReach: null,
+  itemDigests: null,
 };
 
 describe("GameResultPage", () => {

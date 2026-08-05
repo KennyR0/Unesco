@@ -9,6 +9,8 @@ export type AliasStartFormProps = Readonly<{
   action?: (formData: FormData) => void | Promise<void>;
   /** Fallback cliente cuando no hay action de servidor. */
   onSubmit?: (alias: string) => Promise<void> | void;
+  /** Arranque invitado (sin ranking) cuando no hay action de servidor. */
+  onGuestStart?: () => Promise<void> | void;
   /** Juego a iniciar; viaja oculto para la Server Action. */
   gameCode?: string;
   disabled?: boolean;
@@ -18,10 +20,12 @@ export type AliasStartFormProps = Readonly<{
 
 /**
  * Formulario mínimo de alias temporal para iniciar una misión arcade.
+ * También permite jugar sin alias (partida no elegible al ranking).
  */
 export function AliasStartForm({
   action,
   onSubmit,
+  onGuestStart,
   gameCode,
   disabled = false,
   error = null,
@@ -44,6 +48,24 @@ export function AliasStartForm({
     if (disabled || pending || !onSubmit) return;
 
     const formData = new FormData(event.currentTarget);
+    const intent = String(formData.get("intent") ?? "named");
+    if (intent === "guest") {
+      if (!onGuestStart) {
+        setLocalError(messages.form.startFailed);
+        return;
+      }
+      setLocalError(null);
+      setPending(true);
+      try {
+        await onGuestStart();
+      } catch {
+        setLocalError(messages.form.startFailed);
+      } finally {
+        setPending(false);
+      }
+      return;
+    }
+
     const nextAlias = String(formData.get("alias") ?? "").trim();
     if (!nextAlias) {
       setLocalError(messages.form.aliasRequired);
@@ -85,7 +107,6 @@ export function AliasStartForm({
         autoComplete="nickname"
         maxLength={40}
         defaultValue=""
-        required
         minLength={3}
         disabled={disabled || pending}
         aria-describedby={
@@ -98,13 +119,27 @@ export function AliasStartForm({
           {shownError}
         </p>
       ) : null}
-      <button
-        className="primary-action"
-        type="submit"
-        disabled={disabled || pending}
-      >
-        {pending ? messages.form.starting : submitLabel ?? messages.form.startMission}
-      </button>
+      <div className="alias-start-form__actions">
+        <button
+          className="primary-action"
+          type="submit"
+          name="intent"
+          value="named"
+          disabled={disabled || pending}
+        >
+          {pending ? messages.form.starting : submitLabel ?? messages.form.startMission}
+        </button>
+        <button
+          className="secondary-action"
+          type="submit"
+          name="intent"
+          value="guest"
+          disabled={disabled || pending}
+        >
+          {messages.form.playAsGuest}
+        </button>
+      </div>
+      <p className="alias-start-form__guest-note">{messages.form.guestRankingNote}</p>
     </form>
   );
 }

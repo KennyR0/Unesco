@@ -1380,6 +1380,33 @@ html[data-motion="paused"] .kinetic-marquee__track span[aria-hidden="true"] {
   font: inherit;
 }
 
+.alias-start-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.alias-start-form__guest-note {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  opacity: 0.85;
+}
+
+.game-finished__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.result-card__guest-note {
+  margin: 0 0 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
 .alias-start-form__input:focus-visible {
   outline: 2px solid var(--game-accent, #1f6f8b);
   outline-offset: 2px;

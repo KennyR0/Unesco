@@ -56,6 +56,24 @@ export async function clearInvalidSessionAction(
   redirect("/");
 }
 
+/**
+ * Limpia la cookie de la misión y vuelve al intro para jugar otra vez.
+ */
+export async function playAgainArcadeGameFormAction(
+  formData: FormData,
+): Promise<never> {
+  const secure = process.env.NODE_ENV !== "development";
+  const parsedCode = GameCodeSchema.safeParse(formData.get("gameCode"));
+  if (!parsedCode.success) {
+    redirect("/");
+  }
+  const gameCode = parsedCode.data;
+  (await cookies()).set(
+    buildExpiredSessionCookie(secure, new Date(), gameCode),
+  );
+  redirect(`/games/${gameCode}`);
+}
+
 /** Acciones arcade: startGame + cookie opaca vinculada a gameCode. */
 export async function startArcadeGameAction(
   payload: unknown,
@@ -77,8 +95,14 @@ export async function startArcadeGameFormAction(
   }
 
   const gameCode = parsedCode.data;
-  const alias = String(formData.get("alias") ?? "");
-  const result = await startArcadeGameAction({ alias, gameCode });
+  const guest =
+    formData.get("guest") === "1" || formData.get("intent") === "guest";
+  const alias = guest ? "" : String(formData.get("alias") ?? "");
+  const result = await startArcadeGameAction({
+    alias,
+    gameCode,
+    ...(guest ? { guest: true } : {}),
+  });
 
   if (!result.ok) {
     redirect(
@@ -93,10 +117,13 @@ export async function startArcadeGameFormAction(
 export async function startGrupoGameFormAction(
   formData: FormData,
 ): Promise<void> {
-  const alias = String(formData.get("alias") ?? "");
+  const guest =
+    formData.get("guest") === "1" || formData.get("intent") === "guest";
+  const alias = guest ? "" : String(formData.get("alias") ?? "");
   const result = await startArcadeGameAction({
     alias,
     gameCode: "grupo",
+    ...(guest ? { guest: true } : {}),
   });
 
   if (!result.ok) {

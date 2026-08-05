@@ -4,10 +4,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition, type ReactNode } from "react";
 
-import type { GameCode, GameState, PublicItem } from "@antidoto/contracts";
+import type { GameCode, GameState, PublicItem, SiftStep } from "@antidoto/contracts";
 
 import {
   advanceArcadeGameAction,
+  playAgainArcadeGameFormAction,
   startArcadeGameFormAction,
   submitGameActionAction,
 } from "../../app/actions/game";
@@ -27,7 +28,9 @@ import {
   type SourceCategoryValue,
 } from "../games/source-radar-game";
 import { AliasStartForm } from "./alias-start-form";
+import { FeedDecisionPulse } from "./feed-decision-pulse";
 import { GameShell } from "./game-shell";
+import { SiftFocusBanner } from "./sift-focus-banner";
 
 export type ArcadePlaySessionProps = Readonly<{
   gameCode: GameCode;
@@ -38,6 +41,7 @@ export type ArcadePlaySessionProps = Readonly<{
   introSubmitLabel: string;
   /** Sustantivo del item para el estado de sesión ("Escena", "Imagen"…). */
   itemNoun: string;
+  siftFocus: readonly SiftStep[];
   initialState: GameState | null;
   bootstrapError?: string | null;
 }>;
@@ -55,6 +59,7 @@ export function ArcadePlaySession({
   introMechanic,
   introSubmitLabel,
   itemNoun,
+  siftFocus,
   initialState,
   bootstrapError = null,
 }: ArcadePlaySessionProps) {
@@ -70,6 +75,7 @@ export function ArcadePlaySession({
   const isIntro = state === null || state.status === "intro";
   // El servidor ya localiza estado inicial y respuestas de acciones.
   const feedback = !isIntro ? state.feedback ?? null : null;
+  const feedPulseMode = gameCode === "feed-60" && Boolean(feedback);
   const provisionalScore = !isIntro ? state.provisionalScore : null;
   const isFinished = !isIntro && state.nextAction === "result";
   const feedCompanion =
@@ -87,6 +93,11 @@ export function ArcadePlaySession({
       case "processing":
         return messages.chrome.processingAnswer;
       case "feedback":
+        if (gameCode === "feed-60" && current.feedback) {
+          return current.feedback.status === "correct"
+            ? messages.feedback.correct
+            : messages.feedback.review;
+        }
         return messages.feedback.accepted;
       case "expired":
         return messages.games.gameExpired;
@@ -286,6 +297,7 @@ export function ArcadePlaySession({
           <p className="game-route__label">{messages.games.mission} {gameCode}</p>
           <p className="game-route__objective">{objective}</p>
           <p className="game-route__mechanic">{introMechanic}</p>
+          <SiftFocusBanner steps={siftFocus} mode="practicing" />
           <AliasStartForm
             action={startArcadeGameFormAction}
             gameCode={gameCode}
@@ -318,9 +330,9 @@ export function ArcadePlaySession({
         total: state.total,
       }}
       error={error}
-      feedback={feedback}
+      feedback={feedPulseMode ? null : feedback}
       nextAction={
-        feedback && state.nextAction === "advance" ? (
+        !feedPulseMode && feedback && state.nextAction === "advance" ? (
           <button
             className="primary-action"
             type="button"
@@ -340,6 +352,19 @@ export function ArcadePlaySession({
         </p>
       ) : null}
 
+      <SiftFocusBanner
+        steps={siftFocus}
+        mode={feedback && !feedPulseMode ? "practiced" : "practicing"}
+      />
+
+      {feedPulseMode && feedback ? (
+        <FeedDecisionPulse
+          feedback={feedback}
+          onAdvance={handleAdvance}
+          disabled={pending}
+        />
+      ) : null}
+
       {isFinished ? (
         <section className="game-finished" aria-label={`${messages.result.result}: ${gameName}`}>
           {gameCode === "mente-maestra" ? (
@@ -357,11 +382,17 @@ export function ArcadePlaySession({
           ) : (
             <p>{messages.games.gameFinished}.</p>
           )}
-          <p>
+          <nav className="game-finished__actions" aria-label={messages.result.actions}>
             <Link className="primary-action" href={`/games/${gameCode}/result`}>
               {messages.result.result}
             </Link>
-          </p>
+            <form action={playAgainArcadeGameFormAction}>
+              <input type="hidden" name="gameCode" value={gameCode} />
+              <button className="secondary-action" type="submit">
+                {messages.result.playAgain}
+              </button>
+            </form>
+          </nav>
         </section>
       ) : state.item ? (
         renderGame(state.item)
