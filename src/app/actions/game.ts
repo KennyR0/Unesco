@@ -25,8 +25,6 @@ import {
 } from "../../lib/security/session-cookie";
 import { startArcadeGameAction } from "./start-arcade-game";
 
-export { startArcadeGameAction } from "./start-arcade-game";
-
 async function withLocalizedState(
   result: ArcadeOperationResult<GameState>,
 ): Promise<ArcadeOperationResult<GameState>> {
