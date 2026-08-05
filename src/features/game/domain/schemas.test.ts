@@ -51,6 +51,7 @@ describe("schemas del dominio arcade", () => {
         route: "/games/real-o-ia",
         contentVersion: "v1",
         available: true,
+        siftFocus: ["investigate"],
       }).success,
     ).toBe(true);
 
@@ -63,17 +64,18 @@ describe("schemas del dominio arcade", () => {
         route: "/games/real-o-ia",
         contentVersion: "v1",
         available: true,
+        siftFocus: ["investigate"],
       }).success,
     ).toBe(false);
 
     const catalog = [
-      ["real-o-ia", "image_verdict"],
-      ["grupo", "group_decision"],
-      ["clickbait-swipe", "headline_classification"],
-      ["radar-de-fuentes", "source_classification"],
-      ["feed-60", "timed_feed"],
-      ["mente-maestra", "guided_autopsy"],
-    ].map(([gameCode, mechanic]) => ({
+      ["real-o-ia", "image_verdict", ["investigate"]],
+      ["grupo", "group_decision", ["stop", "investigate"]],
+      ["clickbait-swipe", "headline_classification", ["stop", "investigate"]],
+      ["radar-de-fuentes", "source_classification", ["investigate", "trace"]],
+      ["feed-60", "timed_feed", ["find", "trace"]],
+      ["mente-maestra", "guided_autopsy", ["investigate", "trace"]],
+    ].map(([gameCode, mechanic, siftFocus]) => ({
       gameCode,
       mechanic,
       name: "Juego educativo",
@@ -81,6 +83,7 @@ describe("schemas del dominio arcade", () => {
       route: `/games/${gameCode}`,
       contentVersion: "v1",
       available: true,
+      siftFocus,
     }));
     expect(GameCatalogSchema.safeParse(catalog).success).toBe(true);
   });
@@ -158,6 +161,7 @@ describe("schemas del dominio arcade", () => {
         learningSummary: "Observaste señales antes de decidir.",
         score: { ...baseScore, points: 80 },
         simulatedReach: null,
+        itemDigests: null,
       }).success,
     ).toBe(true);
     expect(
@@ -171,6 +175,7 @@ describe("schemas del dominio arcade", () => {
         learningSummary: "Observaste señales antes de decidir.",
         score: baseScore,
         simulatedReach: null,
+        itemDigests: null,
       }).success,
     ).toBe(false);
     expect(

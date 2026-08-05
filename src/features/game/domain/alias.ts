@@ -7,6 +7,9 @@ import {
 
 import blocklist from "../content/blocked-aliases.v1.json";
 
+/** Etiqueta de display para partidas sin alias (no elegibles al ranking). */
+export const GUEST_DISPLAY_ALIAS = "Invitado";
+
 export type AliasValidationIssue =
   | "required"
   | "too_short"

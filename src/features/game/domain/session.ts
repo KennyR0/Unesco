@@ -37,6 +37,8 @@ export type ArcadeSessionRecord = Readonly<{
   gameCode: GameCode;
   mechanic: Mechanic;
   alias: string;
+  /** false = partida invitada; no entra al ranking. */
+  aliasAllowed: boolean;
   status: SessionStatus;
   startedAt: Date;
   expiresAt: Date;
@@ -64,6 +66,7 @@ export function createArcadeSession(input: {
   total: number;
   now?: Date;
   sessionId?: string;
+  aliasAllowed?: boolean;
 }): ArcadeSessionRecord {
   const now = input.now ?? new Date();
   if (input.total <= 0) {
@@ -75,6 +78,7 @@ export function createArcadeSession(input: {
     gameCode: input.gameCode,
     mechanic: GAME_CODE_TO_MECHANIC[input.gameCode],
     alias: input.alias,
+    aliasAllowed: input.aliasAllowed ?? true,
     status: "intro",
     startedAt: now,
     expiresAt: new Date(now.getTime() + SESSION_ACTIVITY_RETENTION_MS),

@@ -42,6 +42,13 @@ export const SessionStatusSchema = z.enum([
   "invalid",
 ]);
 
+export const SiftStepSchema = z.enum([
+  "stop",
+  "investigate",
+  "find",
+  "trace",
+]);
+
 export const GameCatalogEntrySchema = z
   .object({
     gameCode: GameCodeSchema,
@@ -51,6 +58,7 @@ export const GameCatalogEntrySchema = z
     route: z.string().regex(/^\/games\/[a-z0-9-]+$/),
     contentVersion: IdentifierSchema,
     available: z.boolean(),
+    siftFocus: z.array(SiftStepSchema).min(1).max(2),
   })
   .strict()
   .superRefine((entry, context) => {
@@ -59,6 +67,13 @@ export const GameCatalogEntrySchema = z
         code: z.ZodIssueCode.custom,
         path: ["mechanic"],
         message: "La mecánica no coincide con el gameCode.",
+      });
+    }
+    if (new Set(entry.siftFocus).size !== entry.siftFocus.length) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["siftFocus"],
+        message: "siftFocus no puede repetir pasos.",
       });
     }
   });
@@ -179,8 +194,19 @@ export const GroupChatMessageSchema = z
     sender: ShortTextSchema,
     text: TextSchema,
     timeLabel: ShortTextSchema.nullable(),
+    media: PublicMediaSchema.optional(),
+    attachmentPresentation: z.enum(["photo", "video_clip"]).optional(),
   })
-  .strict();
+  .strict()
+  .superRefine((message, context) => {
+    if (message.attachmentPresentation && !message.media) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["attachmentPresentation"],
+        message: "attachmentPresentation requiere media adjunta.",
+      });
+    }
+  });
 
 const RealOrAiPublicItemSchema = z
   .object({
@@ -243,6 +269,7 @@ const FeedPublicItemSchema = z
     prompt: TextSchema,
     post: TextSchema,
     sourceLabel: ShortTextSchema,
+    media: PublicMediaSchema.optional(),
     actions: z.tuple([
       z.literal("verify"),
       z.literal("share"),
@@ -379,14 +406,21 @@ const SessionIdSchema = IdentifierSchema;
 
 export const StartGameCommandSchema = z
   .object({
-    alias: z
-      .string()
-      .min(1)
-      .max(64)
-      .refine((value) => value.trim().length > 0, "El alias no puede estar vacío."),
+    alias: z.string().max(64),
     gameCode: GameCodeSchema,
+    guest: z.boolean().optional(),
   })
-  .strict();
+  .strict()
+  .superRefine((command, context) => {
+    if (command.guest) return;
+    if (command.alias.trim().length === 0) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["alias"],
+        message: "El alias no puede estar vacío.",
+      });
+    }
+  });
 
 export const AdvanceGameCommandSchema = z
   .object({
@@ -487,6 +521,18 @@ export const GameStateSchema = z
     }
   });
 
+export const FeedItemDigestSchema = z
+  .object({
+    itemId: IdentifierSchema,
+    prompt: TextSchema,
+    decisionCorrect: z.boolean(),
+    keySignal: TextSchema,
+    explanation: TextSchema,
+    recommendation: TextSchema,
+    revealedAnswer: ShortTextSchema.nullable(),
+  })
+  .strict();
+
 export const GameResultSchema = z
   .object({
     sessionId: SessionIdSchema,
@@ -498,6 +544,7 @@ export const GameResultSchema = z
     learningSummary: TextSchema,
     score: GameScoreSchema,
     simulatedReach: z.number().int().min(65).max(95).nullable(),
+    itemDigests: z.array(FeedItemDigestSchema).nullable(),
   })
   .strict()
   .superRefine((result, context) => {
@@ -534,6 +581,20 @@ export const GameResultSchema = z
         code: z.ZodIssueCode.custom,
         path: ["simulatedReach"],
         message: "Solo Mente Maestra puede declarar alcance simulado.",
+      });
+    }
+    if (result.gameCode === "feed-60" && result.itemDigests === null) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["itemDigests"],
+        message: "Feed 60 debe proyectar digests por publicación.",
+      });
+    }
+    if (result.gameCode !== "feed-60" && result.itemDigests !== null) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["itemDigests"],
+        message: "Solo Feed 60 puede declarar digests por publicación.",
       });
     }
   });

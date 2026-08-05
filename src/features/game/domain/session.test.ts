@@ -29,6 +29,7 @@ describe("sesión arcade independiente", () => {
 
     expect(session.gameCode).toBe("grupo");
     expect(session.mechanic).toBe("group_decision");
+    expect(session.aliasAllowed).toBe(true);
     expect(session.status).toBe("intro");
     expect(session.expiresAt.getTime()).toBe(
       now.getTime() + SESSION_ACTIVITY_RETENTION_MS,
