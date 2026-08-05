@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "indexVersion": "2026-08-04.3",
+  "notes": "Escenas Pexels para El Grupo y Feed 60”. Variantes 480/768/1280. provisional=false.",
+  "mediaById": {
+    "grupo-rio-inundacion": {
+      "kind": "image",
+      "src": "/media/grupo/rio-inundacion-768.webp",
+      "alt": "Calle inundada junto a un río crecido, con agua cubriendo la calzada y edificios al fondo.",
+      "decorative": false,
+      "width": 768,
+      "height": 511,
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "srcSet": {
+        "480": "/media/grupo/rio-inundacion-480.webp",
+        "768": "/media/grupo/rio-inundacion-768.webp",
+        "1280": "/media/grupo/rio-inundacion-1280.webp"
+      }
+    },
+    "grupo-clip-politico": {
+      "kind": "image",
+      "src": "/media/grupo/clip-politico-768.webp",
+      "alt": "Persona hablando ante un atril con micrófonos en un acto público; fotograma de un clip corto.",
+      "decorative": false,
+      "width": 768,
+      "height": 512,
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "srcSet": {
+        "480": "/media/grupo/clip-politico-480.webp",
+        "768": "/media/grupo/clip-politico-768.webp",
+        "1280": "/media/grupo/clip-politico-1280.webp"
+      }
+    },
+    "feed-60-avenida-inundada": {
+      "kind": "image",
+      "src": "/media/feed-60/avenida-inundada-768.webp",
+      "alt": "Avenida urbana bajo el agua después de una inundación, con vehículos parcialmente sumergidos.",
+      "decorative": false,
+      "width": 768,
+      "height": 511,
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "srcSet": {
+        "480": "/media/feed-60/avenida-inundada-480.webp",
+        "768": "/media/feed-60/avenida-inundada-768.webp",
+        "1280": "/media/feed-60/avenida-inundada-1280.webp"
+      }
+    },
+    "feed-60-incendio-humo": {
+      "kind": "image",
+      "src": "/media/feed-60/incendio-humo-768.webp",
+      "alt": "Columna de humo denso sobre un paisaje urbano al atardecer.",
+      "decorative": false,
+      "width": 768,
+      "height": 512,
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "srcSet": {
+        "480": "/media/feed-60/incendio-humo-480.webp",
+        "768": "/media/feed-60/incendio-humo-768.webp",
+        "1280": "/media/feed-60/incendio-humo-1280.webp"
+      }
+    }
+  }
+}

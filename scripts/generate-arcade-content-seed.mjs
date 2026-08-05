@@ -55,7 +55,10 @@ for (const item of items) {
 
   const itemId = editorialUuid(item.itemId);
   const publicPayload = item.publicItem;
-  const media = publicPayload.media ?? { kind: "none" };
+  const nestedMessageMedia = Array.isArray(publicPayload.messages)
+    ? publicPayload.messages.find((message) => message?.media)?.media
+    : null;
+  const media = publicPayload.media ?? nestedMessageMedia ?? { kind: "none" };
 
   lines.push(`insert into private_arcade.game_items (
   item_id, game_code, mechanic, sequence, prompt, public_payload,
