@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "manifestVersion": "2026-08-03.1",
+  "manifestVersion": "2026-08-04.3",
   "limits": {
     "maxBytesPerAsset": 1048576,
     "recommendedBytesPerAsset": 307200,
@@ -581,6 +581,214 @@
       "fingerprint": {
         "type": "sha256",
         "value": "3E9ACDD6FFD70A1A411DC029CB09CF6BE65744288C8A52D152ED8C6A6D1CAC10"
+      }
+    },
+    {
+      "id": "grupo-rio-inundacion",
+      "version": "1",
+      "gameCode": "grupo",
+      "kind": "image",
+      "src": "/media/grupo/rio-inundacion-768.webp",
+      "width": 768,
+      "height": 511,
+      "format": "webp",
+      "bytes": 91302,
+      "alt": "Calle inundada junto a un río crecido, con agua cubriendo la calzada y edificios al fondo.",
+      "decorative": false,
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "responsive": true,
+      "provisional": false,
+      "editorialStatus": "approved",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/photo/flood-on-street-in-city-in-india-25189241/"
+      },
+      "fingerprint": {
+        "type": "sha256",
+        "value": "4546D16F2EE572A12DA44821A4C96EF0A63B9664E03782BC9890D8329664AFCA"
+      }
+    },
+    {
+      "id": "grupo-clip-politico",
+      "version": "1",
+      "gameCode": "grupo",
+      "kind": "image",
+      "src": "/media/grupo/clip-politico-768.webp",
+      "width": 768,
+      "height": 512,
+      "format": "webp",
+      "bytes": 24278,
+      "alt": "Persona hablando ante un atril con micrófonos en un acto público; fotograma de un clip corto.",
+      "decorative": false,
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "responsive": true,
+      "provisional": false,
+      "editorialStatus": "approved",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/photo/woman-giving-speech-6950215/"
+      },
+      "fingerprint": {
+        "type": "sha256",
+        "value": "BB654808FAB93ADA30B3EBFC1EB6A60B5669E29C169BD7EC4347D70DCD9578A7"
+      }
+    },
+    {
+      "id": "feed-60-avenida-inundada",
+      "version": "1",
+      "gameCode": "feed-60",
+      "kind": "image",
+      "src": "/media/feed-60/avenida-inundada-768.webp",
+      "width": 768,
+      "height": 511,
+      "format": "webp",
+      "bytes": 57558,
+      "alt": "Avenida urbana bajo el agua después de una inundación, con vehículos parcialmente sumergidos.",
+      "decorative": false,
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "responsive": true,
+      "provisional": false,
+      "editorialStatus": "approved",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/photo/cars-on-street-in-water-during-flood-26202090/"
+      },
+      "fingerprint": {
+        "type": "sha256",
+        "value": "40282B755EDAB7538495E430DC96C03DA392D32D070949AD02F3D4A16DFF5A4F"
+      }
+    },
+    {
+      "id": "feed-60-incendio-humo",
+      "version": "1",
+      "gameCode": "feed-60",
+      "kind": "image",
+      "src": "/media/feed-60/incendio-humo-768.webp",
+      "width": 768,
+      "height": 512,
+      "format": "webp",
+      "bytes": 24890,
+      "alt": "Columna de humo denso sobre un paisaje urbano al atardecer.",
+      "decorative": false,
+      "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+      "responsive": true,
+      "provisional": false,
+      "editorialStatus": "approved",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/photo/221012/"
+      },
+      "fingerprint": {
+        "type": "sha256",
+        "value": "753CED6C1B587C77F726421C445FE90371F46FB497C61FAB645EBAC3F2F8BE6D"
+      }
+    },
+    {
+      "id": "mente-maestra-recycled-photo",
+      "version": "1",
+      "gameCode": "mente-maestra",
+      "kind": "image",
+      "src": "/media/mente-maestra/foto-reciclada-768.webp",
+      "width": 768,
+      "height": 511,
+      "format": "webp",
+      "bytes": 88672,
+      "alt": "Calle inundada usada como ejemplo de foto real reciclada fuera de contexto.",
+      "decorative": false,
+      "fallbackText": "La imagen ilustrativa no está disponible. La lección de la autopsia se conserva en el texto.",
+      "responsive": true,
+      "provisional": false,
+      "editorialStatus": "approved",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/photo/flood-on-street-in-city-in-india-25189241/"
+      },
+      "fingerprint": {
+        "type": "sha256",
+        "value": "1819431422FD87BC6DF4B8DC21811328FF596624672A1E465C3A484D7481364E"
+      }
+    },
+    {
+      "id": "mente-maestra-ai-image",
+      "version": "1",
+      "gameCode": "mente-maestra",
+      "kind": "image",
+      "src": "/media/mente-maestra/imagen-ia-768.webp",
+      "width": 768,
+      "height": 512,
+      "format": "webp",
+      "bytes": 24856,
+      "alt": "Paisaje hiperestilizado usado como ejemplo de imagen sintética a inspeccionar.",
+      "decorative": false,
+      "fallbackText": "La imagen ilustrativa no está disponible. La lección de la autopsia se conserva en el texto.",
+      "responsive": true,
+      "provisional": false,
+      "editorialStatus": "approved",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/photo/221012/"
+      },
+      "fingerprint": {
+        "type": "sha256",
+        "value": "D51436E9DB792506411C8091071F3B070EAD23716A206C1DFE207ACC9E77F12E"
+      }
+    },
+    {
+      "id": "mente-maestra-fake-expert",
+      "version": "1",
+      "gameCode": "mente-maestra",
+      "kind": "image",
+      "src": "/media/mente-maestra/experto-falso-768.webp",
+      "width": 768,
+      "height": 1152,
+      "format": "webp",
+      "bytes": 42064,
+      "alt": "Persona con bata blanca usada como ejemplo de «experto» sin identidad verificable.",
+      "decorative": false,
+      "fallbackText": "La imagen ilustrativa no está disponible. La lección de la autopsia se conserva en el texto.",
+      "responsive": true,
+      "provisional": false,
+      "editorialStatus": "approved",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/photo/doctor-holding-a-stethoscope-5452201/"
+      },
+      "fingerprint": {
+        "type": "sha256",
+        "value": "436C5396EEE4F32C36ECF99230992AA783EA070067C221AF059B649EDB65E415"
+      }
+    },
+    {
+      "id": "mente-maestra-truncated-axis",
+      "version": "1",
+      "gameCode": "mente-maestra",
+      "kind": "image",
+      "src": "/media/mente-maestra/eje-truncado-768.webp",
+      "width": 768,
+      "height": 509,
+      "format": "webp",
+      "bytes": 14836,
+      "alt": "Gráfico de barras usado como ejemplo de visualización que conviene revisar en los ejes.",
+      "decorative": false,
+      "fallbackText": "La imagen ilustrativa no está disponible. La lección de la autopsia se conserva en el texto.",
+      "responsive": true,
+      "provisional": false,
+      "editorialStatus": "approved",
+      "rights": {
+        "provenanceType": "pexels",
+        "license": "Pexels License",
+        "locator": "https://www.pexels.com/photo/person-pointing-paper-line-graph-590022/"
+      },
+      "fingerprint": {
+        "type": "sha256",
+        "value": "EA047A25822227C97A309EADD4CA9883FE2E6D69E2A408998DC6A1D5659C1487"
       }
     }
   ]

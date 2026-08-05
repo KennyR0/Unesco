@@ -59,6 +59,22 @@ describe("pack editorial grupo.v1 (T045)", () => {
     }
   });
 
+  it("adjunta media real en las escenas de foto y clip político", () => {
+    const river = items.find((item) => item.itemId === "grupo-002");
+    const clip = items.find((item) => item.itemId === "grupo-004");
+    expect(river?.publicItem.gameCode).toBe("grupo");
+    expect(clip?.publicItem.gameCode).toBe("grupo");
+    if (river?.publicItem.gameCode !== "grupo" || clip?.publicItem.gameCode !== "grupo") {
+      throw new Error("Items de grupo esperados.");
+    }
+    const riverMedia = river.publicItem.messages[0]?.media;
+    const clipMedia = clip.publicItem.messages[0]?.media;
+    expect(riverMedia?.src).toMatch(/^\/media\/grupo\/rio-inundacion/);
+    expect(clipMedia?.src).toMatch(/^\/media\/grupo\/clip-politico/);
+    expect(river.publicItem.messages[0]?.attachmentPresentation).toBe("photo");
+    expect(clip.publicItem.messages[0]?.attachmentPresentation).toBe("video_clip");
+  });
+
   it("evalúa cada acción en privado con score, consecuencia y feedback específicos", () => {
     for (const item of items) {
       const evaluations = readActionEvaluations(item.solutionPrivate);

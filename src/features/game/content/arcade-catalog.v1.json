@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "catalogVersion": "2026-07-30.1",
+  "catalogVersion": "2026-08-04.1",
   "games": [
     {
       "gameCode": "real-o-ia",
@@ -9,7 +9,8 @@
       "objective": "Detectar señales visuales de imágenes sintéticas antes de darlas por reales.",
       "route": "/games/real-o-ia",
       "contentVersion": "2026-07-30.1",
-      "available": true
+      "available": true,
+      "siftFocus": ["investigate"]
     },
     {
       "gameCode": "grupo",
@@ -18,7 +19,8 @@
       "objective": "Decidir con cuidado si reenviar, verificar o frenar mensajes en un chat familiar.",
       "route": "/games/grupo",
       "contentVersion": "2026-07-30.1",
-      "available": true
+      "available": true,
+      "siftFocus": ["stop", "investigate"]
     },
     {
       "gameCode": "clickbait-swipe",
@@ -27,7 +29,8 @@
       "objective": "Separar titulares periodísticos de clickbait en segundos.",
       "route": "/games/clickbait-swipe",
       "contentVersion": "2026-07-30.1",
-      "available": true
+      "available": true,
+      "siftFocus": ["stop", "investigate"]
     },
     {
       "gameCode": "radar-de-fuentes",
@@ -36,7 +39,8 @@
       "objective": "Clasificar fuentes como confiables, dudosas o fraudulentas según señales observables.",
       "route": "/games/radar-de-fuentes",
       "contentVersion": "2026-07-30.1",
-      "available": true
+      "available": true,
+      "siftFocus": ["investigate", "trace"]
     },
     {
       "gameCode": "feed-60",
@@ -45,7 +49,8 @@
       "objective": "Priorizar verificación, compartir o descartar bajo un límite de tiempo autoritativo.",
       "route": "/games/feed-60",
       "contentVersion": "2026-07-30.1",
-      "available": true
+      "available": true,
+      "siftFocus": ["find", "trace"]
     },
     {
       "gameCode": "mente-maestra",
@@ -54,7 +59,8 @@
       "objective": "Reconocer técnicas de manipulación desmontando una fake news sin producir daño real.",
       "route": "/games/mente-maestra",
       "contentVersion": "2026-07-30.1",
-      "available": true
+      "available": true,
+      "siftFocus": ["investigate", "trace"]
     }
   ]
 }

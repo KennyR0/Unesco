@@ -10,32 +10,36 @@
       "gameCode": "grupo",
       "mechanic": "group_decision",
       "itemId": "grupo-001",
-      "prompt": "En el chat familiar llega un supuesto remedio de salud atribuido a la OMS. Decide qué hacer antes de que alguien abandone su tratamiento.",
+      "prompt": "En el chat familiar llega un supuesto remedio de salud atribuido a la OMS. Practica Frenar e Investigar antes de que alguien abandone su tratamiento.",
       "messages": [
         {
           "sender": "Tía Marta",
-          "text": "⚠️ URGENTE: el limón con bicarbonato CURA el cáncer, lo confirmó la OMS. Reenvía a todos; puedes salvar una vida 🙏🍋",
+          "text": "⚠️ URGENTE familia: limón con bicarbonato CURA el cáncer, lo dijo la OMS. Reenvíen YA, pueden salvar una vida 🙏🍋",
           "timeLabel": "10:02"
         },
         {
           "sender": "Primo Luis",
-          "text": "¿De verdad? Mi médico me indicó seguir el tratamiento, pero este mensaje me dejó preocupado.",
+          "text": "¿En serio? Mi oncólogo me dijo seguir el tratamiento, pero este mensaje me dejó con miedo.",
           "timeLabel": "10:03"
         }
       ],
-      "actions": ["forward", "verify", "pause"]
+      "actions": [
+        "forward",
+        "verify",
+        "pause"
+      ]
     },
     "feedback": {
       "status": "instructive",
-      "explanation": "La OMS no confirmó ese remedio. Las cadenas de salud mezclan una promesa milagrosa, una autoridad sin comunicado y presión para reenviar; seguir un tratamiento no debe decidirse por un mensaje anónimo.",
+      "explanation": "La OMS no confirmó ese remedio. Frenar el reenvío y luego investigar la autoridad citada evita que una cadena de salud empuje una decisión médica peligrosa.",
       "signals": [
-        "Promesa de curación rápida sin evidencia clínica.",
-        "La OMS aparece como autoridad, pero no hay comunicado comprobable.",
-        "La urgencia y el pedido de reenviar sustituyen a los datos.",
-        "Una decisión de salud requiere una fuente profesional y confiable."
+        "Frena: la urgencia y el «reenvía YA» buscan que actúes sin pensar.",
+        "Investiga: la OMS aparece citada, pero no hay comunicado comprobable.",
+        "Promesa de curación rápida sin evidencia clínica ni profesional identificable.",
+        "Una decisión de salud requiere fuente sanitaria, no un mensaje de chat."
       ],
-      "recommendation": "Verifica las afirmaciones de salud en la autoridad sanitaria y con profesionales antes de compartirlas o actuar sobre ellas.",
-      "revealedAnswer": "No es una recomendación de la OMS; hay que verificarla y frenar la cadena."
+      "recommendation": "Frena la cadena, investiga en el canal oficial de salud y avisa al grupo con lo que encontraste.",
+      "revealedAnswer": "No es una recomendación de la OMS; hay que frenar e investigar antes de actuar."
     },
     "solutionPrivate": {
       "actionEvaluations": {
@@ -80,12 +84,27 @@
       "gameCode": "grupo",
       "mechanic": "group_decision",
       "itemId": "grupo-002",
-      "prompt": "Una foto real aparece en el chat como si mostrara una inundación de hoy. Decide si la imagen tiene el contexto que le atribuyen.",
+      "prompt": "Una foto real llega al chat como si mostrara una inundación de hoy. Frena el pánico e investiga el contexto de la imagen.",
       "messages": [
         {
           "sender": "Primo Diego",
-          "text": "ASÍ ESTÁ EL RÍO AHORA MISMO. Se desbordó todo por el centro; corran la voz 😱 La foto viene adjunta.",
-          "timeLabel": "10:14"
+          "text": "ASÍ ESTÁ EL RÍO AHORA MISMO. Se desbordó por el centro; corran la voz 😱",
+          "timeLabel": "10:14",
+          "attachmentPresentation": "photo",
+          "media": {
+            "kind": "image",
+            "src": "/media/grupo/rio-inundacion-768.webp",
+            "alt": "Calle inundada junto a un río crecido, con agua cubriendo la calzada y edificios al fondo.",
+            "decorative": false,
+            "width": 768,
+            "height": 511,
+            "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+            "srcSet": {
+              "480": "/media/grupo/rio-inundacion-480.webp",
+              "768": "/media/grupo/rio-inundacion-768.webp",
+              "1280": "/media/grupo/rio-inundacion-1280.webp"
+            }
+          }
         },
         {
           "sender": "Amiga Vale",
@@ -93,18 +112,22 @@
           "timeLabel": "10:15"
         }
       ],
-      "actions": ["forward", "verify", "pause"]
+      "actions": [
+        "forward",
+        "verify",
+        "pause"
+      ]
     },
     "feedback": {
       "status": "instructive",
-      "explanation": "La foto es real, pero pertenece a una inundación de 2016. Una imagen auténtica también puede engañar si se publica con una fecha, un lugar o una situación distintos.",
+      "explanation": "La foto es real, pero pertenece a una inundación de 2016. Frenar el reenvío e investigar origen y fecha evita convertir una imagen antigua en una emergencia falsa.",
       "signals": [
-        "El mensaje dice que ocurre ahora, pero no aporta fecha verificable.",
-        "La imagen circula como adjunto reenviado, sin autor ni ubicación confirmada.",
-        "Una búsqueda inversa puede revelar publicaciones anteriores.",
-        "La decisión depende del contexto, no solo de que la foto parezca real."
+        "Frena: «ahora mismo» y el pánico empujan a reenviar sin comprobar.",
+        "Investiga: no hay fecha, lugar confirmado ni autor de la foto.",
+        "Una búsqueda inversa puede revelar publicaciones anteriores de la misma imagen.",
+        "Que la foto sea real no prueba que el texto que la acompaña también lo sea."
       ],
-      "recommendation": "Haz una búsqueda inversa y comprueba la fecha y el lugar antes de compartir una imagen de emergencia.",
+      "recommendation": "Frena, haz una búsqueda inversa y comprueba fecha y lugar antes de compartir una imagen de emergencia.",
       "revealedAnswer": "La foto es real, pero está fuera de contexto y no muestra una inundación actual."
     },
     "solutionPrivate": {
@@ -122,19 +145,19 @@
           "score": 2,
           "narrativeResult": "Usas una búsqueda inversa y descubres que la misma foto corresponde a una inundación de 2016.",
           "consequences": [
-            "Avisas al grupo que la fecha es antigua.",
-            "La hermana de Vale puede decidir su ruta con información actualizada."
+            "Avisas al grupo con la fecha real.",
+            "Vale deja de preocuparse por una emergencia inventada."
           ],
           "feedback": "La búsqueda inversa comprueba el origen y el contexto de una imagen; es la herramienta adecuada cuando una foto impactante llega sin fecha."
         },
         "pause": {
           "score": 1,
-          "narrativeResult": "Pides que nadie la reenvíe hasta confirmar cuándo y dónde fue tomada.",
+          "narrativeResult": "Pides que nadie la reenvíe hasta confirmar cuándo se tomó.",
           "consequences": [
             "El grupo evita una difusión inmediata.",
-            "Todavía no sabe si necesita una corrección o una alerta real."
+            "Todavía falta explicar que la foto es antigua."
           ],
-          "feedback": "Frenar la difusión reduce el riesgo, pero la búsqueda de contexto es la que permite aclarar la situación."
+          "feedback": "Pausar corta el pánico; el siguiente paso es investigar el origen de la imagen."
         }
       }
     }
@@ -150,31 +173,35 @@
       "gameCode": "grupo",
       "mechanic": "group_decision",
       "itemId": "grupo-003",
-      "prompt": "Un mensaje ofrece falsas becas UNESCO y pide datos sensibles. Decide cómo proteger al grupo frente a un posible phishing.",
+      "prompt": "Un mensaje ofrece falsas becas UNESCO y pide datos sensibles. Frena el clic e investiga el canal oficial.",
       "messages": [
         {
           "sender": "Número no guardado",
-          "text": "🎓 BECAS UNESCO 2026: 500 dólares mensuales para jóvenes. ÚLTIMOS CUPOS. Completa el formulario con tu documento y tarjeta en el enlace del mensaje.",
+          "text": "🎓 BECAS UNESCO 2026: 500 USD mensuales para jóvenes. ÚLTIMOS CUPOS HOY. Completa el formulario con tu DNI y tarjeta en el enlace.",
           "timeLabel": "10:31"
         },
         {
           "sender": "Tía Marta",
-          "text": "¿Será cierto? Dice que si no lo llenamos hoy perdemos la oportunidad.",
+          "text": "¿Será cierto? Dice que si no lo llenamos hoy perdemos la oportunidad…",
           "timeLabel": "10:32"
         }
       ],
-      "actions": ["forward", "verify", "pause"]
+      "actions": [
+        "forward",
+        "verify",
+        "pause"
+      ]
     },
     "feedback": {
       "status": "instructive",
-      "explanation": "Es un intento de phishing. La urgencia, la promesa fácil y la solicitud de documento y tarjeta no prueban que una beca sea real; una institución legítima debe poder verificarse en sus canales oficiales y no necesita esos datos para una primera consulta.",
+      "explanation": "Es phishing. Frenar el enlace e investigar la convocatoria en unesco.org evita entregar datos bancarios a un formulario falso.",
       "signals": [
-        "Promete dinero y últimos cupos para presionar una decisión.",
-        "Pide documento y tarjeta mediante un enlace no verificado.",
-        "El remitente no es un canal institucional reconocible.",
-        "La convocatoria debe contrastarse en el canal oficial de UNESCO."
+        "Frena: «últimos cupos hoy» y el pedido de tarjeta buscan una decisión impulsiva.",
+        "Investiga: un número desconocido no es un canal institucional de UNESCO.",
+        "Pide documento y tarjeta mediante un enlace no verificable.",
+        "Una convocatoria real se contrasta en el dominio oficial, no en un chat."
       ],
-      "recommendation": "No introduzcas datos sensibles; verifica la convocatoria por un canal oficial, reporta el mensaje y avisa al grupo.",
+      "recommendation": "No abras el enlace ni entregues datos; investiga en el canal oficial, reporta el mensaje y avisa al grupo.",
       "revealedAnswer": "La oferta es phishing y no es una convocatoria oficial de becas UNESCO."
     },
     "solutionPrivate": {
@@ -220,31 +247,50 @@
       "gameCode": "grupo",
       "mechanic": "group_decision",
       "itemId": "grupo-004",
-      "prompt": "Un clip político de doce segundos provoca indignación, pero parece cortado. Decide qué hacer antes de juzgarlo o difundirlo.",
+      "prompt": "Un clip político de doce segundos provoca indignación. Frena el juicio e investiga la intervención completa.",
       "messages": [
         {
           "sender": "Amiga Vale",
-          "text": "MIREN LO QUE DIJO ESTE POLÍTICO 😡 Son doce segundos y ya me indigné. Compártanlo para que todos sepan cómo piensa.",
-          "timeLabel": "11:05"
+          "text": "MIREN LO QUE DIJO 😡 Son doce segundos y ya me indigné. Compártanlo para que todos sepan cómo piensa.",
+          "timeLabel": "11:05",
+          "attachmentPresentation": "video_clip",
+          "media": {
+            "kind": "image",
+            "src": "/media/grupo/clip-politico-768.webp",
+            "alt": "Persona hablando ante un atril con micrófonos en un acto público; fotograma de un clip corto.",
+            "decorative": false,
+            "width": 768,
+            "height": 512,
+            "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+            "srcSet": {
+              "480": "/media/grupo/clip-politico-480.webp",
+              "768": "/media/grupo/clip-politico-768.webp",
+              "1280": "/media/grupo/clip-politico-1280.webp"
+            }
+          }
         },
         {
           "sender": "Primo Diego",
-          "text": "El video no muestra quién lo publicó ni qué dijo antes. ¿Alguien tiene la intervención completa?",
+          "text": "El video corta a mitad de frase y no dice quién lo publicó. ¿Alguien tiene la intervención completa?",
           "timeLabel": "11:06"
         }
       ],
-      "actions": ["forward", "verify", "pause"]
+      "actions": [
+        "forward",
+        "verify",
+        "pause"
+      ]
     },
     "feedback": {
       "status": "instructive",
-      "explanation": "El clip está recortado a mitad de una oración y cambia el sentido de la intervención. Un video puede no estar falsificado y aun así ser engañoso si omite el contexto que lo completa.",
+      "explanation": "El clip está recortado a mitad de una oración y cambia el sentido. Frenar e investigar la fuente completa evita difundir un montaje emocional.",
       "signals": [
-        "El fragmento es muy corto y empieza o termina a mitad de una frase.",
-        "La indignación funciona como presión para compartir de inmediato.",
-        "No aparece la fuente de la grabación ni la intervención completa.",
-        "El contexto anterior y posterior puede cambiar la interpretación."
+        "Frena: la indignación del clip corto empuja a compartir antes de pensar.",
+        "Investiga: falta la fuente de la grabación y lo que se dijo antes y después.",
+        "Un fragmento de doce segundos puede empezar o terminar a mitad de frase.",
+        "El contexto completo puede cambiar por completo la interpretación."
       ],
-      "recommendation": "Busca la intervención completa y compara el fragmento con una fuente original antes de comentar o compartir.",
+      "recommendation": "Frena el reenvío, busca la intervención completa y compara el fragmento con la fuente original.",
       "revealedAnswer": "El clip está recortado y no permite conocer el sentido completo de la declaración."
     },
     "solutionPrivate": {
@@ -290,31 +336,35 @@
       "gameCode": "grupo",
       "mechanic": "group_decision",
       "itemId": "grupo-005",
-      "prompt": "Llega una alerta meteorológica oficial ya verificada. Decide si compartir información confiable también puede ser una acción de cuidado.",
+      "prompt": "Llega una alerta meteorológica oficial ya verificada. Investiga la fuente y, si cuadra, compartir también es cuidar.",
       "messages": [
         {
           "sender": "Tío Carlos",
-          "text": "⚠️ ALERTA OFICIAL VERIFICADA: Protección Civil informa tormenta eléctrica fuerte de 21:00 a 02:00. Aseguren ventanas y desconecten equipos.",
+          "text": "⚠️ ALERTA OFICIAL: Protección Civil informa tormenta eléctrica fuerte de 21:00 a 02:00. Aseguren ventanas y desconecten equipos.",
           "timeLabel": "11:20"
         },
         {
           "sender": "Tío Carlos",
-          "text": "La cuenta institucional está verificada y el aviso coincide con el boletín de la autoridad. Lo comparto para que el grupo se prepare.",
+          "text": "La cuenta institucional está verificada y el aviso coincide con el boletín. Lo comparto para que el grupo se prepare.",
           "timeLabel": "11:21"
         }
       ],
-      "actions": ["forward", "verify", "pause"]
+      "actions": [
+        "forward",
+        "verify",
+        "pause"
+      ]
     },
     "feedback": {
       "status": "instructive",
-      "explanation": "Esta alerta sí es oficial y está verificada. El pensamiento crítico no consiste en rechazar todo: consiste en comprobar la fuente y compartir información confiable cuando puede cuidar a otras personas.",
+      "explanation": "Esta alerta sí es oficial. Frenar el escepticismo automático e investigar la cuenta institucional permite compartir información que cuida al grupo.",
       "signals": [
-        "La autoridad responsable está identificada.",
-        "La cuenta institucional aparece verificada.",
+        "Investiga: la autoridad responsable está identificada y la cuenta verificada.",
         "El aviso coincide con un boletín oficial y da horario y medidas concretas.",
-        "Una alerta confirmada puede ser útil para la seguridad del grupo."
+        "Frena el impulso de dudar de todo: el pensamiento crítico también confirma lo útil.",
+        "Una alerta confirmada puede ser una acción de cuidado para la familia."
       ],
-      "recommendation": "Verifica la fuente y, si la alerta es auténtica y útil, compártela con el contexto y las medidas concretas.",
+      "recommendation": "Investiga la fuente y, si la alerta es auténtica y útil, compártela con el contexto y las medidas concretas.",
       "revealedAnswer": "Es una alerta oficial verificada que sí conviene compartir."
     },
     "solutionPrivate": {
@@ -360,31 +410,35 @@
       "gameCode": "grupo",
       "mechanic": "group_decision",
       "itemId": "grupo-006",
-      "prompt": "Una cadena apela a la culpa y al miedo para exigir diez reenvíos. Decide cómo cortar la presión sin convertirte en parte de la cadena.",
+      "prompt": "Una cadena apela a la culpa y al miedo para exigir diez reenvíos. Frena la presión e investiga si hay alguna evidencia real.",
       "messages": [
         {
           "sender": "Cadena anónima",
-          "text": "😨 Si amas a tu mamá, reenvía esto a diez personas. Si lo ignoras tendrás siete años de mala suerte. A una vecina le pasó; ¡NO ROMPAS LA CADENA!",
+          "text": "😨 Si amas a tu mamá, reenvía esto a 10 personas. Si lo ignoras tendrás 7 años de mala suerte. A una vecina le pasó; ¡NO ROMPAS LA CADENA!",
           "timeLabel": "11:42"
         },
         {
           "sender": "Tía Marta",
-          "text": "Me asusté un poco. ¿Lo mando por si acaso?",
+          "text": "Me asusté un poco… ¿lo mando por si acaso?",
           "timeLabel": "11:43"
         }
       ],
-      "actions": ["forward", "verify", "pause"]
+      "actions": [
+        "forward",
+        "verify",
+        "pause"
+      ]
     },
     "feedback": {
       "status": "instructive",
-      "explanation": "La cadena usa culpa, miedo y una anécdota anónima para convertir el reenvío en una prueba de cariño. No existe una consecuencia real por romperla; su objetivo es replicarse.",
+      "explanation": "La cadena usa culpa y miedo para replicarse. Frenar el reenvío e investigar la amenaza (inexistente) corta la manipulación emocional.",
       "signals": [
-        "Relaciona el cariño con obedecer una orden de reenvío.",
-        "Amenaza con mala suerte para impedir que la cadena se corte.",
-        "Usa una historia anónima que nadie puede comprobar.",
-        "Pide un número concreto de reenvíos para multiplicar su alcance."
+        "Frena: relacionar el cariño con obedecer una orden de reenvío es presión emocional.",
+        "Investiga: la amenaza de mala suerte y la anécdota anónima no tienen evidencia.",
+        "Pide un número concreto de reenvíos para multiplicar su alcance.",
+        "No existe una consecuencia real por romper una cadena de chat."
       ],
-      "recommendation": "No la reenvíes; explica con calma que es una cadena emocional y anima al grupo a cortarla.",
+      "recommendation": "Frena, no la reenvíes y explica con calma que es una cadena emocional sin evidencia.",
       "revealedAnswer": "Es una cadena emocional basada en culpa y miedo; lo responsable es romperla."
     },
     "solutionPrivate": {

@@ -15,9 +15,8 @@ const REVEALED_ANSWERS: Record<AppropriateDecision, string> = {
   discard: "Descartar",
 };
 
-const SIFT_MARKERS = [
-  "Detente",
-  "Investiga la fuente",
+/** Feed 60” enseña prioritariamente Find + Trace. */
+const SIFT_FOCUS_MARKERS = [
   "Encuentra mejor cobertura",
   "Rastrea el original",
 ] as const;
@@ -69,7 +68,7 @@ describe("pack editorial feed-60.v1 (T057)", () => {
     ]);
   });
 
-  it("equilibra decisiones adecuadas y declara señales SIFT con feedback", () => {
+  it("equilibra decisiones adecuadas y declara señales SIFT Find/Trace con feedback", () => {
     const decisions = items.map((item) =>
       readAppropriateDecision(item.solutionPrivate),
     );
@@ -91,12 +90,17 @@ describe("pack editorial feed-60.v1 (T057)", () => {
     for (const item of items) {
       const decision = readAppropriateDecision(item.solutionPrivate);
       expect(item.feedback.revealedAnswer).toBe(REVEALED_ANSWERS[decision]);
-      expect(item.feedback.signals).toHaveLength(4);
-      for (const marker of SIFT_MARKERS) {
+      expect(item.feedback.signals.length).toBeGreaterThanOrEqual(3);
+      expect(item.feedback.signals.length).toBeLessThanOrEqual(4);
+      for (const marker of SIFT_FOCUS_MARKERS) {
         expect(
           item.feedback.signals.some((signal) => signal.startsWith(marker)),
         ).toBe(true);
       }
+      expect(item.feedback.signals[0]?.startsWith("Encuentra mejor cobertura")).toBe(
+        true,
+      );
+      expect(item.feedback.signals[1]?.startsWith("Rastrea el original")).toBe(true);
       expect(item.feedback.recommendation.trim().length).toBeGreaterThan(0);
       expect(item.feedback.explanation.trim().length).toBeGreaterThan(0);
     }
@@ -111,9 +115,17 @@ describe("pack editorial feed-60.v1 (T057)", () => {
 
       expect(publicItem.post.trim().length).toBeGreaterThan(0);
       expect(publicItem.sourceLabel.trim().length).toBeGreaterThan(0);
+      expect(publicItem.prompt.trim().length).toBeGreaterThan(0);
+      expect(publicItem.prompt).not.toMatch(/^Practica\b/i);
+      expect(publicItem.prompt).not.toMatch(/^Practice Find\b/i);
       expect(publicItem.actions).toEqual(["verify", "share", "discard"]);
       expect(publicItem.remainingSeconds).toBe(60);
       expect(publicItem.verificationAvailable).toBe(true);
+      if (publicItem.media) {
+        expect(publicItem.media.kind).toBe("image");
+        expect(publicItem.media.src).toMatch(/^\/media\/feed-60\//);
+        expect(publicItem.media.alt?.trim().length).toBeGreaterThan(0);
+      }
 
       for (const label of Object.values(REVEALED_ANSWERS)) {
         expect(publicItem.post).not.toContain(label);

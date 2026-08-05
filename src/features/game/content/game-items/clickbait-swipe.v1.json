@@ -10,22 +10,25 @@
       "gameCode": "clickbait-swipe",
       "mechanic": "headline_classification",
       "itemId": "clickbait-swipe-001",
-      "prompt": "¿Periodismo o clickbait?",
-      "headline": "¡¡URGENTE!! Los médicos ODIAN este truco para bajar 10 kilos en una semana",
-      "sourceLabel": "salud-milagrosa.xyz",
-      "actions": ["journalism", "clickbait"],
+      "prompt": "Frena el clic e investiga el titular. ¿Periodismo o clickbait?",
+      "headline": "Médicos «odian» este truco casero: bajar 10 kilos en 7 días sin dietas",
+      "sourceLabel": "saludmilagrosa.shop",
+      "actions": [
+        "journalism",
+        "clickbait"
+      ],
       "keyboardEquivalent": true
     },
     "feedback": {
       "status": "instructive",
       "explanation": "Este titular no informa: empuja el clic. Junta urgencia, mayúsculas, una autoridad inventada y una promesa imposible.",
       "signals": [
-        "Urgencia fabricada: «¡¡URGENTE!!» exige atención inmediata.",
-        "Mayúsculas para gritar: «ODIAN» busca emoción, no datos.",
-        "Autoridad falsa: «los médicos» sin nombre, estudio ni fuente.",
-        "Promesa imposible: bajar 10 kilos en una semana no es noticia verificable."
+        "Frena: urgencia y promesa milagrosa empujan el clic antes de leer.",
+        "Investiga: «los médicos» no tienen nombre, estudio ni fuente.",
+        "Mayúsculas emocionales y enemigo inventado sustituyen al dato.",
+        "Bajar 10 kilos en una semana no es un hecho verificable."
       ],
-      "recommendation": "Si el titular promete milagros o enemigos secretos, busca el dato concreto y la fuente firmada antes de entrar.",
+      "recommendation": "Frena el clic e investiga si hay estudio firmado; si solo hay milagro, sal.",
       "revealedAnswer": "Clickbait"
     },
     "solutionPrivate": {
@@ -49,20 +52,23 @@
       "gameCode": "clickbait-swipe",
       "mechanic": "headline_classification",
       "itemId": "clickbait-swipe-002",
-      "prompt": "¿Periodismo o clickbait?",
-      "headline": "El Banco Central sube la tasa de interés 0,25 puntos por inflación",
-      "sourceLabel": "diario-economia.com",
-      "actions": ["journalism", "clickbait"],
+      "prompt": "Frena el clic e investiga el titular. ¿Periodismo o clickbait?",
+      "headline": "Banco Central sube la tasa de interés 0,25 puntos por inflación",
+      "sourceLabel": "diarioeconomia.pe",
+      "actions": [
+        "journalism",
+        "clickbait"
+      ],
       "keyboardEquivalent": true
     },
     "feedback": {
       "status": "instructive",
       "explanation": "Aquí hay periodismo: un actor identificable, una cifra exacta y una causa. Sin adjetivos ni drama, el titular te deja pensar.",
       "signals": [
-        "Quién actúa: el Banco Central queda nombrado.",
-        "Dato concreto: 0,25 puntos, no «un gran aumento».",
-        "Causa explícita: la inflación enlaza el hecho con su contexto.",
-        "Tono informativo: no hay mayúsculas ni urgencia fabricada."
+        "Frena la sospecha automática: el tono es informativo, no un cebo.",
+        "Investiga: actor (Banco Central), cifra (0,25) y causa (inflación).",
+        "Sin mayúsculas ni urgencia fabricada.",
+        "El titular entrega el hecho completo para contrastarlo."
       ],
       "recommendation": "Un buen titular te dice qué pasó con precisión suficiente para comprobarlo en la fuente original.",
       "revealedAnswer": "Periodismo"
@@ -88,20 +94,23 @@
       "gameCode": "clickbait-swipe",
       "mechanic": "headline_classification",
       "itemId": "clickbait-swipe-003",
-      "prompt": "¿Periodismo o clickbait?",
-      "headline": "Lo que hizo esta niña dejó a todos EN SHOCK (video)",
-      "sourceLabel": "viral-videos.blog",
-      "actions": ["journalism", "clickbait"],
+      "prompt": "Frena el clic e investiga el titular. ¿Periodismo o clickbait?",
+      "headline": "Lo que hizo esta niña dejó a todos en shock (video)",
+      "sourceLabel": "clipsvirales.blog",
+      "actions": [
+        "journalism",
+        "clickbait"
+      ],
       "keyboardEquivalent": true
     },
     "feedback": {
       "status": "instructive",
       "explanation": "Es un curiosity gap clásico: te oculta qué pasó para que entres. Si el titular no dice nada concreto, casi seguro no hay nada que informar.",
       "signals": [
-        "Curiosity gap: «lo que hizo» esconde el hecho esencial.",
-        "Emoción extrema: «EN SHOCK» te dice qué sentir, no qué ocurrió.",
-        "Promesa de video sin contexto ni fuente identificable.",
-        "Cero datos: no hay quién, dónde, cuándo ni qué."
+        "Frena: el curiosity gap esconde el hecho para forzar el clic.",
+        "Investiga: no hay quién, dónde, cuándo ni qué ocurrió.",
+        "«En shock» te dice qué sentir, no qué pasó.",
+        "Promesa de video sin fuente identificable."
       ],
       "recommendation": "Si el titular solo te dice qué sentir y no qué pasó, sal sin hacer clic: esa curiosidad es la trampa.",
       "revealedAnswer": "Clickbait"
@@ -127,10 +136,13 @@
       "gameCode": "clickbait-swipe",
       "mechanic": "headline_classification",
       "itemId": "clickbait-swipe-004",
-      "prompt": "¿Periodismo o clickbait?",
+      "prompt": "Frena el clic e investiga el titular. ¿Periodismo o clickbait?",
       "headline": "Municipalidad anuncia cierre vial por obras hasta diciembre",
-      "sourceLabel": "portal-ciudadano.org",
-      "actions": ["journalism", "clickbait"],
+      "sourceLabel": "portalciudadano.gob.pe",
+      "actions": [
+        "journalism",
+        "clickbait"
+      ],
       "keyboardEquivalent": true
     },
     "feedback": {
@@ -166,20 +178,23 @@
       "gameCode": "clickbait-swipe",
       "mechanic": "headline_classification",
       "itemId": "clickbait-swipe-005",
-      "prompt": "¿Periodismo o clickbait?",
-      "headline": "No vas a CREER lo que encontraron en el agua de tu ciudad",
-      "sourceLabel": "alerta-vecinal.info",
-      "actions": ["journalism", "clickbait"],
+      "prompt": "Frena el clic e investiga el titular. ¿Periodismo o clickbait?",
+      "headline": "No vas a creer lo que encontraron en el agua de tu ciudad",
+      "sourceLabel": "alertavecinal.info",
+      "actions": [
+        "journalism",
+        "clickbait"
+      ],
       "keyboardEquivalent": true
     },
     "feedback": {
       "status": "instructive",
       "explanation": "Miedo local más vaguedad: te apunta a «tu» ciudad sin decir qué encontraron. El miedo cercano es uno de los cebos más eficaces.",
       "signals": [
-        "Vaguedad deliberada: «lo que encontraron» oculta el hecho.",
-        "Emoción de miedo sin evidencia ni cifra.",
-        "Personalización falsa: «tu ciudad» finge cercanía.",
-        "Mayúsculas de impacto: «CREER» empuja la reacción, no la verificación."
+        "Frena: el miedo local busca una reacción inmediata.",
+        "Investiga: «lo que encontraron» oculta el hallazgo concreto.",
+        "No hay autoridad, cifra ni fecha del supuesto informe.",
+        "«Tu ciudad» finge cercanía sin pruebas."
       ],
       "recommendation": "Ante un aviso de peligro local, exige el hallazgo concreto, la autoridad que lo midió y la fecha del informe.",
       "revealedAnswer": "Clickbait"
@@ -205,10 +220,13 @@
       "gameCode": "clickbait-swipe",
       "mechanic": "headline_classification",
       "itemId": "clickbait-swipe-006",
-      "prompt": "¿Periodismo o clickbait?",
+      "prompt": "Frena el clic e investiga el titular. ¿Periodismo o clickbait?",
       "headline": "Estudio universitario evalúa calidad del aire en 12 distritos",
-      "sourceLabel": "agencia-noticias.pe",
-      "actions": ["journalism", "clickbait"],
+      "sourceLabel": "agencianoticias.pe",
+      "actions": [
+        "journalism",
+        "clickbait"
+      ],
       "keyboardEquivalent": true
     },
     "feedback": {
@@ -244,20 +262,23 @@
       "gameCode": "clickbait-swipe",
       "mechanic": "headline_classification",
       "itemId": "clickbait-swipe-007",
-      "prompt": "¿Periodismo o clickbait?",
+      "prompt": "Frena el clic e investiga el titular. ¿Periodismo o clickbait?",
       "headline": "El 99% de la gente FALLA este test de inteligencia, ¿eres del 1%?",
-      "sourceLabel": "tests-virales.fun",
-      "actions": ["journalism", "clickbait"],
+      "sourceLabel": "testsvirales.fun",
+      "actions": [
+        "journalism",
+        "clickbait"
+      ],
       "keyboardEquivalent": true
     },
     "feedback": {
       "status": "instructive",
       "explanation": "Es un cebo de ego: nadie quiere ser del 99%. El «test» existe para retenerte con anuncios, no para medir inteligencia.",
       "signals": [
-        "Cebo de ego: el 1% te invita a sentirte excepcional.",
-        "Estadística inventada o imposible de verificar.",
-        "Mayúsculas de impacto: «FALLA» dramatiza sin evidencia.",
-        "Pregunta retórica que empuja el clic, no la información."
+        "Frena: el cebo de ego («¿eres del 1%?») quiere tu clic, no tu dato.",
+        "Investiga: la estadística del 99% no es verificable.",
+        "El «test» suele existir para retenerte con anuncios.",
+        "Pregunta retórica en lugar de hecho informativo."
       ],
       "recommendation": "Si un titular te reta a demostrar que eres especial, asume que el producto es tu atención, no el resultado del test.",
       "revealedAnswer": "Clickbait"
@@ -283,20 +304,23 @@
       "gameCode": "clickbait-swipe",
       "mechanic": "headline_classification",
       "itemId": "clickbait-swipe-008",
-      "prompt": "¿Periodismo o clickbait?",
+      "prompt": "Frena el clic e investiga el titular. ¿Periodismo o clickbait?",
       "headline": "Inflación cerró en 3,1% anual, informó el instituto de estadística",
-      "sourceLabel": "reuters-agencia.com",
-      "actions": ["journalism", "clickbait"],
+      "sourceLabel": "agencia-reuters.style",
+      "actions": [
+        "journalism",
+        "clickbait"
+      ],
       "keyboardEquivalent": true
     },
     "feedback": {
       "status": "instructive",
       "explanation": "Cifra más fuente oficial citada. El dato habla solo: no necesita adjetivos para ser útil.",
       "signals": [
-        "Cifra exacta: 3,1% anual.",
-        "Fuente oficial citada: el instituto de estadística.",
-        "Hecho cerrado en pasado: «cerró» describe un resultado.",
-        "Sin dramatización: cero mayúsculas ni amenaza personal."
+        "Frena la duda automática: cifra + fuente oficial suelen ser periodismo.",
+        "Investiga: 3,1% anual atribuido al instituto de estadística.",
+        "Hecho cerrado en pasado, sin dramatización.",
+        "Fácil de contrastar en el comunicado oficial."
       ],
       "recommendation": "Prioriza titulares que combinen cifra y fuente oficial; son los más fáciles de contrastar.",
       "revealedAnswer": "Periodismo"
@@ -322,20 +346,23 @@
       "gameCode": "clickbait-swipe",
       "mechanic": "headline_classification",
       "itemId": "clickbait-swipe-009",
-      "prompt": "¿Periodismo o clickbait?",
+      "prompt": "Frena el clic e investiga el titular. ¿Periodismo o clickbait?",
       "headline": "Famoso actor DESTRUYE a crítico y el internet ENLOQUECE",
-      "sourceLabel": "farandula-total.com",
-      "actions": ["journalism", "clickbait"],
+      "sourceLabel": "farandulatotal.tv",
+      "actions": [
+        "journalism",
+        "clickbait"
+      ],
       "keyboardEquivalent": true
     },
     "feedback": {
       "status": "instructive",
       "explanation": "Verbos de guerra convierten una discusión menor en batalla épica. La emoción extrema reemplaza el hecho.",
       "signals": [
-        "Emoción extrema: «DESTRUYE» y «ENLOQUECE» son verbos de guerra.",
-        "Mayúsculas para amplificar el drama.",
-        "Vaguedad: no dice qué dijo el actor ni qué criticó.",
-        "Apelación a la reacción colectiva: «el internet» como personaje."
+        "Frena: verbos de guerra («destruye», «enloquece») fabrican combate.",
+        "Investiga: no dice qué dijo el actor ni qué criticó.",
+        "Mayúsculas amplifican el drama sin aportar cita.",
+        "«El internet» aparece como personaje, no como fuente."
       ],
       "recommendation": "Si el titular suena a combate, busca la cita textual y el contexto antes de sumarte a la pelea.",
       "revealedAnswer": "Clickbait"
@@ -361,10 +388,13 @@
       "gameCode": "clickbait-swipe",
       "mechanic": "headline_classification",
       "itemId": "clickbait-swipe-010",
-      "prompt": "¿Periodismo o clickbait?",
+      "prompt": "Frena el clic e investiga el titular. ¿Periodismo o clickbait?",
       "headline": "Aerolínea reporta retrasos por mantenimiento: reprogramaciones sin costo",
-      "sourceLabel": "portal-viajero.net",
-      "actions": ["journalism", "clickbait"],
+      "sourceLabel": "portalviajero.net",
+      "actions": [
+        "journalism",
+        "clickbait"
+      ],
       "keyboardEquivalent": true
     },
     "feedback": {
@@ -400,20 +430,23 @@
       "gameCode": "clickbait-swipe",
       "mechanic": "headline_classification",
       "itemId": "clickbait-swipe-011",
-      "prompt": "¿Periodismo o clickbait?",
+      "prompt": "Frena el clic e investiga el titular. ¿Periodismo o clickbait?",
       "headline": "Esta fruta común podría estar MATÁNDOTE lentamente y no lo sabes",
-      "sourceLabel": "secretos-salud.top",
-      "actions": ["journalism", "clickbait"],
+      "sourceLabel": "secretossalud.top",
+      "actions": [
+        "journalism",
+        "clickbait"
+      ],
       "keyboardEquivalent": true
     },
     "feedback": {
       "status": "instructive",
       "explanation": "Miedo más secreto más amenaza cotidiana. La salud es el nicho favorito de este cebo porque baja la guardia.",
       "signals": [
-        "Miedo extremo: «MATÁNDOTE» sin evidencia ni dosis.",
-        "Secreto fabricado: «y no lo sabes» finge revelación.",
-        "Amenaza cotidiana: una fruta común como enemigo.",
-        "Vaguedad: no nombra la fruta, el estudio ni el riesgo medible."
+        "Frena: «matándote» sin evidencia es miedo fabricado.",
+        "Investiga: no nombra la fruta, el estudio ni el riesgo medible.",
+        "«Y no lo sabes» finge un secreto revelado.",
+        "La salud es un nicho favorito del clickbait porque baja la guardia."
       ],
       "recommendation": "En salud, exige el nombre del estudio, la institución y el riesgo concreto; si solo hay amenaza, no hagas clic.",
       "revealedAnswer": "Clickbait"
@@ -439,10 +472,13 @@
       "gameCode": "clickbait-swipe",
       "mechanic": "headline_classification",
       "itemId": "clickbait-swipe-012",
-      "prompt": "¿Periodismo o clickbait?",
+      "prompt": "Frena el clic e investiga el titular. ¿Periodismo o clickbait?",
       "headline": "La selección jugará amistoso el 12 de setiembre en el estadio Nacional",
-      "sourceLabel": "deportes-diario.com",
-      "actions": ["journalism", "clickbait"],
+      "sourceLabel": "deportesdiario.pe",
+      "actions": [
+        "journalism",
+        "clickbait"
+      ],
       "keyboardEquivalent": true
     },
     "feedback": {

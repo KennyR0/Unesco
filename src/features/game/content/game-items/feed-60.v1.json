@@ -10,10 +10,14 @@
       "gameCode": "feed-60",
       "mechanic": "timed_feed",
       "itemId": "feed-60-001",
-      "prompt": "Tienes segundos. ¿Verificas, compartes o descartas esta publicación?",
-      "post": "Minsa: campaña de vacunación gratuita del 5 al 12 de agosto en todos los centros de salud.",
+      "prompt": "Minsa: campaña de vacunación gratuita del 5 al 12 de agosto en todos los centros de salud.",
+      "post": "Comunicado con fechas concretas y cobertura en medios serios.",
       "sourceLabel": "minsa.gob.pe · cuenta verificada",
-      "actions": ["verify", "share", "discard"],
+      "actions": [
+        "verify",
+        "share",
+        "discard"
+      ],
       "remainingSeconds": 60,
       "verificationAvailable": true
     },
@@ -21,10 +25,10 @@
       "status": "instructive",
       "explanation": "Es un aviso oficial útil: dominio institucional, fecha concreta y cobertura en medios serios. Compartirlo ayuda a la comunidad.",
       "signals": [
-        "Detente: no hay urgencia emocional; el texto da fechas y lugares concretos.",
-        "Investiga la fuente: minsa.gob.pe es el dominio oficial del Ministerio de Salud.",
-        "Encuentra mejor cobertura: otros medios serios replican la misma campaña.",
-        "Rastrea el original: el comunicado institucional es el punto de partida verificable."
+        "Encuentra mejor cobertura: otros medios serios replican la misma campaña de vacunación.",
+        "Rastrea el original: el comunicado en minsa.gob.pe es la fuente primaria.",
+        "Dominio institucional y fechas concretas, sin urgencia emocional.",
+        "Compartir información de servicio verificada ayuda a la comunidad."
       ],
       "recommendation": "Cuando la fuente oficial, la fecha y la cobertura coinciden, compartir información de servicio es una decisión responsable.",
       "revealedAnswer": "Compartir"
@@ -39,9 +43,9 @@
         "service_information"
       ],
       "verificationHints": [
-        "Fuente: sitio oficial del Ministerio de Salud.",
-        "Fecha: publicado hoy con rango concreto.",
-        "Otros medios serios la replican."
+        "Cobertura: medios serios replican la campaña.",
+        "Original: comunicado en minsa.gob.pe.",
+        "Fechas y centros de salud concretos."
       ]
     }
   },
@@ -56,10 +60,14 @@
       "gameCode": "feed-60",
       "mechanic": "timed_feed",
       "itemId": "feed-60-002",
-      "prompt": "Tienes segundos. ¿Verificas, compartes o descartas esta publicación?",
-      "post": "¡¡ESCÁNDALO!! Celebridad DESTRUYE su carrera en video FILTRADO. No dura nada online.",
-      "sourceLabel": "farandula-viral.top · sin autor",
-      "actions": ["verify", "share", "discard"],
+      "prompt": "¡¡ESCÁNDALO!! Celebridad DESTRUYE su carrera en video FILTRADO. No dura nada online.",
+      "post": "Sin autor, sin fecha y dominio dudoso. ¿Lo amplificas?",
+      "sourceLabel": "farandula-viral.top · sin autor ni fecha",
+      "actions": [
+        "verify",
+        "share",
+        "discard"
+      ],
       "remainingSeconds": 60,
       "verificationAvailable": true
     },
@@ -67,10 +75,10 @@
       "status": "instructive",
       "explanation": "Es humo: dominio dudoso, cero autoría, titular 100 % emocional y ningún medio serio lo reporta. Descartarlo evita amplificar un rumor.",
       "signals": [
-        "Detente: el titular grita escándalo y usa mayúsculas para empujar el clic.",
-        "Investiga la fuente: el dominio .top no declara autor ni fecha.",
         "Encuentra mejor cobertura: ningún medio serio reporta el supuesto video.",
-        "Rastrea el original: no hay archivo, comunicado ni fuente primaria."
+        "Rastrea el original: no hay archivo, comunicado ni fuente primaria.",
+        "Dominio .top opaco, sin autoría.",
+        "Titular 100 % emocional que empuja el clic, no el dato."
       ],
       "recommendation": "Si solo hay emoción y un dominio opaco, descarta antes de compartir.",
       "revealedAnswer": "Descartar"
@@ -85,9 +93,9 @@
         "no_serious_coverage"
       ],
       "verificationHints": [
-        "Dominio .top sin autoría ni fecha.",
-        "Titular 100 % emocional, cero datos.",
-        "Ningún medio serio lo reporta."
+        "Cobertura: ningún medio serio lo reporta.",
+        "Original: no hay video ni fuente primaria.",
+        "Dominio .top sin autoría ni fecha."
       ]
     }
   },
@@ -102,21 +110,39 @@
       "gameCode": "feed-60",
       "mechanic": "timed_feed",
       "itemId": "feed-60-003",
-      "prompt": "Tienes segundos. ¿Verificas, compartes o descartas esta publicación?",
-      "post": "Foto: «Así está AHORA el centro de la ciudad, todo inundado» — imagen dramática de una avenida bajo el agua.",
+      "prompt": "Así está AHORA el centro de la ciudad, todo inundado. Difundan.",
+      "post": "Foto impactante reenviada por una cuenta anónima.",
       "sourceLabel": "usuario anónimo · hace 20 min",
-      "actions": ["verify", "share", "discard"],
+      "actions": [
+        "verify",
+        "share",
+        "discard"
+      ],
       "remainingSeconds": 60,
-      "verificationAvailable": true
+      "verificationAvailable": true,
+      "media": {
+        "kind": "image",
+        "src": "/media/feed-60/avenida-inundada-768.webp",
+        "alt": "Avenida urbana bajo el agua después de una inundación, con vehículos parcialmente sumergidos.",
+        "decorative": false,
+        "width": 768,
+        "height": 511,
+        "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+        "srcSet": {
+          "480": "/media/feed-60/avenida-inundada-480.webp",
+          "768": "/media/feed-60/avenida-inundada-768.webp",
+          "1280": "/media/feed-60/avenida-inundada-1280.webp"
+        }
+      }
     },
     "feedback": {
       "status": "instructive",
-      "explanation": "La imagen puede ser real, pero el contexto es falso: proviene de una inundación de 2018 y ningún medio reporta una inundación hoy.",
+      "explanation": "La imagen puede ser real, pero el contexto es falso: proviene de una inundación de 2018 y ningún medio reporta una inundación hoy. Buscar cobertura y rastrear el original lo revelan en segundos.",
       "signals": [
-        "Detente: «AHORA» y una foto impactante no bastan para afirmar un hecho actual.",
-        "Investiga la fuente: la cuenta es anónima y no aporta lugar ni hora verificables.",
         "Encuentra mejor cobertura: ningún medio reporta inundación en el centro hoy.",
-        "Rastrea el original: la búsqueda inversa sitúa la foto en 2018."
+        "Rastrea el original: la búsqueda inversa sitúa la foto en 2018.",
+        "«AHORA» y una foto impactante no bastan para afirmar un hecho actual.",
+        "La cuenta es anónima y no aporta lugar ni hora verificables."
       ],
       "recommendation": "Antes de compartir una imagen viral, rastrea si el contexto y la fecha coinciden con el presente.",
       "revealedAnswer": "Descartar"
@@ -131,9 +157,9 @@
         "no_current_coverage"
       ],
       "verificationHints": [
-        "Búsqueda inversa: la foto es de una inundación de 2018.",
-        "Ningún medio reporta inundación hoy.",
-        "La imagen es real; el contexto no."
+        "Cobertura: ningún medio reporta inundación hoy.",
+        "Original: búsqueda inversa sitúa la foto en 2018.",
+        "La imagen puede ser real; el contexto no."
       ]
     }
   },
@@ -148,10 +174,14 @@
       "gameCode": "feed-60",
       "mechanic": "timed_feed",
       "itemId": "feed-60-004",
-      "prompt": "Tienes segundos. ¿Verificas, compartes o descartas esta publicación?",
-      "post": "Caminar 30 minutos al día reduce el riesgo cardiovascular, según estudio publicado en revista médica con revisión por pares.",
+      "prompt": "Caminar 30 minutos al día reduce el riesgo cardiovascular, según estudio con revisión por pares.",
+      "post": "El portal cita el DOI del estudio y usa lenguaje prudente.",
       "sourceLabel": "portal-salud.org · cita el DOI del estudio",
-      "actions": ["verify", "share", "discard"],
+      "actions": [
+        "verify",
+        "share",
+        "discard"
+      ],
       "remainingSeconds": 60,
       "verificationAvailable": true
     },
@@ -159,10 +189,10 @@
       "status": "instructive",
       "explanation": "Ciencia con fuente rastreable y lenguaje prudente: el DOI existe, el estudio dice eso y no promete milagros.",
       "signals": [
-        "Detente: el tono es prudente; no hay promesa milagrosa ni urgencia.",
-        "Investiga la fuente: el portal cita un DOI comprobable.",
         "Encuentra mejor cobertura: el hallazgo aparece en una revista con revisión por pares.",
-        "Rastrea el original: el estudio existe y sostiene la afirmación con matices."
+        "Rastrea el original: el DOI existe y sostiene la afirmación con matices.",
+        "Lenguaje prudente, sin promesa milagrosa ni urgencia.",
+        "El portal cita un estudio comprobable, no un rumor."
       ],
       "recommendation": "Cuando hay DOI, revisión por pares y lenguaje mesurado, compartir información útil es adecuado.",
       "revealedAnswer": "Compartir"
@@ -177,9 +207,9 @@
         "study_exists"
       ],
       "verificationHints": [
-        "Cita un estudio con DOI rastreable.",
-        "Lenguaje prudente, sin promesas milagrosas.",
-        "El estudio existe y sostiene esa afirmación."
+        "Cobertura: revista con revisión por pares.",
+        "Original: DOI rastreable del estudio.",
+        "Lenguaje prudente, sin milagros."
       ]
     }
   },
@@ -194,10 +224,14 @@
       "gameCode": "feed-60",
       "mechanic": "timed_feed",
       "itemId": "feed-60-005",
-      "prompt": "Tienes segundos. ¿Verificas, compartes o descartas esta publicación?",
-      "post": "AUDIO: «Las vacunas traen microchips, lo escuché de un enfermero que lo vio con sus propios ojos» — nota de voz de 4 minutos.",
+      "prompt": "AUDIO: «Las vacunas traen microchips, lo escuché de un enfermero que lo vio con sus propios ojos».",
+      "post": "Nota de voz de 4 minutos, reenviada muchas veces.",
       "sourceLabel": "reenviado muchas veces",
-      "actions": ["verify", "share", "discard"],
+      "actions": [
+        "verify",
+        "share",
+        "discard"
+      ],
       "remainingSeconds": 60,
       "verificationAvailable": true
     },
@@ -205,10 +239,10 @@
       "status": "instructive",
       "explanation": "Es un bulo desmentido: la fuente es «un enfermero» anónimo, apela al miedo y verificadores lo desmintieron hace años.",
       "signals": [
-        "Detente: la cadena apela al miedo y pide credibilidad por repetición.",
-        "Investiga la fuente: «un enfermero» anónimo no es una fuente ubicable.",
         "Encuentra mejor cobertura: verificadores desmintieron esta teoría desde 2021.",
-        "Rastrea el original: no hay evidencia primaria, solo anécdota reenviada."
+        "Rastrea el original: no hay evidencia primaria, solo anécdota reenviada.",
+        "«Un enfermero» anónimo no es una fuente ubicable.",
+        "La cadena apela al miedo y pide credibilidad por repetición."
       ],
       "recommendation": "Si la prueba es «lo escuché de alguien», descarta y busca un desmentido o una fuente sanitaria.",
       "revealedAnswer": "Descartar"
@@ -223,9 +257,9 @@
         "chain_forwarding"
       ],
       "verificationHints": [
-        "Fuente: «un enfermero» anónimo e inubicable.",
-        "Teoría desmentida por verificadores desde 2021.",
-        "Apela al miedo, no a evidencia."
+        "Cobertura: desmentidos desde 2021.",
+        "Original: solo anécdota, cero evidencia primaria.",
+        "Apela al miedo, no a datos."
       ]
     }
   },
@@ -240,10 +274,14 @@
       "gameCode": "feed-60",
       "mechanic": "timed_feed",
       "itemId": "feed-60-006",
-      "prompt": "Tienes segundos. ¿Verificas, compartes o descartas esta publicación?",
-      "post": "Hombre se casa con su router wifi: «Nunca me falló, siempre estuvo ahí».",
+      "prompt": "Hombre se casa con su router wifi: «Nunca me falló, siempre estuvo ahí».",
+      "post": "Titular absurdo publicado en un medio que se declara humorístico.",
       "sourceLabel": "El Faro Satírico · humor",
-      "actions": ["verify", "share", "discard"],
+      "actions": [
+        "verify",
+        "share",
+        "discard"
+      ],
       "remainingSeconds": 60,
       "verificationAvailable": true
     },
@@ -251,10 +289,10 @@
       "status": "instructive",
       "explanation": "Es sátira: el sitio se declara humorístico. Compartirla como noticia confunde; descartarla como hecho es la decisión adecuada.",
       "signals": [
-        "Detente: el escenario es absurdo y pide una lectura crítica.",
-        "Investiga la fuente: el sitio se declara satírico en «Acerca de».",
         "Encuentra mejor cobertura: no hay cobertura periodística porque no es un hecho.",
-        "Rastrea el original: el propio medio aclara que es humor, no engaño deliberado."
+        "Rastrea el original: el propio medio aclara en «Acerca de» que es humor.",
+        "El escenario absurdo pide una lectura crítica antes de compartirlo como noticia.",
+        "Fuera de contexto, la sátira circula como si fuera real."
       ],
       "recommendation": "Antes de compartir un titular raro, revisa si el medio es satírico; fuera de contexto confunde.",
       "revealedAnswer": "Descartar"
@@ -269,9 +307,9 @@
         "humor_not_report"
       ],
       "verificationHints": [
-        "El sitio se declara satírico en «Acerca de».",
-        "Compartida sin contexto, parece noticia real.",
-        "No pretende engañar: es humor."
+        "Cobertura: no es noticia; es humor.",
+        "Original: «Acerca de» declara sátira.",
+        "Sin contexto confunde."
       ]
     }
   },
@@ -286,10 +324,14 @@
       "gameCode": "feed-60",
       "mechanic": "timed_feed",
       "itemId": "feed-60-007",
-      "prompt": "Tienes segundos. ¿Verificas, compartes o descartas esta publicación?",
-      "post": "El Banco Central mantiene la tasa de interés en 5,75 %, según comunicado oficial publicado hoy.",
+      "prompt": "El Banco Central mantiene la tasa de interés en 5,75 %, según comunicado oficial publicado hoy.",
+      "post": "Cifra exacta y lenguaje institucional, sin carga emocional.",
       "sourceLabel": "bcr.gob.pe · comunicado",
-      "actions": ["verify", "share", "discard"],
+      "actions": [
+        "verify",
+        "share",
+        "discard"
+      ],
       "remainingSeconds": 60,
       "verificationAvailable": true
     },
@@ -297,10 +339,10 @@
       "status": "instructive",
       "explanation": "Es un dato oficial y verificable: comunicado institucional, cifra exacta y lenguaje sin carga emocional.",
       "signals": [
-        "Detente: el texto informa un dato, no busca indignación.",
-        "Investiga la fuente: bcr.gob.pe es el dominio oficial del Banco Central.",
         "Encuentra mejor cobertura: el comunicado se puede contrastar con el sitio institucional.",
-        "Rastrea el original: el comunicado oficial con fecha es la fuente primaria."
+        "Rastrea el original: el comunicado oficial con fecha es la fuente primaria.",
+        "bcr.gob.pe es el dominio oficial del Banco Central.",
+        "Cifra exacta y lenguaje sin carga emocional."
       ],
       "recommendation": "Compartir un comunicado oficial con cifra y fecha ayuda a informar sin distorsionar.",
       "revealedAnswer": "Compartir"
@@ -315,9 +357,9 @@
         "dated_source"
       ],
       "verificationHints": [
-        "Comunicado oficial con fecha.",
-        "Dato exacto y verificable.",
-        "Lenguaje institucional, sin emoción."
+        "Cobertura: coincide con sitio institucional.",
+        "Original: comunicado oficial con fecha.",
+        "Dato exacto y verificable."
       ]
     }
   },
@@ -332,21 +374,39 @@
       "gameCode": "feed-60",
       "mechanic": "timed_feed",
       "itemId": "feed-60-008",
-      "prompt": "Tienes segundos. ¿Verificas, compartes o descartas esta publicación?",
-      "post": "GRÁFICO: «¡El desempleo se DISPARA!» — el eje vertical empieza en 8 % para que la suba de 8,1 % a 8,4 % parezca un salto gigante.",
+      "prompt": "¡El desempleo se DISPARA! Mira este gráfico — y esta foto del «caos» en la ciudad.",
+      "post": "Blog anónimo mezcla un gráfico y una imagen impactante.",
       "sourceLabel": "blog-politico.anon",
-      "actions": ["verify", "share", "discard"],
+      "actions": [
+        "verify",
+        "share",
+        "discard"
+      ],
       "remainingSeconds": 60,
-      "verificationAvailable": true
+      "verificationAvailable": true,
+      "media": {
+        "kind": "image",
+        "src": "/media/feed-60/incendio-humo-768.webp",
+        "alt": "Columna de humo denso sobre un paisaje urbano al atardecer.",
+        "decorative": false,
+        "width": 768,
+        "height": 512,
+        "fallbackText": "La imagen no está disponible. La pregunta sigue abierta y las pistas educativas se conservan en el feedback.",
+        "srcSet": {
+          "480": "/media/feed-60/incendio-humo-480.webp",
+          "768": "/media/feed-60/incendio-humo-768.webp",
+          "1280": "/media/feed-60/incendio-humo-1280.webp"
+        }
+      }
     },
     "feedback": {
       "status": "instructive",
-      "explanation": "Los números existen, pero el gráfico manipula la escala: un eje truncado convierte un cambio pequeño en un drama visual.",
+      "explanation": "Los números existen, pero el gráfico manipula la escala y la foto de humo no demuestra el dato. Buscar cobertura oficial y rastrear el original revelan la manipulación visual.",
       "signals": [
-        "Detente: el titular grita «DISPARA» antes de mostrar la magnitud real.",
-        "Investiga la fuente: un blog anónimo no declara metodología ni datos completos.",
-        "Encuentra mejor cobertura: series oficiales muestran el cambio real sin eje recortado.",
-        "Rastrea el original: el eje Y truncado es la técnica de manipulación."
+        "Encuentra mejor cobertura: series oficiales muestran un cambio pequeño, no un drama.",
+        "Rastrea el original: el eje Y truncado y la foto de humo no prueban un salto de desempleo.",
+        "El titular grita «DISPARA» antes de mostrar la magnitud real.",
+        "Un blog anónimo mezcla gráfico manipulado e imagen impactante sin metodología."
       ],
       "recommendation": "Antes de compartir un gráfico viral, mira la escala: un eje truncado puede mentir sin inventar números.",
       "revealedAnswer": "Descartar"
@@ -361,9 +421,9 @@
         "visual_manipulation"
       ],
       "verificationHints": [
-        "El eje Y está truncado para exagerar.",
-        "Los números existen; la exageración también.",
-        "El titular grita lo que el dato no dice."
+        "Cobertura: series oficiales sin eje recortado.",
+        "Original: eje truncado + foto fuera de contexto.",
+        "Los números existen; la exageración también."
       ]
     }
   },
@@ -378,10 +438,14 @@
       "gameCode": "feed-60",
       "mechanic": "timed_feed",
       "itemId": "feed-60-009",
-      "prompt": "Tienes segundos. ¿Verificas, compartes o descartas esta publicación?",
-      "post": "FELICIDADES: fuiste seleccionado para ganar un iPhone. Solo comparte este enlace con 15 contactos para reclamarlo.",
+      "prompt": "FELICIDADES: fuiste seleccionado para ganar un iPhone. Solo comparte este enlace con 15 contactos.",
+      "post": "Premio a cambio de reenviar: dominio .xyz opaco.",
       "sourceLabel": "premios-movil.xyz",
-      "actions": ["verify", "share", "discard"],
+      "actions": [
+        "verify",
+        "share",
+        "discard"
+      ],
       "remainingSeconds": 60,
       "verificationAvailable": true
     },
@@ -389,10 +453,10 @@
       "status": "instructive",
       "explanation": "Es un esquema piramidal de captación: el «premio» no existe y tu obligación de reenviar es el producto.",
       "signals": [
-        "Detente: un premio imposible a cambio de reenviar es una señal de alerta.",
-        "Investiga la fuente: el dominio .xyz es opaco y recién registrado.",
         "Encuentra mejor cobertura: ninguna marca legítima reparte teléfonos por cadenas.",
-        "Rastrea el original: el enlace existe para captar contactos, no para entregar un premio."
+        "Rastrea el original: el enlace existe para captar contactos, no para entregar un premio.",
+        "Dominio .xyz opaco y recién registrado.",
+        "Un premio imposible a cambio de reenviar es la estafa."
       ],
       "recommendation": "Si te piden reenviar a cambio de un regalo imposible, descarta: el compartir es la estafa.",
       "revealedAnswer": "Descartar"
@@ -407,8 +471,8 @@
         "data_harvesting"
       ],
       "verificationHints": [
-        "Nadie regala iPhones por reenviar enlaces.",
-        "Esquema piramidal de captación de datos.",
+        "Cobertura: ninguna marca reparte iPhones así.",
+        "Original: enlace de captación, no de premio.",
         "Dominio recién registrado."
       ]
     }
@@ -424,10 +488,14 @@
       "gameCode": "feed-60",
       "mechanic": "timed_feed",
       "itemId": "feed-60-010",
-      "prompt": "Tienes segundos. ¿Verificas, compartes o descartas esta publicación?",
-      "post": "Municipalidad: corte de agua programado mañana de 9:00 a 14:00 en los distritos 4 y 7 por mantenimiento.",
+      "prompt": "Municipalidad: corte de agua programado mañana de 9:00 a 14:00 en los distritos 4 y 7.",
+      "post": "Aviso de mantenimiento publicado por la cuenta oficial.",
       "sourceLabel": "muni.gob.pe · cuenta oficial",
-      "actions": ["verify", "share", "discard"],
+      "actions": [
+        "verify",
+        "share",
+        "discard"
+      ],
       "remainingSeconds": 60,
       "verificationAvailable": true
     },
@@ -435,10 +503,10 @@
       "status": "instructive",
       "explanation": "Es un aviso oficial de servicio: fuente municipal, horario concreto y coincide con la web institucional. Compartirlo ayuda a los vecinos.",
       "signals": [
-        "Detente: es información accionable, no un rumor emocional.",
-        "Investiga la fuente: muni.gob.pe es la cuenta oficial municipal.",
         "Encuentra mejor cobertura: el aviso coincide con la web institucional.",
-        "Rastrea el original: el comunicado municipal es la fuente primaria."
+        "Rastrea el original: el comunicado municipal es la fuente primaria.",
+        "muni.gob.pe es la cuenta oficial municipal.",
+        "Horario y distritos concretos: información accionable de servicio."
       ],
       "recommendation": "No todo en el feed es trampa: compartir avisos oficiales verificados es un favor a tu comunidad.",
       "revealedAnswer": "Compartir"
@@ -453,9 +521,9 @@
         "service_notice"
       ],
       "verificationHints": [
-        "Fuente oficial municipal.",
-        "Información de servicio, específica y accionable.",
-        "Coincide con el aviso en la web oficial."
+        "Cobertura: coincide con la web oficial.",
+        "Original: comunicado municipal.",
+        "Horario y distritos concretos."
       ]
     }
   }
