@@ -353,6 +353,7 @@ describe("memory arcade gateway: seis misiones con contenido", () => {
           status: "expired",
           answered: 0,
           total: 10,
+          itemDigests: [],
           score: expect.objectContaining({
             points: 0,
             timeLimitSeconds: 60,
@@ -443,6 +444,78 @@ describe("memory arcade gateway: seis misiones con contenido", () => {
     );
     expect(result.data.simulatedReach).toBeGreaterThanOrEqual(65);
     expect(result.data.simulatedReach).toBeLessThanOrEqual(95);
-    expect(result.data.score.points).not.toBe(result.data.simulatedReach);
+        expect(result.data.score.points).not.toBe(result.data.simulatedReach);
+  });
+
+  it("invitado: inicia sin alias de ranking y no aparece en el leaderboard", async () => {
+    const gateway = createMemoryArcadeGateway();
+    const guest = await gateway.startGame({
+      alias: "Invitado",
+      gameCode: "clickbait-swipe",
+      guest: true,
+      sessionTokenHash: `guest-${Math.random()}`,
+    });
+    expect(guest.ok).toBe(true);
+    if (!guest.ok) throw new Error("no se pudo iniciar invitado");
+    expect(guest.data.alias).toBe("Invitado");
+
+    const named = await startSession(gateway, "clickbait-swipe", "Rankable");
+    let state = named;
+    while (state.nextAction !== "result" && state.item) {
+      const itemId = state.item.itemId;
+      const submitted = await gateway.submitGameAction({
+        sessionId: state.sessionId,
+        gameCode: "clickbait-swipe",
+        itemId,
+        input: {
+          kind: "headline_classification",
+          value: "journalism",
+          source: "button",
+        },
+      });
+      expect(submitted.ok).toBe(true);
+      if (!submitted.ok) throw new Error("submit falló");
+      const advanced = await gateway.advanceGame({
+        sessionId: state.sessionId,
+        itemId,
+      });
+      expect(advanced.ok).toBe(true);
+      if (!advanced.ok) throw new Error("advance falló");
+      state = advanced.data as GameStateWithCompanion;
+    }
+
+    let guestState = guest.data as GameStateWithCompanion;
+    while (guestState.nextAction !== "result" && guestState.item) {
+      const itemId = guestState.item.itemId;
+      const submitted = await gateway.submitGameAction({
+        sessionId: guestState.sessionId,
+        gameCode: "clickbait-swipe",
+        itemId,
+        input: {
+          kind: "headline_classification",
+          value: "journalism",
+          source: "button",
+        },
+      });
+      expect(submitted.ok).toBe(true);
+      if (!submitted.ok) throw new Error("guest submit falló");
+      const advanced = await gateway.advanceGame({
+        sessionId: guestState.sessionId,
+        itemId,
+      });
+      expect(advanced.ok).toBe(true);
+      if (!advanced.ok) throw new Error("guest advance falló");
+      guestState = advanced.data as GameStateWithCompanion;
+    }
+
+    const board = await gateway.getLeaderboard();
+    expect(board.ok).toBe(true);
+    if (!board.ok) throw new Error("leaderboard falló");
+    expect(
+      board.data.entries.some((entry) => entry.alias === "Invitado"),
+    ).toBe(false);
+    expect(
+      board.data.entries.some((entry) => entry.alias === "Rankable"),
+    ).toBe(true);
   });
 });

@@ -42,6 +42,7 @@ describe("evaluador guided_autopsy (T063)", () => {
       },
     });
     expect(evaluation.reachWeight).toBeGreaterThan(0);
+    expect(evaluation.autopsyEntry?.siftStep).toBe("investigate");
     expect(evaluation).not.toHaveProperty("solutionPrivate");
     expect(evaluation).not.toHaveProperty("optionEvaluations");
   });
@@ -119,6 +120,12 @@ describe("evaluador guided_autopsy (T063)", () => {
     expect(session.educationalDisclaimer).toMatch(/simulación educativa/i);
     expect(session.fictionalComments.length).toBeGreaterThanOrEqual(3);
     expect(session.autopsyEntries.length).toBe(4);
+    expect(session.autopsyEntries.map((entry) => entry.siftStep)).toEqual([
+      "investigate",
+      "investigate",
+      "investigate",
+      "trace",
+    ]);
 
     const gameScore = calculateGameScore({
       gameCode: "mente-maestra",

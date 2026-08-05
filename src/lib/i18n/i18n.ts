@@ -62,6 +62,13 @@ export type Messages = {
     postNumber: (n: string) => string;
     siftHints: string;
     quickSift: string;
+    siftPracticing: string;
+    siftPracticed: string;
+    videoClipLabel: string;
+    attachedPhotoLabel: string;
+    recipeProgress: string;
+    inoculationNote: string;
+    howToDetect: string;
     timeExpiredBody: string;
     feedActions: string;
     verify: string;
@@ -181,6 +188,8 @@ export type Messages = {
     startFailed: string;
     starting: string;
     startMission: string;
+    playAsGuest: string;
+    guestRankingNote: string;
   };
   leaderboard: {
     scope: string;
@@ -218,6 +227,10 @@ export type Messages = {
     limit: (seconds: number) => string;
     used: (used: number, limit: number) => string;
     simulatedReach: (reach: number) => string;
+    feedReview: string;
+    playAgain: string;
+    guestAlias: string;
+    guestResultNote: string;
     rankingOptional: string;
     rankingNote: string;
     actions: string;
@@ -319,6 +332,14 @@ function spanishMessages(): Messages {
       postNumber: (n) => `Publicación ${n}`,
       siftHints: "Pistas de verificación SIFT",
       quickSift: "Verificación rápida · SIFT",
+      siftPracticing: "Practicas",
+      siftPracticed: "Paso SIFT practicado",
+      videoClipLabel: "Clip · 0:12",
+      attachedPhotoLabel: "Foto adjunta",
+      recipeProgress: "Receta de la fake news",
+      inoculationNote:
+        "Conocer estas técnicas te vuelve más inmune: al verlas en la calle, Investiga la intención y Rastrea la prueba.",
+      howToDetect: "Cómo detectarla",
       timeExpiredBody:
         "El tiempo se agotó. La partida expiró y la última decisión aceptada conserva su feedback.",
       feedActions: "Acciones del feed",
@@ -438,11 +459,13 @@ function spanishMessages(): Messages {
     },
     form: {
       aliasLabel: "Elige un alias temporal",
-      aliasHint: "Entre 3 y 40 caracteres. No uses datos personales reales.",
-      aliasRequired: "Escribe un alias para empezar.",
+      aliasHint: "Entre 3 y 40 caracteres. No uses datos personales reales. Opcional si juegas sin alias.",
+      aliasRequired: "Escribe un alias para empezar, o elige jugar sin alias.",
       startFailed: "No se pudo iniciar la misión. Intenta de nuevo.",
       starting: "Iniciando…",
       startMission: "Empezar misión",
+      playAsGuest: "Jugar sin alias",
+      guestRankingNote: "Sin alias puedes jugar igual; esa partida no entra al ranking.",
     },
     leaderboard: {
       scope: "Secundario / Opcional",
@@ -480,6 +503,10 @@ function spanishMessages(): Messages {
       limit: (seconds) => `Límite ${seconds}s`,
       used: (used, limit) => `${used}s de ${limit}s`,
       simulatedReach: (reach) => `Alcance simulado: ${reach}. No forma parte de la puntuación ni del ranking.`,
+      feedReview: "Revisión del feed",
+      playAgain: "Jugar de nuevo",
+      guestAlias: "Invitado",
+      guestResultNote: "Jugaste sin alias: esta partida no entra al ranking.",
       rankingOptional: "Consultar ranking global (opcional)",
       rankingNote: "El ranking es una lectura secundaria y no es requisito para jugar ni para ver este resultado.",
       actions: "Acciones del resultado",
@@ -598,6 +625,14 @@ function englishMessages(): Messages {
       postNumber: (n) => `Post ${n}`,
       siftHints: "SIFT verification clues",
       quickSift: "Quick check · SIFT",
+      siftPracticing: "You practice",
+      siftPracticed: "SIFT step practiced",
+      videoClipLabel: "Clip · 0:12",
+      attachedPhotoLabel: "Attached photo",
+      recipeProgress: "Fake news recipe",
+      inoculationNote:
+        "Knowing these techniques makes you more immune: when you see them in the wild, Investigate the intention and Trace the proof.",
+      howToDetect: "How to spot it",
       timeExpiredBody:
         "Time ran out. The game expired and the last accepted decision keeps its feedback.",
       feedActions: "Feed actions",
@@ -718,11 +753,13 @@ function englishMessages(): Messages {
     },
     form: {
       aliasLabel: "Choose a temporary alias",
-      aliasHint: "3 to 40 characters. Do not use real personal data.",
-      aliasRequired: "Enter an alias to start.",
+      aliasHint: "3 to 40 characters. Do not use real personal data. Optional if you play without an alias.",
+      aliasRequired: "Enter an alias to start, or choose play without an alias.",
       startFailed: "The mission could not start. Try again.",
       starting: "Starting…",
       startMission: "Start mission",
+      playAsGuest: "Play without alias",
+      guestRankingNote: "You can play without an alias; that run will not enter the leaderboard.",
     },
     leaderboard: {
       ...es.leaderboard,
@@ -762,6 +799,10 @@ function englishMessages(): Messages {
       limit: (seconds) => `Limit ${seconds}s`,
       used: (used, limit) => `${used}s of ${limit}s`,
       simulatedReach: (reach) => `Simulated reach: ${reach}. It is not part of the score or leaderboard.`,
+      feedReview: "Feed review",
+      playAgain: "Play again",
+      guestAlias: "Guest",
+      guestResultNote: "You played without an alias: this run does not enter the leaderboard.",
       rankingOptional: "View global leaderboard (optional)",
       rankingNote: "The leaderboard is secondary and is not required to play or view this result.",
       actions: "Result actions",

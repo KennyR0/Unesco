@@ -147,7 +147,7 @@ export function createSupabaseArcadeGateway(
       points: result.score.points,
       maxPoints: result.score.maxPoints,
       completedAt,
-      aliasAllowed: true,
+      aliasAllowed: snapshot.record.aliasAllowed ?? true,
       abuseMarked: false,
       invalidMarked: false,
     };
@@ -178,7 +178,7 @@ export function createSupabaseArcadeGateway(
       simulated_reach: result.simulatedReach,
       ranking_score: rankingScore,
       leaderboard_eligible: eligible && rankingScore !== null,
-      alias_allowed: true,
+      alias_allowed: snapshot.record.aliasAllowed ?? true,
       abuse_flagged: false,
       invalidated: false,
       completed_at: completedAt,

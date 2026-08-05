@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 
 import type {
   AdvanceGameCommand,
+  FeedItemDigest,
   GameResult,
   GameScore,
   GameState,
@@ -158,31 +159,33 @@ const LEARNING_SUMMARIES: Record<
   },
   grupo: {
     finished:
-      "Practicaste decisiones de cuidado en el chat familiar antes de amplificar rumores.",
+      "Practicaste Frenar e Investigar antes de amplificar rumores en el chat familiar.",
     expired:
-      "La partida expiró; conserva el cuidado que practicaste en el chat.",
+      "La partida expiró; conserva los hábitos de Frenar e Investigar que practicaste.",
   },
   "clickbait-swipe": {
     finished:
-      "Separaste periodismo de clickbait leyendo las señales del titular y su fuente.",
-    expired: "La partida expiró; conserva el criterio editorial que practicaste.",
+      "Practicaste Frenar e Investigar para separar periodismo de clickbait.",
+    expired:
+      "La partida expiró; conserva los hábitos de Frenar e Investigar que practicaste.",
   },
   "radar-de-fuentes": {
     finished:
-      "Evaluaste fuentes por sus señales verificables, no por su apariencia.",
-    expired: "La partida expiró; conserva el radar crítico que practicaste.",
+      "Practicaste Investigar y Rastrear para juzgar fuentes por señales comprobables.",
+    expired:
+      "La partida expiró; conserva los hábitos de Investigar y Rastrear que practicaste.",
   },
   "feed-60": {
     finished:
-      "Decidiste bajo presión qué verificar, compartir o descartar en un feed real.",
+      "Bajo presión, practicaste Buscar cobertura y Rastrear el original.",
     expired:
-      "El tiempo se agotó; conserva el ritmo de verificación que practicaste.",
+      "El tiempo se agotó; conserva los hábitos de Buscar y Rastrear que practicaste.",
   },
   "mente-maestra": {
     finished:
-      "Desarmaste paso a paso la anatomía de una fake news en una simulación educativa.",
+      "Practicaste Investigar y Rastrear desmontando la receta de una fake news.",
     expired:
-      "La partida expiró; conserva las técnicas de manipulación que identificaste.",
+      "La partida expiró; conserva los hábitos de Investigar y Rastrear de la autopsia.",
   },
 };
 
@@ -382,6 +385,29 @@ export function createMemoryArcadeGateway(
     );
   }
 
+  function buildFeedItemDigests(
+    stored: MemorySession,
+  ): readonly FeedItemDigest[] {
+    const digests: FeedItemDigest[] = [];
+    for (const itemId of stored.assignedItemIds) {
+      const answer = stored.answers.get(itemId);
+      if (!answer?.feed60) continue;
+      const content = contentRepository.getContentItem("feed-60", itemId);
+      if (!content || content.publicItem.gameCode !== "feed-60") continue;
+      const feedback = content.feedback;
+      digests.push({
+        itemId,
+        prompt: content.publicItem.prompt,
+        decisionCorrect: answer.feed60.decisionCorrect,
+        keySignal: feedback.signals[0] ?? feedback.explanation,
+        explanation: feedback.explanation,
+        recommendation: feedback.recommendation,
+        revealedAnswer: feedback.revealedAnswer,
+      });
+    }
+    return digests;
+  }
+
   function materializeResult(
     stored: MemorySession,
     status: "finished" | "expired",
@@ -405,6 +431,7 @@ export function createMemoryArcadeGateway(
       learningSummary: LEARNING_SUMMARIES[gameCode][status],
       score: buildSessionScore(stored),
       simulatedReach: assembly?.simulatedReach ?? null,
+      itemDigests: gameCode === "feed-60" ? buildFeedItemDigests(stored) : null,
     };
   }
 
@@ -436,7 +463,12 @@ export function createMemoryArcadeGateway(
       selectedOptionId: currentAnswer?.optionId ?? null,
       simulatedReach: assembly?.simulatedReach ?? null,
       autopsyEntries:
-        assembly?.autopsyEntries ??
+        assembly?.autopsyEntries.map((entry) => ({
+          step: entry.step,
+          title: entry.title,
+          tip: entry.tip,
+          siftStep: entry.siftStep,
+        })) ??
         records.flatMap((record) =>
           record.autopsyEntry
             ? [
@@ -444,6 +476,7 @@ export function createMemoryArcadeGateway(
                   step: record.autopsyEntry.step,
                   title: record.autopsyEntry.title,
                   tip: record.autopsyEntry.tip,
+                  siftStep: record.autopsyEntry.siftStep,
                 },
               ]
             : [],
@@ -815,6 +848,7 @@ export function createMemoryArcadeGateway(
         total: assignedItemIds.length,
         sessionId: randomUUID(),
         now: now(),
+        aliasAllowed: command.guest !== true,
       });
       const active = transitionSession(record, "active", now());
       const stored: MemorySession = {
@@ -1010,7 +1044,7 @@ export function createMemoryArcadeGateway(
           completedAt: (
             stored.record.finishedAt ?? stored.record.lastActivityAt
           ).toISOString(),
-          aliasAllowed: true,
+          aliasAllowed: stored.record.aliasAllowed,
           abuseMarked: false,
           invalidMarked: false,
         });

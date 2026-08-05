@@ -34,13 +34,22 @@ export type GuidedAutopsySolution = Readonly<{
   simulationAssets: GuidedAutopsySimulationAssets | null;
 }>;
 
+/** Paso SIFT que cada técnica de autopsia refuerza (I o T). */
+export type AutopsySiftStep = "investigate" | "trace";
+
 export type AutopsyEntry = Readonly<{
   step: AutopsyStep;
   optionId: string;
   techniqueId: string;
   title: string;
   tip: string;
+  siftStep: AutopsySiftStep;
 }>;
+
+/** Objetivo/emoción/titular → Investiga; prueba → Rastrea. */
+export function siftStepForAutopsy(step: AutopsyStep): AutopsySiftStep {
+  return step === "evidence" ? "trace" : "investigate";
+}
 
 export type GuidedAutopsyStepEvaluationInput = Readonly<{
   step: AutopsyStep;
@@ -262,6 +271,7 @@ export function evaluateGuidedAutopsyStep(
         techniqueId: selected.techniqueId,
         title: selected.autopsyTitle,
         tip: selected.autopsyTip,
+        siftStep: siftStepForAutopsy(input.step),
       })
     : null;
 

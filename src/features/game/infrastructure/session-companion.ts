@@ -22,6 +22,7 @@ export type AutopsyEntrySnapshot = Readonly<{
   step: AutopsyStep;
   title: string;
   tip: string;
+  siftStep: "investigate" | "trace";
 }>;
 
 /** Proyección pública adicional de sesión para Mente Maestra. */

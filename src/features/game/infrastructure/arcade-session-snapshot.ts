@@ -60,6 +60,7 @@ export type ArcadeSessionSnapshot = Readonly<{
     gameCode: ArcadeSessionRecord["gameCode"];
     mechanic: ArcadeSessionRecord["mechanic"];
     alias: string;
+    aliasAllowed?: boolean;
     status: ArcadeSessionRecord["status"];
     startedAt: string;
     expiresAt: string;
@@ -84,6 +85,7 @@ export function serializeSessionRecord(
     gameCode: record.gameCode,
     mechanic: record.mechanic,
     alias: record.alias,
+    aliasAllowed: record.aliasAllowed,
     status: record.status,
     startedAt: record.startedAt.toISOString(),
     expiresAt: record.expiresAt.toISOString(),
@@ -103,6 +105,7 @@ export function deserializeSessionRecord(
     gameCode: record.gameCode,
     mechanic: record.mechanic,
     alias: record.alias,
+    aliasAllowed: record.aliasAllowed ?? true,
     status: record.status,
     startedAt: new Date(record.startedAt),
     expiresAt: new Date(record.expiresAt),

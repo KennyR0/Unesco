@@ -11,6 +11,7 @@ import type {
   AutopsySessionCompanion,
   FeedSessionCompanion,
 } from "../../features/game/infrastructure/session-companion";
+import { GUEST_DISPLAY_ALIAS } from "../../features/game/domain/alias";
 import {
   ENGLISH_AUTOPSY_ASSETS,
   ENGLISH_AUTOPSY_BY_OPTION_ID,
@@ -30,24 +31,24 @@ const ENGLISH_LEARNING_SUMMARIES: Record<
     expired: "The game expired; keep the visual judgment you practiced.",
   },
   grupo: {
-    finished: "You practiced careful decisions in a family chat before amplifying rumors.",
-    expired: "The game expired; keep the care you practiced in the chat.",
+    finished: "You practiced Stop and Investigate before amplifying rumors in a family chat.",
+    expired: "The game expired; keep the Stop and Investigate habits you practiced.",
   },
   "clickbait-swipe": {
-    finished: "You separated journalism from clickbait by reading the signals in the headline and its source.",
-    expired: "The game expired; keep the editorial judgment you practiced.",
+    finished: "You practiced Stop and Investigate to separate journalism from clickbait.",
+    expired: "The game expired; keep the Stop and Investigate habits you practiced.",
   },
   "radar-de-fuentes": {
-    finished: "You evaluated sources by their verifiable signals, not by how they look.",
-    expired: "The game expired; keep the critical radar you practiced.",
+    finished: "You practiced Investigate and Trace to judge sources by checkable signals.",
+    expired: "The game expired; keep the Investigate and Trace habits you practiced.",
   },
   "feed-60": {
-    finished: "Under pressure, you decided what to verify, share, or discard in a live feed.",
-    expired: "Time ran out; keep the verification pace you practiced.",
+    finished: "Under pressure, you practiced Find better coverage and Trace the original.",
+    expired: "Time ran out; keep the Find and Trace habits you practiced.",
   },
   "mente-maestra": {
-    finished: "You took apart, step by step, the anatomy of a fake news story in an educational simulation.",
-    expired: "The game expired; keep the manipulation techniques you identified.",
+    finished: "You practiced Investigate and Trace by reverse-engineering a fake news recipe.",
+    expired: "The game expired; keep the Investigate and Trace habits from the autopsy.",
   },
 };
 
@@ -74,8 +75,27 @@ function localizeItemFields(item: PublicItem, copy: ItemTranslation): PublicItem
   ] as const) {
     if (copy[key] !== undefined) next[key] = copy[key];
   }
-  if (copy.messages && item.gameCode === "grupo") next.messages = copy.messages;
-  if (copy.media && item.gameCode === "real-o-ia") {
+  if (copy.messages && item.gameCode === "grupo") {
+    next.messages = item.messages.map((message, index) => {
+      const translated = copy.messages?.[index];
+      if (!translated) return message;
+      return {
+        ...message,
+        sender: translated.sender,
+        text: translated.text,
+        timeLabel: translated.timeLabel,
+        media: message.media
+          ? { ...message.media, ...(translated.media ?? {}) }
+          : message.media,
+      };
+    });
+  }
+  if (
+    copy.media &&
+    (item.gameCode === "real-o-ia" || item.gameCode === "feed-60") &&
+    "media" in item &&
+    item.media
+  ) {
     next.media = { ...item.media, ...copy.media };
   }
   if (copy.options && item.gameCode === "mente-maestra") {
@@ -158,11 +178,17 @@ export function localizeSessionCompanion(
   return localizeAutopsyCompanion(companion, locale);
 }
 
+function localizeAlias(alias: string, locale: Locale): string {
+  if (locale === "es") return alias;
+  return alias === GUEST_DISPLAY_ALIAS ? "Guest" : alias;
+}
+
 export function localizeGameState<T extends GameState>(state: T, locale: Locale): T {
   if (locale === "es") return state;
   const withCompanion = state as T & { companion?: ArcadeSessionCompanion };
   return {
     ...state,
+    alias: localizeAlias(state.alias, locale),
     item: state.item ? localizePublicItem(state.item, locale) : null,
     feedback: state.feedback
       ? localizeFeedback(state.feedback, locale, state.item?.itemId)
@@ -183,5 +209,23 @@ export function localizeGameResult(result: GameResult, locale: Locale): GameResu
   if (locale === "es") return result;
   const statusKey = result.status === "finished" ? "finished" : "expired";
   const learningSummary = ENGLISH_LEARNING_SUMMARIES[result.gameCode]?.[statusKey];
-  return learningSummary ? { ...result, learningSummary } : result;
+  const itemDigests =
+    result.itemDigests?.map((digest) => {
+      const copy = ENGLISH_ITEM_COPY[digest.itemId];
+      if (!copy?.feedback) return digest;
+      return {
+        ...digest,
+        prompt: copy.prompt ?? digest.prompt,
+        keySignal: copy.feedback.signals?.[0] ?? digest.keySignal,
+        explanation: copy.feedback.explanation ?? digest.explanation,
+        recommendation: copy.feedback.recommendation ?? digest.recommendation,
+        revealedAnswer: copy.feedback.revealedAnswer ?? digest.revealedAnswer,
+      };
+    }) ?? null;
+  return {
+    ...result,
+    alias: localizeAlias(result.alias, locale),
+    ...(learningSummary ? { learningSummary } : {}),
+    ...(result.itemDigests ? { itemDigests } : {}),
+  };
 }

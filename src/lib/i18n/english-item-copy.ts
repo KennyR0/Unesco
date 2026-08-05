@@ -1,7 +1,12 @@
 export type ItemTranslation = Readonly<{
   prompt?: string;
   context?: string;
-  messages?: readonly Readonly<{ sender: string; text: string; timeLabel: string | null }>[];
+  messages?: readonly Readonly<{
+    sender: string;
+    text: string;
+    timeLabel: string | null;
+    media?: Readonly<{ alt?: string | null; fallbackText?: string | null }>;
+  }>[];
   headline?: string;
   sourceLabel?: string;
   sourceName?: string;
@@ -23,110 +28,126 @@ const IMAGE_FALLBACK_TEXT =
 
 export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
   "grupo-001": {
-    prompt: "A supposed health remedy attributed to the WHO arrives in the family chat. Decide what to do before someone stops their treatment.",
+    prompt: "A supposed health remedy attributed to the WHO arrives in the family chat. Practice Stop and Investigate before someone abandons their treatment.",
     messages: [
-      { sender: "Aunt Marta", text: "⚠️ URGENT: lemon and baking soda CURE cancer, the WHO confirmed it. Forward to everyone; you could save a life 🙏🍋", timeLabel: "10:02" },
-      { sender: "Cousin Luis", text: "Is that really true? My doctor told me to continue my treatment, but this message worried me.", timeLabel: "10:03" },
+      { sender: "Aunt Marta", text: "⚠️ URGENT family: lemon with baking soda CURES cancer, the WHO said so. Forward NOW, you could save a life 🙏🍋", timeLabel: "10:02" },
+      { sender: "Cousin Luis", text: "Really? My oncologist told me to keep the treatment, but this message scared me.", timeLabel: "10:03" },
     ],
     feedback: {
-      explanation: "The WHO did not confirm this remedy. Health chains mix a miracle promise, an authority with no statement, and pressure to forward; treatment decisions should never be made from an anonymous message.",
+      explanation: "The WHO did not confirm that remedy. Stopping the forward and then investigating the cited authority prevents a health chain from pushing a dangerous medical decision.",
       signals: [
-        "A promise of a quick cure without clinical evidence.",
-        "The WHO is used as authority, but there is no verifiable statement.",
-        "Urgency and the request to forward replace actual evidence.",
-        "A health decision requires a professional, reliable source.",
+        "Stop: urgency and “forward NOW” push you to act without thinking.",
+        "Investigate: the WHO is cited, but there is no verifiable statement.",
+        "A promise of a quick cure without clinical evidence or an identifiable professional.",
+        "A health decision needs a health source, not a chat message.",
       ],
-      recommendation: "Check health claims with the relevant health authority and professionals before sharing or acting on them.",
-      revealedAnswer: "It is not a WHO recommendation; verify it and stop the chain.",
+      recommendation: "Stop the chain, investigate on the official health channel, and tell the group what you found.",
+      revealedAnswer: "It is not a WHO recommendation; stop and investigate before acting.",
     },
   },
   "grupo-002": {
-    prompt: "A real photo appears in the chat as if it showed today's flood. Decide whether it has the context people claim.",
+    prompt: "A real photo arrives in the chat as if it showed today's flood. Stop the panic and investigate the image's context.",
     messages: [
-      { sender: "Cousin Diego", text: "THIS IS WHAT THE RIVER LOOKS LIKE RIGHT NOW. It overflowed downtown; spread the word 😱 The photo is attached.", timeLabel: "10:14" },
+      {
+        sender: "Cousin Diego",
+        text: "THIS IS WHAT THE RIVER LOOKS LIKE RIGHT NOW. It overflowed downtown; spread the word 😱",
+        timeLabel: "10:14",
+        media: {
+          alt: "Flooded street beside a swollen river, with water covering the roadway and buildings in the background.",
+          fallbackText: IMAGE_FALLBACK_TEXT,
+        },
+      },
       { sender: "Friend Vale", text: "Does anyone know when it was taken? My sister has to travel through that area.", timeLabel: "10:15" },
     ],
     feedback: {
-      explanation: "The photo is real, but it comes from a 2016 flood. An authentic image can still mislead when it is posted with a different date, place, or situation.",
+      explanation: "The photo is real, but it comes from a 2016 flood. Stopping the forward and investigating origin and date prevents an old image from becoming a fake emergency.",
       signals: [
-        "The message says it is happening now but provides no verifiable date.",
-        "The forwarded image has no confirmed author or location.",
-        "A reverse image search can reveal earlier posts.",
-        "Context matters, not only whether the photo looks real.",
+        "Stop: “right now” and panic push you to forward without checking.",
+        "Investigate: there is no date, confirmed place, or photo author.",
+        "A reverse image search can reveal earlier posts of the same image.",
+        "A real photo does not prove that the accompanying text is also true.",
       ],
-      recommendation: "Reverse-search the image and check the date and location before sharing an emergency image.",
+      recommendation: "Stop, reverse-search the image, and check date and place before sharing an emergency photo.",
       revealedAnswer: "The photo is real, but out of context and not from a current flood.",
     },
   },
   "grupo-003": {
-    prompt: "A message offers fake UNESCO scholarships and asks for sensitive data. Decide how to protect the group from possible phishing.",
+    prompt: "A message offers fake UNESCO scholarships and asks for sensitive data. Stop the click and investigate the official channel.",
     messages: [
-      { sender: "Unknown number", text: "🎓 UNESCO SCHOLARSHIPS 2026: 500 dollars monthly for young people. LAST SPOTS. Complete the form with your ID and card through the link.", timeLabel: "10:31" },
-      { sender: "Aunt Marta", text: "Could it be real? It says we lose the opportunity if we do not fill it out today.", timeLabel: "10:32" },
+      { sender: "Unknown number", text: "🎓 UNESCO SCHOLARSHIPS 2026: 500 USD monthly for young people. LAST SPOTS TODAY. Complete the form with your ID and card in the link.", timeLabel: "10:31" },
+      { sender: "Aunt Marta", text: "Could it be real? It says we lose the chance if we do not fill it out today…", timeLabel: "10:32" },
     ],
     feedback: {
-      explanation: "This is a phishing attempt. Urgency, an easy promise, and requests for an ID and card do not prove a scholarship is real; a legitimate institution should be verifiable through official channels.",
+      explanation: "This is phishing. Stopping the link and investigating the call on unesco.org prevents handing bank data to a fake form.",
       signals: [
-        "It promises money and limited spots to pressure a decision.",
-        "It asks for an ID and card through an unverified link.",
-        "The sender is not a recognizable institutional channel.",
-        "The call should be checked through UNESCO's official channel.",
+        "Stop: “last spots today” and the card request push an impulsive decision.",
+        "Investigate: an unknown number is not a UNESCO institutional channel.",
+        "It asks for an ID and card through an unverifiable link.",
+        "A real call is checked on the official domain, not in a chat.",
       ],
-      recommendation: "Do not enter sensitive data; verify the call through an official channel, report the message, and warn the group.",
+      recommendation: "Do not open the link or enter data; investigate on the official channel, report the message, and warn the group.",
       revealedAnswer: "The offer is phishing, not an official UNESCO scholarship call.",
     },
   },
   "grupo-004": {
-    prompt: "A twelve-second political clip causes outrage, but it looks cut. Decide what to do before judging or spreading it.",
+    prompt: "A twelve-second political clip causes outrage. Stop the judgment and investigate the full speech.",
     messages: [
-      { sender: "Friend Vale", text: "LOOK WHAT THIS POLITICIAN SAID 😡 It is twelve seconds and I am already furious. Share it so everyone knows how they think.", timeLabel: "10:48" },
-      { sender: "Cousin Diego", text: "The video does not show who posted it or what was said before. Does anyone have the full speech?", timeLabel: "10:49" },
+      {
+        sender: "Friend Vale",
+        text: "LOOK WHAT THEY SAID 😡 It is twelve seconds and I am already furious. Share it so everyone knows how they think.",
+        timeLabel: "11:05",
+        media: {
+          alt: "Person speaking at a podium with microphones at a public event; frame from a short clip.",
+          fallbackText: IMAGE_FALLBACK_TEXT,
+        },
+      },
+      { sender: "Cousin Diego", text: "The video cuts mid-sentence and does not say who posted it. Does anyone have the full speech?", timeLabel: "11:06" },
     ],
     feedback: {
-      explanation: "The clip is cut in the middle of a sentence and changes the meaning of the speech. A video can be authentic and still mislead when it removes the context that completes it.",
+      explanation: "The clip is cut mid-sentence and changes the meaning. Stopping and investigating the full source prevents spreading an emotional montage.",
       signals: [
-        "The fragment begins and ends without a complete idea.",
-        "The original account and full speech are missing.",
-        "Anger is used to push immediate sharing.",
-        "A full recording can change how the fragment should be understood.",
+        "Stop: outrage from a short clip pushes sharing before thinking.",
+        "Investigate: the recording source and what was said before and after are missing.",
+        "A twelve-second fragment can start or end mid-sentence.",
+        "Full context can completely change the interpretation.",
       ],
-      recommendation: "Find the full speech and compare the clip with an original source before commenting or sharing.",
+      recommendation: "Stop the forward, find the full speech, and compare the fragment with the original source.",
       revealedAnswer: "The clip is cut and does not show the statement's full meaning.",
     },
   },
   "grupo-005": {
-    prompt: "An official, verified weather alert arrives. Decide whether sharing reliable information can also be an act of care.",
+    prompt: "An already verified official weather alert arrives. Investigate the source and, if it checks out, sharing can also be care.",
     messages: [
-      { sender: "Uncle Carlos", text: "⚠️ VERIFIED OFFICIAL ALERT: Civil Protection reports a strong thunderstorm from 21:00 to 02:00. Secure windows and unplug equipment.", timeLabel: "11:02" },
-      { sender: "Uncle Carlos", text: "The institutional account is verified and the notice matches the authority's bulletin. I am sharing it so the group can prepare.", timeLabel: "11:03" },
+      { sender: "Uncle Carlos", text: "⚠️ OFFICIAL ALERT: Civil Protection reports a strong thunderstorm from 21:00 to 02:00. Secure windows and unplug equipment.", timeLabel: "11:20" },
+      { sender: "Uncle Carlos", text: "The institutional account is verified and the notice matches the bulletin. I am sharing it so the group can prepare.", timeLabel: "11:21" },
     ],
     feedback: {
-      explanation: "This alert is official and verified. Critical thinking does not mean rejecting everything; it means checking the source and sharing reliable information when it can protect others.",
+      explanation: "This alert is official. Stopping automatic skepticism and investigating the institutional account lets you share information that protects the group.",
       signals: [
-        "The message gives a concrete time range and useful steps.",
-        "The institutional account is verified.",
-        "The alert matches the authority's bulletin.",
-        "Reliable service information can deserve to be shared.",
+        "Investigate: the responsible authority is identified and the account is verified.",
+        "The notice matches an official bulletin and gives a schedule plus concrete steps.",
+        "Stop the urge to doubt everything: critical thinking also confirms what is useful.",
+        "A confirmed alert can be an act of care for the family.",
       ],
-      recommendation: "Verify the source and, if the alert is authentic and useful, share it with its context and concrete safety steps.",
+      recommendation: "Investigate the source and, if the alert is authentic and useful, share it with its context and concrete steps.",
       revealedAnswer: "It is a verified official alert worth sharing.",
     },
   },
   "grupo-006": {
-    prompt: "A chain uses guilt and fear to demand ten forwards. Decide how to stop the pressure without becoming part of the chain.",
+    prompt: "A chain uses guilt and fear to demand ten forwards. Stop the pressure and investigate whether any real evidence exists.",
     messages: [
-      { sender: "Anonymous chain", text: "😨 If you love your mother, forward this to ten people. Ignore it and you will have seven years of bad luck. It happened to a neighbor; DO NOT BREAK THE CHAIN!", timeLabel: "11:19" },
-      { sender: "Aunt Marta", text: "It scared me a little. Should I send it just in case?", timeLabel: "11:20" },
+      { sender: "Anonymous chain", text: "😨 If you love your mother, forward this to 10 people. Ignore it and you will have 7 years of bad luck. It happened to a neighbor; DO NOT BREAK THE CHAIN!", timeLabel: "11:42" },
+      { sender: "Aunt Marta", text: "It scared me a little… should I send it just in case?", timeLabel: "11:43" },
     ],
     feedback: {
-      explanation: "The chain uses guilt, fear, and an anonymous anecdote to turn forwarding into a test of love. There is no real consequence for breaking it; its goal is to replicate itself.",
+      explanation: "The chain uses guilt and fear to replicate itself. Stopping the forward and investigating the (nonexistent) threat cuts the emotional manipulation.",
       signals: [
-        "It links affection to an action instead of evidence.",
-        "It threatens bad luck to create pressure.",
-        "The anecdote has no identifiable source.",
-        "The message measures success by how many people forward it.",
+        "Stop: linking affection to a forwarding order is emotional pressure.",
+        "Investigate: the bad-luck threat and anonymous anecdote have no evidence.",
+        "It asks for a concrete number of forwards to multiply its reach.",
+        "There is no real consequence for breaking a chat chain.",
       ],
-      recommendation: "Do not forward it; calmly explain that it is an emotional chain and encourage the group to stop it.",
+      recommendation: "Stop, do not forward it, and calmly explain that it is an evidence-free emotional chain.",
       revealedAnswer: "It is an emotional chain based on guilt and fear; the responsible choice is to break it.",
     },
   },
@@ -513,7 +534,7 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
   },
 
   "clickbait-swipe-001": {
-    prompt: "Journalism or clickbait?",
+    prompt: "Stop the click and investigate the headline. Journalism or clickbait?",
     headline: "URGENT!! Doctors HATE this trick to lose 10 kilos in a week",
     sourceLabel: "miracle-health.xyz",
     feedback: {
@@ -529,7 +550,7 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
     },
   },
   "clickbait-swipe-002": {
-    prompt: "Journalism or clickbait?",
+    prompt: "Stop the click and investigate the headline. Journalism or clickbait?",
     headline: "Central Bank raises the interest rate by 0.25 points because of inflation",
     sourceLabel: "economy-daily.com",
     feedback: {
@@ -545,7 +566,7 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
     },
   },
   "clickbait-swipe-003": {
-    prompt: "Journalism or clickbait?",
+    prompt: "Stop the click and investigate the headline. Journalism or clickbait?",
     headline: "What this girl did left everyone IN SHOCK (video)",
     sourceLabel: "viral-videos.blog",
     feedback: {
@@ -561,7 +582,7 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
     },
   },
   "clickbait-swipe-004": {
-    prompt: "Journalism or clickbait?",
+    prompt: "Stop the click and investigate the headline. Journalism or clickbait?",
     headline: "City council announces road closure for works until December",
     sourceLabel: "citizen-portal.org",
     feedback: {
@@ -577,7 +598,7 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
     },
   },
   "clickbait-swipe-005": {
-    prompt: "Journalism or clickbait?",
+    prompt: "Stop the click and investigate the headline. Journalism or clickbait?",
     headline: "You will NOT BELIEVE what they found in your city's water",
     sourceLabel: "neighborhood-alert.info",
     feedback: {
@@ -593,7 +614,7 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
     },
   },
   "clickbait-swipe-006": {
-    prompt: "Journalism or clickbait?",
+    prompt: "Stop the click and investigate the headline. Journalism or clickbait?",
     headline: "University study assesses air quality in 12 districts",
     sourceLabel: "news-agency.pe",
     feedback: {
@@ -609,7 +630,7 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
     },
   },
   "clickbait-swipe-007": {
-    prompt: "Journalism or clickbait?",
+    prompt: "Stop the click and investigate the headline. Journalism or clickbait?",
     headline: "99% of people FAIL this intelligence test — are you in the 1%?",
     sourceLabel: "viral-tests.fun",
     feedback: {
@@ -625,7 +646,7 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
     },
   },
   "clickbait-swipe-008": {
-    prompt: "Journalism or clickbait?",
+    prompt: "Stop the click and investigate the headline. Journalism or clickbait?",
     headline: "Inflation closed the year at 3.1%, the statistics institute reported",
     sourceLabel: "reuters-agency.com",
     feedback: {
@@ -641,7 +662,7 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
     },
   },
   "clickbait-swipe-009": {
-    prompt: "Journalism or clickbait?",
+    prompt: "Stop the click and investigate the headline. Journalism or clickbait?",
     headline: "Famous actor DESTROYS critic and the internet GOES WILD",
     sourceLabel: "celebrity-total.com",
     feedback: {
@@ -657,7 +678,7 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
     },
   },
   "clickbait-swipe-010": {
-    prompt: "Journalism or clickbait?",
+    prompt: "Stop the click and investigate the headline. Journalism or clickbait?",
     headline: "Airline reports delays due to maintenance: rebooking at no cost",
     sourceLabel: "traveler-portal.net",
     feedback: {
@@ -673,7 +694,7 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
     },
   },
   "clickbait-swipe-011": {
-    prompt: "Journalism or clickbait?",
+    prompt: "Stop the click and investigate the headline. Journalism or clickbait?",
     headline: "This common fruit could be KILLING you slowly and you do not know it",
     sourceLabel: "health-secrets.top",
     feedback: {
@@ -689,7 +710,7 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
     },
   },
   "clickbait-swipe-012": {
-    prompt: "Journalism or clickbait?",
+    prompt: "Stop the click and investigate the headline. Journalism or clickbait?",
     headline: "The national team will play a friendly on September 12 at the National Stadium",
     sourceLabel: "sports-daily.com",
     feedback: {
@@ -706,94 +727,94 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
   },
 
   "radar-de-fuentes-001": {
-    prompt: "Read the domain, the authorship, and the references. Where does this source belong?",
+    prompt: "Investigate the source and trace its origin. Where does it belong?",
     sourceName: "UNESCO — official site",
     description: "Article with an institutional author, a publication date, and references to official documents. Visible signals: UNESCO as author, visible date, references.",
     feedback: {
       explanation: "It is a reliable source: an international organization with an institutional domain, clear authorship, a date, and verifiable references.",
       signals: [
-        "Institutional domain: unesco.org belongs to the organization.",
-        "Clear authorship: the content is signed by the institution.",
-        "A publication date that is visible and can be checked.",
-        "References to official documents that can be cross-checked.",
+        "Investigate: institutional domain unesco.org with clear authorship.",
+        "Trace: date and references to official documents you can check.",
+        "The content is signed by the institution.",
+        "The references let you return to the primary document.",
       ],
-      recommendation: "When the domain, the author, the date, and the references all line up, you can use it as a verifiable starting point.",
+      recommendation: "When domain, author, date, and references line up, you can use it as a verifiable starting point.",
       revealedAnswer: "Reliable",
     },
   },
   "radar-de-fuentes-002": {
-    prompt: "Read the domain, the authorship, and the references. Where does this source belong?",
-    sourceName: "EFE-style news agency",
-    description: "Agency wire with an identified reporter, an exact time, and a public corrections policy. Visible signals: signed author, exact time, public corrections.",
+    prompt: "Investigate the source and trace its origin. Where does it belong?",
+    sourceName: "News agency with a signed reporter",
+    description: "Wire with an identified reporter, an exact time, and a public corrections policy. Signals: signed author, timestamp, visible corrections.",
     feedback: {
       explanation: "It is reliable because agencies verify before publishing and correct in public when they get something wrong. That accountability is the key signal.",
       signals: [
-        "A reporter identified by name and role.",
-        "An exact publication time, not an undated text.",
-        "A public corrections policy that acknowledges mistakes.",
-        "An agency wire format in which facts can be separated from opinion.",
+        "Investigate: a reporter identified by name and role.",
+        "Trace: exact time and a public corrections policy.",
+        "Wire format with facts separable from opinion.",
+        "A recognizable agency domain, not an improvised clone.",
       ],
-      recommendation: "Look for bylines, timestamps, and visible corrections: they are the signs of a source that is accountable.",
+      recommendation: "Investigate bylines and trace timestamps/corrections: that is how you see if a source is accountable.",
       revealedAnswer: "Reliable",
     },
   },
   "radar-de-fuentes-003": {
-    prompt: "Read the domain, the authorship, and the references. Where does this source belong?",
-    sourceName: "Article in a scientific journal",
-    description: "Study with a DOI, a described methodology, peer review, and a conflict-of-interest statement. Visible signals: DOI, peer review, open methodology.",
+    prompt: "Investigate the source and trace its origin. Where does it belong?",
+    sourceName: "Article in a scientific journal with a DOI",
+    description: "Study with a DOI, a described methodology, peer review, and a conflict statement. Signals: DOI, peer review, open method.",
     feedback: {
       explanation: "It is reliable: the DOI makes it traceable and peer review indicates that other experts examined it before publication.",
       signals: [
-        "A DOI that identifies and locates the article.",
-        "A methodology described openly.",
-        "Peer review carried out before publication.",
-        "A conflict-of-interest statement.",
+        "Investigate: DOI, open methodology, and conflict disclosure.",
+        "Trace: peer review and the identifier let you locate the original.",
+        "It is not a viral summary with no source.",
+        "The scientific journal domain can be verified.",
       ],
-      recommendation: "In science, prioritize the DOI, the method, and peer review before accepting a viral finding.",
+      recommendation: "In science, investigate method and conflicts; trace the DOI before accepting a viral finding.",
       revealedAnswer: "Reliable",
     },
   },
   "radar-de-fuentes-004": {
-    prompt: "Read the domain, the authorship, and the references. Where does this source belong?",
+    prompt: "Investigate the source and trace its origin. Where does it belong?",
     sourceName: "Personal opinion blog",
-    description: "Opinion column with no cited sources: “I tell the truth the media hide”. Visible signals: no sources, opinion disguised as news.",
+    description: "Opinion column with no cited sources: “I tell the truth the media hide”. Signals: no sources, opinion disguised as news.",
     feedback: {
       explanation: "It is doubtful: not necessarily false, but it is opinion without evidence. It can work as a starting point, never as proof.",
       signals: [
-        "It cites no sources that can be checked.",
-        "The personal tone presents an opinion as if it were news.",
+        "Investigate: it cites no checkable sources and no editorial date.",
+        "Trace: there is no documentary origin to cross-check.",
+        "A personal tone that presents opinion as if it were news.",
         "It claims to reveal hidden truths without documenting them.",
-        "There is no editorial date and no corrections policy.",
       ],
       recommendation: "Separate opinion from evidence: a blog can guide your search, but it does not replace a verifiable source.",
       revealedAnswer: "Doubtful",
     },
   },
   "radar-de-fuentes-005": {
-    prompt: "Read the domain, the authorship, and the references. Where does this source belong?",
+    prompt: "Investigate the source and trace its origin. Where does it belong?",
     sourceName: "Aggregator with no author or date",
-    description: "Text copied from other portals. Nobody signs it, it has no date, and it does not link to the original source. Visible signals: no author, no date, no links.",
+    description: "Text copied from other portals. Nobody signs it, it has no date, and it does not link to the original source. Signals: no author, no date, no links.",
     feedback: {
       explanation: "It is doubtful: with no author and no date there is nobody to hold accountable. Trace the original story before believing it.",
       signals: [
-        "No identifiable author.",
-        "No publication date.",
-        "It does not link to the original source of the text.",
+        "Investigate: no identifiable author and no publication date.",
+        "Trace: it does not link to the original source of the text.",
         "The content looks reused from other portals.",
+        "There is nobody to hold accountable.",
       ],
-      recommendation: "If nobody signs or dates the piece, find its origin before sharing it or using it as proof.",
+      recommendation: "If nobody signs or dates the piece, trace its origin before sharing it or using it as proof.",
       revealedAnswer: "Doubtful",
     },
   },
   "radar-de-fuentes-006": {
-    prompt: "Read the domain, the authorship, and the references. Where does this source belong?",
+    prompt: "Investigate the source and trace its origin. Where does it belong?",
     sourceName: "Satirical humor account",
-    description: "Invented news written for humor. Its “About” section says so openly. Visible signals: satire declared in “About”.",
+    description: "Invented news written for humor. Its “About” section says so openly. Signals: satire declared.",
     feedback: {
       explanation: "It is doubtful because of satire: it does not set out to deceive, but taken out of context it circulates as real news. Always read the site's “About” page.",
       signals: [
-        "The site declares humor or satire in its “About” section.",
-        "The pieces invent facts to make people laugh, not to inform.",
+        "Investigate: the site declares humor or satire in “About”.",
+        "Trace: the origin clarifies that it invents facts for laughs, not news.",
         "Out of context it can circulate as if it were a news story.",
         "It offers no journalistic authorship and no fact corrections.",
       ],
@@ -802,30 +823,30 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
     },
   },
   "radar-de-fuentes-007": {
-    prompt: "Read the domain, the authorship, and the references. Where does this source belong?",
+    prompt: "Investigate the source and trace its origin. Where does it belong?",
     sourceName: "International “scholarships” portal",
-    description: "It imitates the UNESCO logo, promises money, and asks for your ID plus banking details in order to “register”. Visible signals: .xyz domain, requests banking details, urgency.",
+    description: "It imitates the UNESCO logo, promises money, and asks for your ID plus banking details. Signals: .xyz domain, banking data request, urgency.",
     feedback: {
       explanation: "It is fraudulent: typosquatting and phishing. The real UNESCO is unesco.org. No genuine scholarship asks for your card in order to “register”.",
       signals: [
-        "A deceptive domain (.xyz) that imitates a well-known brand.",
-        "A promise of money or scholarships with artificial urgency.",
-        "It requests an ID and banking details for a registration.",
-        "It uses an institution's logo without being its official site.",
+        "Investigate: a .xyz domain that imitates a well-known brand.",
+        "Trace: the real UNESCO is at unesco.org, not this form.",
+        "It asks for an ID and card for a scholarship “registration”.",
+        "Artificial urgency (“last spots”) typical of phishing.",
       ],
-      recommendation: "Look at the address bar, not the logo: unesco.org is not the same as unesco-becas2026.example.xyz.",
+      recommendation: "Investigate the address bar and trace the official domain: unesco.org is not unesco-becas2026.premium-forms.xyz.",
       revealedAnswer: "Fraudulent",
     },
   },
   "radar-de-fuentes-008": {
-    prompt: "Read the domain, the authorship, and the references. Where does this source belong?",
+    prompt: "Investigate the source and trace its origin. Where does it belong?",
     sourceName: "Cloned newspaper",
-    description: "It copies the design of a famous newspaper, but the domain is .press and every story attacks the same party. Visible signals: brand impersonation, total bias.",
+    description: "It copies the design of a famous newspaper, but the domain is .press and every story attacks the same party. Signals: brand impersonation, total bias.",
     feedback: {
       explanation: "It is fraudulent: it impersonates a well-known brand by changing the domain. Always look at the address bar, not the logo.",
       signals: [
-        "A domain different from the outlet it imitates (.press).",
-        "A visual copy of a well-known journalistic brand.",
+        "Investigate: the .press domain is not the outlet it imitates.",
+        "Trace: the visual brand does not match the real editorial identity.",
         "Biased coverage that pushes a single political adversary.",
         "It offers no verifiable editorial identity of its own.",
       ],
@@ -834,16 +855,16 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
     },
   },
   "radar-de-fuentes-009": {
-    prompt: "Read the domain, the authorship, and the references. Where does this source belong?",
+    prompt: "Investigate the source and trace its origin. Where does it belong?",
     sourceName: "“Official True News” profile",
-    description: "Account created 3 weeks ago, generic profile picture, posts 40 times a day, and never links to sources. Visible signals: new account, 40 posts a day, zero sources.",
+    description: "Account created 3 weeks ago, generic picture, posts 40 times a day, never links sources. Signals: new account, extreme volume, zero sources.",
     feedback: {
       explanation: "It is fraudulent: the pattern of a disinformation farm, with a new account, an inhuman volume of posts, and no linked sources.",
       signals: [
-        "An account created only a few weeks ago.",
-        "A generic profile picture with no verifiable identity.",
+        "Investigate: an account created only a few weeks ago with a generic identity.",
+        "Trace: it never links checkable sources; the origin is lost.",
         "Extreme volume: dozens of posts every day.",
-        "It never links to sources that can be checked.",
+        "A typical disinformation-farm pattern.",
       ],
       recommendation: "A new account plus inhuman volume plus zero sources is usually a disinformation farm, not a news outlet.",
       revealedAnswer: "Fraudulent",
@@ -851,210 +872,218 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
   },
 
   "feed-60-001": {
-    prompt: "You have seconds. Do you verify, share, or discard this post?",
-    post: "Ministry of Health: free vaccination campaign from August 5 to 12 at every health center.",
+    prompt: "Ministry of Health: free vaccination campaign from August 5 to 12 at every health center.",
+    post: "Statement with concrete dates and coverage in serious outlets.",
     sourceLabel: "minsa.gob.pe · verified account",
     verificationHints: [
-      "Source: the official site of the Ministry of Health.",
-      "Date: published today with a concrete range.",
-      "Other serious outlets are reporting it.",
+      "Coverage: serious outlets report the same campaign.",
+      "Original: statement on minsa.gob.pe.",
+      "Concrete dates and health centers.",
     ],
     feedback: {
       explanation: "It is a useful official notice: an institutional domain, concrete dates, and coverage in serious outlets. Sharing it helps the community.",
       signals: [
-        "Stop: there is no emotional urgency; the text gives concrete dates and places.",
-        "Investigate the source: minsa.gob.pe is the official domain of the Ministry of Health.",
-        "Find better coverage: other serious outlets report the same campaign.",
-        "Trace the original: the institutional announcement is the verifiable starting point.",
+        "Find better coverage: other serious outlets report the same vaccination campaign.",
+        "Trace the original: the statement on minsa.gob.pe is the primary source.",
+        "Institutional domain and concrete dates, with no emotional urgency.",
+        "Sharing verified service information helps the community.",
       ],
       recommendation: "When the official source, the date, and the coverage all match, sharing service information is a responsible decision.",
       revealedAnswer: "Share",
     },
   },
   "feed-60-002": {
-    prompt: "You have seconds. Do you verify, share, or discard this post?",
-    post: "SCANDAL!! Celebrity DESTROYS their career in a LEAKED video. It will not stay online for long.",
-    sourceLabel: "celebrity-viral.top · no author",
+    prompt: "SCANDAL!! Celebrity DESTROYS their career in a LEAKED video. It will not stay online for long.",
+    post: "No author, no date, doubtful domain. Do you amplify it?",
+    sourceLabel: "celebrity-viral.top · no author or date",
     verificationHints: [
-      "A .top domain with no authorship and no date.",
-      "A 100% emotional headline, zero data.",
-      "No serious outlet reports it.",
+      "Coverage: no serious outlet reports it.",
+      "Original: no video and no primary source.",
+      "A .top domain with no authorship or date.",
     ],
     feedback: {
       explanation: "It is smoke: a doubtful domain, zero authorship, a headline that is 100% emotional, and no serious outlet reporting it. Discarding it avoids amplifying a rumor.",
       signals: [
-        "Stop: the headline shouts scandal and uses capital letters to push the click.",
-        "Investigate the source: the .top domain declares no author and no date.",
         "Find better coverage: no serious outlet reports the supposed video.",
-        "Trace the original: there is no archive, no statement, and no primary source.",
+        "Trace the original: there is no archive, statement, or primary source.",
+        "Opaque .top domain with no authorship.",
+        "A 100% emotional headline that pushes the click, not the fact.",
       ],
       recommendation: "If all there is is emotion and an opaque domain, discard it before sharing.",
       revealedAnswer: "Discard",
     },
   },
   "feed-60-003": {
-    prompt: "You have seconds. Do you verify, share, or discard this post?",
-    post: "Photo: “This is how the city center looks RIGHT NOW, completely flooded” — a dramatic image of an avenue under water.",
+    prompt: "This is how the city center looks RIGHT NOW, completely flooded. Spread it.",
+    post: "Striking photo forwarded by an anonymous account.",
     sourceLabel: "anonymous user · 20 min ago",
+    media: {
+      alt: "Urban avenue under water after a flood, with vehicles partly submerged.",
+      fallbackText: IMAGE_FALLBACK_TEXT,
+    },
     verificationHints: [
-      "Reverse image search: the photo comes from a 2018 flood.",
-      "No outlet reports flooding today.",
-      "The image is real; the context is not.",
+      "Coverage: no outlet reports flooding today.",
+      "Original: reverse image search places the photo in 2018.",
+      "The image may be real; the context is not.",
     ],
     feedback: {
-      explanation: "The image may be real, but the context is false: it comes from a 2018 flood and no outlet reports flooding today.",
+      explanation: "The image may be real, but the context is false: it comes from a 2018 flood and no outlet reports flooding today. Finding coverage and tracing the original reveal that in seconds.",
       signals: [
-        "Stop: “RIGHT NOW” and a striking photo are not enough to assert a current fact.",
-        "Investigate the source: the account is anonymous and gives no verifiable place or time.",
         "Find better coverage: no outlet reports flooding downtown today.",
         "Trace the original: a reverse image search places the photo in 2018.",
+        "“RIGHT NOW” and a striking photo are not enough to assert a current fact.",
+        "The account is anonymous and gives no verifiable place or time.",
       ],
       recommendation: "Before sharing a viral image, trace whether the context and the date match the present.",
       revealedAnswer: "Discard",
     },
   },
   "feed-60-004": {
-    prompt: "You have seconds. Do you verify, share, or discard this post?",
-    post: "Walking 30 minutes a day reduces cardiovascular risk, according to a study published in a peer-reviewed medical journal.",
+    prompt: "Walking 30 minutes a day reduces cardiovascular risk, according to a peer-reviewed study.",
+    post: "The portal cites the study DOI and uses careful language.",
     sourceLabel: "health-portal.org · cites the study's DOI",
     verificationHints: [
-      "It cites a study with a traceable DOI.",
-      "Careful language, with no miracle promises.",
-      "The study exists and supports that claim.",
+      "Coverage: a peer-reviewed journal.",
+      "Original: a traceable DOI for the study.",
+      "Careful language, with no miracles.",
     ],
     feedback: {
       explanation: "Science with a traceable source and careful language: the DOI exists, the study says exactly that, and it promises no miracles.",
       signals: [
-        "Stop: the tone is careful; there is no miracle promise and no urgency.",
-        "Investigate the source: the portal cites a DOI that can be checked.",
         "Find better coverage: the finding appears in a peer-reviewed journal.",
-        "Trace the original: the study exists and supports the claim with nuance.",
+        "Trace the original: the DOI exists and supports the claim with nuance.",
+        "Careful language, with no miracle promise or urgency.",
+        "The portal cites a checkable study, not a rumor.",
       ],
       recommendation: "When there is a DOI, peer review, and measured language, sharing useful information is appropriate.",
       revealedAnswer: "Share",
     },
   },
   "feed-60-005": {
-    prompt: "You have seconds. Do you verify, share, or discard this post?",
-    post: "AUDIO: “Vaccines carry microchips, I heard it from a nurse who saw it with his own eyes” — a 4-minute voice note.",
+    prompt: "AUDIO: \"Vaccines carry microchips, I heard it from a nurse who saw it with his own eyes.\"",
+    post: "A 4-minute voice note, forwarded many times.",
     sourceLabel: "forwarded many times",
     verificationHints: [
-      "Source: “a nurse”, anonymous and impossible to locate.",
-      "A theory debunked by fact-checkers since 2021.",
-      "It appeals to fear, not to evidence.",
+      "Coverage: debunks since 2021.",
+      "Original: only an anecdote, zero primary evidence.",
+      "It appeals to fear, not data.",
     ],
     feedback: {
       explanation: "It is a debunked hoax: the source is an anonymous “nurse”, it appeals to fear, and fact-checkers disproved it years ago.",
       signals: [
-        "Stop: the chain appeals to fear and asks for credibility through repetition.",
-        "Investigate the source: “a nurse” with no name is not a source you can locate.",
         "Find better coverage: fact-checkers have debunked this theory since 2021.",
         "Trace the original: there is no primary evidence, only a forwarded anecdote.",
+        "An anonymous “nurse” is not a source you can locate.",
+        "The chain appeals to fear and asks for credibility through repetition.",
       ],
       recommendation: "If the proof is “I heard it from someone”, discard it and look for a debunk or a health authority source.",
       revealedAnswer: "Discard",
     },
   },
   "feed-60-006": {
-    prompt: "You have seconds. Do you verify, share, or discard this post?",
-    post: "Man marries his wifi router: “It never failed me, it was always there.”",
+    prompt: "Man marries his wifi router: \"It never failed me, it was always there.\"",
+    post: "Absurd headline from an outlet that declares itself humorous.",
     sourceLabel: "The Satirical Lighthouse · humor",
     verificationHints: [
-      "The site declares itself satirical in its “About” page.",
-      "Shared without context, it looks like real news.",
-      "It does not intend to deceive: it is humor.",
+      "Coverage: it is not news; it is humor.",
+      "Original: “About” declares satire.",
+      "Without context it confuses people.",
     ],
     feedback: {
       explanation: "It is satire: the site declares itself humorous. Sharing it as news creates confusion; discarding it as a fact is the right decision.",
       signals: [
-        "Stop: the scenario is absurd and calls for a critical reading.",
-        "Investigate the source: the site declares itself satirical in its “About” page.",
         "Find better coverage: there is no journalistic coverage because it is not a fact.",
-        "Trace the original: the outlet itself clarifies that this is humor, not deliberate deception.",
+        "Trace the original: the outlet itself clarifies in “About” that this is humor.",
+        "The absurd scenario calls for a critical reading before sharing it as news.",
+        "Out of context, satire circulates as if it were real.",
       ],
       recommendation: "Before sharing a strange headline, check whether the outlet is satirical; out of context it creates confusion.",
       revealedAnswer: "Discard",
     },
   },
   "feed-60-007": {
-    prompt: "You have seconds. Do you verify, share, or discard this post?",
-    post: "The Central Bank keeps the interest rate at 5.75%, according to an official statement published today.",
+    prompt: "The Central Bank keeps the interest rate at 5.75%, according to an official statement published today.",
+    post: "Exact figure and institutional language, with no emotional charge.",
     sourceLabel: "bcr.gob.pe · official statement",
     verificationHints: [
-      "An official statement with a date.",
-      "An exact figure that can be verified.",
-      "Institutional language, with no emotional charge.",
+      "Coverage: it matches the institutional site.",
+      "Original: a dated official statement.",
+      "An exact, verifiable figure.",
     ],
     feedback: {
       explanation: "It is official, verifiable data: an institutional statement, an exact figure, and language with no emotional charge.",
       signals: [
-        "Stop: the text reports a figure; it is not looking for outrage.",
-        "Investigate the source: bcr.gob.pe is the official domain of the Central Bank.",
         "Find better coverage: the statement can be cross-checked on the institutional site.",
         "Trace the original: the dated official statement is the primary source.",
+        "bcr.gob.pe is the official domain of the Central Bank.",
+        "Exact figure and language with no emotional charge.",
       ],
       recommendation: "Sharing an official statement with a figure and a date helps inform without distorting.",
       revealedAnswer: "Share",
     },
   },
   "feed-60-008": {
-    prompt: "You have seconds. Do you verify, share, or discard this post?",
-    post: "CHART: “Unemployment is SOARING!” — the vertical axis starts at 8% so that the rise from 8.1% to 8.4% looks like a giant jump.",
+    prompt: "Unemployment is SOARING! Look at this chart — and this photo of \"chaos\" in the city.",
+    post: "An anonymous blog mixes a chart and a striking image.",
     sourceLabel: "political-blog.anon",
+    media: {
+      alt: "Dense smoke plume over an urban landscape at dusk.",
+      fallbackText: IMAGE_FALLBACK_TEXT,
+    },
     verificationHints: [
-      "The Y axis is truncated in order to exaggerate.",
-      "The numbers are real; so is the exaggeration.",
-      "The headline shouts what the data does not say.",
+      "Coverage: official series without a cropped axis.",
+      "Original: truncated axis + out-of-context photo.",
+      "The numbers exist; so does the exaggeration.",
     ],
     feedback: {
-      explanation: "The numbers exist, but the chart manipulates the scale: a truncated axis turns a small change into visual drama.",
+      explanation: "The numbers exist, but the chart manipulates the scale and the smoke photo does not prove the figure. Finding official coverage and tracing the original reveal the visual manipulation.",
       signals: [
-        "Stop: the headline shouts “SOARING” before showing the real magnitude.",
-        "Investigate the source: an anonymous blog declares no methodology and no complete data.",
-        "Find better coverage: official series show the real change without a cropped axis.",
-        "Trace the original: the truncated Y axis is the manipulation technique.",
+        "Find better coverage: official series show a small change, not a drama.",
+        "Trace the original: the truncated Y axis and the smoke photo do not prove a jump in unemployment.",
+        "The headline shouts “SOARING” before showing the real magnitude.",
+        "An anonymous blog mixes a manipulated chart and a striking image with no methodology.",
       ],
       recommendation: "Before sharing a viral chart, look at the scale: a truncated axis can lie without inventing a single number.",
       revealedAnswer: "Discard",
     },
   },
   "feed-60-009": {
-    prompt: "You have seconds. Do you verify, share, or discard this post?",
-    post: "CONGRATULATIONS: you have been selected to win an iPhone. Just share this link with 15 contacts to claim it.",
+    prompt: "CONGRATULATIONS: you have been selected to win an iPhone. Just share this link with 15 contacts.",
+    post: "A prize in exchange for forwarding: opaque .xyz domain.",
     sourceLabel: "mobile-prizes.xyz",
     verificationHints: [
-      "Nobody gives away iPhones in exchange for forwarding links.",
-      "A pyramid scheme built to harvest data.",
-      "A domain registered very recently.",
+      "Coverage: no brand gives away iPhones this way.",
+      "Original: a harvesting link, not a prize.",
+      "A recently registered domain.",
     ],
     feedback: {
       explanation: "It is a pyramid recruitment scheme: the “prize” does not exist and your obligation to forward it is the product.",
       signals: [
-        "Stop: an impossible prize in exchange for forwarding is a warning sign.",
-        "Investigate the source: the .xyz domain is opaque and recently registered.",
         "Find better coverage: no legitimate brand gives away phones through chain messages.",
         "Trace the original: the link exists to harvest contacts, not to deliver a prize.",
+        "Opaque, recently registered .xyz domain.",
+        "An impossible prize in exchange for forwarding is the scam.",
       ],
       recommendation: "If they ask you to forward something in exchange for an impossible gift, discard it: the sharing is the scam.",
       revealedAnswer: "Discard",
     },
   },
   "feed-60-010": {
-    prompt: "You have seconds. Do you verify, share, or discard this post?",
-    post: "City council: scheduled water outage tomorrow from 9:00 to 14:00 in districts 4 and 7 for maintenance.",
+    prompt: "City council: scheduled water outage tomorrow from 9:00 to 14:00 in districts 4 and 7.",
+    post: "Maintenance notice published by the official account.",
     sourceLabel: "muni.gob.pe · official account",
     verificationHints: [
-      "An official municipal source.",
-      "Service information that is specific and actionable.",
-      "It matches the notice on the official website.",
+      "Coverage: it matches the official website.",
+      "Original: the municipal statement.",
+      "Concrete schedule and districts.",
     ],
     feedback: {
       explanation: "It is an official service notice: a municipal source, a concrete schedule, and it matches the institutional website. Sharing it helps the neighbors.",
       signals: [
-        "Stop: this is actionable information, not an emotional rumor.",
-        "Investigate the source: muni.gob.pe is the official municipal account.",
         "Find better coverage: the notice matches the institutional website.",
         "Trace the original: the municipal statement is the primary source.",
+        "muni.gob.pe is the official municipal account.",
+        "Concrete schedule and districts: actionable service information.",
       ],
       recommendation: "Not everything in the feed is a trap: sharing verified official notices is a favor to your community.",
       revealedAnswer: "Share",
@@ -1062,7 +1091,7 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
   },
 
   "mente-maestra-001": {
-    prompt: "Step 1 · Choose the objective of this educational simulation. No option is published outside the game.",
+    prompt: "Step 1 · Investigate the intention: what does this fake news want from you? Choose the simulation objective.",
     options: [
       {
         optionId: "objective-health-panic",
@@ -1081,18 +1110,18 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
       },
     ],
     feedback: {
-      explanation: "All disinformation starts with an objective: to frighten, to enrage, or to deceive in order to capture attention. Recognizing that intention is the first step toward not feeding the chain.",
+      explanation: "Always investigate the intention: to frighten, to enrage, or to deceive for attention. Recognizing the objective is the first step toward not feeding the chain.",
       signals: [
-        "The piece is looking for a fast reaction, not a fact you can check.",
+        "Investigate: the piece wants a fast reaction, not a fact you can check.",
         "The benefit goes to whoever amplifies the message, not to whoever receives it.",
         "No objective in this simulation is ever published or turned into a real account.",
       ],
-      recommendation: "Before sharing, ask what the message wants from you: fear, a vote, a click, or money.",
+      recommendation: "Before sharing, investigate what the message wants from you: fear, a vote, a click, or money.",
       revealedAnswer: "Manipulation objective identified",
     },
   },
   "mente-maestra-002": {
-    prompt: "Step 2 · Choose the hook emotion that would push people to share without verifying.",
+    prompt: "Step 2 · Investigate the emotional hook: which feeling would push people to share without verifying?",
     options: [
       {
         optionId: "emotion-fear",
@@ -1111,18 +1140,18 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
       },
     ],
     feedback: {
-      explanation: "Fear, anger, and miracle hope all speed up the click. Intense emotion does not prove a fact: it is usually the signal that you should slow down.",
+      explanation: "Investigate the emotion before you react: fear, anger, and miracle hope speed up the click and do not prove a fact.",
       signals: [
-        "The text tells you what to feel before it tells you what happened.",
+        "Investigate: the text tells you what to feel before it tells you what happened.",
         "Emotional urgency takes the place of evidence.",
         "Whoever benefits from your reaction is not always the person shown in the message.",
       ],
-      recommendation: "If a post frightens you, enrages you, or promises a miracle, verify first and share afterwards — or do not share at all.",
+      recommendation: "If a post frightens you, enrages you, or promises a miracle, investigate first and share afterwards — or do not share at all.",
       revealedAnswer: "Hook emotion recognized",
     },
   },
   "mente-maestra-003": {
-    prompt: "Step 3 · Design the trap headline that would make the fake piece believable.",
+    prompt: "Step 3 · Investigate the headline: design the trap that would make the fake piece believable.",
     options: [
       {
         optionId: "headline-conspiracy-caps",
@@ -1141,18 +1170,18 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
       },
     ],
     feedback: {
-      explanation: "Trap headlines use capital letters, false authority, or official formats. A good headline informs with data; a deceptive one tells you what to feel.",
+      explanation: "Investigate the headline: capital letters, false authority, or official formats tell you what to feel instead of what happened.",
       signals: [
-        "Capital letters, “they are hiding it”, or zero concrete data all point to bait.",
+        "Investigate: capital letters, “they are hiding it”, or zero concrete data all point to bait.",
         "“Experts” with no name and no institution are an empty authority.",
-        "The format of an official statement is easy to fake: you have to verify the real domain.",
+        "The format of an official statement is easy to fake: verify the real domain.",
       ],
       recommendation: "Demand a name, an institution, and a concrete fact. If the headline only shouts, leave without sharing.",
       revealedAnswer: "Trap headline dissected",
     },
   },
   "mente-maestra-004": {
-    prompt: "Step 4 · Choose the false proof that would accompany the message. Then you will see the autopsy of the techniques you chose.",
+    prompt: "Step 4 · Trace the “proof”: choose the false evidence. Then you will see the assembled story and its autopsy.",
     options: [
       {
         optionId: "evidence-recycled-photo",
@@ -1176,13 +1205,13 @@ export const ENGLISH_ITEM_COPY: Record<string, ItemTranslation> = {
       },
     ],
     feedback: {
-      explanation: "The “proof” is usually a recycled image, an AI generation, an invented expert, or a manipulated chart. The autopsy turns those techniques into detection signals.",
+      explanation: "Trace the original: the “proof” is usually a recycled image, AI, an invented expert, or a manipulated chart. The autopsy turns those techniques into detection signals.",
       signals: [
-        "A real photo also deceives when the date or the place is changed.",
+        "Trace: a real photo also deceives when the date or place is changed.",
         "Incoherent hands, text, and shadows give away synthetic images.",
         "An expert with no academic trace, or a truncated axis, manufactures false credibility.",
       ],
-      recommendation: "Use reverse image search, check the author who is cited, and review the axes before believing or sharing.",
+      recommendation: "Trace with reverse image search, check the cited author, and review the axes before believing or sharing.",
       revealedAnswer: "False proof and autopsy ready",
     },
   },
@@ -1194,61 +1223,61 @@ export const ENGLISH_AUTOPSY_BY_OPTION_ID: Record<
 > = {
   "objective-health-panic": {
     title: "Health panic",
-    tip: "If a message asks you to abandon a treatment or fear public health without an official source, stop and check the institutional channel.",
+    tip: "Investigate: if a message asks you to abandon a treatment or fear public health without an official source, check the institutional channel.",
   },
   "objective-political-attack": {
     title: "Political attack",
-    tip: "A clip or quote taken out of context can manufacture a scandal. Find the full statement and the primary source before getting angry.",
+    tip: "Investigate the full clip and primary source before getting angry: a fragment out of context can manufacture a scandal.",
   },
   "objective-click-scam": {
     title: "Click scam",
-    tip: "Impossible promises and urgent forms usually seek data or traffic. Verify the institution on its real domain.",
+    tip: "Investigate the institution on its real domain: impossible promises and urgent forms usually seek data or traffic.",
   },
   "emotion-fear": {
     title: "Fear",
-    tip: "If a post frightens you, stop: fear is the main fuel of virality. Nothing urgent should be verified only after forwarding.",
+    tip: "Investigate before forwarding: fear is the main fuel of virality. Nothing urgent should be verified only after sharing.",
   },
   "emotion-anger": {
     title: "Anger",
-    tip: "Manufactured outrage wants you to share before you think. Ask: who benefits from my anger?",
+    tip: "Investigate who benefits from your anger: manufactured outrage wants you to share before you think.",
   },
   "emotion-miracle-hope": {
     title: "Miracle hope",
-    tip: "Miracles with no side effects and no studies do not exist. \"What they are hiding\" almost always means \"I have no proof\".",
+    tip: "Investigate the promise: miracles with no studies do not exist. \"What they are hiding\" almost always means \"I have no proof\".",
   },
   "headline-conspiracy-caps": {
-    title: "THEY ARE HIDING IT!!",
-    tip: "Capital letters + \"they are hiding it\" + zero concrete data = a headline designed for your click, not to inform you.",
+    title: "Conspiracy in capital letters",
+    tip: "Investigate the concrete fact: capital letters + \"they are hiding it\" + zero facts = a headline for your click, not to inform you.",
   },
   "headline-vague-experts": {
     title: "Vague experts",
-    tip: "\"Experts\" with no name are suspicious. Ask: which expert, from which institution, in which study?",
+    tip: "Investigate the \"expert\": which name, from which institution, in which study?",
   },
   "headline-fake-official": {
     title: "Fake official format",
-    tip: "The official format is easy to fake. Always verify on the institution's real domain.",
+    tip: "Investigate the institution's real domain: the official format is easy to fake.",
   },
   "evidence-recycled-photo": {
     title: "Recycled old photo",
-    tip: "Reverse image search reveals the original date and place in seconds.",
+    tip: "Trace with reverse image search: it reveals the original date and place in seconds.",
   },
   "evidence-ai-image": {
     title: "AI-generated image",
-    tip: "Look for incoherent hands, text, jewelry, and shadows. What looks \"perfect\" can also be suspicious.",
+    tip: "Trace artifacts: incoherent hands, text, jewelry, and shadows. What looks \"perfect\" can also be suspicious.",
   },
   "evidence-fake-expert": {
     title: "Invented expert",
-    tip: "Look up the \"expert\": if they only appear in that story, they were invented. Real specialists leave an academic trail.",
+    tip: "Trace the \"expert\": if they only appear in that story, they were invented. Real specialists leave an academic trail.",
   },
   "evidence-truncated-axis": {
     title: "Chart with a truncated axis",
-    tip: "Check the axes before you panic: a cut axis exaggerates any change. The numbers can be real and the conclusion still false.",
+    tip: "Trace the scale: a cut axis exaggerates any change. The numbers can be real and the conclusion still false.",
   },
 };
 
 export const ENGLISH_AUTOPSY_ASSETS = {
   educationalDisclaimer:
-    "Educational simulation: no external content is published and no real account is created. Simulated reach explains the mechanism; it is not a prize.",
+    "Educational simulation: no external content is published and no real account is created. Simulated reach explains the mechanism; it is not a prize. Practice Investigate and Trace.",
   fictionalComments: [
     "@worried22: I cannot believe it… SHARED. Everyone needs to know!!",
     "@everyones_aunt: Forwarded to my 8 groups. We have to protect the family.",
