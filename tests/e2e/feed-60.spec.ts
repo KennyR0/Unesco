@@ -132,9 +132,14 @@ test.describe("Feed 60” (T061)", () => {
       .first();
     await decision.click();
 
+    // Feed 60 usa micro-feedback + auto-avance, no el panel bloqueante.
+    const pulse = page.getByTestId("feed-decision-pulse");
+    await expect(pulse).toBeVisible({ timeout: 15_000 });
     await expect(
       page.getByRole("region", { name: "Feedback educativo" }),
-    ).toBeVisible({ timeout: 15_000 });
-    await expect(page.getByRole("button", { name: /Continuar/i })).toBeVisible();
+    ).toHaveCount(0);
+    await expect(
+      pulse.getByRole("button", { name: /Continuar/i }),
+    ).toBeVisible();
   });
 });

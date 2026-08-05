@@ -964,7 +964,8 @@ html[data-motion="paused"] .motion-toggle__label--paused {
 
 @media (max-width: 760px) {
   :root {
-    --page-gutter: 1rem;
+    /* px floor so zoom/font-size 200% no empuja el layout sobre 320px */
+    --page-gutter: 12px;
     --shadow-brutal: 5px 5px 0 var(--color-ink);
   }
 
@@ -1200,10 +1201,14 @@ html[data-motion="paused"] .kinetic-marquee__track span[aria-hidden="true"] {
   display: grid;
   align-content: start;
   gap: 1.5rem;
+  box-sizing: border-box;
   width: min(100%, var(--shell-width));
+  max-width: 100%;
+  min-width: 0;
   min-height: calc(100svh - 5.5rem);
   margin: 0 auto;
   padding: clamp(1.25rem, 4vw, 4rem) var(--page-gutter) clamp(4rem, 7vw, 7rem);
+  overflow-x: clip;
 }
 
 .game-shell__header {
@@ -1354,7 +1359,9 @@ html[data-motion="paused"] .kinetic-marquee__track span[aria-hidden="true"] {
   display: grid;
   gap: 0.75rem;
   margin-block: 1.5rem 0.5rem;
-  max-width: 28rem;
+  max-width: min(28rem, 100%);
+  min-width: 0;
+  width: 100%;
 }
 
 .alias-start-form__label {
@@ -1367,10 +1374,14 @@ html[data-motion="paused"] .kinetic-marquee__track span[aria-hidden="true"] {
   margin: 0;
   color: var(--color-ink-muted, #5c6570);
   font-size: 0.95rem;
+  overflow-wrap: anywhere;
 }
 
 .alias-start-form__input {
+  box-sizing: border-box;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   min-height: 2.75rem;
   padding: 0.65rem 0.85rem;
   border: 1px solid color-mix(in srgb, var(--color-ink, #14212b) 28%, transparent);
@@ -1381,10 +1392,20 @@ html[data-motion="paused"] .kinetic-marquee__track span[aria-hidden="true"] {
 }
 
 .alias-start-form__actions {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 0.75rem;
-  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+}
+
+.alias-start-form__actions .primary-action,
+.alias-start-form__actions .secondary-action {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  white-space: normal;
+  text-wrap: balance;
 }
 
 .alias-start-form__guest-note {
@@ -1392,6 +1413,7 @@ html[data-motion="paused"] .kinetic-marquee__track span[aria-hidden="true"] {
   font-size: 0.88rem;
   line-height: 1.4;
   opacity: 0.85;
+  overflow-wrap: anywhere;
 }
 
 .game-finished__actions {
@@ -1420,29 +1442,36 @@ html[data-motion="paused"] .kinetic-marquee__track span[aria-hidden="true"] {
   border: 0;
   background: transparent;
   box-shadow: none;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .game-route__label {
   width: fit-content;
+  max-width: 100%;
   margin: 0;
   padding: 0.25rem 0.45rem;
   background: var(--game-accent);
   color: var(--color-ink);
+  overflow-wrap: anywhere;
 }
 
 .game-route__objective {
-  max-width: 54rem;
+  max-width: min(54rem, 100%);
   margin: 0;
   font-size: clamp(1.5rem, 3.2vw, 2.65rem);
   font-weight: 700;
   line-height: 1.12;
+  overflow-wrap: anywhere;
 }
 
 .game-route__mechanic {
   width: fit-content;
+  max-width: 100%;
   margin: 0;
   padding-top: 1rem;
   border-top: 3px solid var(--color-ink);
+  overflow-wrap: anywhere;
 }
 
 .game-route__navigation {
@@ -2328,6 +2357,10 @@ html[data-motion="paused"] .kinetic-marquee__track span[aria-hidden="true"] {
 }
 
 .sift-focus {
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+
   display: flex;
   flex-wrap: wrap;
   align-items: center;
